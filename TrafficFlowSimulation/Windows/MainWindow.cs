@@ -143,6 +143,14 @@ namespace TrafficFlowSimulation.Windows
             th.Start(modelParameters);
         }
 
+        private void slam_Panel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (menu_Panel.Visible)
+                menu_Panel.Hide();
+            else
+                menu_Panel.Show();
+        }
+
         private void MainWindow_Load(object sender, EventArgs e)
         {
         }
