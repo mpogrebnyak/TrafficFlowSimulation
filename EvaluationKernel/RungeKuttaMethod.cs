@@ -6,7 +6,7 @@ namespace EvaluationKernel
 {
 	public class RungeKuttaMethod
 	{
-		const double _h = 0.001;
+		const double _h = 0.001; // 0.001
 
 		private int _N, _n;
 		private MainEquation _mainEquation;
