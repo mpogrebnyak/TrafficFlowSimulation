@@ -29,26 +29,26 @@ namespace TrafficFlowSimulation.Windows
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.distanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.menu_Panel = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.field_n = new System.Windows.Forms.TextBox();
             this.startButton = new System.Windows.Forms.Button();
             this.slam_Panel = new System.Windows.Forms.Panel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.distanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.field_n = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -58,9 +58,9 @@ namespace TrafficFlowSimulation.Windows
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).BeginInit();
             this.menu_Panel.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -102,26 +102,49 @@ namespace TrafficFlowSimulation.Windows
             // 
             // speedChart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.speedChart.ChartAreas.Add(chartArea5);
+            chartArea1.Name = "ChartArea1";
+            this.speedChart.ChartAreas.Add(chartArea1);
             this.speedChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend5.Name = "Legend1";
-            this.speedChart.Legends.Add(legend5);
+            legend1.Name = "Legend1";
+            this.speedChart.Legends.Add(legend1);
             this.speedChart.Location = new System.Drawing.Point(0, 0);
             this.speedChart.Name = "speedChart";
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series9.Legend = "Legend1";
-            series9.Name = "Series1";
-            series10.ChartArea = "ChartArea1";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series10.Legend = "Legend1";
-            series10.Name = "Series2";
-            this.speedChart.Series.Add(series9);
-            this.speedChart.Series.Add(series10);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "Series2";
+            this.speedChart.Series.Add(series1);
+            this.speedChart.Series.Add(series2);
             this.speedChart.Size = new System.Drawing.Size(790, 523);
             this.speedChart.TabIndex = 0;
             this.speedChart.Text = "speedChart";
+            // 
+            // distanceChart
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.distanceChart.ChartAreas.Add(chartArea2);
+            this.distanceChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.distanceChart.Legends.Add(legend2);
+            this.distanceChart.Location = new System.Drawing.Point(0, 0);
+            this.distanceChart.Name = "distanceChart";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Legend = "Legend1";
+            series4.Name = "Series2";
+            this.distanceChart.Series.Add(series3);
+            this.distanceChart.Series.Add(series4);
+            this.distanceChart.Size = new System.Drawing.Size(1102, 523);
+            this.distanceChart.TabIndex = 0;
+            this.distanceChart.Text = "chart1";
             // 
             // menu_Panel
             // 
@@ -134,6 +157,21 @@ namespace TrafficFlowSimulation.Windows
             this.menu_Panel.Name = "menu_Panel";
             this.menu_Panel.Size = new System.Drawing.Size(267, 977);
             this.menu_Panel.TabIndex = 2;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(80, 156);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 2;
+            // 
+            // field_n
+            // 
+            this.field_n.Location = new System.Drawing.Point(80, 109);
+            this.field_n.Name = "field_n";
+            this.field_n.Size = new System.Drawing.Size(100, 22);
+            this.field_n.TabIndex = 1;
+            this.field_n.Text = "5";
             // 
             // startButton
             // 
@@ -155,6 +193,15 @@ namespace TrafficFlowSimulation.Windows
             this.slam_Panel.TabIndex = 3;
             this.slam_Panel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.slam_Panel_MouseClick);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(44, 24);
+            this.toolStripButton1.Text = "Start";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -166,53 +213,6 @@ namespace TrafficFlowSimulation.Windows
             this.toolStrip1.Size = new System.Drawing.Size(1896, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(44, 24);
-            this.toolStripButton1.Text = "Start";
-            // 
-            // distanceChart
-            // 
-            chartArea6.Name = "ChartArea1";
-            this.distanceChart.ChartAreas.Add(chartArea6);
-            this.distanceChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend6.Name = "Legend1";
-            this.distanceChart.Legends.Add(legend6);
-            this.distanceChart.Location = new System.Drawing.Point(0, 0);
-            this.distanceChart.Name = "distanceChart";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series11.Legend = "Legend1";
-            series11.Name = "Series1";
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series12.Legend = "Legend1";
-            series12.Name = "Series2";
-            this.distanceChart.Series.Add(series11);
-            this.distanceChart.Series.Add(series12);
-            this.distanceChart.Size = new System.Drawing.Size(1102, 523);
-            this.distanceChart.TabIndex = 0;
-            this.distanceChart.Text = "chart1";
-            // 
-            // field_n
-            // 
-            this.field_n.Location = new System.Drawing.Point(80, 109);
-            this.field_n.Name = "field_n";
-            this.field_n.Size = new System.Drawing.Size(100, 22);
-            this.field_n.TabIndex = 1;
-            this.field_n.Text = "5";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(80, 156);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 2;
             // 
             // MainWindow
             // 
@@ -238,11 +238,11 @@ namespace TrafficFlowSimulation.Windows
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).EndInit();
             this.menu_Panel.ResumeLayout(false);
             this.menu_Panel.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -254,10 +254,10 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.Panel slam_Panel;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.DataVisualization.Charting.Chart speedChart;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.DataVisualization.Charting.Chart distanceChart;
         private System.Windows.Forms.TextBox field_n;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

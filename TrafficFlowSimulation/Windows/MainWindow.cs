@@ -41,7 +41,7 @@ namespace TrafficFlowSimulation.Windows
                 p = 0.5,
                 s = 20
             };
-
+            hadler.AbortExecution();
             hadler.Execute(
                 new ChartsRenderingModel
                 {
