@@ -2,8 +2,10 @@
 using System.Drawing;
 using System.Windows.Forms;
 using EvaluationKernel.Models;
+using Localization;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Resources;
 
 namespace TrafficFlowSimulation.Windows
 {
@@ -11,11 +13,9 @@ namespace TrafficFlowSimulation.Windows
     {
         MethodHandler hadler = new MethodHandler();
 
-
-        Bitmap speed_bmp, distance_bmp;
-        Graphics speed_g, distance_g;
-
-        EnvironmentRendering environmentSpeed, environmentDistance;
+     //   Bitmap speed_bmp, distance_bmp;
+     //   Graphics speed_g, distance_g;
+     //   EnvironmentRendering environmentSpeed, environmentDistance;
 
         public MainWindow()
         {
@@ -41,6 +41,19 @@ namespace TrafficFlowSimulation.Windows
                 p = 0.5,
                 s = 20
             };
+            
+            LocalizationSettingManager.SetLocale(Locales.en);
+            var provider1 = new ResourceProvider(typeof(ModuleResources));
+
+            var manager = new ResourceManager();
+            manager.Register(provider1);
+            var builder = new ResourceBuilder(manager);
+            var test1 = builder.Get<ModuleResources>();
+            
+           var ee = builder.Get<ModuleResources>().InvalidHttpMethod;
+
+            textBox1.Text = ee;
+            textBox2.Text = builder.Get<ModuleResources>().eeee;
             hadler.AbortExecution();
             hadler.Execute(
                 new ChartsRenderingModel
