@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.Commands;
@@ -20,9 +23,10 @@ namespace TrafficFlowSimulation.Windows
         public MainWindow()
         {
             InitializeComponent();
+            Initialize();
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void startToolStripButton_Click(object sender, EventArgs e)
         {
             ModelParameters modelParameters = new ModelParameters
             {
@@ -41,19 +45,8 @@ namespace TrafficFlowSimulation.Windows
                 p = 0.5,
                 s = 20
             };
-            
-            LocalizationSettingManager.SetLocale(Locales.en);
-            var provider1 = new ResourceProvider(typeof(ModuleResources));
 
-            var manager = new ResourceManager();
-            manager.Register(provider1);
-            var builder = new ResourceBuilder(manager);
-            var test1 = builder.Get<ModuleResources>();
-            
-           var ee = builder.Get<ModuleResources>().InvalidHttpMethod;
-
-            textBox1.Text = ee;
-            textBox2.Text = builder.Get<ModuleResources>().eeee;
+            parametersPanel.Hide();
             hadler.AbortExecution();
             hadler.Execute(
                 new ChartsRenderingModel
@@ -62,21 +55,15 @@ namespace TrafficFlowSimulation.Windows
                     DistanceChart = distanceChart,
                     ModelParameters = modelParameters,
                 });
+
         }
 
-        private void slam_Panel_MouseClick(object sender, MouseEventArgs e)
+         private void MainWindow_Load(object sender, EventArgs e)
         {
-            if (menu_Panel.Visible)
-                menu_Panel.Hide();
-            else
-                menu_Panel.Show();
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
-            //RenderingHelper.Render(speedChart, 0);
-            //RenderingHelper.Render(distanceChart, 0);
+            modelParametersBinding.DataSource = new ModelParameters()
+            {
+                n = 5,
+            };
         }
 
         private void stopButton_Click(object sender, EventArgs e)
@@ -86,6 +73,41 @@ namespace TrafficFlowSimulation.Windows
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             hadler.AbortExecution();
+        }
+
+        private void slam_Panel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (parametersPanel.Visible)
+                parametersPanel.Hide();
+            else
+                parametersPanel.Show();
+        }
+
+        private void EnglishMenuItem_Click(object sender, EventArgs e)
+        {
+            LocalizationSettingManager.SetLocale(Locales.en);
+            languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
+            LocalizationHelper.Translate();
+        }
+
+        private void RussianMenuItem_Click(object sender, EventArgs e)
+        {
+            LocalizationSettingManager.SetLocale(Locales.ru);
+            languagesSwitcherButton.Image = Properties.Resources.russia;
+            LocalizationHelper.Translate();
+        }
+
+        private void Initialize()
+        {
+            LocalizationHelper.InitializeResource(new LocalizationComponentsModel
+            {
+                LocalizationBinding = localizationBinding,
+                LanguagesSwitcherButton = languagesSwitcherButton,
+                StartToolStripButton = startToolStripButton
+            });
+            LocalizationHelper.Translate();
+
+            splitContainer2.SplitterDistance = splitContainer2.Size.Width / 2;
         }
     }
 }
