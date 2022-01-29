@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using Localization;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Resources;
 
 namespace TrafficFlowSimulation.Windows
 {
@@ -28,24 +25,11 @@ namespace TrafficFlowSimulation.Windows
 
         private void startToolStripButton_Click(object sender, EventArgs e)
         {
-            ModelParameters modelParameters = new ModelParameters
-            {
-                n = Int32.Parse(field_n.Text),
-                tau = 1,
-                Vmax = 16.7,
-                Vmin = 0,
-                lambda = new double[] {0, -5, -10, -15, -20, -25, -30, -35, -40, -45, -50},
-                a = 4,
-                q = 3,
-                L = 100,
-                g = 9.8,
-                mu = 0.6,
-                k = 1,
-                l = 3,
-                p = 0.5,
-                s = 20
-            };
+            List<string> errors;
+            modelParametersBinding.EndEdit();
+            var modelParameters = ModelParametersMapper.MapModel(modelParametersBinding.DataSource, out errors);
 
+           
             parametersPanel.Hide();
             hadler.AbortExecution();
             hadler.Execute(
@@ -63,6 +47,9 @@ namespace TrafficFlowSimulation.Windows
             modelParametersBinding.DataSource = new ModelParameters()
             {
                 n = 5,
+                Vmax = 16.7,
+                a = 4,
+                q = 3
             };
         }
 
@@ -85,14 +72,14 @@ namespace TrafficFlowSimulation.Windows
 
         private void EnglishMenuItem_Click(object sender, EventArgs e)
         {
-            LocalizationSettingManager.SetLocale(Locales.en);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("En");
             languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
             LocalizationHelper.Translate();
         }
 
         private void RussianMenuItem_Click(object sender, EventArgs e)
         {
-            LocalizationSettingManager.SetLocale(Locales.ru);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("Ru");
             languagesSwitcherButton.Image = Properties.Resources.russia;
             LocalizationHelper.Translate();
         }
@@ -102,12 +89,14 @@ namespace TrafficFlowSimulation.Windows
             LocalizationHelper.InitializeResource(new LocalizationComponentsModel
             {
                 LocalizationBinding = localizationBinding,
+                ParametersErrorProvider = parametersErrorProvider,
                 LanguagesSwitcherButton = languagesSwitcherButton,
                 StartToolStripButton = startToolStripButton
             });
             LocalizationHelper.Translate();
 
-            splitContainer2.SplitterDistance = splitContainer2.Size.Width / 2;
+            carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
+            chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
         }
     }
 }

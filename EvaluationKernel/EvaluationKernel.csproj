@@ -7,4 +7,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Reference Include="System.ComponentModel.DataAnnotations" />
+    </ItemGroup>
+
 </Project>

@@ -72,7 +72,8 @@ namespace TrafficFlowSimulation.Commands
                 {
                     Name = i.ToString(),
                     ChartType = SeriesChartType.Spline,
-                    ChartArea = chartArea.Name
+                    ChartArea = chartArea.Name,
+                    BorderWidth = 2
                 });
             }
         }

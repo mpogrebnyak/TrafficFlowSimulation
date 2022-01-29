@@ -1,25 +1,12 @@
-﻿using System.Linq;
-
-namespace Localization
+﻿namespace Localization
 {
     public static class LocalizationSettingManager
     {
         public static string GetCurrentLocale()
         {
-            var availableLocales = LocalizationSettings.AvailableLocales;
-            var currentLocale = LocalizationSettings.CurrentLocale;
+            var currentLocale = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToString();
 
-            if (availableLocales.Contains(currentLocale))
-            {
-                return currentLocale;
-            }
-
-            return LocalizationSettings.DefaultLocale;
-        }
-
-        public static void SetLocale(string currentLocale)
-        {
-            LocalizationSettings.CurrentLocale = currentLocale;
+            return currentLocale;
         }
     }
 }

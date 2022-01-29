@@ -1,7 +1,11 @@
-﻿namespace EvaluationKernel.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EvaluationKernel.Models
 {
-    public class ModelParameters
+    public class ModelParameters : ValidationModel
     {
+        [Required]
+        [Range(1, 100)]
         public int n { get; set; }
         public double tau { get; set; }
         public double a { get; set; }

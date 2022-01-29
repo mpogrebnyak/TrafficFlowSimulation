@@ -28,12 +28,17 @@ namespace TrafficFlowSimulation.Commands
         public static void Translate()
         {
             var lc = LocalizationComponents;
+            lc.ParametersErrorProvider.UpdateBinding();
             lc.LanguagesSwitcherButton.Text = ResourceBuilder.Get<MenuResources>().LanguagesSwitcheButtomTitle;
             lc.StartToolStripButton.Text = ResourceBuilder.Get<MenuResources>().StartButtonTitle;
 
             lc.LocalizationBinding.DataSource = new ParametersResources
             {
-                ParametersTitle = ResourceBuilder.Get<ParametersResources>().ParametersTitle
+                ParametersTitle = ResourceBuilder.Get<ParametersResources>().ParametersTitle,
+                VehiclesNumberLabel = ResourceBuilder.Get<ParametersResources>().VehiclesNumberLabel,
+                MaximumSpeedLabel = ResourceBuilder.Get<ParametersResources>().MaximumSpeedLabel,
+                AccelerationIntensityLabel = ResourceBuilder.Get<ParametersResources>().AccelerationIntensityLabel,
+                DecelerationIntensityLabel = ResourceBuilder.Get<ParametersResources>().DecelerationIntensityLabel
             };
         }
     }

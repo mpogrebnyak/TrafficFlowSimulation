@@ -5,6 +5,7 @@ namespace TrafficFlowSimulation.Models
     public class LocalizationComponentsModel
     {
         public BindingSource LocalizationBinding { get; set; }
+        public ErrorProvider ParametersErrorProvider { get; set; }
         public ToolStripDropDownButton LanguagesSwitcherButton { get; set; }
         public ToolStripButton StartToolStripButton { get; set; }
     }
