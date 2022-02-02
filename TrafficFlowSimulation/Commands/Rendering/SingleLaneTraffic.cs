@@ -1,5 +1,8 @@
-﻿using EvaluationKernel.Models;
+﻿using System;
+using System.Collections.Generic;
+using EvaluationKernel.Models;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace TrafficFlowSimulation.Commands.Rendering
@@ -7,6 +10,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 	public class SingleLaneTraffic : ChartsRender
 	{
 		protected override string ChartName => "Car";
+		protected override string ChartAreaName => "CarsMovementChartArea";
 
 		public SingleLaneTraffic(ModelParameters modelParameters, Chart chart) : base(modelParameters, chart)
 		{
@@ -19,18 +23,13 @@ namespace TrafficFlowSimulation.Commands.Rendering
 			Chart.ApplyPaletteColors();
 
 			var carsFolder = Resources.Settings.PaintedCarsFolder;
-			var count = 0;
-			foreach (var series in Chart.Series)
+			foreach (var series in Chart.Series.Where(x => x.Name.Contains(ChartName)))
 			{
-				var name = series.Name;
-				if (name.Contains(ChartName))
-				{
-					Chart.Series[name].MarkerImage = carsFolder + "\\" + Chart.Series[name].Color.Name + ".png";
-					Chart.Series[name].Points.AddXY(ModelParameters.lambda[count], 4);
-					Chart.Series[name].LegendText = LocalizationHelper.GetLegendText(0, Chart.Series[name].Points[0].XValue);
-					Chart.Series[name].Label = LocalizationHelper.GetLegendText(0, Chart.Series[name].Points[0].XValue);
-					count++;
-				}
+				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
+				Chart.Series[i].MarkerImage = carsFolder + "\\" + Chart.Series[i].Color.Name + ".png";
+				Chart.Series[i].Points.AddXY(ModelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				Chart.Series[i].LegendText = LocalizationHelper.GetCarsMovementChartLegendText(0, ModelParameters.lambda[i]);
+				Chart.Series[i].Label = LocalizationHelper.GetCarsMovementChartLegendText(0, ModelParameters.lambda[i]);
 			}
 		}
 
@@ -40,25 +39,25 @@ namespace TrafficFlowSimulation.Commands.Rendering
 			{
 				Name = "SrartLine",
 				ChartType = SeriesChartType.Line,
-				ChartArea = "carsMovementChartArea", //chartArea.Name,
+				ChartArea = ChartAreaName,
 				BorderWidth = 1,
 				Color = Color.Red,
 				IsVisibleInLegend = false
 			};
 			srartLineSeries.Points.Add(new DataPoint(0, 0));
-			srartLineSeries.Points.Add(new DataPoint(0, 8));
+			srartLineSeries.Points.Add(new DataPoint(0, 1));
 			
 			var endLineSeries = new Series
 			{
 				Name = "EndLine",
 				ChartType = SeriesChartType.Line,
-				ChartArea = "carsMovementChartArea", //chartArea.Name,
+				ChartArea = ChartAreaName,
 				BorderWidth = 1,
 				Color = Color.Red,
 				IsVisibleInLegend = false
 			};
 			endLineSeries.Points.Add(new DataPoint(ModelParameters.L, 0));
-			endLineSeries.Points.Add(new DataPoint(ModelParameters.L, 8));
+			endLineSeries.Points.Add(new DataPoint(ModelParameters.L, 1));
 
 			return new[]
 			{
@@ -71,7 +70,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 		{
 			var chartArea = new ChartArea
 			{
-				Name = "carsMovementChartArea",
+				Name = ChartAreaName,
 				AxisX = new Axis
 				{
 					Minimum = -10,
@@ -97,8 +96,8 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				AxisY = new Axis
 				{
 					Minimum = 0,
-					Maximum = 8,
-					Interval = 8
+					Maximum = 1,
+					Interval = 1
 				}
 
 			};
@@ -116,8 +115,21 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				Title = "Положения и скорости автомобилей",
 				AutoFitMinFontSize = 100,
 				LegendStyle = LegendStyle.Table,
-				Font = new Font("Microsoft Sans Serif", 10F),			
+				Font = new Font("Microsoft Sans Serif", 10F),
 			};
+		}
+
+		public override void Update(List<double> t = null!, List<double> x = null!, List<double> y = null!)
+		{
+			foreach (var series in Chart.Series.Where(series => series.Name.Contains(ChartName)))
+			{
+				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
+				Chart.Series[i].Points.RemoveAt(0);
+				Chart.Series[i].Points.AddXY(x[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				
+				Chart.Series[i].LegendText = LocalizationHelper.GetCarsMovementChartLegendText(y[i], x[i]);
+				Chart.Series[i].Label = LocalizationHelper.GetCarsMovementChartLegendText(y[i], x[i]);
+			}
 		}
 	}
 }

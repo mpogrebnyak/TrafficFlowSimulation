@@ -1,5 +1,6 @@
 ﻿using Localization;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Resources;
@@ -43,12 +44,28 @@ namespace TrafficFlowSimulation.Commands
 			};
 		}
 
-		public static string GetLegendText(double speed, double position)
+		public static string GetCarsMovementChartLegendText(double speed, double position)
 		{
+			var currentLocale = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+			var ee = ResourceBuilder.Get<MenuResources>().CarsMovementChartLegendText;
 			return string.Format(
-					ResourceBuilder.Get<MenuResources>().ChartLegendText,
+					ResourceBuilder.Get<MenuResources>().CarsMovementChartLegendText,
 					Math.Round(speed, 2).ToString(),
 					Math.Round(position, 2).ToString());
+		}
+
+		public static string GetSpeedChartLegendText(double speed)
+		{
+			return string.Format(
+				ResourceBuilder.Get<MenuResources>().SpeedChartLegendText,
+				Math.Round(speed, 2).ToString());
+		}
+
+		public static string GetDistanceChartLegendText(double position)
+		{
+			return string.Format(
+				ResourceBuilder.Get<MenuResources>().DistanceChartLegendText,
+				Math.Round(position, 2).ToString());
 		}
 	}
 }

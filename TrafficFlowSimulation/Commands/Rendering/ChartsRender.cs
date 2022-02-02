@@ -1,4 +1,7 @@
-﻿using EvaluationKernel.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using EvaluationKernel.Models;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace TrafficFlowSimulation.Commands.Rendering
@@ -6,6 +9,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 	public abstract class ChartsRender
 	{
 		protected abstract string ChartName { get; }
+		protected abstract string ChartAreaName { get; }
 
 		protected ModelParameters ModelParameters;
 		protected Chart Chart;
@@ -40,6 +44,15 @@ namespace TrafficFlowSimulation.Commands.Rendering
 			foreach (var series in environmentSeries)
 			{
 				Chart.Series.Add(series);
+			}
+		}
+
+		public virtual void Update(List<double> p1 = null!, List<double> p2 = null!, List<double> p3 = null!)
+		{
+			foreach (var series in Chart.Series.Where(series => series.Name.Contains(ChartName)))
+			{
+				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
+				Chart.Series[i].Points.AddXY(p1[i], p2[i]);
 			}
 		}
 

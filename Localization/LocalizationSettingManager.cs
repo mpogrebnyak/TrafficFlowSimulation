@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Globalization;
+using System.Threading;
 
 namespace Localization
 {
@@ -6,7 +7,7 @@ namespace Localization
 	{
 		public static string GetCurrentLocale()
 		{
-			var currentLocale = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+			var currentLocale = CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName;
 
 			return currentLocale;
 		}

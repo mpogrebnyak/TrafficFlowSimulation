@@ -49,16 +49,16 @@
 	<Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+	<Compile Include="Commands\EvaluationHandler.cs" />
 	<Compile Include="Commands\Rendering\CarsRenderingHelper.cs" />
 	<Compile Include="Commands\Rendering\ChartsRender.cs" />
 	<Compile Include="Commands\LocalizationHelper.cs" />
-	<Compile Include="Commands\MethodHandler.cs" />
 	<Compile Include="Commands\ModelParametersMapper.cs" />
 	<Compile Include="Commands\Rendering\DistanceChartRender.cs" />
 	<Compile Include="Commands\Rendering\RenderingHelper.cs" />
 	<Compile Include="Commands\Rendering\SingleLaneTraffic.cs" />
 	<Compile Include="Commands\Rendering\SpeedChartRender.cs" />
-	<Compile Include="Models\ChartsRenderingModel.cs" />
+	<Compile Include="Models\AllChartsModel.cs" />
 	<Compile Include="Models\LocalizationComponentsModel.cs" />
 	<Compile Include="Program.cs" />
 	<Compile Include="Properties\AssemblyInfo.cs" />

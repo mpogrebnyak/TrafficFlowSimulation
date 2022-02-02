@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
@@ -13,14 +12,9 @@ namespace TrafficFlowSimulation.Windows
 {
 	public partial class MainWindow : Form
 	{
-		MethodHandler hadler = new MethodHandler();
-
-	 //   Bitmap speed_bmp, distance_bmp;
-	 //   Graphics speed_g, distance_g;
-	 //   EnvironmentRendering environmentSpeed, environmentDistance;
-
 		public MainWindow()
 		{
+			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 			InitializeComponent();
 		}
 
@@ -30,17 +24,17 @@ namespace TrafficFlowSimulation.Windows
 			modelParametersBinding.EndEdit();
 			var modelParameters = ModelParametersMapper.MapModel(modelParametersBinding.DataSource, out errors);
 
-		   
 			parametersPanel.Hide();
-			hadler.AbortExecution();
-			hadler.Execute(
-				new ChartsRenderingModel
+			EvaluationHandler.AbortExecution();
+			EvaluationHandler.Execute(
+				new AllChartsModel
 				{
 					SpeedChart = speedChart,
 					DistanceChart = distanceChart,
 					CarsMovementChart = carsMovementChart,
-					ModelParameters = modelParameters,
-				});
+					},
+					modelParameters
+				);
 
 		}
 
@@ -60,11 +54,11 @@ namespace TrafficFlowSimulation.Windows
 
 		private void stopButton_Click(object sender, EventArgs e)
 		{
-			hadler.AbortExecution();
+			EvaluationHandler.AbortExecution();
 		}
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			hadler.AbortExecution();
+			EvaluationHandler.AbortExecution();
 		}
 
 		private void slam_Panel_MouseClick(object sender, MouseEventArgs e)
@@ -77,14 +71,14 @@ namespace TrafficFlowSimulation.Windows
 
 		private void EnglishMenuItem_Click(object sender, EventArgs e)
 		{
-			Thread.CurrentThread.CurrentUICulture = new CultureInfo("En");
+			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("En");
 			languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
 			LocalizationHelper.Translate();
 		}
 
 		private void RussianMenuItem_Click(object sender, EventArgs e)
 		{
-			Thread.CurrentThread.CurrentUICulture = new CultureInfo("Ru");
+			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 			languagesSwitcherButton.Image = Properties.Resources.russia;
 			LocalizationHelper.Translate();
 		}
@@ -106,13 +100,13 @@ namespace TrafficFlowSimulation.Windows
 			List<string> errors;
 			modelParametersBinding.EndEdit();
 			var modelParameters = ModelParametersMapper.MapModel(modelParametersBinding.DataSource, out errors);
-			RenderingHelper.InitialRenderCharts(new ChartsRenderingModel
-			{
-				SpeedChart = speedChart,
-				DistanceChart = distanceChart,
-				CarsMovementChart = carsMovementChart,
-				ModelParameters = modelParameters,
-			});
+			RenderingHelper.CreateCharts(new AllChartsModel
+				{
+					SpeedChart = speedChart,
+					DistanceChart = distanceChart,
+					CarsMovementChart = carsMovementChart
+				},
+				modelParameters);
 		}
 
 		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)

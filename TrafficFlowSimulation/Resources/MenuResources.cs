@@ -14,6 +14,14 @@ namespace TrafficFlowSimulation.Resources
 
 		[Translation(Locales.ru, "Скорость: {0} \nПоложение: {1}")]
 		[Translation(Locales.en, "Speed: {0} \nPosition: {1}")]
-		public string ChartLegendText { get; set; }
+		public string CarsMovementChartLegendText { get; set; }
+
+		[Translation(Locales.ru, "V: {0}")]
+		[Translation(Locales.en, "V: {0}")]
+		public string SpeedChartLegendText { get; set; }
+		
+		[Translation(Locales.ru, "S: {0}")]
+		[Translation(Locales.en, "S: {0}")]
+		public string DistanceChartLegendText { get; set; }
 	}
 }
