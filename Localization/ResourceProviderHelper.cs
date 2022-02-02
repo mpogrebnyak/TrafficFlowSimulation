@@ -7,8 +7,8 @@ using Fasterflect;
 
 namespace Localization
 {
-    public class ResourceProviderHelper
-    {
+	public class ResourceProviderHelper
+	{
 		private const char NamespaceSeparator = '.';
 
 		public static LoadedResources Load(params Type[] types)

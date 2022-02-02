@@ -29,7 +29,7 @@ namespace EvaluationKernel
 		}
 
 		private void SetInitialConditions(ModelParameters modelParameters)
-        {
+		{
 			for (int i = 0; i < _n; i++)
 			{
 				x.Add(new List<double>());

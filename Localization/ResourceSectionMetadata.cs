@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace Localization
 {
-    public class ResourceSectionMetadata: ResourceMetadata
-    {
-        public ResourceSectionMetadata()
-        {
-            Children = new List<ResourceMetadata>();
-        }
+	public class ResourceSectionMetadata: ResourceMetadata
+	{
+		public ResourceSectionMetadata()
+		{
+			Children = new List<ResourceMetadata>();
+		}
 
-        public Type Type { get; set; }
+		public Type Type { get; set; }
 
-        public IList<ResourceMetadata> Children { get; private set; }
-    }
+		public IList<ResourceMetadata> Children { get; private set; }
+	}
 }

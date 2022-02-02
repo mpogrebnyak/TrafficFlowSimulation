@@ -1,12 +1,14 @@
-﻿namespace Localization
-{
-    public static class LocalizationSettingManager
-    {
-        public static string GetCurrentLocale()
-        {
-            var currentLocale = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToString();
+﻿using System.Threading;
 
-            return currentLocale;
-        }
-    }
+namespace Localization
+{
+	public static class LocalizationSettingManager
+	{
+		public static string GetCurrentLocale()
+		{
+			var currentLocale = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+			return currentLocale;
+		}
+	}
 }
