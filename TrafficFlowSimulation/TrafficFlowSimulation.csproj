@@ -49,17 +49,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\EnvironmentRendering.cs" />
+    <Compile Include="Commands\Rendering\CarsRenderingHelper.cs" />
+    <Compile Include="Commands\Rendering\ChartsRender.cs" />
     <Compile Include="Commands\LocalizationHelper.cs" />
     <Compile Include="Commands\MethodHandler.cs" />
     <Compile Include="Commands\ModelParametersMapper.cs" />
-    <Compile Include="Commands\RenderingHelper.cs" />
+    <Compile Include="Commands\Rendering\DistanceChartRender.cs" />
+    <Compile Include="Commands\Rendering\RenderingHelper.cs" />
+    <Compile Include="Commands\Rendering\SingleLaneTraffic.cs" />
+    <Compile Include="Commands\Rendering\SpeedChartRender.cs" />
     <Compile Include="Models\ChartsRenderingModel.cs" />
     <Compile Include="Models\LocalizationComponentsModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\MenuResources.cs" />
     <Compile Include="Resources\ParametersResources.cs" />
+    <Compile Include="Resources\Settings.cs" />
     <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\images\russia.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images\white_car.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

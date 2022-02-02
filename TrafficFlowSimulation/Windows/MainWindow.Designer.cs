@@ -31,21 +31,24 @@ namespace TrafficFlowSimulation.Windows
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip = new System.Windows.Forms.ToolStrip();
             this.startToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.languagesSwitcherButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.RussianMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.carsMovementContainer = new System.Windows.Forms.SplitContainer();
+            this.carsMovementChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.carsMovementContainerСontextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.HideLegendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartsContainer = new System.Windows.Forms.SplitContainer();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.distanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -62,13 +65,14 @@ namespace TrafficFlowSimulation.Windows
             this.a_field = new System.Windows.Forms.TextBox();
             this.slam_Panel = new System.Windows.Forms.Panel();
             this.parametersErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.carsMovementChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.localizationBinding = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.carsMovementContainer)).BeginInit();
             this.carsMovementContainer.Panel1.SuspendLayout();
             this.carsMovementContainer.Panel2.SuspendLayout();
             this.carsMovementContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.carsMovementChart)).BeginInit();
+            this.carsMovementContainerСontextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartsContainer)).BeginInit();
             this.chartsContainer.Panel1.SuspendLayout();
             this.chartsContainer.Panel2.SuspendLayout();
@@ -78,7 +82,6 @@ namespace TrafficFlowSimulation.Windows
             this.parametersPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.modelParametersBinding)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.parametersErrorProvider)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.carsMovementChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.localizationBinding)).BeginInit();
             this.SuspendLayout();
             // 
@@ -150,6 +153,41 @@ namespace TrafficFlowSimulation.Windows
             this.carsMovementContainer.Size = new System.Drawing.Size(1577, 657);
             this.carsMovementContainer.SplitterDistance = 403;
             this.carsMovementContainer.TabIndex = 1;
+            // 
+            // carsMovementChart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.carsMovementChart.ChartAreas.Add(chartArea1);
+            this.carsMovementChart.ContextMenuStrip = this.carsMovementContainerСontextMenuStrip;
+            this.carsMovementChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.carsMovementChart.Legends.Add(legend1);
+            this.carsMovementChart.Location = new System.Drawing.Point(0, 0);
+            this.carsMovementChart.Name = "carsMovementChart";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.carsMovementChart.Series.Add(series1);
+            this.carsMovementChart.Size = new System.Drawing.Size(1577, 403);
+            this.carsMovementChart.TabIndex = 0;
+            this.carsMovementChart.Text = "chart1";
+            // 
+            // carsMovementContainerСontextMenuStrip
+            // 
+            this.carsMovementContainerСontextMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
+            this.carsMovementContainerСontextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.carsMovementContainerСontextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.HideLegendToolStripMenuItem});
+            this.carsMovementContainerСontextMenuStrip.Name = "contextMenuStrip1";
+            this.carsMovementContainerСontextMenuStrip.Size = new System.Drawing.Size(187, 28);
+            // 
+            // HideLegendToolStripMenuItem
+            // 
+            this.HideLegendToolStripMenuItem.Name = "HideLegendToolStripMenuItem";
+            this.HideLegendToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.HideLegendToolStripMenuItem.Text = "Скрыть легенду";
+            this.HideLegendToolStripMenuItem.Click += new System.EventHandler(this.HideLegendToolStripMenuItem_Click);
             // 
             // chartsContainer
             // 
@@ -328,24 +366,6 @@ namespace TrafficFlowSimulation.Windows
             this.parametersErrorProvider.DataSource = this.modelParametersBinding;
             this.parametersErrorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("parametersErrorProvider.Icon")));
             // 
-            // carsMovementChart
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.carsMovementChart.ChartAreas.Add(chartArea1);
-            this.carsMovementChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.carsMovementChart.Legends.Add(legend1);
-            this.carsMovementChart.Location = new System.Drawing.Point(0, 0);
-            this.carsMovementChart.Name = "carsMovementChart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.carsMovementChart.Series.Add(series1);
-            this.carsMovementChart.Size = new System.Drawing.Size(1577, 403);
-            this.carsMovementChart.TabIndex = 0;
-            this.carsMovementChart.Text = "chart1";
-            // 
             // localizationBinding
             // 
             this.localizationBinding.DataSource = typeof(TrafficFlowSimulation.Resources.ParametersResources);
@@ -373,6 +393,8 @@ namespace TrafficFlowSimulation.Windows
             this.carsMovementContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.carsMovementContainer)).EndInit();
             this.carsMovementContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.carsMovementChart)).EndInit();
+            this.carsMovementContainerСontextMenuStrip.ResumeLayout(false);
             this.chartsContainer.Panel1.ResumeLayout(false);
             this.chartsContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartsContainer)).EndInit();
@@ -383,7 +405,6 @@ namespace TrafficFlowSimulation.Windows
             this.parametersPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.modelParametersBinding)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.parametersErrorProvider)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.carsMovementChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.localizationBinding)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -416,5 +437,7 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.Label decelerationIntensityLabel;
         private System.Windows.Forms.ErrorProvider parametersErrorProvider;
         private System.Windows.Forms.DataVisualization.Charting.Chart carsMovementChart;
+        private System.Windows.Forms.ContextMenuStrip carsMovementContainerСontextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem HideLegendToolStripMenuItem;
     }
 }

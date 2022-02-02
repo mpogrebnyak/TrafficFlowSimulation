@@ -8,5 +8,6 @@ namespace TrafficFlowSimulation.Models
         public ModelParameters ModelParameters { get; set; }
         public Chart SpeedChart { get; set; }
         public Chart DistanceChart { get; set; }
+        public Chart CarsMovementChart { get; set; }
     }
 }

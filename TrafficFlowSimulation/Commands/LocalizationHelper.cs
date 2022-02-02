@@ -1,4 +1,5 @@
 ﻿using Localization;
+using System;
 using System.Windows.Forms;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Resources;
@@ -40,6 +41,14 @@ namespace TrafficFlowSimulation.Commands
                 AccelerationIntensityLabel = ResourceBuilder.Get<ParametersResources>().AccelerationIntensityLabel,
                 DecelerationIntensityLabel = ResourceBuilder.Get<ParametersResources>().DecelerationIntensityLabel
             };
+        }
+
+        public static string GetLegendText(double speed, double position)
+        {
+            return string.Format(
+                    ResourceBuilder.Get<MenuResources>().ChartLegendText,
+                    Math.Round(speed, 2).ToString(),
+                    Math.Round(position, 2).ToString());
         }
     }
 }

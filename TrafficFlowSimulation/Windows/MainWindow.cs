@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Commands;
+using TrafficFlowSimulation.Commands.Rendering;
 using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation.Windows
@@ -20,7 +22,6 @@ namespace TrafficFlowSimulation.Windows
         public MainWindow()
         {
             InitializeComponent();
-            Initialize();
         }
 
         private void startToolStripButton_Click(object sender, EventArgs e)
@@ -37,6 +38,7 @@ namespace TrafficFlowSimulation.Windows
                 {
                     SpeedChart = speedChart,
                     DistanceChart = distanceChart,
+                    CarsMovementChart = carsMovementChart,
                     ModelParameters = modelParameters,
                 });
 
@@ -46,11 +48,14 @@ namespace TrafficFlowSimulation.Windows
         {
             modelParametersBinding.DataSource = new ModelParameters()
             {
-                n = 5,
+                n = 100,
                 Vmax = 16.7,
                 a = 4,
                 q = 3
             };
+
+            CarsRenderingHelper.CreatePaintedCars();
+            Initialize();
         }
 
         private void stopButton_Click(object sender, EventArgs e)
@@ -97,6 +102,22 @@ namespace TrafficFlowSimulation.Windows
 
             carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
             chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
+
+            List<string> errors;
+            modelParametersBinding.EndEdit();
+            var modelParameters = ModelParametersMapper.MapModel(modelParametersBinding.DataSource, out errors);
+            RenderingHelper.InitialRenderCharts(new ChartsRenderingModel
+            {
+                SpeedChart = speedChart,
+                DistanceChart = distanceChart,
+                CarsMovementChart = carsMovementChart,
+                ModelParameters = modelParameters,
+            });
+        }
+
+        private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            carsMovementChart.Legends.Clear();
         }
     }
 }
