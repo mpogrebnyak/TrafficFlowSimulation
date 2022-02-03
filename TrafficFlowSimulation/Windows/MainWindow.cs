@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel.Models;
@@ -52,10 +53,6 @@ namespace TrafficFlowSimulation.Windows
 			Initialize();
 		}
 
-		private void stopButton_Click(object sender, EventArgs e)
-		{
-			EvaluationHandler.AbortExecution();
-		}
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			EvaluationHandler.AbortExecution();
@@ -90,7 +87,7 @@ namespace TrafficFlowSimulation.Windows
 				LocalizationBinding = localizationBinding,
 				ParametersErrorProvider = parametersErrorProvider,
 				LanguagesSwitcherButton = languagesSwitcherButton,
-				StartToolStripButton = startToolStripButton
+				StartToolStripButton = StartToolStripButton
 			});
 			LocalizationHelper.Translate();
 
@@ -113,6 +110,30 @@ namespace TrafficFlowSimulation.Windows
 		{
 			carsMovementChart.Legends.Clear();
 		}
+
+        private void StopToolStripButton_Click(object sender, EventArgs e)
+        {
+			EvaluationHandler.AbortExecution();
+		}
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			using (SaveFileDialog sfd = new SaveFileDialog())
+			{
+				sfd.Title = "Сохранить изображение как ...";
+				sfd.Filter = "*.bmp|*.bmp;|*.png|*.png;|*.jpg|*.jpg";
+				sfd.AddExtension = true;
+				sfd.FileName = "graphicImage";
+				if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				{
+					switch (sfd.FilterIndex)
+					{
+						case 1: carsMovementChart.SaveImage(sfd.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Bmp); break;
+						case 2: carsMovementChart.SaveImage(sfd.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); break;
+						case 3: carsMovementChart.SaveImage(sfd.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Jpeg); break;
+					}
+				}
+			}
+		}
 	}
 }
-
