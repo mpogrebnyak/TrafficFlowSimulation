@@ -4,6 +4,7 @@ using EvaluationKernel.Models;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
+using TrafficFlowSimulation.Helpers;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {
@@ -22,7 +23,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 
 			Chart.ApplyPaletteColors();
 
-			var carsFolder = Resources.Settings.PaintedCarsFolder;
+			var carsFolder = SettingsHelper.Get<Resources.Settings>().PaintedCarsFolder;
 			foreach (var series in Chart.Series.Where(x => x.Name.Contains(ChartName)))
 			{
 				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));

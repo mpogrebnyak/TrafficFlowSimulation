@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using EvaluationKernel.Models;
 using System.Windows.Forms.DataVisualization.Charting;
+using TrafficFlowSimulation.Helpers;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {

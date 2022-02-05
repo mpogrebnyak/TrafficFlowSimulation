@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
+using TrafficFlowSimulation.Helpers;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {
@@ -9,7 +10,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 	{
 		public static void CreatePaintedCars()
 		{
-			var carsFolder = Resources.Settings.PaintedCarsFolder;
+			var carsFolder = SettingsHelper.Get<Resources.Settings>().PaintedCarsFolder;
 			if (!Directory.Exists(carsFolder)) Directory.CreateDirectory(carsFolder);
 
 			var bmp = Properties.Resources.white_car;

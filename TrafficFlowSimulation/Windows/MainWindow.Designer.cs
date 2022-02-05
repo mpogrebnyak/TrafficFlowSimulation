@@ -59,7 +59,6 @@ namespace TrafficFlowSimulation.Windows
             this.q_field = new System.Windows.Forms.TextBox();
             this.modelParametersBinding = new System.Windows.Forms.BindingSource(this.components);
             this.decelerationIntensityLabel = new System.Windows.Forms.Label();
-            this.localizationBinding = new System.Windows.Forms.BindingSource(this.components);
             this.accelerationIntensityLabel = new System.Windows.Forms.Label();
             this.maximumSpeedLabel = new System.Windows.Forms.Label();
             this.vehiclesNumberLabel = new System.Windows.Forms.Label();
@@ -69,6 +68,8 @@ namespace TrafficFlowSimulation.Windows
             this.a_field = new System.Windows.Forms.TextBox();
             this.slam_Panel = new System.Windows.Forms.Panel();
             this.parametersErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.localizationBinding = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.carsMovementContainer)).BeginInit();
             this.carsMovementContainer.Panel1.SuspendLayout();
@@ -84,8 +85,8 @@ namespace TrafficFlowSimulation.Windows
             ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).BeginInit();
             this.parametersPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.modelParametersBinding)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.localizationBinding)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.parametersErrorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.localizationBinding)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -206,19 +207,19 @@ namespace TrafficFlowSimulation.Windows
             this.HideLegendToolStripMenuItem,
             this.SaveToolStripMenuItem});
             this.carsMovementContainerСontextMenuStrip.Name = "contextMenuStrip1";
-            this.carsMovementContainerСontextMenuStrip.Size = new System.Drawing.Size(211, 80);
+            this.carsMovementContainerСontextMenuStrip.Size = new System.Drawing.Size(187, 52);
             // 
             // HideLegendToolStripMenuItem
             // 
             this.HideLegendToolStripMenuItem.Name = "HideLegendToolStripMenuItem";
-            this.HideLegendToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.HideLegendToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.HideLegendToolStripMenuItem.Text = "Скрыть легенду";
             this.HideLegendToolStripMenuItem.Click += new System.EventHandler(this.HideLegendToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.SaveToolStripMenuItem.Text = "Сохранить";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
@@ -278,6 +279,7 @@ namespace TrafficFlowSimulation.Windows
             // parametersPanel
             // 
             this.parametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
+            this.parametersPanel.Controls.Add(this.textBox1);
             this.parametersPanel.Controls.Add(this.q_field);
             this.parametersPanel.Controls.Add(this.decelerationIntensityLabel);
             this.parametersPanel.Controls.Add(this.accelerationIntensityLabel);
@@ -314,10 +316,6 @@ namespace TrafficFlowSimulation.Windows
             this.decelerationIntensityLabel.Size = new System.Drawing.Size(191, 16);
             this.decelerationIntensityLabel.TabIndex = 7;
             this.decelerationIntensityLabel.Text = "Интенсивность торможения";
-            // 
-            // localizationBinding
-            // 
-            this.localizationBinding.DataSource = typeof(TrafficFlowSimulation.Resources.ParametersResources);
             // 
             // accelerationIntensityLabel
             // 
@@ -403,6 +401,18 @@ namespace TrafficFlowSimulation.Windows
             this.parametersErrorProvider.DataSource = this.modelParametersBinding;
             this.parametersErrorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("parametersErrorProvider.Icon")));
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(62, 295);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 9;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // localizationBinding
+            // 
+            this.localizationBinding.DataSource = typeof(TrafficFlowSimulation.Resources.ParametersResources);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -437,8 +447,8 @@ namespace TrafficFlowSimulation.Windows
             this.parametersPanel.ResumeLayout(false);
             this.parametersPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.modelParametersBinding)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.localizationBinding)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.parametersErrorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.localizationBinding)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -475,5 +485,6 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.ToolStripButton StopToolStripButton;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

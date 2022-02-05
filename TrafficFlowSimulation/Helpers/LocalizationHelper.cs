@@ -1,11 +1,10 @@
-﻿using Localization;
-using System;
+﻿using System;
 using System.Threading;
-using System.Windows.Forms;
+using Localization;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Resources;
 
-namespace TrafficFlowSimulation.Commands
+namespace TrafficFlowSimulation.Helpers
 {
 	public static class LocalizationHelper
 	{

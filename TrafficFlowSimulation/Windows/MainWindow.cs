@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Commands.Rendering;
+using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation.Windows
@@ -15,9 +14,11 @@ namespace TrafficFlowSimulation.Windows
 	{
 		public MainWindow()
 		{
-			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 			InitializeComponent();
+			SettingsHelper.InitializeSettings();
+			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 		}
+
 
 		private void startToolStripButton_Click(object sender, EventArgs e)
 		{
@@ -135,5 +136,10 @@ namespace TrafficFlowSimulation.Windows
 				}
 			}
 		}
-	}
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
