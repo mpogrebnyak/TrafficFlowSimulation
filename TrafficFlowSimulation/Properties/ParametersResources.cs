@@ -1,12 +1,12 @@
 ﻿using Localization;
 
-namespace TrafficFlowSimulation.Resources
+namespace TrafficFlowSimulation.Properties
 {
 	public class ParametersResources
 	{
-		[Translation(Locales.ru, "Введите параметры \n модели")]
-		[Translation(Locales.en, "Enter model parameters")]
-		public string ParametersTitle { get; set; }
+		[Translation(Locales.ru, "Параметры движения:")]
+		[Translation(Locales.en, "Movement parameters:")]
+		public string MovementParametersGroupBoxText { get; set; }
 
 		[Translation(Locales.ru, "Количество автомобилей")]
 		[Translation(Locales.en, "Vehicles number")]

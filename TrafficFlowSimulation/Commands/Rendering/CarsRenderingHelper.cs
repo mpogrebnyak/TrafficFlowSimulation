@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
-using TrafficFlowSimulation.Helpers;
+using Settings;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {
@@ -10,7 +10,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 	{
 		public static void CreatePaintedCars()
 		{
-			var carsFolder = SettingsHelper.Get<Resources.Settings>().PaintedCarsFolder;
+			var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
 			if (!Directory.Exists(carsFolder)) Directory.CreateDirectory(carsFolder);
 
 			var bmp = Properties.Resources.white_car;
@@ -19,13 +19,12 @@ namespace TrafficFlowSimulation.Commands.Rendering
 
 			foreach (var newColor in colors)
 			{
-				Color actualColor;
-				Bitmap newBitmap = new Bitmap(bmp.Width, bmp.Height);
+				var newBitmap = new Bitmap(bmp.Width, bmp.Height);
 				for (int i = 0; i < bmp.Width; i++)
 				{
 					for (int j = 0; j < bmp.Height; j++)
 					{
-						actualColor = bmp.GetPixel(i, j);
+						var actualColor = bmp.GetPixel(i, j);
 						if (actualColor.R == 255)
 							newBitmap.SetPixel(i, j, newColor);
 						else

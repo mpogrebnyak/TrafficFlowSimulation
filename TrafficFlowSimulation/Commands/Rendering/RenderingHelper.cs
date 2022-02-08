@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
+using Settings;
 using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation.Commands.Rendering
@@ -31,6 +33,27 @@ namespace TrafficFlowSimulation.Commands.Rendering
 			_scr?.Update(new List<double> {t}, null!, y.ToList());
 			_dcr?.Update(new List<double> {t}, x.ToList());
 			_slt?.Update(new List<double> {t}, x.ToList(), y.ToList());
+		}
+
+		public static void SaveChart(Chart chart)
+		{
+			using (SaveFileDialog sfd = new())
+			{
+				sfd.Title = "Сохранить изображение как ...";
+				sfd.Filter = SettingsHelper.Get<Properties.Settings>().AvailableFileTypes;
+				sfd.AddExtension = true;
+				sfd.FileName = "graphicImage";
+				if (sfd.ShowDialog() == DialogResult.OK)
+				{
+					switch (sfd.FilterIndex)
+					{
+						case 1: chart.SaveImage(sfd.FileName, ChartImageFormat.Bmp); break;
+						case 2: chart.SaveImage(sfd.FileName, ChartImageFormat.Png); break;
+						case 3: chart.SaveImage(sfd.FileName, ChartImageFormat.Jpeg); break;
+						case 4: chart.SaveImage(sfd.FileName, ChartImageFormat.Emf); break;
+					}
+				}
+			}
 		}
 	}
 }

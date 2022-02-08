@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 using EvaluationKernel.Models;
+using Settings;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Commands.Rendering;
 using TrafficFlowSimulation.Helpers;
@@ -19,12 +20,11 @@ namespace TrafficFlowSimulation.Windows
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 		}
 
-
 		private void startToolStripButton_Click(object sender, EventArgs e)
 		{
 			List<string> errors;
-			modelParametersBinding.EndEdit();
-			var modelParameters = ModelParametersMapper.MapModel(modelParametersBinding.DataSource, out errors);
+			ModelParametersBinding.EndEdit();
+			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, out errors);
 
 			parametersPanel.Hide();
 			EvaluationHandler.AbortExecution();
@@ -42,7 +42,7 @@ namespace TrafficFlowSimulation.Windows
 
 		 private void MainWindow_Load(object sender, EventArgs e)
 		{
-			modelParametersBinding.DataSource = new ModelParameters()
+			ModelParametersBinding.DataSource = new ModelParameters()
 			{
 				n = 100,
 				Vmax = 16.7,
@@ -85,19 +85,22 @@ namespace TrafficFlowSimulation.Windows
 		{
 			LocalizationHelper.InitializeResource(new LocalizationComponentsModel
 			{
-				LocalizationBinding = localizationBinding,
-				ParametersErrorProvider = parametersErrorProvider,
+				LocalizationBinding = LocalizationBinding,
+				ParametersErrorProvider = ParametersErrorProvider,
 				LanguagesSwitcherButton = languagesSwitcherButton,
 				StartToolStripButton = StartToolStripButton
 			});
-			LocalizationHelper.Translate();
+			//LocalizationHelper.Translate();
 
 			carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
 			chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
+			parametersPanel.AutoScroll = true;
+			parametersPanel.VerticalScroll.Enabled = true;
+			parametersPanel.VerticalScroll.Value = parametersPanel.VerticalScroll.Maximum/10;
 
 			List<string> errors;
-			modelParametersBinding.EndEdit();
-			var modelParameters = ModelParametersMapper.MapModel(modelParametersBinding.DataSource, out errors);
+			ModelParametersBinding.EndEdit();
+			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, out errors);
 			RenderingHelper.CreateCharts(new AllChartsModel
 				{
 					SpeedChart = speedChart,
@@ -105,6 +108,8 @@ namespace TrafficFlowSimulation.Windows
 					CarsMovementChart = carsMovementChart
 				},
 				modelParameters);
+
+			comboBox1.SelectedIndex = 0;
 		}
 
 		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,29 +122,9 @@ namespace TrafficFlowSimulation.Windows
 			EvaluationHandler.AbortExecution();
 		}
 
-        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-			using (SaveFileDialog sfd = new SaveFileDialog())
-			{
-				sfd.Title = "Сохранить изображение как ...";
-				sfd.Filter = "*.bmp|*.bmp;|*.png|*.png;|*.jpg|*.jpg";
-				sfd.AddExtension = true;
-				sfd.FileName = "graphicImage";
-				if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				{
-					switch (sfd.FilterIndex)
-					{
-						case 1: carsMovementChart.SaveImage(sfd.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Bmp); break;
-						case 2: carsMovementChart.SaveImage(sfd.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png); break;
-						case 3: carsMovementChart.SaveImage(sfd.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Jpeg); break;
-					}
-				}
-			}
+		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RenderingHelper.SaveChart(carsMovementChart);
 		}
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-    }
+	}
 }

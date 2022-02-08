@@ -1,6 +1,6 @@
 ﻿using Settings.Managers;
 
-namespace TrafficFlowSimulation.Helpers
+namespace Settings
 {
 	public static class SettingsHelper
 	{

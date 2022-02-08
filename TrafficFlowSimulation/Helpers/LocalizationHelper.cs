@@ -2,7 +2,7 @@
 using System.Threading;
 using Localization;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Resources;
+using TrafficFlowSimulation.Properties;
 
 namespace TrafficFlowSimulation.Helpers
 {
@@ -35,7 +35,7 @@ namespace TrafficFlowSimulation.Helpers
 
 			lc.LocalizationBinding.DataSource = new ParametersResources
 			{
-				ParametersTitle = ResourceBuilder.Get<ParametersResources>().ParametersTitle,
+				//ParametersTitle = ResourceBuilder.Get<ParametersResources>().ParametersTitle,
 				VehiclesNumberLabel = ResourceBuilder.Get<ParametersResources>().VehiclesNumberLabel,
 				MaximumSpeedLabel = ResourceBuilder.Get<ParametersResources>().MaximumSpeedLabel,
 				AccelerationIntensityLabel = ResourceBuilder.Get<ParametersResources>().AccelerationIntensityLabel,
@@ -46,7 +46,6 @@ namespace TrafficFlowSimulation.Helpers
 		public static string GetCarsMovementChartLegendText(double speed, double position)
 		{
 			var currentLocale = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-			var ee = ResourceBuilder.Get<MenuResources>().CarsMovementChartLegendText;
 			return string.Format(
 					ResourceBuilder.Get<MenuResources>().CarsMovementChartLegendText,
 					Math.Round(speed, 2).ToString(),
