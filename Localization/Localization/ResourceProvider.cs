@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Localization
+namespace Localization.Localization
 {
 	public class ResourceProvider: IResourceProvider 
 	{

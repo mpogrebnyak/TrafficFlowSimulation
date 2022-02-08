@@ -2,22 +2,67 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using Settings;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Commands.Rendering;
-using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows
 {
 	public partial class MainWindow : Form
 	{
+		private LocalizationComponentsModel _localizationComponents;
+
 		public MainWindow()
 		{
 			InitializeComponent();
-			SettingsHelper.InitializeSettings();
-			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
+			CustomInitializeComponent();
+			InitializeInterface();
+		}
+
+		private void CustomInitializeComponent()
+		{
+			carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
+			chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
+			comboBox1.SelectedIndex = 0;
+
+			_localizationComponents = new LocalizationComponentsModel
+			{
+				LocalizationBinding = LocalizationBinding,
+				ParametersErrorProvider = ParametersErrorProvider,
+				LanguagesSwitcherButton = languagesSwitcherButton,
+				StartToolStripButton = StartToolStripButton
+			};
+		}
+
+		private void InitializeInterface()
+		{
+			LocalizationService.Translate(_localizationComponents);
+			
+			// избавиться от этого 
+			ModelParametersBinding.DataSource = new ModelParameters()
+			{
+				n = 100,
+				Vmax = 16.7,
+				a = 4,
+				q = 3
+			};
+			
+			List<string> errors;
+			ModelParametersBinding.EndEdit();
+			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, out errors);
+			RenderingHelper.CreateCharts(new AllChartsModel
+				{
+					SpeedChart = speedChart,
+					DistanceChart = distanceChart,
+					CarsMovementChart = carsMovementChart
+				},
+				modelParameters);
+
+			// перенести в main
+			CarsRenderingHelper.CreatePaintedCars();
 		}
 
 		private void startToolStripButton_Click(object sender, EventArgs e)
@@ -42,16 +87,16 @@ namespace TrafficFlowSimulation.Windows
 
 		 private void MainWindow_Load(object sender, EventArgs e)
 		{
-			ModelParametersBinding.DataSource = new ModelParameters()
-			{
-				n = 100,
-				Vmax = 16.7,
-				a = 4,
-				q = 3
-			};
+		//	ModelParametersBinding.DataSource = new ModelParameters()
+		//	{
+		//		n = 100,
+		//		Vmax = 16.7,
+		//		a = 4,
+		//		q = 3
+		//	};
 
-			CarsRenderingHelper.CreatePaintedCars();
-			Initialize();
+		//	CarsRenderingHelper.CreatePaintedCars();
+		//	Initialize();
 		}
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -71,60 +116,46 @@ namespace TrafficFlowSimulation.Windows
 		{
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("En");
 			languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
-			LocalizationHelper.Translate();
+			LocalizationService.Translate(_localizationComponents);
 		}
 
 		private void RussianMenuItem_Click(object sender, EventArgs e)
 		{
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 			languagesSwitcherButton.Image = Properties.Resources.russia;
-			LocalizationHelper.Translate();
+			LocalizationService.Translate(_localizationComponents);
 		}
 
-		private void Initialize()
+		private void StopToolStripButton_Click(object sender, EventArgs e)
 		{
-			LocalizationHelper.InitializeResource(new LocalizationComponentsModel
-			{
-				LocalizationBinding = LocalizationBinding,
-				ParametersErrorProvider = ParametersErrorProvider,
-				LanguagesSwitcherButton = languagesSwitcherButton,
-				StartToolStripButton = StartToolStripButton
-			});
-			//LocalizationHelper.Translate();
-
-			carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
-			chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
-			parametersPanel.AutoScroll = true;
-			parametersPanel.VerticalScroll.Enabled = true;
-			parametersPanel.VerticalScroll.Value = parametersPanel.VerticalScroll.Maximum/10;
-
-			List<string> errors;
-			ModelParametersBinding.EndEdit();
-			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, out errors);
-			RenderingHelper.CreateCharts(new AllChartsModel
-				{
-					SpeedChart = speedChart,
-					DistanceChart = distanceChart,
-					CarsMovementChart = carsMovementChart
-				},
-				modelParameters);
-
-			comboBox1.SelectedIndex = 0;
-		}
-
-		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			carsMovementChart.Legends.Clear();
-		}
-
-        private void StopToolStripButton_Click(object sender, EventArgs e)
-        {
 			EvaluationHandler.AbortExecution();
 		}
 
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			RenderingHelper.SaveChart(carsMovementChart);
+		}
+
+		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var chart = GetChartFromContextMenu(sender);
+			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.None);
+		}
+
+		private void ShowFullToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RenderingHelper.ShowLegend(carsMovementChart.Text, LegendDisplayOptions.Full);
+		}
+
+		private void ShowPartiallyToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RenderingHelper.ShowLegend(carsMovementChart.Text, LegendDisplayOptions.Partially);
+		}
+
+		private static Chart GetChartFromContextMenu(object o)
+		{
+			return
+			((((o as ToolStripMenuItem).Owner as ToolStripDropDownMenu).OwnerItem as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as Chart;
 		}
 	}
 }

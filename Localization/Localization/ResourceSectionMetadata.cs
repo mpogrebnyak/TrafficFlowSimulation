@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Localization
+namespace Localization.Localization
 {
 	public class ResourceSectionMetadata: ResourceMetadata
 	{

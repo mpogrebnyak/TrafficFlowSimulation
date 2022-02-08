@@ -1,4 +1,5 @@
 ﻿using Localization;
+using Localization.Localization;
 
 namespace TrafficFlowSimulation.Properties
 {

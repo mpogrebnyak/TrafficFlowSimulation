@@ -4,12 +4,14 @@ using System.Drawing;
 using System.Linq;
 using EvaluationKernel.Models;
 using System.Windows.Forms.DataVisualization.Charting;
-using TrafficFlowSimulation.Helpers;
+using Localization;
+using TrafficFlowSimulation.Properties;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {
 	public class DistanceChartRender : ChartsRender
 	{
+		public override string ChartText => "Distance";
 		protected override string ChartName => "Distance";
 		protected override string ChartAreaName => "DistanceChartArea";
 
@@ -26,7 +28,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
 				Chart.Series[i].Points.AddXY(0, ModelParameters.lambda[i]);
 
-				Chart.Series[i].LegendText = LocalizationHelper.GetDistanceChartLegendText(ModelParameters.lambda[i]);
+				Chart.Series[i].LegendText = GetDistanceChartLegendText(ModelParameters.lambda[i]);
 			}
 		}
 
@@ -47,14 +49,14 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				}
 			};
 		}
-		protected override Legend CreateLegend()
+		protected override Legend CreateLegend(LegendStyle legendStyle)
 		{
 			return new Legend
 			{
 				Name = "Legend",
 				Title = "Положение автомобилей",
 				AutoFitMinFontSize = 100,
-				LegendStyle = LegendStyle.Table,
+				LegendStyle = legendStyle,
 				Font = new Font("Microsoft Sans Serif", 10F),
 			};
 		}
@@ -66,8 +68,15 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
 				Chart.Series[i].Points.AddXY(t.Single(), x[i]);
 
-				Chart.Series[i].LegendText = LocalizationHelper.GetDistanceChartLegendText(x[i]);
+				Chart.Series[i].LegendText = GetDistanceChartLegendText(x[i]);
 			}
+		}
+		
+		private static string GetDistanceChartLegendText(double position)
+		{
+			return string.Format(
+				LocalizationHelper.Get<MenuResources>().DistanceChartLegendText,
+				Math.Round(position, 2).ToString());
 		}
 	}
 }

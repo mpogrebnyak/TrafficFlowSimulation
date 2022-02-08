@@ -1,14 +1,13 @@
 ﻿using System.Linq;
-using System.Resources;
 
-namespace Localization
+namespace Localization.Localization
 {
 	public class ResourceMetadata
 	{
 		public const char NameSeparator = '.';
 		public const char EscapeCharacter = '_';
 
-		public static readonly char[] InvalidNameCharacters =
+		private static readonly char[] InvalidNameCharacters =
 		{
 			'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '?', '.', ',', '"', '`', ':', ';', '{', '}', '<', '>', '|', '\'', '/', '\\'
 		};
@@ -29,7 +28,7 @@ namespace Localization
 
 		/// <summary>
 		/// "Путь" с учётом иерархии, через точку (например "Parent1.Parent2.Item").
-		/// Должен быть обязательно задан и быть уникальным в рамках <see cref="ResourceManager"/>.
+		/// Должен быть обязательно задан и быть уникальным в рамках <see cref="Localization.ResourceManager"/>.
 		/// </summary>
 		public string Key { get; set; }
 	}

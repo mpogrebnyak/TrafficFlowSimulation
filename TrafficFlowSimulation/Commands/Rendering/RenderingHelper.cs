@@ -5,6 +5,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Settings;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {
@@ -33,6 +34,16 @@ namespace TrafficFlowSimulation.Commands.Rendering
 			_scr?.Update(new List<double> {t}, null!, y.ToList());
 			_dcr?.Update(new List<double> {t}, x.ToList());
 			_slt?.Update(new List<double> {t}, x.ToList(), y.ToList());
+		}
+
+		public static void ShowLegend(string chartText, LegendDisplayOptions option)
+		{
+			if (chartText == _scr?.ChartText)
+				_scr?.ShowLegend(option);
+				if (chartText == _dcr?.ChartText)
+				_dcr?.ShowLegend(option);
+			if (chartText == _slt?.ChartText)
+				_slt?.ShowLegend(option);
 		}
 
 		public static void SaveChart(Chart chart)

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using EvaluationKernel.Models;
 using System.Windows.Forms.DataVisualization.Charting;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {
 	public abstract class ChartsRender
 	{
+        public virtual string ChartText => "Chart";
 		protected abstract string ChartName { get; }
 		protected abstract string ChartAreaName { get; }
 
@@ -24,10 +26,11 @@ namespace TrafficFlowSimulation.Commands.Rendering
 
 			FullClearChart();
 
+			Chart.Text = ChartText;
 			var chartArea = CreateChartArea();
 			Chart.ChartAreas.Add(chartArea);
 
-			Chart.Legends.Add(CreateLegend());
+			Chart.Legends.Add(CreateLegend(LegendStyle.Column));
 
 			for (int i = 0; i < modelParameters.n; i++)
 			{
@@ -56,9 +59,27 @@ namespace TrafficFlowSimulation.Commands.Rendering
 			}
 		}
 
+		public virtual void ShowLegend(LegendDisplayOptions option)
+		{
+			switch (option)
+            {
+				case LegendDisplayOptions.Full:
+					Chart.Legends.Clear();
+					Chart.Legends.Add(CreateLegend(LegendStyle.Table));
+					break;
+				case LegendDisplayOptions.Partially:
+					Chart.Legends.Clear();
+					Chart.Legends.Add(CreateLegend(LegendStyle.Column));
+					break;
+				case LegendDisplayOptions.None:
+					Chart.Legends.Clear();
+					break;
+            }
+		}
+
 		protected abstract ChartArea CreateChartArea();
 
-		protected abstract Legend CreateLegend();
+		protected abstract Legend CreateLegend(LegendStyle legendStyle);
 
 		protected virtual Series[] CreateEnvironment()
 		{

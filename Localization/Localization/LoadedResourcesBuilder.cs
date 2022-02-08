@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Localization
+namespace Localization.Localization
 {
 	public class LoadedResourcesBuilder
 	{

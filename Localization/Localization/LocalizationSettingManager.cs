@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
-using System.Threading;
 
-namespace Localization
+namespace Localization.Localization
 {
 	public static class LocalizationSettingManager
 	{

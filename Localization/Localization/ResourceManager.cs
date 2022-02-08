@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 
-namespace Localization
+namespace Localization.Localization
 {
 	public class ResourceManager: IResourceManager
 	{

@@ -1,9 +1,10 @@
 ﻿using Localization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Forms;
+using Localization.Localization;
+using Settings;
+using TrafficFlowSimulation.Properties;
 using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation
@@ -16,9 +17,23 @@ namespace TrafficFlowSimulation
 		[STAThread]
 		static void Main()
 		{
+			Registration();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWindow());
+		}
+
+		private static void Registration()
+		{
+			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
+
+			var menuResourcesProvider = new ResourceProvider(typeof(MenuResources));
+			var parametersResourcesProvider = new ResourceProvider(typeof(ParametersResources));
+			LocalizationHelper.Register(menuResourcesProvider);
+			LocalizationHelper.Register(parametersResourcesProvider);
+
+			SettingsHelper.InitializeSettings();
 		}
 	}
 }

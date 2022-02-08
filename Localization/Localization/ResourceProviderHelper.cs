@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Text;
 using Fasterflect;
 
-namespace Localization
+namespace Localization.Localization
 {
-	public class ResourceProviderHelper
+	public static class ResourceProviderHelper
 	{
 		private const char NamespaceSeparator = '.';
 
@@ -50,8 +50,7 @@ namespace Localization
 			return resources;
 		}
 
-		public static void CreateSections(IEnumerable<Type> types,
-			IList<ResourceMetadata> metadata, Dictionary<string, ResourceSectionMetadata> map)
+		private static void CreateSections(IEnumerable<Type> types, ICollection<ResourceMetadata> metadata, IDictionary<string, ResourceSectionMetadata> map)
 		{
 			foreach (var type in types)
 			{
@@ -127,8 +126,7 @@ namespace Localization
 			}
 		}
 		
-		private static string GetValue(IResourceProvider resourceProvider,
-			LocalizationKeyPath path)
+		private static string GetValue(IResourceProvider resourceProvider, LocalizationKeyPath path)
 		{
 			var locale = LocalizationSettingManager.GetCurrentLocale();
 

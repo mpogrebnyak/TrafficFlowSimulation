@@ -1,4 +1,4 @@
-﻿namespace Localization
+﻿namespace Localization.Localization
 {
 	public static class Locales
 	{

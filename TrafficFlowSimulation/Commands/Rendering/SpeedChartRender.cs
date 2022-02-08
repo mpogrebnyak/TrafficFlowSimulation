@@ -4,12 +4,14 @@ using System.Drawing;
 using System.Linq;
 using EvaluationKernel.Models;
 using System.Windows.Forms.DataVisualization.Charting;
-using TrafficFlowSimulation.Helpers;
+using Localization;
+using TrafficFlowSimulation.Properties;
 
 namespace TrafficFlowSimulation.Commands.Rendering
 {
 	public class SpeedChartRender : ChartsRender
 	{
+		public override string ChartText => "Speed";
 		protected override string ChartName => "Speed";
 		protected override string ChartAreaName => "SpeedChartArea";
 
@@ -26,7 +28,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
 				Chart.Series[i].Points.AddXY(0, 0);
 
-				Chart.Series[i].LegendText = LocalizationHelper.GetSpeedChartLegendText(0);
+				Chart.Series[i].LegendText = GetSpeedChartLegendText(0);
 			}
 		}
 
@@ -48,14 +50,14 @@ namespace TrafficFlowSimulation.Commands.Rendering
 			};
 		}
 
-		protected override Legend CreateLegend()
+		protected override Legend CreateLegend(LegendStyle legendStyle)
 		{
 			return new Legend
 			{
 				Name = "Legend",
 				Title = "Cкорости автомобилей",
 				AutoFitMinFontSize = 100,
-				LegendStyle = LegendStyle.Table,
+				LegendStyle = legendStyle,
 				Font = new Font("Microsoft Sans Serif", 10F),
 			};
 		}
@@ -67,8 +69,15 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
 				Chart.Series[i].Points.AddXY(t.Single(), y[i]);
 
-				Chart.Series[i].LegendText = LocalizationHelper.GetSpeedChartLegendText(y[i]);
+				Chart.Series[i].LegendText = GetSpeedChartLegendText(y[i]);
 			}
+		}
+
+		private static string GetSpeedChartLegendText(double speed)
+		{
+			return string.Format(
+				LocalizationHelper.Get<MenuResources>().SpeedChartLegendText,
+				Math.Round(speed, 2).ToString());
 		}
 	}
 }

@@ -52,10 +52,10 @@ namespace TrafficFlowSimulation.Windows
             this.carsMovementContainer = new System.Windows.Forms.SplitContainer();
             this.carsMovementChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.CarsMovementContainerСontextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.LegendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowFullToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowPartiallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HideLegendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.отображатьПолностьюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.отображатьЧастичноToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.скрытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartsContainer = new System.Windows.Forms.SplitContainer();
@@ -63,10 +63,18 @@ namespace TrafficFlowSimulation.Windows
             this.distanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.parametersPanel = new System.Windows.Forms.Panel();
             this.MovementParametersGroupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.BasicParametersGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.DriverResponseTimeLabel = new System.Windows.Forms.Label();
             this.v_max_field = new System.Windows.Forms.TextBox();
             this.ModelParametersBinding = new System.Windows.Forms.BindingSource(this.components);
             this.a_field = new System.Windows.Forms.TextBox();
@@ -74,13 +82,13 @@ namespace TrafficFlowSimulation.Windows
             this.MaximumSpeedLabel = new System.Windows.Forms.Label();
             this.AccelerationIntensityLabel = new System.Windows.Forms.Label();
             this.DecelerationIntensityLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.SafelyDistanceLabel = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.RegimeSettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.ModeSettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.n_field = new System.Windows.Forms.TextBox();
             this.VehiclesNumberLabel = new System.Windows.Forms.Label();
@@ -89,14 +97,6 @@ namespace TrafficFlowSimulation.Windows
             this.slam_Panel = new System.Windows.Forms.Panel();
             this.ParametersErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.LocalizationBinding = new System.Windows.Forms.BindingSource(this.components);
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.carsMovementContainer)).BeginInit();
@@ -113,15 +113,15 @@ namespace TrafficFlowSimulation.Windows
             ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).BeginInit();
             this.parametersPanel.SuspendLayout();
             this.MovementParametersGroupBox.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ModelParametersBinding)).BeginInit();
-            this.RegimeSettingsGroupBox.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ParametersErrorProvider)).BeginInit();
+            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.BasicParametersGroupBox.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ModelParametersBinding)).BeginInit();
+            this.ModeSettingsGroupBox.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ParametersErrorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LocalizationBinding)).BeginInit();
             this.SuspendLayout();
             // 
@@ -243,50 +243,52 @@ namespace TrafficFlowSimulation.Windows
             this.CarsMovementContainerСontextMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
             this.CarsMovementContainerСontextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CarsMovementContainerСontextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.HideLegendToolStripMenuItem,
+            this.LegendToolStripMenuItem,
             this.toolStripSeparator1,
             this.SaveToolStripMenuItem});
             this.CarsMovementContainerСontextMenuStrip.Name = "contextMenuStrip1";
-            this.CarsMovementContainerСontextMenuStrip.Size = new System.Drawing.Size(153, 58);
+            this.CarsMovementContainerСontextMenuStrip.Size = new System.Drawing.Size(211, 86);
+            // 
+            // LegendToolStripMenuItem
+            // 
+            this.LegendToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShowFullToolStripMenuItem,
+            this.ShowPartiallyToolStripMenuItem,
+            this.HideLegendToolStripMenuItem});
+            this.LegendToolStripMenuItem.Name = "LegendToolStripMenuItem";
+            this.LegendToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.LegendToolStripMenuItem.Text = "Легенда";
+            // 
+            // ShowFullToolStripMenuItem
+            // 
+            this.ShowFullToolStripMenuItem.Name = "ShowFullToolStripMenuItem";
+            this.ShowFullToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
+            this.ShowFullToolStripMenuItem.Text = "Отображать полностью";
+            this.ShowFullToolStripMenuItem.Click += new System.EventHandler(this.ShowFullToolStripMenuItem_Click);
+            // 
+            // ShowPartiallyToolStripMenuItem
+            // 
+            this.ShowPartiallyToolStripMenuItem.Name = "ShowPartiallyToolStripMenuItem";
+            this.ShowPartiallyToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
+            this.ShowPartiallyToolStripMenuItem.Text = "Отображать частично";
+            this.ShowPartiallyToolStripMenuItem.Click += new System.EventHandler(this.ShowPartiallyToolStripMenuItem_Click);
             // 
             // HideLegendToolStripMenuItem
             // 
-            this.HideLegendToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.отображатьПолностьюToolStripMenuItem,
-            this.отображатьЧастичноToolStripMenuItem,
-            this.скрытьToolStripMenuItem});
             this.HideLegendToolStripMenuItem.Name = "HideLegendToolStripMenuItem";
-            this.HideLegendToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.HideLegendToolStripMenuItem.Text = "Легенда";
+            this.HideLegendToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
+            this.HideLegendToolStripMenuItem.Text = "Скрыть";
             this.HideLegendToolStripMenuItem.Click += new System.EventHandler(this.HideLegendToolStripMenuItem_Click);
-            // 
-            // отображатьПолностьюToolStripMenuItem
-            // 
-            this.отображатьПолностьюToolStripMenuItem.Name = "отображатьПолностьюToolStripMenuItem";
-            this.отображатьПолностьюToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
-            this.отображатьПолностьюToolStripMenuItem.Text = "Отображать полностью";
-            // 
-            // отображатьЧастичноToolStripMenuItem
-            // 
-            this.отображатьЧастичноToolStripMenuItem.Name = "отображатьЧастичноToolStripMenuItem";
-            this.отображатьЧастичноToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
-            this.отображатьЧастичноToolStripMenuItem.Text = "Отображать частично";
-            // 
-            // скрытьToolStripMenuItem
-            // 
-            this.скрытьToolStripMenuItem.Name = "скрытьToolStripMenuItem";
-            this.скрытьToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
-            this.скрытьToolStripMenuItem.Text = "Скрыть";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(207, 6);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.SaveToolStripMenuItem.Text = "Сохранить";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
@@ -358,8 +360,9 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.MovementParametersGroupBox.Controls.Add(this.groupBox5);
             this.MovementParametersGroupBox.Controls.Add(this.groupBox4);
-            this.MovementParametersGroupBox.Controls.Add(this.groupBox3);
-            this.MovementParametersGroupBox.Controls.Add(this.RegimeSettingsGroupBox);
+            this.MovementParametersGroupBox.Controls.Add(this.BasicParametersGroupBox);
+            this.MovementParametersGroupBox.Controls.Add(this.ModeSettingsGroupBox);
+            this.MovementParametersGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "MovementParametersGroupBoxText", true));
             this.MovementParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MovementParametersGroupBox.Location = new System.Drawing.Point(-8, 0);
             this.MovementParametersGroupBox.Name = "MovementParametersGroupBox";
@@ -368,289 +371,31 @@ namespace TrafficFlowSimulation.Windows
             this.MovementParametersGroupBox.TabStop = false;
             this.MovementParametersGroupBox.Text = "Параметры движения:";
             // 
-            // groupBox3
+            // groupBox5
             // 
-            this.groupBox3.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox3.Location = new System.Drawing.Point(3, 135);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(374, 265);
-            this.groupBox3.TabIndex = 21;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Основные параметры:";
+            this.groupBox5.Controls.Add(this.tableLayoutPanel4);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox5.Location = new System.Drawing.Point(3, 506);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(374, 100);
+            this.groupBox5.TabIndex = 23;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Начальные условия";
             // 
-            // tableLayoutPanel1
+            // tableLayoutPanel4
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.textBox4, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label11, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.v_max_field, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.a_field, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.q_field, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.MaximumSpeedLabel, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.AccelerationIntensityLabel, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.DecelerationIntensityLabel, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 7);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 28);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(368, 234);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox4.Location = new System.Drawing.Point(279, 3);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(86, 27);
-            this.textBox4.TabIndex = 14;
-            // 
-            // label11
-            // 
-            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(3, 6);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(224, 20);
-            this.label11.TabIndex = 15;
-            this.label11.Text = "Время реакции водителя";
-            // 
-            // v_max_field
-            // 
-            this.v_max_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "Vmax", true));
-            this.v_max_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.v_max_field.Location = new System.Drawing.Point(279, 36);
-            this.v_max_field.Name = "v_max_field";
-            this.v_max_field.Size = new System.Drawing.Size(86, 27);
-            this.v_max_field.TabIndex = 1;
-            // 
-            // ModelParametersBinding
-            // 
-            this.ModelParametersBinding.DataSource = typeof(EvaluationKernel.Models.ModelParameters);
-            // 
-            // a_field
-            // 
-            this.a_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "a", true));
-            this.a_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.a_field.Location = new System.Drawing.Point(279, 69);
-            this.a_field.Name = "a_field";
-            this.a_field.Size = new System.Drawing.Size(86, 27);
-            this.a_field.TabIndex = 0;
-            // 
-            // q_field
-            // 
-            this.q_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "q", true));
-            this.q_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.q_field.Location = new System.Drawing.Point(279, 102);
-            this.q_field.Name = "q_field";
-            this.q_field.Size = new System.Drawing.Size(86, 27);
-            this.q_field.TabIndex = 8;
-            // 
-            // MaximumSpeedLabel
-            // 
-            this.MaximumSpeedLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.MaximumSpeedLabel.AutoSize = true;
-            this.MaximumSpeedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MaximumSpeedLabel.Location = new System.Drawing.Point(3, 39);
-            this.MaximumSpeedLabel.Name = "MaximumSpeedLabel";
-            this.MaximumSpeedLabel.Size = new System.Drawing.Size(215, 20);
-            this.MaximumSpeedLabel.TabIndex = 16;
-            this.MaximumSpeedLabel.Text = "Максимальная скорость";
-            // 
-            // AccelerationIntensityLabel
-            // 
-            this.AccelerationIntensityLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.AccelerationIntensityLabel.AutoSize = true;
-            this.AccelerationIntensityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AccelerationIntensityLabel.Location = new System.Drawing.Point(3, 72);
-            this.AccelerationIntensityLabel.Name = "AccelerationIntensityLabel";
-            this.AccelerationIntensityLabel.Size = new System.Drawing.Size(210, 20);
-            this.AccelerationIntensityLabel.TabIndex = 17;
-            this.AccelerationIntensityLabel.Text = "Интенсивность разгона";
-            // 
-            // DecelerationIntensityLabel
-            // 
-            this.DecelerationIntensityLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.DecelerationIntensityLabel.AutoSize = true;
-            this.DecelerationIntensityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DecelerationIntensityLabel.Location = new System.Drawing.Point(3, 105);
-            this.DecelerationIntensityLabel.Name = "DecelerationIntensityLabel";
-            this.DecelerationIntensityLabel.Size = new System.Drawing.Size(247, 20);
-            this.DecelerationIntensityLabel.TabIndex = 18;
-            this.DecelerationIntensityLabel.Text = "Интенсивность торможения";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(3, 138);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(212, 20);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Безопасное расстояние";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(279, 135);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(86, 27);
-            this.textBox1.TabIndex = 20;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(3, 171);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(210, 20);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "Плавность торможения";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(279, 168);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(86, 27);
-            this.textBox2.TabIndex = 22;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(3, 206);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(183, 20);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "Расстояние влияния";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox3.Location = new System.Drawing.Point(279, 201);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(86, 27);
-            this.textBox3.TabIndex = 24;
-            // 
-            // RegimeSettingsGroupBox
-            // 
-            this.RegimeSettingsGroupBox.Controls.Add(this.tableLayoutPanel2);
-            this.RegimeSettingsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.RegimeSettingsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.RegimeSettingsGroupBox.Location = new System.Drawing.Point(3, 34);
-            this.RegimeSettingsGroupBox.Name = "RegimeSettingsGroupBox";
-            this.RegimeSettingsGroupBox.Size = new System.Drawing.Size(374, 101);
-            this.RegimeSettingsGroupBox.TabIndex = 20;
-            this.RegimeSettingsGroupBox.TabStop = false;
-            this.RegimeSettingsGroupBox.Text = "Настройки режима движения:";
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Controls.Add(this.n_field, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.VehiclesNumberLabel, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.IdenticalCarsLabel, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.comboBox1, 1, 1);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 28);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(368, 70);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // n_field
-            // 
-            this.n_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "n", true));
-            this.n_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ParametersErrorProvider.SetIconAlignment(this.n_field, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
-            this.n_field.Location = new System.Drawing.Point(279, 3);
-            this.n_field.Name = "n_field";
-            this.n_field.Size = new System.Drawing.Size(86, 27);
-            this.n_field.TabIndex = 2;
-            // 
-            // VehiclesNumberLabel
-            // 
-            this.VehiclesNumberLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.VehiclesNumberLabel.AutoSize = true;
-            this.VehiclesNumberLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "VehiclesNumberLabel", true));
-            this.VehiclesNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.VehiclesNumberLabel.Location = new System.Drawing.Point(3, 6);
-            this.VehiclesNumberLabel.Name = "VehiclesNumberLabel";
-            this.VehiclesNumberLabel.Size = new System.Drawing.Size(226, 20);
-            this.VehiclesNumberLabel.TabIndex = 3;
-            this.VehiclesNumberLabel.Text = "Количество автомобилей";
-            // 
-            // IdenticalCarsLabel
-            // 
-            this.IdenticalCarsLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.IdenticalCarsLabel.AutoSize = true;
-            this.IdenticalCarsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.IdenticalCarsLabel.Location = new System.Drawing.Point(3, 41);
-            this.IdenticalCarsLabel.Name = "IdenticalCarsLabel";
-            this.IdenticalCarsLabel.Size = new System.Drawing.Size(245, 20);
-            this.IdenticalCarsLabel.TabIndex = 4;
-            this.IdenticalCarsLabel.Text = "Все автомобили одинаковы";
-            this.toolTip1.SetToolTip(this.IdenticalCarsLabel, "Подсказка");
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Да",
-            "Нет"});
-            this.comboBox1.Location = new System.Drawing.Point(279, 36);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(86, 28);
-            this.comboBox1.TabIndex = 5;
-            // 
-            // slam_Panel
-            // 
-            this.slam_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(151)))), ((int)(((byte)(29)))));
-            this.slam_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.slam_Panel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.slam_Panel.Location = new System.Drawing.Point(1135, 30);
-            this.slam_Panel.Name = "slam_Panel";
-            this.slam_Panel.Size = new System.Drawing.Size(8, 654);
-            this.slam_Panel.TabIndex = 3;
-            this.slam_Panel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.slam_Panel_MouseClick);
-            // 
-            // ParametersErrorProvider
-            // 
-            this.ParametersErrorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.ParametersErrorProvider.ContainerControl = this;
-            this.ParametersErrorProvider.DataSource = this.ModelParametersBinding;
-            this.ParametersErrorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("ParametersErrorProvider.Icon")));
-            // 
-            // toolTip1
-            // 
-            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 30);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(368, 67);
+            this.tableLayoutPanel4.TabIndex = 0;
             // 
             // groupBox4
             // 
@@ -710,32 +455,6 @@ namespace TrafficFlowSimulation.Windows
             this.label5.TabIndex = 2;
             this.label5.Text = "Коэффициент трения";
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.tableLayoutPanel4);
-            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox5.Location = new System.Drawing.Point(3, 506);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(374, 100);
-            this.groupBox5.TabIndex = 23;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Начальные условия";
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 30);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(368, 67);
-            this.tableLayoutPanel4.TabIndex = 0;
-            // 
             // textBox6
             // 
             this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -743,6 +462,298 @@ namespace TrafficFlowSimulation.Windows
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(86, 27);
             this.textBox6.TabIndex = 3;
+            // 
+            // BasicParametersGroupBox
+            // 
+            this.BasicParametersGroupBox.Controls.Add(this.tableLayoutPanel1);
+            this.BasicParametersGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "BasicParametersGroupBoxText", true));
+            this.BasicParametersGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.BasicParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.BasicParametersGroupBox.Location = new System.Drawing.Point(3, 135);
+            this.BasicParametersGroupBox.Name = "BasicParametersGroupBox";
+            this.BasicParametersGroupBox.Size = new System.Drawing.Size(374, 265);
+            this.BasicParametersGroupBox.TabIndex = 21;
+            this.BasicParametersGroupBox.TabStop = false;
+            this.BasicParametersGroupBox.Text = "Основные параметры:";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Controls.Add(this.textBox4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.DriverResponseTimeLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.v_max_field, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.a_field, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.q_field, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.MaximumSpeedLabel, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.AccelerationIntensityLabel, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.DecelerationIntensityLabel, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.SafelyDistanceLabel, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 7);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 28);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(368, 234);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox4.Location = new System.Drawing.Point(279, 3);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(86, 27);
+            this.textBox4.TabIndex = 14;
+            // 
+            // DriverResponseTimeLabel
+            // 
+            this.DriverResponseTimeLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.DriverResponseTimeLabel.AutoSize = true;
+            this.DriverResponseTimeLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "DriverResponseTimeLabel", true));
+            this.DriverResponseTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DriverResponseTimeLabel.Location = new System.Drawing.Point(3, 6);
+            this.DriverResponseTimeLabel.Name = "DriverResponseTimeLabel";
+            this.DriverResponseTimeLabel.Size = new System.Drawing.Size(224, 20);
+            this.DriverResponseTimeLabel.TabIndex = 15;
+            this.DriverResponseTimeLabel.Text = "Время реакции водителя";
+            // 
+            // v_max_field
+            // 
+            this.v_max_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "Vmax", true));
+            this.v_max_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.v_max_field.Location = new System.Drawing.Point(279, 36);
+            this.v_max_field.Name = "v_max_field";
+            this.v_max_field.Size = new System.Drawing.Size(86, 27);
+            this.v_max_field.TabIndex = 1;
+            // 
+            // ModelParametersBinding
+            // 
+            this.ModelParametersBinding.DataSource = typeof(EvaluationKernel.Models.ModelParameters);
+            // 
+            // a_field
+            // 
+            this.a_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "a", true));
+            this.a_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.a_field.Location = new System.Drawing.Point(279, 69);
+            this.a_field.Name = "a_field";
+            this.a_field.Size = new System.Drawing.Size(86, 27);
+            this.a_field.TabIndex = 0;
+            // 
+            // q_field
+            // 
+            this.q_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "q", true));
+            this.q_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.q_field.Location = new System.Drawing.Point(279, 102);
+            this.q_field.Name = "q_field";
+            this.q_field.Size = new System.Drawing.Size(86, 27);
+            this.q_field.TabIndex = 8;
+            // 
+            // MaximumSpeedLabel
+            // 
+            this.MaximumSpeedLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.MaximumSpeedLabel.AutoSize = true;
+            this.MaximumSpeedLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "MaximumSpeedLabel", true));
+            this.MaximumSpeedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MaximumSpeedLabel.Location = new System.Drawing.Point(3, 39);
+            this.MaximumSpeedLabel.Name = "MaximumSpeedLabel";
+            this.MaximumSpeedLabel.Size = new System.Drawing.Size(215, 20);
+            this.MaximumSpeedLabel.TabIndex = 16;
+            this.MaximumSpeedLabel.Text = "Максимальная скорость";
+            // 
+            // AccelerationIntensityLabel
+            // 
+            this.AccelerationIntensityLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.AccelerationIntensityLabel.AutoSize = true;
+            this.AccelerationIntensityLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "AccelerationIntensityLabel", true));
+            this.AccelerationIntensityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AccelerationIntensityLabel.Location = new System.Drawing.Point(3, 72);
+            this.AccelerationIntensityLabel.Name = "AccelerationIntensityLabel";
+            this.AccelerationIntensityLabel.Size = new System.Drawing.Size(210, 20);
+            this.AccelerationIntensityLabel.TabIndex = 17;
+            this.AccelerationIntensityLabel.Text = "Интенсивность разгона";
+            // 
+            // DecelerationIntensityLabel
+            // 
+            this.DecelerationIntensityLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.DecelerationIntensityLabel.AutoSize = true;
+            this.DecelerationIntensityLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "DecelerationIntensityLabel", true));
+            this.DecelerationIntensityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DecelerationIntensityLabel.Location = new System.Drawing.Point(3, 105);
+            this.DecelerationIntensityLabel.Name = "DecelerationIntensityLabel";
+            this.DecelerationIntensityLabel.Size = new System.Drawing.Size(247, 20);
+            this.DecelerationIntensityLabel.TabIndex = 18;
+            this.DecelerationIntensityLabel.Text = "Интенсивность торможения";
+            // 
+            // SafelyDistanceLabel
+            // 
+            this.SafelyDistanceLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.SafelyDistanceLabel.AutoSize = true;
+            this.SafelyDistanceLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "SafelyDistanceLabel", true));
+            this.SafelyDistanceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SafelyDistanceLabel.Location = new System.Drawing.Point(3, 138);
+            this.SafelyDistanceLabel.Name = "SafelyDistanceLabel";
+            this.SafelyDistanceLabel.Size = new System.Drawing.Size(212, 20);
+            this.SafelyDistanceLabel.TabIndex = 19;
+            this.SafelyDistanceLabel.Text = "Безопасное расстояние";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox1.Location = new System.Drawing.Point(279, 135);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(86, 27);
+            this.textBox1.TabIndex = 20;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(3, 171);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(210, 20);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Плавность торможения";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox2.Location = new System.Drawing.Point(279, 168);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(86, 27);
+            this.textBox2.TabIndex = 22;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(3, 206);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(183, 20);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "Расстояние влияния";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox3.Location = new System.Drawing.Point(279, 201);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(86, 27);
+            this.textBox3.TabIndex = 24;
+            // 
+            // ModeSettingsGroupBox
+            // 
+            this.ModeSettingsGroupBox.Controls.Add(this.tableLayoutPanel2);
+            this.ModeSettingsGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "ModeSettingsGroupBoxText", true));
+            this.ModeSettingsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ModeSettingsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ModeSettingsGroupBox.Location = new System.Drawing.Point(3, 34);
+            this.ModeSettingsGroupBox.Name = "ModeSettingsGroupBox";
+            this.ModeSettingsGroupBox.Size = new System.Drawing.Size(374, 101);
+            this.ModeSettingsGroupBox.TabIndex = 20;
+            this.ModeSettingsGroupBox.TabStop = false;
+            this.ModeSettingsGroupBox.Text = "Настройки режима движения:";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.Controls.Add(this.n_field, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VehiclesNumberLabel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.IdenticalCarsLabel, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.comboBox1, 1, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 28);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(368, 70);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // n_field
+            // 
+            this.n_field.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "n", true));
+            this.n_field.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ParametersErrorProvider.SetIconAlignment(this.n_field, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
+            this.n_field.Location = new System.Drawing.Point(279, 3);
+            this.n_field.Name = "n_field";
+            this.n_field.Size = new System.Drawing.Size(86, 27);
+            this.n_field.TabIndex = 2;
+            // 
+            // VehiclesNumberLabel
+            // 
+            this.VehiclesNumberLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.VehiclesNumberLabel.AutoSize = true;
+            this.VehiclesNumberLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "VehiclesNumberLabel", true));
+            this.VehiclesNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.VehiclesNumberLabel.Location = new System.Drawing.Point(3, 6);
+            this.VehiclesNumberLabel.Name = "VehiclesNumberLabel";
+            this.VehiclesNumberLabel.Size = new System.Drawing.Size(226, 20);
+            this.VehiclesNumberLabel.TabIndex = 3;
+            this.VehiclesNumberLabel.Text = "Количество автомобилей";
+            // 
+            // IdenticalCarsLabel
+            // 
+            this.IdenticalCarsLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.IdenticalCarsLabel.AutoSize = true;
+            this.IdenticalCarsLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "IdenticalCarsLabel", true));
+            this.IdenticalCarsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.IdenticalCarsLabel.Location = new System.Drawing.Point(3, 41);
+            this.IdenticalCarsLabel.Name = "IdenticalCarsLabel";
+            this.IdenticalCarsLabel.Size = new System.Drawing.Size(245, 20);
+            this.IdenticalCarsLabel.TabIndex = 4;
+            this.IdenticalCarsLabel.Text = "Все автомобили одинаковы";
+            this.toolTip1.SetToolTip(this.IdenticalCarsLabel, "Подсказка");
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Да",
+            "Нет"});
+            this.comboBox1.Location = new System.Drawing.Point(279, 36);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(86, 28);
+            this.comboBox1.TabIndex = 5;
+            // 
+            // slam_Panel
+            // 
+            this.slam_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(151)))), ((int)(((byte)(29)))));
+            this.slam_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.slam_Panel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.slam_Panel.Location = new System.Drawing.Point(1135, 30);
+            this.slam_Panel.Name = "slam_Panel";
+            this.slam_Panel.Size = new System.Drawing.Size(8, 654);
+            this.slam_Panel.TabIndex = 3;
+            this.slam_Panel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.slam_Panel_MouseClick);
+            // 
+            // ParametersErrorProvider
+            // 
+            this.ParametersErrorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.ParametersErrorProvider.ContainerControl = this;
+            this.ParametersErrorProvider.DataSource = this.ModelParametersBinding;
+            this.ParametersErrorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("ParametersErrorProvider.Icon")));
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
             // LocalizationBinding
             // 
@@ -782,18 +793,18 @@ namespace TrafficFlowSimulation.Windows
             ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).EndInit();
             this.parametersPanel.ResumeLayout(false);
             this.MovementParametersGroupBox.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ModelParametersBinding)).EndInit();
-            this.RegimeSettingsGroupBox.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ParametersErrorProvider)).EndInit();
+            this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
+            this.BasicParametersGroupBox.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ModelParametersBinding)).EndInit();
+            this.ModeSettingsGroupBox.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ParametersErrorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LocalizationBinding)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -822,28 +833,28 @@ namespace TrafficFlowSimulation.Windows
 		private System.Windows.Forms.ErrorProvider ParametersErrorProvider;
 		private System.Windows.Forms.DataVisualization.Charting.Chart carsMovementChart;
 		private System.Windows.Forms.ContextMenuStrip CarsMovementContainerСontextMenuStrip;
-		private System.Windows.Forms.ToolStripMenuItem HideLegendToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem LegendToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton StopToolStripButton;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem отображатьПолностьюToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem отображатьЧастичноToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem скрытьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ShowFullToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ShowPartiallyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem HideLegendToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.GroupBox MovementParametersGroupBox;
-        private System.Windows.Forms.GroupBox RegimeSettingsGroupBox;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox ModeSettingsGroupBox;
+        private System.Windows.Forms.GroupBox BasicParametersGroupBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label VehiclesNumberLabel;
         private System.Windows.Forms.Label IdenticalCarsLabel;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label DriverResponseTimeLabel;
         private System.Windows.Forms.Label MaximumSpeedLabel;
         private System.Windows.Forms.Label AccelerationIntensityLabel;
         private System.Windows.Forms.Label DecelerationIntensityLabel;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label SafelyDistanceLabel;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;

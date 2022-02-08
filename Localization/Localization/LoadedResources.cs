@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Localization
+namespace Localization.Localization
 {
 	public class LoadedResources
 	{
