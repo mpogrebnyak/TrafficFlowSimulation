@@ -72,13 +72,13 @@ namespace EvaluationKernel
 			return _mainEquation.GetEquation(
 				new CarCoordinatesModel
 				{
-					carNumber = i + 1,
-					currentCarCoordinates = new Coordinates
+					CarNumber = i,
+					CurrentCarCoordinates = new Coordinates
 					{
 						X = x[i][x[i].Count - 1],
 						Y = y[i][y[i].Count - 1]
 					},
-					previousСarCoordinates = new Coordinates
+					PreviousСarCoordinates = new Coordinates
 					{
 						X = i != 0 ? x[i - 1][x[i].Count - _N] : 0,
 						Y = i != 0 ? y[i - 1][y[i].Count - _N] : 0

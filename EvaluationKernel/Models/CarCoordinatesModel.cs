@@ -7,8 +7,8 @@ namespace EvaluationKernel
 	}
 	public class CarCoordinatesModel
 	{
-		public int carNumber { get; set; }
-		public Coordinates currentCarCoordinates { get; set; }
-		public Coordinates previousСarCoordinates { get; set; }
+		public int CarNumber { get; set; }
+		public Coordinates CurrentCarCoordinates { get; set; }
+		public Coordinates PreviousСarCoordinates { get; set; }
 	}
 }

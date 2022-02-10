@@ -1,21 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace EvaluationKernel.Models
+﻿namespace EvaluationKernel.Models
 {
-	public class ModelParameters : ValidationModel
+	public class ModelParameters
 	{
-		[Required]
-		[Range(1, 100)]
 		public int n { get; set; }
+
 		public double tau { get; set; }
+
 		public double a { get; set; }
 
 		public double q { get; set; }
-		public double Vmax { get; set; }
+
+		public double[] Vmax { get; set; }
 
 		public double Vmin { get; set; }
+
 		public double[] lambda { get; set; }
+
 		public double k { get; set; }
+
 		public double mu { get; set; }
 
 		public double g { get; set; }

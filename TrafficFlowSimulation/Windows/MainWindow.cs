@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Commands;
@@ -13,6 +14,7 @@ namespace TrafficFlowSimulation.Windows
 	public partial class MainWindow : Form
 	{
 		private LocalizationComponentsModel _localizationComponents;
+		private AllChartsModel _allCharts;
 
 		public MainWindow()
 		{
@@ -20,14 +22,14 @@ namespace TrafficFlowSimulation.Windows
 			CustomInitializeComponent();
 			InitializeInterface();
 			
-			parametersPanel.Hide();
+			//parametersPanel.Hide();
 		}
 
 		private void CustomInitializeComponent()
 		{
 			carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
 			chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
-			comboBox1.SelectedIndex = 0;
+			IdenticalCarsComboBox.SelectedIndex = 0;
 
 			_localizationComponents = new LocalizationComponentsModel
 			{
@@ -37,31 +39,24 @@ namespace TrafficFlowSimulation.Windows
 				StartToolStripButton = StartToolStripButton,
 				AutoScrollComboBox = AutoScrollComboBox
 			};
+
+			_allCharts = new AllChartsModel
+			{
+				SpeedChart = speedChart,
+				DistanceChart = distanceChart,
+				CarsMovementChart = carsMovementChart
+			};
 		}
 
 		private void InitializeInterface()
 		{
 			LocalizationService.Translate(_localizationComponents);
 			
-			// избавиться от этого 
-			ModelParametersBinding.DataSource = new ModelParameters()
-			{
-				n = 100,
-				Vmax = 16.7,
-				a = 4,
-				q = 3
-			};
-			
-			List<string> errors;
-			ModelParametersBinding.EndEdit();
-			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, out errors);
-			RenderingHelper.CreateCharts(new AllChartsModel
-				{
-					SpeedChart = speedChart,
-					DistanceChart = distanceChart,
-					CarsMovementChart = carsMovementChart
-				},
-				modelParameters);
+			var defaultModelParameters = ModelParametersMapper.GetDefaultParameters();
+			ModelParametersBinding.DataSource = defaultModelParameters;
+
+			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
+			RenderingHelper.CreateCharts(_allCharts, modelParameters);
 
 			// перенести в main
 			CarsRenderingHelper.CreatePaintedCars();
@@ -69,30 +64,18 @@ namespace TrafficFlowSimulation.Windows
 
 		private void startToolStripButton_Click(object sender, EventArgs e)
 		{
-			// сделать нормально
-			List<string> errors;
+			parametersPanel.Hide();
 			ModelParametersBinding.EndEdit();
-			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, out errors);
+			var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
+			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
 			var modeSettings = new ModeSettings();
 			modeSettings.MapTo(AutoScrollComboBox.SelectedIndex, ScrollForNumericUpDown.Value);
 
-			RenderingHelper.CreateCharts(new AllChartsModel
-				{
-					SpeedChart = speedChart,
-					DistanceChart = distanceChart,
-					CarsMovementChart = carsMovementChart
-				},
-				modelParameters);
-			
-			parametersPanel.Hide();
+			RenderingHelper.CreateCharts(_allCharts, modelParameters);
+
 			EvaluationHandler.AbortExecution();
 			EvaluationHandler.Execute(
-				new AllChartsModel
-				{
-					SpeedChart = speedChart,
-					DistanceChart = distanceChart,
-					CarsMovementChart = carsMovementChart,
-				},
+				_allCharts,
 				modelParameters,
 				modeSettings
 				);
@@ -152,6 +135,21 @@ namespace TrafficFlowSimulation.Windows
 		{
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.Partially);
+		}
+
+		private void IdenticalCarsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			switch (MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox))
+			{
+				case IdenticalCars.Yes:
+					MainWindowHelper.HideMultipleField(Controls.Owner);
+					break;
+				case IdenticalCars.No:
+					ModelParametersBinding.EndEdit();
+					ModelParametersBinding.DataSource = ModelParametersMapper.MapMultiple(ModelParametersBinding.DataSource);
+					MainWindowHelper.ShowMultipleField(Controls.Owner);
+					break;
+			}
 		}
 	}
 }

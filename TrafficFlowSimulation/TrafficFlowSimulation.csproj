@@ -37,6 +37,11 @@
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.ComponentModel.Annotations.6.0.0-preview.4.21253.7\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -54,8 +59,10 @@
     <Compile Include="Commands\EvaluationHandler.cs" />
     <Compile Include="Commands\LocalizationService.cs" />
     <Compile Include="Commands\ModelParametersMapper.cs" />
+    <Compile Include="Commands\ValidationModel.cs" />
     <Compile Include="Models\AllChartsModel.cs" />
     <Compile Include="Models\LocalizationComponentsModel.cs" />
+    <Compile Include="Models\ModelParametersModel.cs" />
     <Compile Include="Models\ModeSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,6 +84,7 @@
     </Compile>
     <Compile Include="Windows\MainWindowHelper.cs" />
     <Compile Include="Сonstants\AutoScroll.cs" />
+    <Compile Include="Сonstants\IdenticalCars.cs" />
     <Compile Include="Сonstants\LegendDisplayOptions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -92,7 +100,9 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\EvaluationKernel.Models.ModelParameters.datasource" />
+    <None Include="Properties\DataSources\TrafficFlowSimulation.Models.ModelParametersModel.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Resources.MenuResources.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Resources.ParametersResources.datasource" />
   </ItemGroup>
