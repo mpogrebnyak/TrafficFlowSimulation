@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EvaluationKernel.Models;
 using System.Windows.Forms.DataVisualization.Charting;
+using EvaluationKernel.Models;
 using TrafficFlowSimulation.Сonstants;
 
-namespace TrafficFlowSimulation.Commands.Rendering
+namespace TrafficFlowSimulation.Rendering.Renders
 {
 	public abstract class ChartsRender
 	{
         public virtual string ChartText => "Chart";
-		protected abstract string ChartName { get; }
-		protected abstract string ChartAreaName { get; }
+		protected virtual string ChartName => "Chart";
+		protected virtual string ChartAreaName => "ChartArea";
 
 		protected ModelParameters ModelParameters;
+
 		protected Chart Chart;
 		public ChartsRender(ModelParameters modelParameters, Chart chart)
 		{

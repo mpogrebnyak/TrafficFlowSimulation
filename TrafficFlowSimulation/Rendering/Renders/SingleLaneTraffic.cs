@@ -1,20 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using EvaluationKernel.Models;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
+using EvaluationKernel.Models;
 using Localization;
 using Settings;
 using TrafficFlowSimulation.Properties;
+using TrafficFlowSimulation.Rendering.Models;
 
-namespace TrafficFlowSimulation.Commands.Rendering
+namespace TrafficFlowSimulation.Rendering.Renders
 {
 	public class SingleLaneTraffic : ChartsRender
 	{
 		public override string ChartText => "Car";
 		protected override string ChartName => "Car";
 		protected override string ChartAreaName => "CarsMovementChartArea";
+
+		private readonly ChartAreaModel _chartAreaModel = new()
+		{
+			AxisXMinimum = -30,
+			AxisXMaximum = 10,
+			AxisXInterval = 10,
+			AxisYMinimum = 0,
+			AxisYMaximum = 1,
+			AxisYInterval = 1,
+			ZoomShift = 48
+		};
 
 		public SingleLaneTraffic(ModelParameters modelParameters, Chart chart) : base(modelParameters, chart)
 		{
@@ -39,24 +51,24 @@ namespace TrafficFlowSimulation.Commands.Rendering
 
 		protected override Series[] CreateEnvironment()
 		{
-			var srartLineSeries = new Series
+			var startLineSeries = new Series
 			{
-				Name = "SrartLine",
+				Name = "StartLine",
 				ChartType = SeriesChartType.Line,
 				ChartArea = ChartAreaName,
-				BorderWidth = 1,
+				BorderWidth = 2,
 				Color = Color.Red,
 				IsVisibleInLegend = false
 			};
-			srartLineSeries.Points.Add(new DataPoint(0, 0));
-			srartLineSeries.Points.Add(new DataPoint(0, 1));
+			startLineSeries.Points.Add(new DataPoint(0, 0));
+			startLineSeries.Points.Add(new DataPoint(0, 1));
 			
 			var endLineSeries = new Series
 			{
 				Name = "EndLine",
 				ChartType = SeriesChartType.Line,
 				ChartArea = ChartAreaName,
-				BorderWidth = 1,
+				BorderWidth = 2,
 				Color = Color.Red,
 				IsVisibleInLegend = false
 			};
@@ -65,7 +77,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 
 			return new[]
 			{
-				srartLineSeries,
+				startLineSeries,
 				endLineSeries
 			};
 		}
@@ -77,40 +89,37 @@ namespace TrafficFlowSimulation.Commands.Rendering
 				Name = ChartAreaName,
 				AxisX = new Axis
 				{
-					Minimum = -10,
-					Maximum = ModelParameters.L,
+					Minimum = _chartAreaModel.AxisXMinimum,
+					Maximum = _chartAreaModel.AxisXMaximum + ModelParameters.L,
 					ScaleView = new AxisScaleView
 					{
 						Zoomable = true,
 						SizeType = DateTimeIntervalType.Number,
-						Size = 10
+						MinSize = 30
 					},
-					Interval = 20,
+					Interval = _chartAreaModel.AxisXInterval,
 					ScrollBar = new AxisScrollBar
 					{
 						ButtonStyle = ScrollBarButtonStyles.SmallScroll,
 						IsPositionedInside = true,
-						BackColor = Color.White, //Color.FromArgb(249, 246, 247),
-						ButtonColor = Color.FromArgb(249, 246, 247) //Color.FromArgb(255, 232, 214)
+						BackColor = Color.White,
+						ButtonColor = Color.FromArgb(249, 246, 247)
 					},
-					IsStartedFromZero = true,
-
-
+					IsStartedFromZero = true
 				},
 				AxisY = new Axis
 				{
-					Minimum = 0,
-					Maximum = 1,
-					Interval = 1
+					Minimum = _chartAreaModel.AxisYMinimum,
+					Maximum = _chartAreaModel.AxisYMaximum,
+					Interval = _chartAreaModel.AxisYInterval
 				}
-
 			};
 
-			chartArea.AxisX.ScaleView.Zoom(-10, 40);
+			chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
 
 			return chartArea;
-
 		}
+
 		protected override Legend CreateLegend(LegendStyle legendStyle)
 		{
 			return new Legend

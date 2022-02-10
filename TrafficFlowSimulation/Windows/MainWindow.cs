@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Commands;
-using TrafficFlowSimulation.Commands.Rendering;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Rendering;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows
@@ -20,6 +19,8 @@ namespace TrafficFlowSimulation.Windows
 			InitializeComponent();
 			CustomInitializeComponent();
 			InitializeInterface();
+			
+			parametersPanel.Hide();
 		}
 
 		private void CustomInitializeComponent()
@@ -33,7 +34,8 @@ namespace TrafficFlowSimulation.Windows
 				LocalizationBinding = LocalizationBinding,
 				ParametersErrorProvider = ParametersErrorProvider,
 				LanguagesSwitcherButton = languagesSwitcherButton,
-				StartToolStripButton = StartToolStripButton
+				StartToolStripButton = StartToolStripButton,
+				AutoScrollComboBox = AutoScrollComboBox
 			};
 		}
 
@@ -67,10 +69,21 @@ namespace TrafficFlowSimulation.Windows
 
 		private void startToolStripButton_Click(object sender, EventArgs e)
 		{
+			// сделать нормально
 			List<string> errors;
 			ModelParametersBinding.EndEdit();
 			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, out errors);
+			var modeSettings = new ModeSettings();
+			modeSettings.MapTo(AutoScrollComboBox.SelectedIndex, ScrollForNumericUpDown.Value);
 
+			RenderingHelper.CreateCharts(new AllChartsModel
+				{
+					SpeedChart = speedChart,
+					DistanceChart = distanceChart,
+					CarsMovementChart = carsMovementChart
+				},
+				modelParameters);
+			
 			parametersPanel.Hide();
 			EvaluationHandler.AbortExecution();
 			EvaluationHandler.Execute(
@@ -79,24 +92,10 @@ namespace TrafficFlowSimulation.Windows
 					SpeedChart = speedChart,
 					DistanceChart = distanceChart,
 					CarsMovementChart = carsMovementChart,
-					},
-					modelParameters
+				},
+				modelParameters,
+				modeSettings
 				);
-
-		}
-
-		 private void MainWindow_Load(object sender, EventArgs e)
-		{
-		//	ModelParametersBinding.DataSource = new ModelParameters()
-		//	{
-		//		n = 100,
-		//		Vmax = 16.7,
-		//		a = 4,
-		//		q = 3
-		//	};
-
-		//	CarsRenderingHelper.CreatePaintedCars();
-		//	Initialize();
 		}
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -133,29 +132,26 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			RenderingHelper.SaveChart(carsMovementChart);
+			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			RenderingHelper.SaveChart(chart);
 		}
 
 		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = GetChartFromContextMenu(sender);
+			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.None);
 		}
 
 		private void ShowFullToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			RenderingHelper.ShowLegend(carsMovementChart.Text, LegendDisplayOptions.Full);
+			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.Full);
 		}
 
 		private void ShowPartiallyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			RenderingHelper.ShowLegend(carsMovementChart.Text, LegendDisplayOptions.Partially);
-		}
-
-		private static Chart GetChartFromContextMenu(object o)
-		{
-			return
-			((((o as ToolStripMenuItem).Owner as ToolStripDropDownMenu).OwnerItem as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as Chart;
+			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.Partially);
 		}
 	}
 }

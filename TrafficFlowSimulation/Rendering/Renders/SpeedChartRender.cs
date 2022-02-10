@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using EvaluationKernel.Models;
 using System.Windows.Forms.DataVisualization.Charting;
+using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.Properties;
 
-namespace TrafficFlowSimulation.Commands.Rendering
+namespace TrafficFlowSimulation.Rendering.Renders
 {
 	public class SpeedChartRender : ChartsRender
 	{

@@ -5,9 +5,10 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Settings;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Rendering.Renders;
 using TrafficFlowSimulation.Сonstants;
 
-namespace TrafficFlowSimulation.Commands.Rendering
+namespace TrafficFlowSimulation.Rendering
 {
 	public static class RenderingHelper
 	{
@@ -40,7 +41,7 @@ namespace TrafficFlowSimulation.Commands.Rendering
 		{
 			if (chartText == _scr?.ChartText)
 				_scr?.ShowLegend(option);
-				if (chartText == _dcr?.ChartText)
+			if (chartText == _dcr?.ChartText)
 				_dcr?.ShowLegend(option);
 			if (chartText == _slt?.ChartText)
 				_slt?.ShowLegend(option);

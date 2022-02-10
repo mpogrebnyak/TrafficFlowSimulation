@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Commands.Rendering;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Commands
 {
@@ -14,6 +16,7 @@ namespace TrafficFlowSimulation.Commands
 		{
 			public AllChartsModel Charts;
 			public ModelParameters ModelParameters;
+			public ModeSettings ModeSettings;
 		}
 
 		private static Thread? th = null;
@@ -24,12 +27,13 @@ namespace TrafficFlowSimulation.Commands
 		/// </summary>
 		private static int Speed = 100;
 
-		public static void Execute(AllChartsModel charts, ModelParameters modelParameters)
+		public static void Execute(AllChartsModel charts, ModelParameters modelParameters, ModeSettings modeSettings)
 		{
 			var parameters = new Parameters
 			{
 				Charts = charts,
-				ModelParameters = modelParameters
+				ModelParameters = modelParameters,
+				ModeSettings = modeSettings
 			};
 
 			th = new Thread(Method);
@@ -80,17 +84,12 @@ namespace TrafficFlowSimulation.Commands
 
 						RenderingHelper.UpdateCharts(t, x, y);
 
-
-						var ee = carsMovementChart.ChartAreas[0].AxisX.ScaleView.ViewMaximum;
-						if(x[0] > ee)
+						if(p.ModeSettings.AutoScroll == AutoScroll.Yes)
 						{
-							double span = x[0] - ee;
-							carsMovementChart.ChartAreas[0].AxisX.ScaleView.Zoom(
-								50, 100);
-							//carsMovementChart.ChartAreas[0].AxisX.ScaleView.ViewMinimum + span, 
-							//carsMovementChart.ChartAreas[0].AxisX.ScaleView.ViewMaximum + span);
-
+							var scaleView = carsMovementChart.ChartAreas[0].AxisX.ScaleView;
+							scaleView.Scroll(Math.Round(x[p.ModeSettings.ScrollFor])-25);
 						}
+
 						Application.DoEvents();
 					};
 					p.Charts.CarsMovementChart.Invoke(action);

@@ -24,5 +24,13 @@ namespace TrafficFlowSimulation.Properties
 		[Translation(Locales.ru, "S: {0}")]
 		[Translation(Locales.en, "S: {0}")]
 		public string DistanceChartLegendText { get; set; }
+
+		[Translation(Locales.ru, "Да")]
+		[Translation(Locales.en, "Yes")]
+		public string YesTitle { get; set; }
+
+		[Translation(Locales.ru, "Нет")]
+		[Translation(Locales.en, "No")]
+		public string NoTitle { get; set; }
 	}
 }
