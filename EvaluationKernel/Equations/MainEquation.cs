@@ -32,8 +32,15 @@ namespace EvaluationKernel.Equations
 		private double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1)
 		{
 			return ReleFunction(x_n, x_n_1)
-				? _m.a * ((_m.Vmax[n] - x_n_1.Y) / (1 + Math.Exp(_m.p * (x_n.X - x_n_1.X + _m.s))) + x_n_1.Y - x_n.Y)
+				? _m.a * ((_m.Vmax[n] - V(x_n_1.Y, _m.Vmax[n])) / (1 + Math.Exp(_m.p * (x_n.X - x_n_1.X + _m.s))) + V(x_n_1.Y, _m.Vmax[n]) - x_n.Y)
 				: _m.q * (x_n.Y * (x_n_1.Y - x_n.Y)) / (x_n_1.X - x_n.X - _m.l + _m.k);		   
+		}
+
+		private double V(double v, double Vmax)
+        {
+			return Vmax >= v
+				? v
+				: Vmax;
 		}
 	}
 }
