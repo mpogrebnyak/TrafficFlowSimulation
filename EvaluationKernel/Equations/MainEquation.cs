@@ -24,16 +24,16 @@ namespace EvaluationKernel.Equations
 
 		private double GetFirstCarEquation(int n, Coordinates x_n)
 		{
-			return ReleFunction(x_n)
-				? _m.a * (_m.Vmax[n] - x_n.Y)
-				: _m.q * (x_n.Y * (_m.Vmin - x_n.Y) / (_m.L - x_n.X));
+			return ReleFunction(n, x_n)
+				? _m.a[n] * (_m.Vmax[n] - x_n.Y)
+				: _m.q[n] * (x_n.Y * (_m.Vmin - x_n.Y) / (_m.L - x_n.X));
 		}
 
 		private double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			return ReleFunction(x_n, x_n_1)
-				? _m.a * ((_m.Vmax[n] - V(x_n_1.Y, _m.Vmax[n])) / (1 + Math.Exp(_m.p * (x_n.X - x_n_1.X + _m.s))) + V(x_n_1.Y, _m.Vmax[n]) - x_n.Y)
-				: _m.q * (x_n.Y * (x_n_1.Y - x_n.Y)) / (x_n_1.X - x_n.X - _m.l + _m.k);		   
+			return ReleFunction(n, x_n, x_n_1)
+				? _m.a[n] * ((_m.Vmax[n] - V(x_n_1.Y, _m.Vmax[n])) / (1 + Math.Exp(_m.k[n] * (x_n.X - x_n_1.X + _m.s[n]))) + V(x_n_1.Y, _m.Vmax[n]) - x_n.Y)
+				: _m.q[n] * (x_n.Y * (x_n_1.Y - x_n.Y)) / (x_n_1.X - x_n.X - _m.l[n] + _m.eps);		   
 		}
 
 		private double V(double v, double Vmax)

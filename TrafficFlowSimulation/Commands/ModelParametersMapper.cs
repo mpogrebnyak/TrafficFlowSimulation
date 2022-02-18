@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms.DataVisualization.Charting;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Сonstants;
 
@@ -17,11 +16,22 @@ namespace TrafficFlowSimulation.Commands
 		{
 			var modelParametersModel = new ModelParametersModel
 			{
-				n = 2,
-				single_Vmax = 16.7,
-				multiple_Vmax = string.Empty,
+				Lenght = 100,
+				n = 3,
+				Vmax = 16.7,
+				Vmax_multiple = string.Empty,
+				tau = 1,
+				tau_multiple = string.Empty,
 				a = 4,
-				q = 3
+				a_multiple = string.Empty,
+				q = 3,
+				q_multiple = string.Empty,
+				l = 4,
+				l_multiple = string.Empty,
+				k = 0.5,
+				k_multiple = string.Empty,
+				s = 20,
+				s_multiple = string.Empty,
 			};
 
 			return modelParametersModel;
@@ -35,7 +45,13 @@ namespace TrafficFlowSimulation.Commands
 
 			for (int i = 1; i <= n; i++)
 			{
-				modelParametersModel.multiple_Vmax += Mask(i, modelParametersModel.single_Vmax);
+				modelParametersModel.Vmax_multiple += Mask(i, modelParametersModel.Vmax);
+				modelParametersModel.tau_multiple += Mask(i, modelParametersModel.tau);
+				modelParametersModel.a_multiple += Mask(i, modelParametersModel.a);
+				modelParametersModel.q_multiple += Mask(i, modelParametersModel.q);
+				modelParametersModel.l_multiple += Mask(i, modelParametersModel.l);
+				modelParametersModel.k_multiple += Mask(i, modelParametersModel.k);
+				modelParametersModel.s_multiple += Mask(i, modelParametersModel.s);
 			}
 
 			return modelParametersModel;
@@ -51,7 +67,15 @@ namespace TrafficFlowSimulation.Commands
 			var modelParametersModel = (ModelParametersModel)parameters;
 
 			var n = modelParametersModel.n;
+			var tau = modelParametersModel.tau;
+			var L = modelParametersModel.Lenght;
+
 			var vMaxList = new List<double>();
+			var aList = new List<double>();
+			var qList = new List<double>();
+			var lList = new List<double>();
+			var kList = new List<double>();
+			var sList = new List<double>();
 			var lambdaList = new List<double>();
 
 			switch (isAllCarsIdentical)
@@ -60,7 +84,12 @@ namespace TrafficFlowSimulation.Commands
 				{
 					for (int i = 0; i < n; i++)
 					{
-						vMaxList.Add(modelParametersModel.single_Vmax);
+						vMaxList.Add(modelParametersModel.Vmax);
+						aList.Add(modelParametersModel.a);
+						qList.Add(modelParametersModel.q);
+						lList.Add(modelParametersModel.l);
+						kList.Add(modelParametersModel.k);
+						sList.Add(modelParametersModel.s);
 						lambdaList.Add(-5 * i);
 					}
 
@@ -68,19 +97,40 @@ namespace TrafficFlowSimulation.Commands
 				}
 				case IdenticalCars.No:
 
-					var vMaxDictionary = Parse(modelParametersModel.multiple_Vmax);
-					
+					var vMaxDictionary = Parse(modelParametersModel.Vmax_multiple);
+					var aDictionary = Parse(modelParametersModel.a_multiple);
+					var qDictionary = Parse(modelParametersModel.q_multiple);
+					var lDictionary = Parse(modelParametersModel.l_multiple);
+					var kDictionary = Parse(modelParametersModel.k_multiple);
+					var sDictionary = Parse(modelParametersModel.k_multiple);
+
 					for (int i = 0; i < n; i++)
 					{
-						if(vMaxDictionary.ContainsKey(i))
-						{
-							vMaxList.Add(vMaxDictionary[i]);
-						}
-						else
-						{
-							vMaxList.Add(modelParametersModel.single_Vmax);
-						}
-						lambdaList.Add(-5 * i);
+						vMaxList.Add(vMaxDictionary.ContainsKey(i) 
+							? vMaxDictionary[i] 
+							: modelParametersModel.Vmax);
+
+						aList.Add(aDictionary.ContainsKey(i) 
+							? aDictionary[i] 
+							: modelParametersModel.a);
+
+						qList.Add(qDictionary.ContainsKey(i) 
+							? qDictionary[i] 
+							: modelParametersModel.q);
+
+						lList.Add(lDictionary.ContainsKey(i)
+							? lDictionary[i]
+							: modelParametersModel.l);
+
+						kList.Add(kDictionary.ContainsKey(i)
+							? kDictionary[i]
+							: modelParametersModel.k);
+
+						sList.Add(sDictionary.ContainsKey(i)
+							? sDictionary[i]
+							: modelParametersModel.s);
+
+						lambdaList.Add(-15 * i);
 					}
 
 					break;
@@ -90,17 +140,17 @@ namespace TrafficFlowSimulation.Commands
 			{
 				n = n,
 				Vmax = vMaxList.ToArray(),
-				a = 4,
-				q =3,
-				tau = 1,
+				a = aList.ToArray(),
+				q = qList.ToArray(),
+				l = lList.ToArray(),
+				tau = tau,
 				Vmin = 0,
-				L = 100,
+				L = L,
 				g = 9.8,
 				mu = 0.6,
-				k = 1,
-				l = 3,
-				p = 0.5,
-				s = 20,
+				eps = 1,
+				k = kList.ToArray(),
+				s = sList.ToArray(),
 				lambda = lambdaList.ToArray()
 			}; 
 		}

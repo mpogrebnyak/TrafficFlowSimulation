@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
-using EvaluationKernel.Models;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Rendering;
@@ -21,8 +19,8 @@ namespace TrafficFlowSimulation.Windows
 			InitializeComponent();
 			CustomInitializeComponent();
 			InitializeInterface();
-			
-			//parametersPanel.Hide();
+
+			MultipleField_tau.Enabled = false;
 		}
 
 		private void CustomInitializeComponent()
@@ -151,5 +149,11 @@ namespace TrafficFlowSimulation.Windows
 					break;
 			}
 		}
-	}
+
+		private void BasicParametersTableLayoutPanel_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+		{
+			if (MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox) == IdenticalCars.No)
+				MainWindowHelper.PaintCellPaint(sender, e);
+		}
+    }
 }

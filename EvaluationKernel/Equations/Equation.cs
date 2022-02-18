@@ -8,23 +8,23 @@ namespace EvaluationKernel.Equations
 
 		public abstract double GetEquation(CarCoordinatesModel carCoordinatesMode);
 
-		public bool ReleFunction(Coordinates x_n, Coordinates x_n_1)
+		public bool ReleFunction(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			return x_n_1.X - x_n.X > S(x_n.Y)
+			return x_n_1.X - x_n.X > S(n, x_n.Y)
 				? true
 				: false;
 		}
 
-		public bool ReleFunction(Coordinates x_n)
+		public bool ReleFunction(int n, Coordinates x_n)
 		{
-			return _m.L - x_n.X > S(x_n.Y)
+			return _m.L - x_n.X > S(n, x_n.Y)
 				? true
 				: false;
 		}
 
-		private double S(double v)
+		private double S(int n, double v)
 		{
-			return System.Math.Pow(v, 2) / (2 * _m.g * _m.mu) + _m.l;
+			return System.Math.Pow(v, 2) / (2 * _m.g * _m.mu) + _m.l[n];
 		}
 	}
 }

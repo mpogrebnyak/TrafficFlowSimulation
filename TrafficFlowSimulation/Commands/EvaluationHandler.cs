@@ -25,7 +25,7 @@ namespace TrafficFlowSimulation.Commands
 		/// Отрисовываем не каждую итерацию, а указанную в Speed
 		/// Это увеличивает скорость отрисовки
 		/// </summary>
-		private static int Speed = 10;
+		private static int Speed = 25;
 
 		public static void Execute(AllChartsModel charts, ModelParameters modelParameters, ModeSettings modeSettings)
 		{

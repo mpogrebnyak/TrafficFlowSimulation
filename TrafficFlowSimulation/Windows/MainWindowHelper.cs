@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -39,13 +40,6 @@ namespace TrafficFlowSimulation.Windows
 				.ToList();
 			multipleTextBoxes.ForEach(x => x.Hide());
 
-			var singleTextBoxes = allControls
-				.OfType<TextBox>()
-				.Where(x => x.Tag != null && x.Tag.ToString() == "SingleField")
-				.ToList();
-
-			singleTextBoxes.ForEach(x => x.Enabled = true);
-
 			var checkBoxes = allControls
 				.OfType<CheckBox>()
 				.Where(x => x.Tag != null && x.Tag.ToString() == "MultipleField")
@@ -63,19 +57,26 @@ namespace TrafficFlowSimulation.Windows
 				.ToList();
 			multipleTextBoxes.ForEach(x => x.Show());
 
-			var singleTextBoxes = allControls
-				.OfType<TextBox>()
-				.Where(x => x.Tag != null && x.Tag.ToString() == "SingleField")
-				.ToList();
-
-			singleTextBoxes.ForEach(x => x.Enabled = false);
-
 			var checkBoxes = allControls
 				.OfType<CheckBox>()
 				.Where(x => x.Tag != null && x.Tag.ToString() == "MultipleField")
 				.ToList();
 
 			checkBoxes.ForEach(x => x.Show());
+		}
+
+		public static void PaintCellPaint(object control, TableLayoutCellPaintEventArgs e)
+        {
+			var tableLayoutPanel = control as TableLayoutPanel;
+			var childControl = tableLayoutPanel.GetControlFromPosition(e.Column, e.Row);
+			if (childControl != null && childControl.Tag != null && childControl.Tag == "MultipleField")
+			{
+				var topLeft = new Point(e.CellBounds.Left, e.CellBounds.Bottom);
+				var topRight = new Point(e.CellBounds.Right, e.CellBounds.Bottom);
+				var pen = new Pen(Color.FromArgb(255, 151, 29), 0.1f);
+
+				e.Graphics.DrawLine(pen, topLeft, topRight);
+			}
 		}
 
 		private static IEnumerable<Control> GetAllControls(Control root)
