@@ -1,10 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using Localization;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Properties;
 using TrafficFlowSimulation.Properties.TranslationResources;
 using TrafficFlowSimulation.Rendering;
 using TrafficFlowSimulation.Сonstants;
@@ -20,7 +20,7 @@ namespace TrafficFlowSimulation.Commands
 			lc.StartToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StartButtonTitle;
 
 			FillAutoScrollComboBox(lc.AutoScrollComboBox);
-			AllChartsTranslateLegend(lc.AllCharts);
+			AllChartsTranslator(lc.AllCharts);
 
 			lc.LocalizationBinding.DataSource = new ParametersResources
 			{
@@ -51,19 +51,62 @@ namespace TrafficFlowSimulation.Commands
 			return comboBox;
 		}
 
-		private static void AllChartsTranslateLegend(AllChartsModel allCharts)
+		private static void AllChartsTranslator(AllChartsModel allCharts)
 		{
-			TranslateLegend(allCharts.DistanceChart);
-			TranslateLegend(allCharts.SpeedChart);
-			TranslateLegend(allCharts.CarsMovementChart);
+			TranslateChart(allCharts.DistanceChart);
+			TranslateChart(allCharts.SpeedChart);
+			TranslateChart(allCharts.CarsMovementChart);
+			ShowXAxis(allCharts);
+			ShowYAxis(allCharts);
 		}
 
-		private static void TranslateLegend(Chart chart)
+		private static void TranslateChart(Chart chart)
 		{
 			if (chart.Legends.Any())
 				RenderingHelper.ShowLegend(chart.Text, chart.Legends[0].LegendStyle);
 			else
 				RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.None);
+		}
+		
+		private static void ShowXAxis(AllChartsModel allCharts)
+		{
+			if (allCharts.SpeedChart.ChartAreas.Any() &&
+			    !String.IsNullOrEmpty(allCharts.SpeedChart.ChartAreas[0].AxisX.Title))
+			{
+				allCharts.SpeedChart.ChartAreas[0].AxisX.Title =
+					LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
+			}
+
+			if (allCharts.DistanceChart.ChartAreas.Any() &&
+			    !String.IsNullOrEmpty(allCharts.DistanceChart.ChartAreas[0].AxisX.Title))
+			{
+				allCharts.DistanceChart.ChartAreas[0].AxisX.Title =
+					LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
+			}
+
+			if (allCharts.CarsMovementChart.ChartAreas.Any() &&
+			    !String.IsNullOrEmpty(allCharts.CarsMovementChart.ChartAreas[0].AxisX.Title))
+			{
+				allCharts.CarsMovementChart.ChartAreas[0].AxisX.Title =
+					LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText;
+			}
+		}
+
+		private static void ShowYAxis(AllChartsModel allCharts)
+		{
+			if (allCharts.SpeedChart.ChartAreas.Any() &&
+			    !String.IsNullOrEmpty(allCharts.SpeedChart.ChartAreas[0].AxisY.Title))
+			{
+				allCharts.SpeedChart.ChartAreas[0].AxisY.Title =
+					LocalizationHelper.Get<MenuResources>().SpeedChartLegendTitleText;
+			}
+
+			if (allCharts.DistanceChart.ChartAreas.Any() &&
+			    !String.IsNullOrEmpty(allCharts.DistanceChart.ChartAreas[0].AxisY.Title))
+			{
+				allCharts.DistanceChart.ChartAreas[0].AxisY.Title =
+					LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText;
+			}
 		}
 	}
 }

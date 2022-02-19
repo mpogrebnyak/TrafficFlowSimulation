@@ -113,7 +113,12 @@ namespace TrafficFlowSimulation.Windows
 
 		private void StopToolStripButton_Click(object sender, EventArgs e)
 		{
-			EvaluationHandler.AbortExecution();
+			EvaluationHandler.StopThread();
+		}
+
+		private void ContinueToolStripButton_Click(object sender, EventArgs e)
+		{
+			EvaluationHandler.StartThread();
 		}
 
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -161,13 +166,25 @@ namespace TrafficFlowSimulation.Windows
 				MainWindowHelper.PaintCellPaint(sender, e);
 		}
 
-        private void SubmitButton_Click(object sender, EventArgs e)
-        {
+		private void SubmitButton_Click(object sender, EventArgs e)
+		{
 			ModelParametersBinding.EndEdit();
 			var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
 			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
 
 			RenderingHelper.CreateCharts(_allCharts, modelParameters);
 		}
-    }
+
+		private void HideAxisToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			RenderingHelper.ShowAxis(chart.Text, true);
+		}
+
+		private void ShowAxisToolStripMenuItem_Click(object sender, EventArgs e)
+		{ 
+			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			RenderingHelper.ShowAxis(chart.Text);
+		}
+	}
 }

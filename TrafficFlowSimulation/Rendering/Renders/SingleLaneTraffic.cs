@@ -106,13 +106,20 @@ namespace TrafficFlowSimulation.Rendering.Renders
 						BackColor = Color.White,
 						ButtonColor = Color.FromArgb(249, 246, 247)
 					},
-					IsStartedFromZero = true
+					IsStartedFromZero = true,
+					Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+					TitleFont = new Font("Microsoft Sans Serif", 10F),
+					TitleAlignment = StringAlignment.Far
 				},
 				AxisY = new Axis
 				{
 					Minimum = _chartAreaModel.AxisYMinimum,
 					Maximum = _chartAreaModel.AxisYMaximum,
-					Interval = _chartAreaModel.AxisYInterval
+					Interval = _chartAreaModel.AxisYInterval,
+					LabelStyle = new LabelStyle
+					{
+						Enabled = false
+					}
 				}
 			};
 
@@ -143,6 +150,22 @@ namespace TrafficFlowSimulation.Rendering.Renders
 				
 				Chart.Series[i].LegendText = GetCarsMovementChartLegendText(y[i], x[i]);
 				Chart.Series[i].Label = GetCarsMovementChartLegendText(y[i], x[i]);
+			}
+		}
+
+		public void SetChartAreaAxisTitle(bool isHidden = false)
+		{
+			if (Chart.ChartAreas.Any())
+			{
+				if (isHidden)
+				{
+					Chart.ChartAreas[0].AxisX.Title = string.Empty;
+					Chart.ChartAreas[0].AxisY.Title = string.Empty;
+				}
+				else
+				{
+					Chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
+				}
 			}
 		}
 

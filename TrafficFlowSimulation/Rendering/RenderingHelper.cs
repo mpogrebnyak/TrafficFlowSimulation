@@ -56,6 +56,16 @@ namespace TrafficFlowSimulation.Rendering
 				_slt?.ShowLegend(option);
 		}
 
+		public static void ShowAxis(string chartText, bool isHidden = false)
+		{
+			if (chartText == _scr?.ChartText)
+				_scr?.SetChartAreaAxisTitle(isHidden);
+			if (chartText == _dcr?.ChartText)
+				_dcr?.SetChartAreaAxisTitle(isHidden);;
+			if (chartText == _slt?.ChartText)
+				_slt?.SetChartAreaAxisTitle(isHidden);;
+		}
+
 		public static void SaveChart(Chart chart)
 		{
 			using (SaveFileDialog sfd = new())

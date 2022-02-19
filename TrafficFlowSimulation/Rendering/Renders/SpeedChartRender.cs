@@ -53,11 +53,17 @@ namespace TrafficFlowSimulation.Rendering.Renders
 				{
 					Minimum = _chartAreaModel.AxisXMinimum,
 					Maximum = 20,
+					Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
+					TitleFont = new Font("Microsoft Sans Serif", 10F),
+					TitleAlignment = StringAlignment.Far
 				},
 				AxisY = new Axis
 				{
 					Minimum = _chartAreaModel.AxisYMinimum,
-					Maximum = MaxSpeedRound()
+					Maximum = MaxSpeedRound(),
+					Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText,
+					TitleFont = new Font("Microsoft Sans Serif", 10F),
+					TitleAlignment = StringAlignment.Far
 				}
 			};
 		}
@@ -82,6 +88,23 @@ namespace TrafficFlowSimulation.Rendering.Renders
 				Chart.Series[i].Points.AddXY(t.Single(), y[i]);
 
 				Chart.Series[i].LegendText = GetSpeedChartLegendText(y[i]);
+			}
+		}
+
+		public void SetChartAreaAxisTitle(bool isHidden = false)
+		{
+			if (Chart.ChartAreas.Any())
+			{
+				if (isHidden)
+				{
+					Chart.ChartAreas[0].AxisX.Title = string.Empty;
+					Chart.ChartAreas[0].AxisY.Title = string.Empty;
+				}
+				else
+				{
+					Chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
+					Chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText;
+				}
 			}
 		}
 

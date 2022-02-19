@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -20,12 +21,8 @@ namespace TrafficFlowSimulation.Commands
 		}
 
 		private static Thread? th = null;
-
-		/// <summary>
-		/// Отрисовываем не каждую итерацию, а указанную в Speed
-		/// Это увеличивает скорость отрисовки
-		/// </summary>
-		private static int Speed = 25;
+		private static object lockObject = new object();
+		private static bool isPaused;
 
 		public static void Execute(AllChartsModel charts, ModelParameters modelParameters, ModeSettings modeSettings)
 		{
@@ -52,6 +49,7 @@ namespace TrafficFlowSimulation.Commands
 			var xp = new double[n];
 			var yp = new double[n];
 			var t = r.T.Last();
+			var tp = t;
 			var x = new double[n];
 			var y = new double[n];
 			for (int i = 0; i < n; i++)
@@ -60,9 +58,18 @@ namespace TrafficFlowSimulation.Commands
 				y[i] = r.Y(i).Last();
 			}
 
-			int operationCounter = 0;
+			StartThread();
 			while (true)
 			{
+				lock (lockObject) 
+				{
+					if (isPaused)
+					{
+						Thread.Sleep(1000);
+						continue;
+					}
+				}
+
 				for (int i = 0; i < n; i++)
 				{
 					xp[i] = x[i];
@@ -77,8 +84,9 @@ namespace TrafficFlowSimulation.Commands
 					y[i] = r.Y(i).Last();
 				}
 
-				if(operationCounter % Speed == 0)
+				if(t - tp > 0.1)
 				{
+					tp = t;
 					MethodInvoker action = delegate
 					{
 
@@ -89,13 +97,28 @@ namespace TrafficFlowSimulation.Commands
 							var scaleView = carsMovementChart.ChartAreas[0].AxisX.ScaleView;
 							scaleView.Scroll(Math.Round(x[p.ModeSettings.ScrollFor])-25);
 						}
-
+						
+						Thread.Sleep(20);
 						Application.DoEvents();
 					};
 					p.Charts.CarsMovementChart.Invoke(action);
 				}
+			}
+		}
+		
+		public static void StopThread()
+		{
+			lock (lockObject) 
+			{
+				isPaused = true;
+			}
+		}
 
-				operationCounter++;
+		public static void StartThread() 
+		{
+			lock (lockObject) 
+			{
+				isPaused = false;
 			}
 		}
 

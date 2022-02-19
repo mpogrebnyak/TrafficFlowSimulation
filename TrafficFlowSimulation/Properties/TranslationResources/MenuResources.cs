@@ -43,5 +43,17 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.ru, "Нет")]
 		[Translation(Locales.en, "No")]
 		public string NoTitle { get; set; }
+
+		[Translation(Locales.ru, "Время")]
+		[Translation(Locales.en, "Time")]
+		public string TimeAxisTitleText { get; set; }
+
+		[Translation(Locales.ru, "Cкорость")]
+		[Translation(Locales.en, "Speed")]
+		public string SpeedAxisTitleText { get; set; }
+
+		[Translation(Locales.ru, "Расстояние")]
+		[Translation(Locales.en, "Distance")]
+		public string DistanceAxisTitleText { get; set; }
 	}
 }
