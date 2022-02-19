@@ -1,6 +1,6 @@
 ﻿using Localization.Localization;
 
-namespace TrafficFlowSimulation.Properties
+namespace TrafficFlowSimulation.Properties.TranslationResources
 {
 	public class ParametersResources
 	{
@@ -43,5 +43,17 @@ namespace TrafficFlowSimulation.Properties
 		[Translation(Locales.ru, "Безопасное расстояние")]
 		[Translation(Locales.en, "Safely Distance")]
 		public string SafelyDistanceLabel { get; set; }
+
+		[Translation(Locales.ru, "Дополнительные параметры:")]
+		[Translation(Locales.en, "Additional parameters:")]
+		public string AdditionalParametersGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Начальные условия:")]
+		[Translation(Locales.en, "Initial conditions:")]
+		public string InitialConditionsGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Элементы управления:")]
+		[Translation(Locales.en, "Controls:")]
+		public string ControlsGroupBoxText { get; set; }
 	}
 }

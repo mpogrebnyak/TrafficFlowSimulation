@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using TrafficFlowSimulation.Commands;
@@ -20,7 +19,10 @@ namespace TrafficFlowSimulation.Windows
 			CustomInitializeComponent();
 			InitializeInterface();
 
+			//доделать
 			MultipleField_tau.Enabled = false;
+			SaveButton.Enabled = false;
+			LoadButton.Enabled = false;
 		}
 
 		private void CustomInitializeComponent()
@@ -28,21 +30,24 @@ namespace TrafficFlowSimulation.Windows
 			carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
 			chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
 			IdenticalCarsComboBox.SelectedIndex = 0;
-
-			_localizationComponents = new LocalizationComponentsModel
-			{
-				LocalizationBinding = LocalizationBinding,
-				ParametersErrorProvider = ParametersErrorProvider,
-				LanguagesSwitcherButton = languagesSwitcherButton,
-				StartToolStripButton = StartToolStripButton,
-				AutoScrollComboBox = AutoScrollComboBox
-			};
+			ControlMenuStrip.Renderer = new ControlToolStripCustomRender();
+			ChartContainerСontextMenuStrip.Renderer = new ToolStripProfessionalRenderer(new SubMenuCustomColorTable());
 
 			_allCharts = new AllChartsModel
 			{
 				SpeedChart = speedChart,
 				DistanceChart = distanceChart,
 				CarsMovementChart = carsMovementChart
+			};
+
+			_localizationComponents = new LocalizationComponentsModel
+			{
+				AllCharts = _allCharts,
+				LocalizationBinding = LocalizationBinding,
+				ParametersErrorProvider = ParametersErrorProvider,
+				LanguagesSwitcherButton = languagesSwitcherButton,
+				StartToolStripButton = StartToolStripButton,
+				AutoScrollComboBox = AutoScrollComboBox
 			};
 		}
 
@@ -60,7 +65,7 @@ namespace TrafficFlowSimulation.Windows
 			CarsRenderingHelper.CreatePaintedCars();
 		}
 
-		private void startToolStripButton_Click(object sender, EventArgs e)
+		private void StartToolStripButton_Click(object sender, EventArgs e)
 		{
 			parametersPanel.Hide();
 			ModelParametersBinding.EndEdit();
@@ -84,7 +89,7 @@ namespace TrafficFlowSimulation.Windows
 			EvaluationHandler.AbortExecution();
 		}
 
-		private void slam_Panel_MouseClick(object sender, MouseEventArgs e)
+		private void SlamPanel_MouseClick(object sender, MouseEventArgs e)
 		{
 			if (parametersPanel.Visible)
 				parametersPanel.Hide();
@@ -154,6 +159,15 @@ namespace TrafficFlowSimulation.Windows
 		{
 			if (MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox) == IdenticalCars.No)
 				MainWindowHelper.PaintCellPaint(sender, e);
+		}
+
+        private void SubmitButton_Click(object sender, EventArgs e)
+        {
+			ModelParametersBinding.EndEdit();
+			var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
+			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
+
+			RenderingHelper.CreateCharts(_allCharts, modelParameters);
 		}
     }
 }

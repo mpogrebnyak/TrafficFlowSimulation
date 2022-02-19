@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Properties;
+using TrafficFlowSimulation.Properties.TranslationResources;
 
 namespace TrafficFlowSimulation.Rendering.Renders
 {
@@ -54,8 +54,8 @@ namespace TrafficFlowSimulation.Rendering.Renders
 			return new Legend
 			{
 				Name = "Legend",
-				Title = "Положение автомобилей",
-				AutoFitMinFontSize = 100,
+				Title = LocalizationHelper.Get<MenuResources>().DistanceChartLegendTitleText,
+				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				LegendStyle = legendStyle,
 				Font = new Font("Microsoft Sans Serif", 10F),
 			};
@@ -71,7 +71,7 @@ namespace TrafficFlowSimulation.Rendering.Renders
 				Chart.Series[i].LegendText = GetDistanceChartLegendText(x[i]);
 			}
 		}
-		
+
 		private static string GetDistanceChartLegendText(double position)
 		{
 			return string.Format(

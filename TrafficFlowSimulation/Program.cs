@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Localization.Localization;
 using Settings;
 using TrafficFlowSimulation.Properties;
+using TrafficFlowSimulation.Properties.TranslationResources;
 using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation

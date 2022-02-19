@@ -32,6 +32,8 @@ namespace TrafficFlowSimulation.Commands
 				k_multiple = string.Empty,
 				s = 20,
 				s_multiple = string.Empty,
+				g = 9.8,
+				mu = 0.6
 			};
 
 			return modelParametersModel;
@@ -69,6 +71,9 @@ namespace TrafficFlowSimulation.Commands
 			var n = modelParametersModel.n;
 			var tau = modelParametersModel.tau;
 			var L = modelParametersModel.Lenght;
+
+			var g = modelParametersModel.g;
+			var mu = modelParametersModel.mu;
 
 			var vMaxList = new List<double>();
 			var aList = new List<double>();
@@ -146,8 +151,8 @@ namespace TrafficFlowSimulation.Commands
 				tau = tau,
 				Vmin = 0,
 				L = L,
-				g = 9.8,
-				mu = 0.6,
+				g = g,
+				mu = mu,
 				eps = 1,
 				k = kList.ToArray(),
 				s = sList.ToArray(),

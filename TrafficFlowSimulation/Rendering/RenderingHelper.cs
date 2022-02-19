@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -35,6 +36,14 @@ namespace TrafficFlowSimulation.Rendering
 			_scr?.Update(new List<double> {t}, null!, y.ToList());
 			_dcr?.Update(new List<double> {t}, x.ToList());
 			_slt?.Update(new List<double> {t}, x.ToList(), y.ToList());
+		}
+
+		public static void ShowLegend(string chartText, LegendStyle style)
+		{
+			if (style == LegendStyle.Table)
+				ShowLegend(chartText, LegendDisplayOptions.Full);
+			if (style == LegendStyle.Column)
+				ShowLegend(chartText, LegendDisplayOptions.Partially);
 		}
 
 		public static void ShowLegend(string chartText, LegendDisplayOptions option)

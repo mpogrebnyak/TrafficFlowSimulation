@@ -7,6 +7,7 @@ using EvaluationKernel.Models;
 using Localization;
 using Settings;
 using TrafficFlowSimulation.Properties;
+using TrafficFlowSimulation.Properties.TranslationResources;
 using TrafficFlowSimulation.Rendering.Models;
 
 namespace TrafficFlowSimulation.Rendering.Renders
@@ -125,8 +126,8 @@ namespace TrafficFlowSimulation.Rendering.Renders
 			return new Legend
 			{
 				Name = "Legend",
-				Title = "Положения и скорости автомобилей",
-				AutoFitMinFontSize = 100,
+				Title = LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendTitleText,
+				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				LegendStyle = legendStyle,
 				Font = new Font("Microsoft Sans Serif", 10F),
 			};
@@ -145,7 +146,7 @@ namespace TrafficFlowSimulation.Rendering.Renders
 			}
 		}
 
-		private string GetCarsMovementChartLegendText(double speed, double position)
+		private static string GetCarsMovementChartLegendText(double speed, double position)
 		{
 			return string.Format(
 				LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendText,

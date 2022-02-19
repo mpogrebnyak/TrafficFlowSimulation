@@ -5,7 +5,8 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Properties;
+using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Rendering.Models;
 
 namespace TrafficFlowSimulation.Rendering.Renders
 {
@@ -14,6 +15,17 @@ namespace TrafficFlowSimulation.Rendering.Renders
 		public override string ChartText => "Speed";
 		protected override string ChartName => "Speed";
 		protected override string ChartAreaName => "SpeedChartArea";
+
+		private readonly ChartAreaModel _chartAreaModel = new()
+		{
+			AxisXMinimum = 0,
+			AxisXMaximum = 0,
+			//AxisXInterval = 10,
+			AxisYMinimum = 0,
+			AxisYMaximum = 0,
+			//AxisYInterval = 1,
+			//ZoomShift = 48
+		};
 
 		public SpeedChartRender(ModelParameters modelParameters, Chart chart) : base(modelParameters, chart)
 		{
@@ -39,13 +51,13 @@ namespace TrafficFlowSimulation.Rendering.Renders
 				Name = ChartAreaName,
 				AxisX = new Axis
 				{
-					Minimum = 0,
+					Minimum = _chartAreaModel.AxisXMinimum,
 					Maximum = 20,
 				},
 				AxisY = new Axis
 				{
-					Minimum = 0,
-					Maximum = 20
+					Minimum = _chartAreaModel.AxisYMinimum,
+					Maximum = MaxSpeedRound()
 				}
 			};
 		}
@@ -55,8 +67,8 @@ namespace TrafficFlowSimulation.Rendering.Renders
 			return new Legend
 			{
 				Name = "Legend",
-				Title = "Cкорости автомобилей",
-				AutoFitMinFontSize = 100,
+				Title = LocalizationHelper.Get<MenuResources>().SpeedChartLegendTitleText,
+				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				LegendStyle = legendStyle,
 				Font = new Font("Microsoft Sans Serif", 10F),
 			};
@@ -78,6 +90,12 @@ namespace TrafficFlowSimulation.Rendering.Renders
 			return string.Format(
 				LocalizationHelper.Get<MenuResources>().SpeedChartLegendText,
 				Math.Round(speed, 2).ToString());
+		}
+		
+		private double MaxSpeedRound()
+		{
+			var round = Math.Round(ModelParameters.Vmax.Max() / 10) * 10;
+			return round > ModelParameters.Vmax.Max() ? round : round + 10;
 		}
 	}
 }

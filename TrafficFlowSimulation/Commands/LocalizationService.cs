@@ -1,7 +1,13 @@
-﻿using Localization;
+﻿using System.Drawing;
+using System.Linq;
+using Localization;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties;
+using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Commands
 {
@@ -14,13 +20,16 @@ namespace TrafficFlowSimulation.Commands
 			lc.StartToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StartButtonTitle;
 
 			FillAutoScrollComboBox(lc.AutoScrollComboBox);
+			AllChartsTranslateLegend(lc.AllCharts);
 
 			lc.LocalizationBinding.DataSource = new ParametersResources
 			{
 				MovementParametersGroupBoxText = LocalizationHelper.Get<ParametersResources>().MovementParametersGroupBoxText,
 				ModeSettingsGroupBoxText = LocalizationHelper.Get<ParametersResources>().ModeSettingsGroupBoxText,
 				BasicParametersGroupBoxText = LocalizationHelper.Get<ParametersResources>().BasicParametersGroupBoxText,
-
+				AdditionalParametersGroupBoxText = LocalizationHelper.Get<ParametersResources>().AdditionalParametersGroupBoxText,
+				InitialConditionsGroupBoxText = LocalizationHelper.Get<ParametersResources>().InitialConditionsGroupBoxText,
+				ControlsGroupBoxText = LocalizationHelper.Get<ParametersResources>().ControlsGroupBoxText,
 
 				VehiclesNumberLabel = LocalizationHelper.Get<ParametersResources>().VehiclesNumberLabel,
 				IdenticalCarsLabel = LocalizationHelper.Get<ParametersResources>().IdenticalCarsLabel,
@@ -40,6 +49,21 @@ namespace TrafficFlowSimulation.Commands
 			comboBox.Items.Add(LocalizationHelper.Get<MenuResources>().NoTitle);
 			comboBox.SelectedIndex = selectedIndex == -1 ? 1 : selectedIndex;
 			return comboBox;
+		}
+
+		private static void AllChartsTranslateLegend(AllChartsModel allCharts)
+		{
+			TranslateLegend(allCharts.DistanceChart);
+			TranslateLegend(allCharts.SpeedChart);
+			TranslateLegend(allCharts.CarsMovementChart);
+		}
+
+		private static void TranslateLegend(Chart chart)
+		{
+			if (chart.Legends.Any())
+				RenderingHelper.ShowLegend(chart.Text, chart.Legends[0].LegendStyle);
+			else
+				RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.None);
 		}
 	}
 }

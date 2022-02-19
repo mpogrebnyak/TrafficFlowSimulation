@@ -66,9 +66,9 @@
     <Compile Include="Models\ModeSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\MenuResources.cs" />
-    <Compile Include="Properties\ParametersResources.cs" />
     <Compile Include="Properties\Settings.cs" />
+    <Compile Include="Properties\TranslationResources\MenuResources.cs" />
+    <Compile Include="Properties\TranslationResources\ParametersResources.cs" />
     <Compile Include="Rendering\CarsRenderingHelper.cs" />
     <Compile Include="Rendering\Models\ChartAreaModel.cs" />
     <Compile Include="Rendering\RenderingHelper.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Rendering\Renders\DistanceChartRender.cs" />
     <Compile Include="Rendering\Renders\SingleLaneTraffic.cs" />
     <Compile Include="Rendering\Renders\SpeedChartRender.cs" />
+    <Compile Include="Windows\ControlToolStripCustomRender.cs" />
     <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +84,7 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindowHelper.cs" />
+    <Compile Include="Windows\SubMenuCustomColorTable.cs" />
     <Compile Include="Сonstants\AutoScroll.cs" />
     <Compile Include="Сonstants\IdenticalCars.cs" />
     <Compile Include="Сonstants\LegendDisplayOptions.cs" />
