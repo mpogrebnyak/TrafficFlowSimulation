@@ -42,7 +42,7 @@ namespace EvaluationKernel
 				for (int j = 0; j < _n; j++)
 				{
 					x[j].Add(modelParameters.lambda[j]);
-					y[j].Add(0);
+					y[j].Add(modelParameters.Vn[j]);
 				}
 			}
 		}

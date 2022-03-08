@@ -33,7 +33,12 @@ namespace TrafficFlowSimulation.Commands
 				s = 20,
 				s_multiple = string.Empty,
 				g = 9.8,
-				mu = 0.6
+				mu = 0.6,
+
+				lambda = 15,
+				lambda_multiple = string.Empty,
+				Vn = 0,
+				Vn_multiple = string.Empty
 			};
 
 			return modelParametersModel;
@@ -43,7 +48,7 @@ namespace TrafficFlowSimulation.Commands
 		{
 			var modelParametersModel = (ModelParametersModel)parameters;
 
-			var n = modelParametersModel.n;
+			/*var n = modelParametersModel.n;
 
 			for (int i = 1; i <= n; i++)
 			{
@@ -54,7 +59,7 @@ namespace TrafficFlowSimulation.Commands
 				modelParametersModel.l_multiple += Mask(i, modelParametersModel.l);
 				modelParametersModel.k_multiple += Mask(i, modelParametersModel.k);
 				modelParametersModel.s_multiple += Mask(i, modelParametersModel.s);
-			}
+			}*/
 
 			return modelParametersModel;
 		}
@@ -82,24 +87,24 @@ namespace TrafficFlowSimulation.Commands
 			var kList = new List<double>();
 			var sList = new List<double>();
 			var lambdaList = new List<double>();
+			var vNList = new List<double>();
 
 			switch (isAllCarsIdentical)
 			{
 				case IdenticalCars.Yes:
-				{
-					for (int i = 0; i < n; i++)
 					{
-						vMaxList.Add(modelParametersModel.Vmax);
-						aList.Add(modelParametersModel.a);
-						qList.Add(modelParametersModel.q);
-						lList.Add(modelParametersModel.l);
-						kList.Add(modelParametersModel.k);
-						sList.Add(modelParametersModel.s);
-						lambdaList.Add(-5 * i);
-					}
+						for (int i = 0; i < n; i++)
+						{
+							vMaxList.Add(modelParametersModel.Vmax);
+							aList.Add(modelParametersModel.a);
+							qList.Add(modelParametersModel.q);
+							lList.Add(modelParametersModel.l);
+							kList.Add(modelParametersModel.k);
+							sList.Add(modelParametersModel.s);
+						}
 
-					break;
-				}
+						break;
+					}
 				case IdenticalCars.No:
 
 					var vMaxDictionary = Parse(modelParametersModel.Vmax_multiple);
@@ -111,16 +116,16 @@ namespace TrafficFlowSimulation.Commands
 
 					for (int i = 0; i < n; i++)
 					{
-						vMaxList.Add(vMaxDictionary.ContainsKey(i) 
-							? vMaxDictionary[i] 
+						vMaxList.Add(vMaxDictionary.ContainsKey(i)
+							? vMaxDictionary[i]
 							: modelParametersModel.Vmax);
 
-						aList.Add(aDictionary.ContainsKey(i) 
-							? aDictionary[i] 
+						aList.Add(aDictionary.ContainsKey(i)
+							? aDictionary[i]
 							: modelParametersModel.a);
 
-						qList.Add(qDictionary.ContainsKey(i) 
-							? qDictionary[i] 
+						qList.Add(qDictionary.ContainsKey(i)
+							? qDictionary[i]
 							: modelParametersModel.q);
 
 						lList.Add(lDictionary.ContainsKey(i)
@@ -134,11 +139,22 @@ namespace TrafficFlowSimulation.Commands
 						sList.Add(sDictionary.ContainsKey(i)
 							? sDictionary[i]
 							: modelParametersModel.s);
-
-						lambdaList.Add(-15 * i);
 					}
-
 					break;
+			}
+
+			var lambdaDictionary = Parse(modelParametersModel.lambda_multiple);
+			var vNDictionary = Parse(modelParametersModel.Vn_multiple);
+
+			for (int i = 0; i < n; i++)
+			{
+				lambdaList.Add(lambdaDictionary.ContainsKey(i)
+					? lambdaDictionary[i]
+					: modelParametersModel.lambda * -i);
+
+				vNList.Add(vNDictionary.ContainsKey(i)
+					? vNDictionary[i]
+					: modelParametersModel.Vn);
 			}
 
 			return new ModelParameters
@@ -156,22 +172,27 @@ namespace TrafficFlowSimulation.Commands
 				eps = 1,
 				k = kList.ToArray(),
 				s = sList.ToArray(),
-				lambda = lambdaList.ToArray()
-			}; 
+				lambda = lambdaList.ToArray(),
+				Vn = vNList.ToArray()
+			};
 		}
 
 		private static Dictionary<int, double> Parse(string str)
 		{
 			var dictionary = new Dictionary<int, double>();
-			var elements = str
-				.Trim()
-				.Split(_elementsSeparator)
-				.ToList();
 
-			foreach (var element in elements)
+			if (!string.IsNullOrEmpty(str))
 			{
-				var value = element.Split(_separator);
-				dictionary.Add(Convert.ToInt32(value[0]) - 1, Convert.ToDouble(value[1]));
+				var elements = str
+					.Trim()
+					.Split(_elementsSeparator)
+					.ToList();
+
+				foreach (var element in elements)
+				{
+					var value = element.Split(_separator);
+					dictionary.Add(Convert.ToInt32(value[0]) - 1, Convert.ToDouble(value[1]));
+				}
 			}
 
 			return dictionary;

@@ -127,13 +127,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\TrafficFlowSimulation.Сonstants.AutoScroll.datasource" />
-    <None Include="Resources\images\united-kingdom.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\images\russia.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\images\white_car.png" />
+    <Content Include="Properties\images\car.ico" />
+    <Content Include="Properties\images\continue_icon.png" />
+    <Content Include="Properties\images\double_car.png" />
+    <Content Include="Properties\images\error.ico" />
+    <Content Include="Properties\images\ru.png" />
+    <Content Include="Properties\images\russia.png" />
+    <Content Include="Properties\images\start_icon.png" />
+    <Content Include="Properties\images\stop_icon.png" />
+    <Content Include="Properties\images\uk.png" />
+    <Content Include="Properties\images\united-kingdom.png" />
+    <Content Include="Properties\images\white_car.png" />
+    <Content Include="Properties\images\white_car2.png" />
+    <Content Include="Properties\images\white_car_big.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -14,8 +14,6 @@
 
 		public double Vmin { get; set; }
 
-		public double[] lambda { get; set; }
-
 		public double[] k { get; set; }
 
 		public double mu { get; set; }
@@ -29,5 +27,9 @@
 		public double[] s { get; set; }
 
 		public double eps { get; set; }
+
+		public double[] lambda { get; set; }
+
+		public double[] Vn { get; set; }
 	}
 }

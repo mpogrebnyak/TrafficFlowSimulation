@@ -6,7 +6,6 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using Settings;
-using TrafficFlowSimulation.Properties;
 using TrafficFlowSimulation.Properties.TranslationResources;
 using TrafficFlowSimulation.Rendering.Models;
 
@@ -45,8 +44,8 @@ namespace TrafficFlowSimulation.Rendering.Renders
 				var i = Convert.ToInt32(series.Name.Replace(ChartName, ""));
 				Chart.Series[i].MarkerImage = carsFolder + "\\" + Chart.Series[i].Color.Name + ".png";
 				Chart.Series[i].Points.AddXY(ModelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
-				Chart.Series[i].LegendText = GetCarsMovementChartLegendText(0, ModelParameters.lambda[i]);
-				Chart.Series[i].Label = GetCarsMovementChartLegendText(0, ModelParameters.lambda[i]);
+				Chart.Series[i].LegendText = GetCarsMovementChartLegendText(ModelParameters.Vn[i], ModelParameters.lambda[i]);
+				Chart.Series[i].Label = GetCarsMovementChartLegendText(ModelParameters.Vn[i], ModelParameters.lambda[i]);
 			}
 		}
 

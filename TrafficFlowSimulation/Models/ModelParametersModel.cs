@@ -56,8 +56,16 @@ namespace TrafficFlowSimulation.Models
 		[Required]
 		public double Vmin { get; set; }
 
-		public double[] lambda { get; set; }
+		[Required]
+		public double lambda { get; set; }
 
+		public string lambda_multiple { get; set; }
+
+		[Required]
+		public double Vn { get; set; }
+
+		[Required]
+		public string Vn_multiple { get; set; }
 
 		public double Lenght { get; set; }
 	}
