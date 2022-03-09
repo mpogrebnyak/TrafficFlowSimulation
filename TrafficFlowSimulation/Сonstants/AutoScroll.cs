@@ -1,8 +1,14 @@
-﻿namespace TrafficFlowSimulation.Сonstants
+﻿using Localization.Localization;
+using TrafficFlowSimulation.Properties.TranslationResources;
+
+namespace TrafficFlowSimulation.Сonstants
 {
     public enum AutoScroll
     {
-        Yes,
-        No
+        [LocalizedDescription("Yes", typeof(EnumResources))]
+        Yes = 2,
+
+        [LocalizedDescription("No", typeof(EnumResources))]
+        No = 1
     }
 }

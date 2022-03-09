@@ -1,8 +1,13 @@
-﻿namespace TrafficFlowSimulation.Сonstants
+﻿using Localization.Localization;
+using TrafficFlowSimulation.Properties.TranslationResources;
+
+namespace TrafficFlowSimulation.Сonstants;
+
+public enum IdenticalCars
 {
-	public enum IdenticalCars
-	{
-		Yes,
-		No
-	}
+	[LocalizedDescription("Yes", typeof(EnumResources))]
+	Yes = 1,
+
+	[LocalizedDescription("No", typeof(EnumResources))]
+	No = 2
 }

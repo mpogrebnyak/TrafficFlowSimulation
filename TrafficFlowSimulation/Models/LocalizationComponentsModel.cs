@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Models
 {
@@ -14,5 +15,7 @@ namespace TrafficFlowSimulation.Models
 		public ToolStripButton StartToolStripButton { get; set; }
 
 		public ComboBox AutoScrollComboBox { get; set; }
+
+		public ComboBox IdenticalCarsComboBox { get; set; }
 	}
 }

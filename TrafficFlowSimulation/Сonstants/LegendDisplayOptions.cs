@@ -1,9 +1,8 @@
-﻿namespace TrafficFlowSimulation.Сonstants
+﻿namespace TrafficFlowSimulation.Сonstants;
+
+public enum LegendDisplayOptions
 {
-	public enum LegendDisplayOptions
-	{
-		Full,
-		Partially,
-		None
-	}
+	Full,
+	Partially,
+	None
 }

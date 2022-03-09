@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using TrafficFlowSimulation.Commands;
 
 namespace TrafficFlowSimulation.Models
@@ -64,7 +61,6 @@ namespace TrafficFlowSimulation.Models
 		[Required]
 		public double Vn { get; set; }
 
-		[Required]
 		public string Vn_multiple { get; set; }
 
 		public double Lenght { get; set; }

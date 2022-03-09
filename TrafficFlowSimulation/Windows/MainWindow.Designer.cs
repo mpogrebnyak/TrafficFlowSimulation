@@ -52,7 +52,9 @@ namespace TrafficFlowSimulation.Windows
             this.ContinueToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.DrivingModeStripLabel = new System.Windows.Forms.ToolStripLabel();
-            this.DrivingModeStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.carsMovementContainer = new System.Windows.Forms.SplitContainer();
             this.carsMovementChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ChartContainerСontextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -94,7 +96,6 @@ namespace TrafficFlowSimulation.Windows
             this.SingleField_n = new System.Windows.Forms.TextBox();
             this.VehiclesNumberLabel = new System.Windows.Forms.Label();
             this.IdenticalCarsLabel = new System.Windows.Forms.Label();
-            this.IdenticalCarsComboBox = new System.Windows.Forms.ComboBox();
             this.MaximumSpeedLabel = new System.Windows.Forms.Label();
             this.SingleField_Vmax = new System.Windows.Forms.TextBox();
             this.MultipleField_Vmax = new System.Windows.Forms.TextBox();
@@ -120,7 +121,6 @@ namespace TrafficFlowSimulation.Windows
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.SingleField_Lenght = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.AutoScrollComboBox = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.ScrollForNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
@@ -129,7 +129,9 @@ namespace TrafficFlowSimulation.Windows
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.LocalizationBinding = new System.Windows.Forms.BindingSource(this.components);
             this.ModelParametersBinding = new System.Windows.Forms.BindingSource(this.components);
+            this.AutoScrollComboBox = new TrafficFlowSimulation.Windows.CustomControls.CustomComboBox();
             this.autoScrollBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.IdenticalCarsComboBox = new TrafficFlowSimulation.Windows.CustomControls.CustomComboBox();
             this.ControlMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.carsMovementContainer)).BeginInit();
             this.carsMovementContainer.Panel1.SuspendLayout();
@@ -174,10 +176,10 @@ namespace TrafficFlowSimulation.Windows
             this.ContinueToolStripButton,
             this.toolStripSeparator2,
             this.DrivingModeStripLabel,
-            this.DrivingModeStripComboBox});
+            this.toolStripDropDownButton1});
             this.ControlMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ControlMenuStrip.Name = "ControlMenuStrip";
-            this.ControlMenuStrip.Size = new System.Drawing.Size(1539, 31);
+            this.ControlMenuStrip.Size = new System.Drawing.Size(1539, 30);
             this.ControlMenuStrip.TabIndex = 0;
             // 
             // StartToolStripButton
@@ -186,7 +188,7 @@ namespace TrafficFlowSimulation.Windows
             this.StartToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("StartToolStripButton.Image")));
             this.StartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartToolStripButton.Name = "StartToolStripButton";
-            this.StartToolStripButton.Size = new System.Drawing.Size(69, 28);
+            this.StartToolStripButton.Size = new System.Drawing.Size(69, 27);
             this.StartToolStripButton.Text = "Start";
             this.StartToolStripButton.Click += new System.EventHandler(this.StartToolStripButton_Click);
             // 
@@ -200,7 +202,7 @@ namespace TrafficFlowSimulation.Windows
             this.languagesSwitcherButton.Image = ((System.Drawing.Image)(resources.GetObject("languagesSwitcherButton.Image")));
             this.languagesSwitcherButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.languagesSwitcherButton.Name = "languagesSwitcherButton";
-            this.languagesSwitcherButton.Size = new System.Drawing.Size(106, 28);
+            this.languagesSwitcherButton.Size = new System.Drawing.Size(106, 27);
             this.languagesSwitcherButton.Text = "Русский";
             // 
             // RussianMenuItem
@@ -225,7 +227,7 @@ namespace TrafficFlowSimulation.Windows
             this.StopToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("StopToolStripButton.Image")));
             this.StopToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopToolStripButton.Name = "StopToolStripButton";
-            this.StopToolStripButton.Size = new System.Drawing.Size(68, 28);
+            this.StopToolStripButton.Size = new System.Drawing.Size(68, 27);
             this.StopToolStripButton.Text = "Stop";
             this.StopToolStripButton.ToolTipText = "Stop";
             this.StopToolStripButton.Click += new System.EventHandler(this.StopToolStripButton_Click);
@@ -235,30 +237,49 @@ namespace TrafficFlowSimulation.Windows
             this.ContinueToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ContinueToolStripButton.Image")));
             this.ContinueToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ContinueToolStripButton.Name = "ContinueToolStripButton";
-            this.ContinueToolStripButton.Size = new System.Drawing.Size(133, 28);
+            this.ContinueToolStripButton.Size = new System.Drawing.Size(133, 27);
             this.ContinueToolStripButton.Text = "Продолжить";
             this.ContinueToolStripButton.Click += new System.EventHandler(this.ContinueToolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 30);
             // 
             // DrivingModeStripLabel
             // 
             this.DrivingModeStripLabel.Name = "DrivingModeStripLabel";
-            this.DrivingModeStripLabel.Size = new System.Drawing.Size(152, 28);
+            this.DrivingModeStripLabel.Size = new System.Drawing.Size(152, 27);
             this.DrivingModeStripLabel.Text = "Режим движения:";
             // 
-            // DrivingModeStripComboBox
+            // toolStripDropDownButton1
             // 
-            this.DrivingModeStripComboBox.Name = "DrivingModeStripComboBox";
-            this.DrivingModeStripComboBox.Size = new System.Drawing.Size(121, 31);
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(231, 27);
+            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(224, 28);
+            this.toolStripMenuItem2.Text = "12";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(224, 28);
+            this.toolStripMenuItem3.Text = "33";
             // 
             // carsMovementContainer
             // 
             this.carsMovementContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.carsMovementContainer.Location = new System.Drawing.Point(0, 31);
+            this.carsMovementContainer.Location = new System.Drawing.Point(0, 30);
             this.carsMovementContainer.Name = "carsMovementContainer";
             this.carsMovementContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -269,8 +290,8 @@ namespace TrafficFlowSimulation.Windows
             // carsMovementContainer.Panel2
             // 
             this.carsMovementContainer.Panel2.Controls.Add(this.chartsContainer);
-            this.carsMovementContainer.Size = new System.Drawing.Size(1539, 653);
-            this.carsMovementContainer.SplitterDistance = 383;
+            this.carsMovementContainer.Size = new System.Drawing.Size(1539, 654);
+            this.carsMovementContainer.SplitterDistance = 381;
             this.carsMovementContainer.TabIndex = 1;
             // 
             // carsMovementChart
@@ -288,7 +309,7 @@ namespace TrafficFlowSimulation.Windows
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.carsMovementChart.Series.Add(series1);
-            this.carsMovementChart.Size = new System.Drawing.Size(1539, 383);
+            this.carsMovementChart.Size = new System.Drawing.Size(1539, 381);
             this.carsMovementChart.TabIndex = 0;
             this.carsMovementChart.Text = "chart1";
             // 
@@ -383,7 +404,7 @@ namespace TrafficFlowSimulation.Windows
             // chartsContainer.Panel2
             // 
             this.chartsContainer.Panel2.Controls.Add(this.distanceChart);
-            this.chartsContainer.Size = new System.Drawing.Size(1539, 266);
+            this.chartsContainer.Size = new System.Drawing.Size(1539, 269);
             this.chartsContainer.SplitterDistance = 718;
             this.chartsContainer.TabIndex = 0;
             // 
@@ -402,7 +423,7 @@ namespace TrafficFlowSimulation.Windows
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.speedChart.Series.Add(series2);
-            this.speedChart.Size = new System.Drawing.Size(718, 266);
+            this.speedChart.Size = new System.Drawing.Size(718, 269);
             this.speedChart.TabIndex = 0;
             this.speedChart.Text = "chart1";
             // 
@@ -421,7 +442,7 @@ namespace TrafficFlowSimulation.Windows
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.distanceChart.Series.Add(series3);
-            this.distanceChart.Size = new System.Drawing.Size(817, 266);
+            this.distanceChart.Size = new System.Drawing.Size(817, 269);
             this.distanceChart.TabIndex = 0;
             this.distanceChart.Text = "chart2";
             // 
@@ -431,9 +452,9 @@ namespace TrafficFlowSimulation.Windows
             this.parametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
             this.parametersPanel.Controls.Add(this.MovementParametersGroupBox);
             this.parametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.parametersPanel.Location = new System.Drawing.Point(1143, 31);
+            this.parametersPanel.Location = new System.Drawing.Point(1143, 30);
             this.parametersPanel.Name = "parametersPanel";
-            this.parametersPanel.Size = new System.Drawing.Size(396, 653);
+            this.parametersPanel.Size = new System.Drawing.Size(396, 654);
             this.parametersPanel.TabIndex = 2;
             // 
             // MovementParametersGroupBox
@@ -450,7 +471,7 @@ namespace TrafficFlowSimulation.Windows
             this.MovementParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MovementParametersGroupBox.Location = new System.Drawing.Point(0, 0);
             this.MovementParametersGroupBox.Name = "MovementParametersGroupBox";
-            this.MovementParametersGroupBox.Size = new System.Drawing.Size(375, 1137);
+            this.MovementParametersGroupBox.Size = new System.Drawing.Size(375, 1133);
             this.MovementParametersGroupBox.TabIndex = 20;
             this.MovementParametersGroupBox.TabStop = false;
             this.MovementParametersGroupBox.Text = "Параметры движения:";
@@ -463,7 +484,7 @@ namespace TrafficFlowSimulation.Windows
             this.ControlsGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "ControlsGroupBoxText", true));
             this.ControlsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.ControlsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ControlsGroupBox.Location = new System.Drawing.Point(3, 987);
+            this.ControlsGroupBox.Location = new System.Drawing.Point(3, 983);
             this.ControlsGroupBox.Name = "ControlsGroupBox";
             this.ControlsGroupBox.Size = new System.Drawing.Size(369, 147);
             this.ControlsGroupBox.TabIndex = 24;
@@ -540,7 +561,7 @@ namespace TrafficFlowSimulation.Windows
             this.InitialConditionsGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "InitialConditionsGroupBoxText", true));
             this.InitialConditionsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.InitialConditionsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.InitialConditionsGroupBox.Location = new System.Drawing.Point(3, 822);
+            this.InitialConditionsGroupBox.Location = new System.Drawing.Point(3, 818);
             this.InitialConditionsGroupBox.Name = "InitialConditionsGroupBox";
             this.InitialConditionsGroupBox.Size = new System.Drawing.Size(369, 165);
             this.InitialConditionsGroupBox.TabIndex = 23;
@@ -641,7 +662,7 @@ namespace TrafficFlowSimulation.Windows
             this.AdditionalParametersGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "AdditionalParametersGroupBoxText", true));
             this.AdditionalParametersGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.AdditionalParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AdditionalParametersGroupBox.Location = new System.Drawing.Point(3, 725);
+            this.AdditionalParametersGroupBox.Location = new System.Drawing.Point(3, 721);
             this.AdditionalParametersGroupBox.Name = "AdditionalParametersGroupBox";
             this.AdditionalParametersGroupBox.Size = new System.Drawing.Size(369, 97);
             this.AdditionalParametersGroupBox.TabIndex = 22;
@@ -718,7 +739,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.BasicParametersGroupBox.Location = new System.Drawing.Point(3, 165);
             this.BasicParametersGroupBox.Name = "BasicParametersGroupBox";
-            this.BasicParametersGroupBox.Size = new System.Drawing.Size(369, 560);
+            this.BasicParametersGroupBox.Size = new System.Drawing.Size(369, 556);
             this.BasicParametersGroupBox.TabIndex = 21;
             this.BasicParametersGroupBox.TabStop = false;
             this.BasicParametersGroupBox.Text = "Основные параметры:";
@@ -733,7 +754,6 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.Controls.Add(this.SingleField_n, 1, 0);
             this.BasicParametersTableLayoutPanel.Controls.Add(this.VehiclesNumberLabel, 0, 0);
             this.BasicParametersTableLayoutPanel.Controls.Add(this.IdenticalCarsLabel, 0, 1);
-            this.BasicParametersTableLayoutPanel.Controls.Add(this.IdenticalCarsComboBox, 1, 1);
             this.BasicParametersTableLayoutPanel.Controls.Add(this.MaximumSpeedLabel, 0, 2);
             this.BasicParametersTableLayoutPanel.Controls.Add(this.SingleField_Vmax, 1, 2);
             this.BasicParametersTableLayoutPanel.Controls.Add(this.MultipleField_Vmax, 0, 3);
@@ -755,6 +775,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.Controls.Add(this.label8, 0, 14);
             this.BasicParametersTableLayoutPanel.Controls.Add(this.SingleField_s, 1, 14);
             this.BasicParametersTableLayoutPanel.Controls.Add(this.MultipleField_s, 0, 15);
+            this.BasicParametersTableLayoutPanel.Controls.Add(this.IdenticalCarsComboBox, 1, 1);
             this.BasicParametersTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BasicParametersTableLayoutPanel.Location = new System.Drawing.Point(3, 28);
             this.BasicParametersTableLayoutPanel.Name = "BasicParametersTableLayoutPanel";
@@ -775,7 +796,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.BasicParametersTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.BasicParametersTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.BasicParametersTableLayoutPanel.Size = new System.Drawing.Size(363, 529);
+            this.BasicParametersTableLayoutPanel.Size = new System.Drawing.Size(363, 525);
             this.BasicParametersTableLayoutPanel.TabIndex = 0;
             this.BasicParametersTableLayoutPanel.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.BasicParametersTableLayoutPanel_CellPaint);
             // 
@@ -808,25 +829,12 @@ namespace TrafficFlowSimulation.Windows
             this.IdenticalCarsLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "IdenticalCarsLabel", true));
             this.IdenticalCarsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.IdenticalCarsLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.IdenticalCarsLabel.Location = new System.Drawing.Point(3, 40);
+            this.IdenticalCarsLabel.Location = new System.Drawing.Point(3, 38);
             this.IdenticalCarsLabel.Name = "IdenticalCarsLabel";
             this.IdenticalCarsLabel.Size = new System.Drawing.Size(245, 20);
             this.IdenticalCarsLabel.TabIndex = 4;
             this.IdenticalCarsLabel.Text = "Все автомобили одинаковы";
             this.toolTip1.SetToolTip(this.IdenticalCarsLabel, "Подсказка");
-            // 
-            // IdenticalCarsComboBox
-            // 
-            this.IdenticalCarsComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.IdenticalCarsComboBox.FormattingEnabled = true;
-            this.IdenticalCarsComboBox.Items.AddRange(new object[] {
-            "Да",
-            "Нет"});
-            this.IdenticalCarsComboBox.Location = new System.Drawing.Point(275, 36);
-            this.IdenticalCarsComboBox.Name = "IdenticalCarsComboBox";
-            this.IdenticalCarsComboBox.Size = new System.Drawing.Size(85, 28);
-            this.IdenticalCarsComboBox.TabIndex = 5;
-            this.IdenticalCarsComboBox.SelectedIndexChanged += new System.EventHandler(this.IdenticalCarsComboBox_SelectedIndexChanged);
             // 
             // MaximumSpeedLabel
             // 
@@ -834,7 +842,7 @@ namespace TrafficFlowSimulation.Windows
             this.MaximumSpeedLabel.AutoSize = true;
             this.MaximumSpeedLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "MaximumSpeedLabel", true));
             this.MaximumSpeedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MaximumSpeedLabel.Location = new System.Drawing.Point(3, 73);
+            this.MaximumSpeedLabel.Location = new System.Drawing.Point(3, 69);
             this.MaximumSpeedLabel.Name = "MaximumSpeedLabel";
             this.MaximumSpeedLabel.Size = new System.Drawing.Size(215, 20);
             this.MaximumSpeedLabel.TabIndex = 16;
@@ -844,7 +852,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.SingleField_Vmax.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "Vmax", true));
             this.SingleField_Vmax.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SingleField_Vmax.Location = new System.Drawing.Point(275, 70);
+            this.SingleField_Vmax.Location = new System.Drawing.Point(275, 66);
             this.SingleField_Vmax.Name = "SingleField_Vmax";
             this.SingleField_Vmax.Size = new System.Drawing.Size(85, 27);
             this.SingleField_Vmax.TabIndex = 14;
@@ -855,7 +863,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.SetColumnSpan(this.MultipleField_Vmax, 2);
             this.MultipleField_Vmax.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "Vmax_multiple", true));
             this.MultipleField_Vmax.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultipleField_Vmax.Location = new System.Drawing.Point(3, 103);
+            this.MultipleField_Vmax.Location = new System.Drawing.Point(3, 99);
             this.MultipleField_Vmax.Name = "MultipleField_Vmax";
             this.MultipleField_Vmax.Size = new System.Drawing.Size(357, 27);
             this.MultipleField_Vmax.TabIndex = 24;
@@ -867,7 +875,7 @@ namespace TrafficFlowSimulation.Windows
             this.DriverResponseTimeLabel.AutoSize = true;
             this.DriverResponseTimeLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "DriverResponseTimeLabel", true));
             this.DriverResponseTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DriverResponseTimeLabel.Location = new System.Drawing.Point(3, 139);
+            this.DriverResponseTimeLabel.Location = new System.Drawing.Point(3, 135);
             this.DriverResponseTimeLabel.Name = "DriverResponseTimeLabel";
             this.DriverResponseTimeLabel.Size = new System.Drawing.Size(224, 20);
             this.DriverResponseTimeLabel.TabIndex = 15;
@@ -877,7 +885,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.SingleField_tau.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "tau", true));
             this.SingleField_tau.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SingleField_tau.Location = new System.Drawing.Point(275, 136);
+            this.SingleField_tau.Location = new System.Drawing.Point(275, 132);
             this.SingleField_tau.Name = "SingleField_tau";
             this.SingleField_tau.Size = new System.Drawing.Size(85, 27);
             this.SingleField_tau.TabIndex = 1;
@@ -887,7 +895,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.SetColumnSpan(this.MultipleField_tau, 2);
             this.MultipleField_tau.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "tau_multiple", true));
             this.MultipleField_tau.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultipleField_tau.Location = new System.Drawing.Point(3, 169);
+            this.MultipleField_tau.Location = new System.Drawing.Point(3, 165);
             this.MultipleField_tau.Name = "MultipleField_tau";
             this.MultipleField_tau.Size = new System.Drawing.Size(357, 27);
             this.MultipleField_tau.TabIndex = 26;
@@ -899,7 +907,7 @@ namespace TrafficFlowSimulation.Windows
             this.AccelerationIntensityLabel.AutoSize = true;
             this.AccelerationIntensityLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "AccelerationIntensityLabel", true));
             this.AccelerationIntensityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AccelerationIntensityLabel.Location = new System.Drawing.Point(3, 205);
+            this.AccelerationIntensityLabel.Location = new System.Drawing.Point(3, 201);
             this.AccelerationIntensityLabel.Name = "AccelerationIntensityLabel";
             this.AccelerationIntensityLabel.Size = new System.Drawing.Size(210, 20);
             this.AccelerationIntensityLabel.TabIndex = 17;
@@ -909,7 +917,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.SingleField_a.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "a", true));
             this.SingleField_a.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SingleField_a.Location = new System.Drawing.Point(275, 202);
+            this.SingleField_a.Location = new System.Drawing.Point(275, 198);
             this.SingleField_a.Name = "SingleField_a";
             this.SingleField_a.Size = new System.Drawing.Size(85, 27);
             this.SingleField_a.TabIndex = 0;
@@ -920,7 +928,7 @@ namespace TrafficFlowSimulation.Windows
             this.DecelerationIntensityLabel.AutoSize = true;
             this.DecelerationIntensityLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "DecelerationIntensityLabel", true));
             this.DecelerationIntensityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DecelerationIntensityLabel.Location = new System.Drawing.Point(3, 271);
+            this.DecelerationIntensityLabel.Location = new System.Drawing.Point(3, 267);
             this.DecelerationIntensityLabel.Name = "DecelerationIntensityLabel";
             this.DecelerationIntensityLabel.Size = new System.Drawing.Size(247, 20);
             this.DecelerationIntensityLabel.TabIndex = 18;
@@ -930,7 +938,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.SingleField_q.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "q", true));
             this.SingleField_q.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SingleField_q.Location = new System.Drawing.Point(275, 268);
+            this.SingleField_q.Location = new System.Drawing.Point(275, 264);
             this.SingleField_q.Name = "SingleField_q";
             this.SingleField_q.Size = new System.Drawing.Size(85, 27);
             this.SingleField_q.TabIndex = 8;
@@ -940,7 +948,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.SetColumnSpan(this.MultipleField_a, 2);
             this.MultipleField_a.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "a_multiple", true));
             this.MultipleField_a.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultipleField_a.Location = new System.Drawing.Point(3, 235);
+            this.MultipleField_a.Location = new System.Drawing.Point(3, 231);
             this.MultipleField_a.Name = "MultipleField_a";
             this.MultipleField_a.Size = new System.Drawing.Size(357, 27);
             this.MultipleField_a.TabIndex = 28;
@@ -951,7 +959,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.SetColumnSpan(this.MultipleField_q, 2);
             this.MultipleField_q.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "q_multiple", true));
             this.MultipleField_q.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultipleField_q.Location = new System.Drawing.Point(3, 301);
+            this.MultipleField_q.Location = new System.Drawing.Point(3, 297);
             this.MultipleField_q.Name = "MultipleField_q";
             this.MultipleField_q.Size = new System.Drawing.Size(357, 27);
             this.MultipleField_q.TabIndex = 30;
@@ -961,7 +969,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.SingleField_l.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "l", true));
             this.SingleField_l.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SingleField_l.Location = new System.Drawing.Point(275, 334);
+            this.SingleField_l.Location = new System.Drawing.Point(275, 330);
             this.SingleField_l.Name = "SingleField_l";
             this.SingleField_l.Size = new System.Drawing.Size(85, 27);
             this.SingleField_l.TabIndex = 32;
@@ -971,7 +979,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.SetColumnSpan(this.MultipleField_l, 2);
             this.MultipleField_l.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "l_multiple", true));
             this.MultipleField_l.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultipleField_l.Location = new System.Drawing.Point(3, 367);
+            this.MultipleField_l.Location = new System.Drawing.Point(3, 363);
             this.MultipleField_l.Name = "MultipleField_l";
             this.MultipleField_l.Size = new System.Drawing.Size(357, 27);
             this.MultipleField_l.TabIndex = 34;
@@ -982,7 +990,7 @@ namespace TrafficFlowSimulation.Windows
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(3, 337);
+            this.label1.Location = new System.Drawing.Point(3, 333);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(212, 20);
             this.label1.TabIndex = 33;
@@ -994,7 +1002,7 @@ namespace TrafficFlowSimulation.Windows
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(3, 403);
+            this.label3.Location = new System.Drawing.Point(3, 399);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(226, 20);
             this.label3.TabIndex = 35;
@@ -1004,7 +1012,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.SingleField_k.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "k", true));
             this.SingleField_k.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SingleField_k.Location = new System.Drawing.Point(275, 400);
+            this.SingleField_k.Location = new System.Drawing.Point(275, 396);
             this.SingleField_k.Name = "SingleField_k";
             this.SingleField_k.Size = new System.Drawing.Size(85, 27);
             this.SingleField_k.TabIndex = 36;
@@ -1014,7 +1022,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.SetColumnSpan(this.MultipleField_k, 2);
             this.MultipleField_k.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "k_multiple", true));
             this.MultipleField_k.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultipleField_k.Location = new System.Drawing.Point(3, 433);
+            this.MultipleField_k.Location = new System.Drawing.Point(3, 429);
             this.MultipleField_k.Name = "MultipleField_k";
             this.MultipleField_k.Size = new System.Drawing.Size(357, 27);
             this.MultipleField_k.TabIndex = 37;
@@ -1025,7 +1033,7 @@ namespace TrafficFlowSimulation.Windows
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(3, 469);
+            this.label8.Location = new System.Drawing.Point(3, 465);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(183, 20);
             this.label8.TabIndex = 38;
@@ -1035,7 +1043,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.SingleField_s.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "s", true));
             this.SingleField_s.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SingleField_s.Location = new System.Drawing.Point(275, 466);
+            this.SingleField_s.Location = new System.Drawing.Point(275, 462);
             this.SingleField_s.Name = "SingleField_s";
             this.SingleField_s.Size = new System.Drawing.Size(85, 27);
             this.SingleField_s.TabIndex = 39;
@@ -1045,7 +1053,7 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersTableLayoutPanel.SetColumnSpan(this.MultipleField_s, 2);
             this.MultipleField_s.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModelParametersBinding, "s_multiple", true));
             this.MultipleField_s.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultipleField_s.Location = new System.Drawing.Point(3, 499);
+            this.MultipleField_s.Location = new System.Drawing.Point(3, 495);
             this.MultipleField_s.Name = "MultipleField_s";
             this.MultipleField_s.Size = new System.Drawing.Size(357, 27);
             this.MultipleField_s.TabIndex = 40;
@@ -1075,10 +1083,10 @@ namespace TrafficFlowSimulation.Windows
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Controls.Add(this.SingleField_Lenght, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.AutoScrollComboBox, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label7, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.ScrollForNumericUpDown, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.label6, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.AutoScrollComboBox, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 28);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -1109,16 +1117,6 @@ namespace TrafficFlowSimulation.Windows
             this.label2.Size = new System.Drawing.Size(228, 20);
             this.label2.TabIndex = 6;
             this.label2.Text = "Расстояние до остановки";
-            // 
-            // AutoScrollComboBox
-            // 
-            this.AutoScrollComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AutoScrollComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AutoScrollComboBox.FormattingEnabled = true;
-            this.AutoScrollComboBox.Location = new System.Drawing.Point(275, 36);
-            this.AutoScrollComboBox.Name = "AutoScrollComboBox";
-            this.AutoScrollComboBox.Size = new System.Drawing.Size(85, 28);
-            this.AutoScrollComboBox.TabIndex = 9;
             // 
             // label7
             // 
@@ -1155,9 +1153,9 @@ namespace TrafficFlowSimulation.Windows
             this.SlamPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(151)))), ((int)(((byte)(29)))));
             this.SlamPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SlamPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SlamPanel.Location = new System.Drawing.Point(1135, 31);
+            this.SlamPanel.Location = new System.Drawing.Point(1135, 30);
             this.SlamPanel.Name = "SlamPanel";
-            this.SlamPanel.Size = new System.Drawing.Size(8, 653);
+            this.SlamPanel.Size = new System.Drawing.Size(8, 654);
             this.SlamPanel.TabIndex = 3;
             this.SlamPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SlamPanel_MouseClick);
             // 
@@ -1180,9 +1178,36 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.ModelParametersBinding.DataSource = typeof(TrafficFlowSimulation.Models.ModelParametersModel);
             // 
+            // AutoScrollComboBox
+            // 
+            this.AutoScrollComboBox.BorderColor = System.Drawing.Color.LightGray;
+            this.AutoScrollComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.AutoScrollComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.AutoScrollComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AutoScrollComboBox.FormattingEnabled = true;
+            this.AutoScrollComboBox.Location = new System.Drawing.Point(275, 36);
+            this.AutoScrollComboBox.Name = "AutoScrollComboBox";
+            this.AutoScrollComboBox.Size = new System.Drawing.Size(85, 28);
+            this.AutoScrollComboBox.TabIndex = 9;
+            this.AutoScrollComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.DrawColoredItems);
+            // 
             // autoScrollBindingSource
             // 
             this.autoScrollBindingSource.DataSource = typeof(TrafficFlowSimulation.Сonstants.AutoScroll);
+            // 
+            // IdenticalCarsComboBox
+            // 
+            this.IdenticalCarsComboBox.BorderColor = System.Drawing.Color.Black;
+            this.IdenticalCarsComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.IdenticalCarsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.IdenticalCarsComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.IdenticalCarsComboBox.FormattingEnabled = true;
+            this.IdenticalCarsComboBox.Location = new System.Drawing.Point(275, 36);
+            this.IdenticalCarsComboBox.Name = "IdenticalCarsComboBox";
+            this.IdenticalCarsComboBox.Size = new System.Drawing.Size(85, 28);
+            this.IdenticalCarsComboBox.TabIndex = 41;
+            this.IdenticalCarsComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.DrawColoredItems);
+            this.IdenticalCarsComboBox.SelectedIndexChanged += new System.EventHandler(this.IdenticalCarsComboBox_SelectedIndexChanged);
             // 
             // MainWindow
             // 
@@ -1249,8 +1274,6 @@ namespace TrafficFlowSimulation.Windows
 
         }
 
-        private System.Windows.Forms.ComboBox AutoScrollComboBox;
-
         #endregion
 
         private System.Windows.Forms.ToolStrip ControlMenuStrip;
@@ -1293,7 +1316,6 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.Label MaximumSpeedLabel;
         private System.Windows.Forms.Label AccelerationIntensityLabel;
         private System.Windows.Forms.Label DecelerationIntensityLabel;
-        private System.Windows.Forms.ComboBox IdenticalCarsComboBox;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.GroupBox AdditionalParametersGroupBox;
         private System.Windows.Forms.TableLayoutPanel AdditionalParametersTableLayoutPanel;
@@ -1339,6 +1361,10 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.ToolStripMenuItem HideAxisToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel DrivingModeStripLabel;
-        private System.Windows.Forms.ToolStripComboBox DrivingModeStripComboBox;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private CustomControls.CustomComboBox AutoScrollComboBox;
+        private CustomControls.CustomComboBox IdenticalCarsComboBox;
     }
 }

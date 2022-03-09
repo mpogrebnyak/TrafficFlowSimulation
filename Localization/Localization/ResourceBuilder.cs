@@ -16,7 +16,7 @@ namespace Localization.Localization
 			return (TResources)Get(typeof(TResources));
 		}
 
-		private object Get(Type typeOfResources)
+		internal object Get(Type typeOfResources)
 		{
 			var resources = ResourceProviderHelper.CreateLocalizedObject(_resourceManager, typeOfResources);
 

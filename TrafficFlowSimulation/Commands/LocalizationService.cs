@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Localization;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Localization.Localization;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.TranslationResources;
 using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.Windows;
 using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Commands
 {
@@ -19,7 +23,8 @@ namespace TrafficFlowSimulation.Commands
 			lc.LanguagesSwitcherButton.Text = LocalizationHelper.Get<MenuResources>().LanguagesSwitcheButtomTitle;
 			lc.StartToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StartButtonTitle;
 
-			FillAutoScrollComboBox(lc.AutoScrollComboBox);
+			TranslateCombobox(lc.AutoScrollComboBox, typeof(AutoScroll));
+			TranslateCombobox(lc.IdenticalCarsComboBox, typeof(IdenticalCars));
 			AllChartsTranslator(lc.AllCharts);
 
 			lc.LocalizationBinding.DataSource = new ParametersResources
@@ -39,16 +44,6 @@ namespace TrafficFlowSimulation.Commands
 				DecelerationIntensityLabel = LocalizationHelper.Get<ParametersResources>().DecelerationIntensityLabel,
 				SafelyDistanceLabel = LocalizationHelper.Get<ParametersResources>().SafelyDistanceLabel,
 			};
-		}
-
-		public static ComboBox FillAutoScrollComboBox(ComboBox comboBox)
-		{
-			var selectedIndex = comboBox.SelectedIndex;
-			comboBox.Items.Clear();
-			comboBox.Items.Add(LocalizationHelper.Get<MenuResources>().YesTitle);
-			comboBox.Items.Add(LocalizationHelper.Get<MenuResources>().NoTitle);
-			comboBox.SelectedIndex = selectedIndex == -1 ? 1 : selectedIndex;
-			return comboBox;
 		}
 
 		private static void AllChartsTranslator(AllChartsModel allCharts)
@@ -107,6 +102,35 @@ namespace TrafficFlowSimulation.Commands
 				allCharts.DistanceChart.ChartAreas[0].AxisY.Title =
 					LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText;
 			}
+		}
+
+		private static void TranslateCombobox(ComboBox comboBox, Type enumType)
+		{
+			var selectedItem = comboBox.SelectedItem;
+			var elements = new List<ComboboxItem>();
+
+			if (enumType == typeof(AutoScroll))
+			{
+				elements = (from AutoScroll e in Enum.GetValues(typeof(AutoScroll))
+					select new ComboboxItem
+					{
+						Text = e.GetDescription(),
+						Value = e
+					}).ToList();
+			}
+
+			if (enumType == typeof(IdenticalCars))
+			{
+				elements = (from IdenticalCars e in Enum.GetValues(typeof(IdenticalCars))
+					select new ComboboxItem
+					{
+						Text = e.GetDescription(),
+						Value = e
+					}).ToList();
+			}
+
+			comboBox.DataSource = elements;
+			comboBox.SelectedItem = selectedItem ?? 0;
 		}
 	}
 }

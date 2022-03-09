@@ -29,7 +29,6 @@ namespace TrafficFlowSimulation.Windows
 		{
 			carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
 			chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
-			IdenticalCarsComboBox.SelectedIndex = 0;
 			ControlMenuStrip.Renderer = new ControlToolStripCustomRender();
 			ChartContainerСontextMenuStrip.Renderer = new ToolStripProfessionalRenderer(new SubMenuCustomColorTable());
 
@@ -47,7 +46,8 @@ namespace TrafficFlowSimulation.Windows
 				ParametersErrorProvider = ParametersErrorProvider,
 				LanguagesSwitcherButton = languagesSwitcherButton,
 				StartToolStripButton = StartToolStripButton,
-				AutoScrollComboBox = AutoScrollComboBox
+				AutoScrollComboBox = AutoScrollComboBox,
+				IdenticalCarsComboBox = IdenticalCarsComboBox
 			};
 		}
 
@@ -147,7 +147,8 @@ namespace TrafficFlowSimulation.Windows
 
 		private void IdenticalCarsComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			switch (MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox))
+			var item = (ComboboxItem)IdenticalCarsComboBox.SelectedItem;
+			switch (item.Value)
 			{
 				case IdenticalCars.Yes:
 					MainWindowHelper.HideMultipleField(Controls.Owner);
@@ -186,5 +187,10 @@ namespace TrafficFlowSimulation.Windows
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowAxis(chart.Text);
 		}
-	}
+		private void DrawColoredItems(object sender, DrawItemEventArgs e)
+		{
+			var comboBox = sender as ComboBox;
+			MainWindowHelper.DrawColoredItems(comboBox, e);
+		}
+    }
 }

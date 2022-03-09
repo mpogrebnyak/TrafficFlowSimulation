@@ -36,14 +36,6 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.en, "Positions:")]
 		public string DistanceChartLegendTitleText { get; set; }
 
-		[Translation(Locales.ru, "Да")]
-		[Translation(Locales.en, "Yes")]
-		public string YesTitle { get; set; }
-
-		[Translation(Locales.ru, "Нет")]
-		[Translation(Locales.en, "No")]
-		public string NoTitle { get; set; }
-
 		[Translation(Locales.ru, "Время")]
 		[Translation(Locales.en, "Time")]
 		public string TimeAxisTitleText { get; set; }

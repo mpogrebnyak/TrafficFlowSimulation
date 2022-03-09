@@ -93,5 +93,23 @@ namespace TrafficFlowSimulation.Windows
 				yield return next;
 			}
 		}
+
+		public static void DrawColoredItems(ComboBox comboBox, DrawItemEventArgs e)
+		{
+			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+			{
+				e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), e.Bounds);
+			}
+			else
+			{
+				e.Graphics.FillRectangle(new SolidBrush(SystemColors.Window), e.Bounds);
+			}
+
+			if (e.Index != -1)
+				e.Graphics.DrawString(comboBox.Items[e.Index].ToString(),
+					e.Font,
+					new SolidBrush(Color.Black),
+					new Point(e.Bounds.X, e.Bounds.Y));
+		}
 	}
 }
