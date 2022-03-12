@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.Windows.Controllers;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows
@@ -46,6 +47,9 @@ namespace TrafficFlowSimulation.Windows
 				ParametersErrorProvider = ParametersErrorProvider,
 				LanguagesSwitcherButton = languagesSwitcherButton,
 				StartToolStripButton = StartToolStripButton,
+				StopToolStripButton = StopToolStripButton,
+				ContinueToolStripButton = ContinueToolStripButton,
+				DrivingModeStripLabel = DrivingModeStripLabel,
 				AutoScrollComboBox = AutoScrollComboBox,
 				IdenticalCarsComboBox = IdenticalCarsComboBox
 			};
@@ -61,6 +65,8 @@ namespace TrafficFlowSimulation.Windows
 			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
 			RenderingHelper.CreateCharts(_allCharts, modelParameters);
 
+			DrivingModeControllers.Initialize(DrivingModeStripDropDownButton);
+		
 			// перенести в main
 			CarsRenderingHelper.CreatePaintedCars();
 		}
@@ -69,8 +75,8 @@ namespace TrafficFlowSimulation.Windows
 		{
 			parametersPanel.Hide();
 			ModelParametersBinding.EndEdit();
-			var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
-			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
+			//var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
+			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
 			var modeSettings = new ModeSettings();
 			modeSettings.MapTo(AutoScrollComboBox.SelectedIndex, ScrollForNumericUpDown.Value);
 
@@ -102,6 +108,7 @@ namespace TrafficFlowSimulation.Windows
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("En");
 			languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
 			LocalizationService.Translate(_localizationComponents);
+			DrivingModeControllers.Initialize(DrivingModeStripDropDownButton);
 		}
 
 		private void RussianMenuItem_Click(object sender, EventArgs e)
@@ -109,6 +116,7 @@ namespace TrafficFlowSimulation.Windows
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 			languagesSwitcherButton.Image = Properties.Resources.russia;
 			LocalizationService.Translate(_localizationComponents);
+			DrivingModeControllers.Initialize(DrivingModeStripDropDownButton);
 		}
 
 		private void StopToolStripButton_Click(object sender, EventArgs e)
@@ -187,6 +195,7 @@ namespace TrafficFlowSimulation.Windows
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowAxis(chart.Text);
 		}
+
 		private void DrawColoredItems(object sender, DrawItemEventArgs e)
 		{
 			var comboBox = sender as ComboBox;

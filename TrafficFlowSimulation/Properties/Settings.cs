@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Properties
 {
 	public class Settings
 	{
+		[DefaultValue("SingleLaneTraffic, SingleLaneTraffic2")]
+		public DrivingMode[] AvailableDrivingModes { get; set; }
+
 		[DefaultValue("ColorCars")]
 		public string PaintedCarsFolder { get; set; }
 		

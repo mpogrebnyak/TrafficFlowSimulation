@@ -12,6 +12,18 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.en, "Start")]
 		public string StartButtonTitle { get; set; }
 
+		[Translation(Locales.ru, "Стоп")]
+		[Translation(Locales.en, "Stop")]
+		public string StopButtonTitle { get; set; }
+
+		[Translation(Locales.ru, "Продолжить")]
+		[Translation(Locales.en, "Continue")]
+		public string ContinueButtonTitle { get; set; }
+
+		[Translation(Locales.ru, "Режим движения:")]
+		[Translation(Locales.en, "Driving mode:")]
+		public string DrivingModeLabel { get; set; }
+
 		[Translation(Locales.ru, "V: {0} \nS: {1}")]
 		[Translation(Locales.en, "V: {0} \nS: {1}")]
 		public string CarsMovementChartLegendText { get; set; }

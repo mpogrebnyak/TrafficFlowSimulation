@@ -44,6 +44,14 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.en, "Safely Distance")]
 		public string SafelyDistanceLabel { get; set; }
 
+		[Translation(Locales.ru, "Коэффициент плавности")]
+		[Translation(Locales.en, "Smoothness coefficient")]
+		public string SmoothnessCoefficientLabel { get; set; }
+
+		[Translation(Locales.ru, "Расстояние влияния")]
+		[Translation(Locales.en, "Influence distance")]
+		public string InfluenceDistanceLabel { get; set; }
+
 		[Translation(Locales.ru, "Дополнительные параметры:")]
 		[Translation(Locales.en, "Additional parameters:")]
 		public string AdditionalParametersGroupBoxText { get; set; }

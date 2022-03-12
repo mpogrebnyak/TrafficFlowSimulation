@@ -22,6 +22,9 @@ namespace TrafficFlowSimulation.Commands
 			lc.ParametersErrorProvider.UpdateBinding();
 			lc.LanguagesSwitcherButton.Text = LocalizationHelper.Get<MenuResources>().LanguagesSwitcheButtomTitle;
 			lc.StartToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StartButtonTitle;
+			lc.StopToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StopButtonTitle;
+			lc.ContinueToolStripButton.Text = LocalizationHelper.Get<MenuResources>().ContinueButtonTitle;
+			lc.DrivingModeStripLabel.Text = LocalizationHelper.Get<MenuResources>().DrivingModeLabel;
 
 			TranslateCombobox(lc.AutoScrollComboBox, typeof(AutoScroll));
 			TranslateCombobox(lc.IdenticalCarsComboBox, typeof(IdenticalCars));
@@ -35,7 +38,7 @@ namespace TrafficFlowSimulation.Commands
 				AdditionalParametersGroupBoxText = LocalizationHelper.Get<ParametersResources>().AdditionalParametersGroupBoxText,
 				InitialConditionsGroupBoxText = LocalizationHelper.Get<ParametersResources>().InitialConditionsGroupBoxText,
 				ControlsGroupBoxText = LocalizationHelper.Get<ParametersResources>().ControlsGroupBoxText,
-
+				
 				VehiclesNumberLabel = LocalizationHelper.Get<ParametersResources>().VehiclesNumberLabel,
 				IdenticalCarsLabel = LocalizationHelper.Get<ParametersResources>().IdenticalCarsLabel,
 				DriverResponseTimeLabel = LocalizationHelper.Get<ParametersResources>().DriverResponseTimeLabel,
@@ -43,6 +46,8 @@ namespace TrafficFlowSimulation.Commands
 				AccelerationIntensityLabel = LocalizationHelper.Get<ParametersResources>().AccelerationIntensityLabel,
 				DecelerationIntensityLabel = LocalizationHelper.Get<ParametersResources>().DecelerationIntensityLabel,
 				SafelyDistanceLabel = LocalizationHelper.Get<ParametersResources>().SafelyDistanceLabel,
+				SmoothnessCoefficientLabel = LocalizationHelper.Get<ParametersResources>().SmoothnessCoefficientLabel,
+				InfluenceDistanceLabel = LocalizationHelper.Get<ParametersResources>().InfluenceDistanceLabel,
 			};
 		}
 

@@ -16,6 +16,7 @@ namespace TrafficFlowSimulation.Commands
 		{
 			var modelParametersModel = new ModelParametersModel
 			{
+
 				Lenght = 100,
 				n = 3,
 				Vmax = 16.7,

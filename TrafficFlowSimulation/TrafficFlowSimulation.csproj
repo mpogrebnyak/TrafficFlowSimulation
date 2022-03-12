@@ -77,6 +77,7 @@
     <Compile Include="Rendering\Renders\DistanceChartRender.cs" />
     <Compile Include="Rendering\Renders\SingleLaneTraffic.cs" />
     <Compile Include="Rendering\Renders\SpeedChartRender.cs" />
+    <Compile Include="Windows\Controllers\DrivingModeControllers.cs" />
     <Compile Include="Windows\CustomControls\ComboboxItem.cs" />
     <Compile Include="Windows\CustomControls\ControlToolStripCustomRender.cs" />
     <Compile Include="Windows\CustomControls\CustomComboBox.cs">
