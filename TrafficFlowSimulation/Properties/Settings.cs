@@ -5,7 +5,7 @@ namespace TrafficFlowSimulation.Properties
 {
 	public class Settings
 	{
-		[DefaultValue("SingleLaneTraffic, SingleLaneTraffic2")]
+		[DefaultValue("StartAndStopMovement, TrafficThroughTrafficLights")]
 		public DrivingMode[] AvailableDrivingModes { get; set; }
 
 		[DefaultValue("ColorCars")]

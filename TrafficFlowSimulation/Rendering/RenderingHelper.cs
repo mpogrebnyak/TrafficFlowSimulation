@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
+using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Rendering.Renders;
@@ -12,57 +13,48 @@ namespace TrafficFlowSimulation.Rendering
 {
 	public static class RenderingHelper
 	{
-		private static SpeedChartRender? _scr;
-
-		private static DistanceChartRender? _dcr;
-
-		private static SingleLaneTraffic? _slt;
-
 		public static void CreateCharts(AllChartsModel charts, ModelParameters modelParameters)
 		{
-			_scr = new SpeedChartRender(modelParameters, charts.SpeedChart);
-			_scr.Render(SeriesChartType.Spline);
+			var speedProvider =
+				ServiceLocator.Current.GetInstance<IChartRender>(charts.SpeedChart.Name + DrivingMode.StartAndStopMovement);
+			var distanceProvider =
+				ServiceLocator.Current.GetInstance<IChartRender>(charts.DistanceChart.Name + DrivingMode.StartAndStopMovement);
+			var carMovementProvider =
+				ServiceLocator.Current.GetInstance<IChartRender>(charts.CarsMovementChart.Name + DrivingMode.StartAndStopMovement);
 
-			_dcr = new DistanceChartRender(modelParameters, charts.DistanceChart);
-			_dcr.Render(SeriesChartType.Spline);
-
-			_slt = new SingleLaneTraffic(modelParameters, charts.CarsMovementChart);
-			_slt.Render(SeriesChartType.Point);
+			speedProvider.RenderChart(modelParameters);
+			distanceProvider.RenderChart(modelParameters);
+			carMovementProvider.RenderChart(modelParameters);
 		}
 
-		public static void UpdateCharts(double t, double[] x, double[] y )
+		public static void UpdateCharts(AllChartsModel charts, double t, double[] x, double[] y )
 		{
-			_scr?.Update(new List<double> {t}, null!, y.ToList());
-			_dcr?.Update(new List<double> {t}, x.ToList());
-			_slt?.Update(new List<double> {t}, x.ToList(), y.ToList());
+			var speedProvider =
+				ServiceLocator.Current.GetInstance<IChartRender>(charts.SpeedChart.Name + DrivingMode.StartAndStopMovement);
+			var distanceProvider =
+				ServiceLocator.Current.GetInstance<IChartRender>(charts.DistanceChart.Name + DrivingMode.StartAndStopMovement);
+			var carMovementProvider =
+				ServiceLocator.Current.GetInstance<IChartRender>(charts.CarsMovementChart.Name + DrivingMode.StartAndStopMovement);
+
+			speedProvider.UpdateChart(new List<double> {t}, null!, y.ToList());
+			distanceProvider.UpdateChart(new List<double> {t}, x.ToList());
+			carMovementProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
 		}
 
-		public static void ShowLegend(string chartText, LegendStyle style)
+		public static void ShowLegend(Chart chart, LegendStyle? legendStyle)
 		{
-			if (style == LegendStyle.Table)
-				ShowLegend(chartText, LegendDisplayOptions.Full);
-			if (style == LegendStyle.Column)
-				ShowLegend(chartText, LegendDisplayOptions.Partially);
+			var provider =
+				ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + DrivingMode.StartAndStopMovement);
+
+			provider.ShowChartLegend(legendStyle);
 		}
 
-		public static void ShowLegend(string chartText, LegendDisplayOptions option)
+		public static void ShowAxis(Chart chart, bool isHidden = false)
 		{
-			if (chartText == _scr?.ChartText)
-				_scr?.ShowLegend(option);
-			if (chartText == _dcr?.ChartText)
-				_dcr?.ShowLegend(option);
-			if (chartText == _slt?.ChartText)
-				_slt?.ShowLegend(option);
-		}
-
-		public static void ShowAxis(string chartText, bool isHidden = false)
-		{
-			if (chartText == _scr?.ChartText)
-				_scr?.SetChartAreaAxisTitle(isHidden);
-			if (chartText == _dcr?.ChartText)
-				_dcr?.SetChartAreaAxisTitle(isHidden);;
-			if (chartText == _slt?.ChartText)
-				_slt?.SetChartAreaAxisTitle(isHidden);;
+			var provider =
+				ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + DrivingMode.StartAndStopMovement);
+			
+			provider.SetChartAreaAxisTitle(isHidden);
 		}
 
 		public static void SaveChart(Chart chart)

@@ -24,6 +24,10 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.en, "Driving mode:")]
 		public string DrivingModeLabel { get; set; }
 
+		[Translation(Locales.ru, "Нет доступных режимов")]
+		[Translation(Locales.en, "No modes available")]
+		public string EmptyDrivingModeLabel { get; set; }
+
 		[Translation(Locales.ru, "V: {0} \nS: {1}")]
 		[Translation(Locales.en, "V: {0} \nS: {1}")]
 		public string CarsMovementChartLegendText { get; set; }
@@ -59,5 +63,13 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.ru, "Расстояние")]
 		[Translation(Locales.en, "Distance")]
 		public string DistanceAxisTitleText { get; set; }
+		
+		[Translation(Locales.ru, "x")]
+		[Translation(Locales.en, "x")]
+		public string XAxisTitleText { get; set; }
+		
+		[Translation(Locales.ru, "y")]
+		[Translation(Locales.en, "y")]
+		public string YAxisTitleText { get; set; }
 	}
 }

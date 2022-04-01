@@ -1,15 +1,21 @@
 ﻿using Localization;
 using System;
+using System.Configuration;
 using System.Globalization;
 using System.Windows.Forms;
 using Localization.Localization;
+using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 using Settings;
 using TrafficFlowSimulation.Properties;
 using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.Rendering.Renders;
 using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation
 {
+
 	static class Program
 	{
 		/// <summary>

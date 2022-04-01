@@ -36,7 +36,7 @@ namespace TrafficFlowSimulation.Commands
 				g = 9.8,
 				mu = 0.6,
 
-				lambda = 15,
+				lambda = 5,
 				lambda_multiple = string.Empty,
 				Vn = 0,
 				Vn_multiple = string.Empty

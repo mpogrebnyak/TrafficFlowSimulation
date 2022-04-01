@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Rendering;
@@ -53,6 +54,9 @@ namespace TrafficFlowSimulation.Windows
 				AutoScrollComboBox = AutoScrollComboBox,
 				IdenticalCarsComboBox = IdenticalCarsComboBox
 			};
+			
+			
+			RenderConfiguration.RegistrateCharts(_allCharts);
 		}
 
 		private void InitializeInterface()
@@ -138,19 +142,19 @@ namespace TrafficFlowSimulation.Windows
 		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.None);
+			RenderingHelper.ShowLegend(chart, null);
 		}
 
 		private void ShowFullToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.Full);
+			RenderingHelper.ShowLegend(chart, LegendStyle.Table);
 		}
 
 		private void ShowPartiallyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.Partially);
+			RenderingHelper.ShowLegend(chart, LegendStyle.Column);
 		}
 
 		private void IdenticalCarsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -171,14 +175,15 @@ namespace TrafficFlowSimulation.Windows
 
 		private void BasicParametersTableLayoutPanel_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
 		{
-			if (MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox) == IdenticalCars.No)
+			var isAllCarsIdentical = (IdenticalCars)(IdenticalCarsComboBox.SelectedItem as ComboboxItem).Value;
+			if (isAllCarsIdentical == IdenticalCars.No)
 				MainWindowHelper.PaintCellPaint(sender, e);
 		}
 
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
 			ModelParametersBinding.EndEdit();
-			var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
+			var isAllCarsIdentical = (IdenticalCars)(IdenticalCarsComboBox.SelectedItem as ComboboxItem).Value;
 			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
 
 			RenderingHelper.CreateCharts(_allCharts, modelParameters);
@@ -187,13 +192,13 @@ namespace TrafficFlowSimulation.Windows
 		private void HideAxisToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowAxis(chart.Text, true);
+			RenderingHelper.ShowAxis(chart, true);
 		}
 
 		private void ShowAxisToolStripMenuItem_Click(object sender, EventArgs e)
 		{ 
 			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowAxis(chart.Text);
+			RenderingHelper.ShowAxis(chart, false);
 		}
 
 		private void DrawColoredItems(object sender, DrawItemEventArgs e)

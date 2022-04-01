@@ -21,16 +21,6 @@ namespace TrafficFlowSimulation.Windows
 			return (owner as ContextMenuStrip).SourceControl as Chart;
 		}
 
-		public static IdenticalCars IsAllCarsIdentical(ComboBox comboBox)
-		{
-			return comboBox.SelectedIndex switch
-			{
-				0 => IdenticalCars.Yes,
-				1 => IdenticalCars.No,
-				_ => IdenticalCars.No
-			};
-		}
-
 		public static void HideMultipleField(Control root)
 		{
 			var allControls = GetAllControls(root);

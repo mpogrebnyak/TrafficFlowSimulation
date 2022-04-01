@@ -90,7 +90,7 @@ namespace TrafficFlowSimulation.Commands
 					MethodInvoker action = delegate
 					{
 
-						RenderingHelper.UpdateCharts(t, x, y);
+						RenderingHelper.UpdateCharts(p.Charts, t, x, y);
 
 						if(p.ModeSettings.AutoScroll == AutoScroll.Yes)
 						{

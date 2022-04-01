@@ -63,9 +63,9 @@ namespace TrafficFlowSimulation.Commands
 		private static void TranslateChart(Chart chart)
 		{
 			if (chart.Legends.Any())
-				RenderingHelper.ShowLegend(chart.Text, chart.Legends[0].LegendStyle);
+				RenderingHelper.ShowLegend(chart, chart.Legends[0].LegendStyle);
 			else
-				RenderingHelper.ShowLegend(chart.Text, LegendDisplayOptions.None);
+				RenderingHelper.ShowLegend(chart, null);
 		}
 		
 		private static void ShowXAxis(AllChartsModel allCharts)

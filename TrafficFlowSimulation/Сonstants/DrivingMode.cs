@@ -6,10 +6,10 @@ namespace TrafficFlowSimulation.Сonstants;
 public enum DrivingMode
 {
 	[LocalizedDescription("SingleLaneTraffic", typeof(EnumResources))]
-	SingleLaneTraffic = 1,
+	StartAndStopMovement = 1,
 
-	[LocalizedDescription("SingleLaneTraffic2", typeof(EnumResources))]
-	SingleLaneTraffic2 = 2,
+	[LocalizedDescription("TrafficThroughTrafficLights", typeof(EnumResources))]
+	TrafficThroughTrafficLights = 2,
 
 	[LocalizedDescription("SingleLaneTraffic3", typeof(EnumResources))]
 	SingleLaneTraffic3 = 3,
