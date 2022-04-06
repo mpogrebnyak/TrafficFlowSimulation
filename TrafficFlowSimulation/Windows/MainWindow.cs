@@ -2,11 +2,16 @@
 using System.Globalization;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Commands;
+using TrafficFlowSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.MovementSimulation;
 using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.Rendering.Renders;
 using TrafficFlowSimulation.Windows.Controllers;
 using TrafficFlowSimulation.Сonstants;
+//using EvaluationHandler = TrafficFlowSimulation.Commands.EvaluationHandler;
 
 namespace TrafficFlowSimulation.Windows
 {
@@ -54,9 +59,8 @@ namespace TrafficFlowSimulation.Windows
 				AutoScrollComboBox = AutoScrollComboBox,
 				IdenticalCarsComboBox = IdenticalCarsComboBox
 			};
-			
-			
-			RenderConfiguration.RegistrateCharts(_allCharts);
+
+			MovementSimulationConfiguration.Registrate(_allCharts);
 		}
 
 		private void InitializeInterface()
@@ -67,8 +71,8 @@ namespace TrafficFlowSimulation.Windows
 			ModelParametersBinding.DataSource = defaultModelParameters;
 
 			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
-			RenderingHelper.CreateCharts(_allCharts, modelParameters);
-
+			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 			DrivingModeControllers.Initialize(DrivingModeStripDropDownButton);
 		
 			// перенести в main
@@ -84,19 +88,25 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = new ModeSettings();
 			modeSettings.MapTo(AutoScrollComboBox.SelectedIndex, ScrollForNumericUpDown.Value);
 
-			RenderingHelper.CreateCharts(_allCharts, modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
 
-			EvaluationHandler.AbortExecution();
-			EvaluationHandler.Execute(
-				_allCharts,
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(DrivingMode.StartAndStopMovement.ToString()).AbortExecution();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(DrivingMode.StartAndStopMovement.ToString()).Execute(_allCharts,
 				modelParameters,
-				modeSettings
-				);
+				modeSettings);
+			//EvaluationHandler.AbortExecution();
+			//EvaluationHandler.Execute(
+			//	_allCharts,
+			//	modelParameters,
+			//	modeSettings
+			//	);
 		}
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			EvaluationHandler.AbortExecution();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(DrivingMode.StartAndStopMovement.ToString()).AbortExecution();
+			//EvaluationHandler.AbortExecution();
 		}
 
 		private void SlamPanel_MouseClick(object sender, MouseEventArgs e)
@@ -125,12 +135,14 @@ namespace TrafficFlowSimulation.Windows
 
 		private void StopToolStripButton_Click(object sender, EventArgs e)
 		{
-			EvaluationHandler.StopThread();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(DrivingMode.StartAndStopMovement.ToString()).StopExecution();
+			//EvaluationHandler.StopThread();
 		}
 
 		private void ContinueToolStripButton_Click(object sender, EventArgs e)
 		{
-			EvaluationHandler.StartThread();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(DrivingMode.StartAndStopMovement.ToString()).StartExecution();
+			//EvaluationHandler.StartThread();
 		}
 
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -186,7 +198,9 @@ namespace TrafficFlowSimulation.Windows
 			var isAllCarsIdentical = (IdenticalCars)(IdenticalCarsComboBox.SelectedItem as ComboboxItem).Value;
 			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
 
-			RenderingHelper.CreateCharts(_allCharts, modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			//
+			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
 		}
 
 		private void HideAxisToolStripMenuItem_Click(object sender, EventArgs e)

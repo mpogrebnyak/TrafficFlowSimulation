@@ -4,7 +4,9 @@ using Settings;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Rendering;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows.Controllers
@@ -47,6 +49,8 @@ namespace TrafficFlowSimulation.Windows.Controllers
 			var owner = (selectedModeItem.Owner as ToolStripDropDownMenu).OwnerItem;
 			owner.Text = selectedModeItem.Text;
 
+			var mode = (DrivingMode) Enum.Parse(typeof(DrivingMode), selectedModeItem.Name);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().ChangeDrivingMode(mode);
 		}
 	}
 }

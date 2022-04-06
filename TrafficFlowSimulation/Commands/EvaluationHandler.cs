@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Models;
+using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Rendering;
 using TrafficFlowSimulation.Сonstants;
@@ -89,8 +90,8 @@ namespace TrafficFlowSimulation.Commands
 					tp = t;
 					MethodInvoker action = delegate
 					{
-
-						RenderingHelper.UpdateCharts(p.Charts, t, x, y);
+						ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
+						//RenderingHelper.UpdateCharts(p.Charts, t, x, y);
 
 						if(p.ModeSettings.AutoScroll == AutoScroll.Yes)
 						{
