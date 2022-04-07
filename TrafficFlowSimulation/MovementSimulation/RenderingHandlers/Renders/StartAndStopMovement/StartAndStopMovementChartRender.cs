@@ -6,10 +6,10 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using Settings;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.Properties.TranslationResources;
-using TrafficFlowSimulation.Rendering.Models;
 
-namespace TrafficFlowSimulation.Rendering.Renders.StartAndStopMovement;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 
 public class StartAndStopMovementChartRender : ChartsRender
 {

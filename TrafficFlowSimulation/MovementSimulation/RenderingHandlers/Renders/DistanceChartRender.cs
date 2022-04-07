@@ -7,7 +7,7 @@ using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.Properties.TranslationResources;
 
-namespace TrafficFlowSimulation.Rendering.Renders;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 
 public class DistanceChartRender : ChartsRender
 {

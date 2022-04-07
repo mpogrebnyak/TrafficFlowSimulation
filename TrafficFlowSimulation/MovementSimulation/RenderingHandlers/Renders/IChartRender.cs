@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Сonstants;
 
-namespace TrafficFlowSimulation.Rendering.Renders;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 
 public interface IChartRender
 {

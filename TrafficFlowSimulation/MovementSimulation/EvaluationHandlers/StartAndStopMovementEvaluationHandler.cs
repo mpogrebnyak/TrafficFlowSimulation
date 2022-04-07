@@ -4,11 +4,10 @@ using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
-using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Сonstants;
 
-namespace TrafficFlowSimulation.EvaluationHandlers;
+namespace TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 
 public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 {
@@ -65,7 +64,6 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 				MethodInvoker action = delegate
 				{
 					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
-					//RenderingHelper.UpdateCharts(p.Charts, t, x, y);
 
 					if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
 					{

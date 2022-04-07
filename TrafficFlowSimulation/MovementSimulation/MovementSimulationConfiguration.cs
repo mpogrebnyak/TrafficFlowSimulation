@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Rendering;
-using TrafficFlowSimulation.Rendering.Renders;
-using TrafficFlowSimulation.Rendering.Renders.MovementThroughOneTrafficLight;
-using TrafficFlowSimulation.Rendering.Renders.StartAndStopMovement;
+using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.MovementSimulation;

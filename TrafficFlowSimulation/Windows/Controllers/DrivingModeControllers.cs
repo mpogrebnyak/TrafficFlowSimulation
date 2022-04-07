@@ -5,8 +5,8 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Practices.ServiceLocation;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.TranslationResources;
-using TrafficFlowSimulation.Rendering;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows.Controllers

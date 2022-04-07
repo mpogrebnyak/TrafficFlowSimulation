@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\EvaluationHandler.cs" />
     <Compile Include="Commands\LocalizationService.cs" />
     <Compile Include="Commands\ModelParametersMapper.cs" />
     <Compile Include="Commands\ValidationModel.cs" />
@@ -86,7 +85,6 @@
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\SpeedChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementChartRender.cs" />
-    <Compile Include="MovementSimulation\RenderingHandlers\Renders\TrafficThroughTrafficLightsChartRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.cs" />

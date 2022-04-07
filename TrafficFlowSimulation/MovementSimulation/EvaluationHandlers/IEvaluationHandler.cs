@@ -1,7 +1,7 @@
 ﻿using EvaluationKernel.Models;
 using TrafficFlowSimulation.Models;
 
-namespace TrafficFlowSimulation.EvaluationHandlers;
+namespace TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 
 public interface IEvaluationHandler
 {

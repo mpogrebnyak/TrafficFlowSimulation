@@ -7,11 +7,10 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Localization.Localization;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.TranslationResources;
-using TrafficFlowSimulation.Rendering;
 using TrafficFlowSimulation.Windows;
 using TrafficFlowSimulation.Сonstants;
-using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Commands
 {

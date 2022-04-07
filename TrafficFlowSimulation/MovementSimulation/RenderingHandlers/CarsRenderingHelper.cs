@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
 using Settings;
 
-namespace TrafficFlowSimulation.Rendering
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 {
 	public static class CarsRenderingHelper
 	{

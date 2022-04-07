@@ -4,10 +4,10 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Rendering.Renders;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Сonstants;
 
-namespace TrafficFlowSimulation.Rendering;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 
 public class RenderingHandler
 {

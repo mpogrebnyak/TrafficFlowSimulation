@@ -4,13 +4,12 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Commands;
-using TrafficFlowSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.MovementSimulation;
-using TrafficFlowSimulation.Rendering;
+using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Windows.Controllers;
 using TrafficFlowSimulation.Сonstants;
-//using EvaluationHandler = TrafficFlowSimulation.Commands.EvaluationHandler;
 
 namespace TrafficFlowSimulation.Windows
 {

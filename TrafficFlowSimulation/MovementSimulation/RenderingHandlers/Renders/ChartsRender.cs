@@ -2,7 +2,7 @@
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 
-namespace TrafficFlowSimulation.Rendering.Renders;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 
 public abstract class ChartsRender : IChartRender
 {

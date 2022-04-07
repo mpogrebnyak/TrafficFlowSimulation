@@ -5,10 +5,10 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.Properties.TranslationResources;
-using TrafficFlowSimulation.Rendering.Models;
 
-namespace TrafficFlowSimulation.Rendering.Renders;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 
 public class SpeedChartRender : ChartsRender
 {
