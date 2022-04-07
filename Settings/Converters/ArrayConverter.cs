@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Text;
 
 namespace Settings.Converters
@@ -36,6 +34,25 @@ namespace Settings.Converters
 			}
 
 			return Array.CreateInstance(elementType, 0);
+		}
+
+		public string ToString(object value)
+		{
+			if (value == null) return null;
+
+			var type = value.GetType();
+
+			if (!IsSupportedType(type))
+				throw new NotSupportedException(string.Format("Only primitive arrays are supported by [{0}] converter", GetType()));
+
+			var collection = (IEnumerable)value;
+			var classConverter = new ClassConverter();
+			
+			var convertedData = new List<string>();
+			foreach (var elem in collection)
+				convertedData.Add(classConverter.ToString(elem));
+
+			return GetStorageString(convertedData);
 		}
 
 		private object ConvertStringToArray(string value, Type elementType)
@@ -133,6 +150,43 @@ namespace Settings.Converters
 
 			if (builder.Length == 0) return null;
 			return builder.ToString();
+		}
+
+		private static string EscapeString(string unescapedString)
+		{
+			var b = new StringBuilder();
+
+			var origLength = unescapedString.Length;
+			unescapedString = unescapedString.TrimStart(' ');
+			var leadingSpaceCount = origLength - unescapedString.Length;
+
+			origLength = unescapedString.Length;
+			unescapedString = unescapedString.TrimEnd(' ');
+			var tralingSpaceCount = origLength - unescapedString.Length;
+
+			// keeping safe leading and trailing spaces (if here we have such value, we should not remove spaces
+			for (var i = 0; i < leadingSpaceCount; i++) b.Append("\\ ");
+
+			foreach (var c in unescapedString)
+			{
+				if (c == '\n') b.Append("\\n");
+				else if (c == '\r') b.Append("\\r");
+				else if (c == '\t') b.Append("\\t");
+				else if (c == '\\') b.Append("\\\\");
+				else if (c == ',') b.Append("\\,");
+				else b.Append(c);
+			}
+
+			for (var i = 0; i < tralingSpaceCount; i++) b.Append("\\ ");
+
+			return b.ToString();
+		}
+
+		private static string GetStorageString(IList<string> preparedValues)
+		{
+			return preparedValues.Any()
+				? string.Join(",", preparedValues.Select(x => (x ?? string.Empty)).Select(EscapeString))
+				: string.Empty;
 		}
 	}
 }

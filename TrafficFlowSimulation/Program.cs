@@ -1,17 +1,12 @@
 ﻿using Localization;
 using System;
-using System.Configuration;
 using System.Globalization;
 using System.Windows.Forms;
 using Localization.Localization;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using Settings;
-using TrafficFlowSimulation.Properties;
 using TrafficFlowSimulation.Properties.TranslationResources;
-using TrafficFlowSimulation.Rendering;
-using TrafficFlowSimulation.Rendering.Renders;
 using TrafficFlowSimulation.Windows;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation
 {
@@ -24,6 +19,7 @@ namespace TrafficFlowSimulation
 		[STAThread]
 		static void Main()
 		{
+			SetSettings();
 			Registration();
 
 			Application.EnableVisualStyles();
@@ -39,8 +35,20 @@ namespace TrafficFlowSimulation
 			var parametersResourcesProvider = new ResourceProvider(typeof(ParametersResources));
 			LocalizationHelper.Register(menuResourcesProvider);
 			LocalizationHelper.Register(parametersResourcesProvider);
+		}
 
+		private static void SetSettings()
+		{
 			SettingsHelper.InitializeSettings();
+
+			var settings = SettingsHelper.Get<Properties.Settings>();
+			settings.AvailableDrivingModes = 
+				new[]
+				{
+					DrivingMode.StartAndStopMovement,
+					DrivingMode.TrafficThroughTrafficLights
+				};
+			SettingsHelper.Set<Properties.Settings>(settings);
 		}
 	}
 }

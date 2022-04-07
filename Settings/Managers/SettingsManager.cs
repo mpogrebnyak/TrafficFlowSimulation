@@ -1,5 +1,4 @@
-﻿using System;
-using Settings.Converters;
+﻿using Settings.Converters;
 using Settings.Metadata;
 using Settings.Metadata.Models;
 
@@ -9,18 +8,29 @@ namespace Settings.Managers
 	{
 		private readonly ISettingsMetadataManager _metadataManager;
 
-		public SettingsManager(ISettingsMetadataManager metadataManager)
+		private readonly ISettingsStorage _storage;
+
+		public SettingsManager(ISettingsMetadataManager metadataManager, MemorySettingsStorage storage)
 		{
 			_metadataManager = metadataManager;
+			_storage = storage;
 		}
 
 		public object Get(Type settingType)
 		{
 			var entitySettings = _metadataManager.GetMetadata(settingType);
-			
+
 			var value = CreateAndFillInstance(entitySettings.SettingsMetadata);
 
 			return value;
+		}
+
+		public void Set(Type settingType, object instance)
+		{
+			var classMetadata = _metadataManager.GetMetadata(settingType);
+			var saver = new SettingInstanceSaver(classMetadata.SettingsMetadata, _storage);
+
+			saver.Save(instance);
 		}
 
 		private object CreateAndFillInstance(SettingsGroupMetadata metadata)
@@ -37,6 +47,11 @@ namespace Settings.Managers
 				else if (child is SettingsItemMetadata)
 				{
 					var itemMetadata = (SettingsItemMetadata)child;
+					var storageValue = _storage.Get(new SettingsKey {Name = itemMetadata.SettingsKey.PluralKey});
+
+					if (storageValue != null)
+						itemMetadata.DefaultValue = storageValue.Value;
+
 					propValue = ConvertDefalutValueToPropertyType(itemMetadata);
 				}
 				else

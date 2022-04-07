@@ -1,6 +1,4 @@
-﻿using Settings.Metadata;
-
-namespace Settings.Managers
+﻿namespace Settings.Managers
 {
 	public static class SettingsManagerExtensions
 	{

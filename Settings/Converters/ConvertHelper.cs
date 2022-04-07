@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace Settings.Converters
 {
@@ -60,9 +59,32 @@ namespace Settings.Converters
 					return ParseToBoolean(value.ToString(), (bool) ((object) (defaultValue) ?? (object) default(bool)));
 
 				if(nullableType.IsEnum) return Enum.Parse(underlyingType, value.ToString());
+
+				return ChangeType(targetType, value);
 			}
 
-			return null;
+			return ChangeType(targetType, value);;
+		}
+		
+		public static object ChangeType(Type targetType, object value)
+		{
+			if (value is IConvertible)
+			{
+				return Convert.ChangeType(value, targetType, CultureInfo.CurrentCulture);
+			}
+
+			if (targetType == typeof(string))
+			{
+				var typeValue = value as Type;
+				if (typeValue != null)
+				{
+					return typeValue.FullName + ", " + typeValue.Assembly.GetName().Name;
+				}
+
+				return Convert.ToString(value);
+			}
+
+			throw new InvalidOperationException(string.Format("Type cannot be changed from {0} to {1}.", value.GetType(), targetType));
 		}
 	}
 }

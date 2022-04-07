@@ -9,12 +9,18 @@ namespace Settings
 		public static void InitializeSettings()
 		{
 			var settingsMetadataManager = new SettingsMetadataManager();
-			_manager =  new SettingsManager(settingsMetadataManager);
+			var memorySettingsStorage = new MemorySettingsStorage();
+			_manager =  new SettingsManager(settingsMetadataManager, memorySettingsStorage);
 		}
 
 		public static TSettings Get<TSettings>() where TSettings : new()
 		{
 			return _manager.Get<TSettings>();
+		}
+		
+		public static void Set<TSettings>(TSettings instance) where TSettings : new()
+		{
+			_manager.Set(typeof(TSettings), instance);
 		}
 	}
 }
