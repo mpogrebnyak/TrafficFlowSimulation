@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Settings;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -100,6 +101,28 @@ namespace TrafficFlowSimulation.Windows
 					e.Font,
 					new SolidBrush(Color.Black),
 					new Point(e.Bounds.X, e.Bounds.Y));
+		}
+
+		public static void ShowCurrentModeSettingsFields(Control root)
+		{
+			var postfix = "_msf"; //modeSettingsField
+
+			var modeSettingsFields = GetAllControls(root)
+				.Where(x => x.Tag != null && x.Tag.ToString().Contains(postfix))
+				.ToList();
+
+			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+
+			var fieldsForShow = modeSettingsFields
+				.Where(x => x.Tag.ToString().Contains(currentDrivingMode.ToString()))
+				.ToList();
+
+			var fieldsForHide = modeSettingsFields
+				.Except(fieldsForShow)
+				.ToList();
+
+			fieldsForShow.ForEach(x => x.Show());
+			fieldsForHide.ForEach(x => x.Hide());
 		}
 	}
 }

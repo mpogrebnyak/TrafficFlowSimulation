@@ -47,6 +47,9 @@ public static class MovementSimulationConfiguration
 
 			serviceRegistrator.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightChartRender(allCharts.CarsMovementChart),
 				allCharts.CarsMovementChart.Name + DrivingMode.TrafficThroughTrafficLights);
+
+			serviceRegistrator.RegisterInstance<IEvaluationHandler>(() => new MovementThroughOneTrafficLightEvaluationHandler(),
+				DrivingMode.TrafficThroughTrafficLights.ToString());
 		}
 
 		serviceRegistrator.RegisterInstance<RenderingHandler>(() => new RenderingHandler(allCharts));

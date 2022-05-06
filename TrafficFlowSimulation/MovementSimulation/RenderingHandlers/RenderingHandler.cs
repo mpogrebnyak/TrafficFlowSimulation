@@ -4,6 +4,7 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Сonstants;
 
@@ -55,5 +56,12 @@ public class RenderingHandler
 		_speedProvider.UpdateChart(new List<double> {t}, null!, y.ToList());
 		_distanceProvider.UpdateChart(new List<double> {t}, x.ToList());
 		_carMovementProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+	}
+
+	public void UpdateChartEnvironments(EnvironmentParametersModel parameters)
+	{
+		_speedProvider.UpdateEnvironment(parameters);
+		_distanceProvider.UpdateEnvironment(parameters);
+		_carMovementProvider.UpdateEnvironment(parameters);
 	}
 }

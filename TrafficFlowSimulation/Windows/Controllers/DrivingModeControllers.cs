@@ -2,6 +2,7 @@
 using Localization.Localization;
 using Settings;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Practices.ServiceLocation;
@@ -13,8 +14,11 @@ namespace TrafficFlowSimulation.Windows.Controllers
 {
 	public static class DrivingModeControllers
 	{
-		public static void Initialize(ToolStripDropDownButton modesButton)
+		private static Control _root { get; set; }
+
+		public static void Initialize(ToolStripDropDownButton modesButton, Control root)
 		{
+			_root = root;
 			modesButton.DropDownItems.Clear();
 			var availableModes = SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes.ToList();
 
@@ -50,6 +54,12 @@ namespace TrafficFlowSimulation.Windows.Controllers
 			owner.Text = selectedModeItem.Text;
 
 			var mode = (DrivingMode) Enum.Parse(typeof(DrivingMode), selectedModeItem.Name);
+
+			var settings = SettingsHelper.Get<Properties.Settings>();
+			settings.CurrentDrivingMode = mode;
+			SettingsHelper.Set<Properties.Settings>(settings);
+
+			MainWindowHelper.ShowCurrentModeSettingsFields(_root);
 			ServiceLocator.Current.GetInstance<RenderingHandler>().ChangeDrivingMode(mode);
 		}
 	}

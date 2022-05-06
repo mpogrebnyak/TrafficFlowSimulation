@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 
@@ -48,6 +49,8 @@ public abstract class ChartsRender : IChartRender
 
 	public abstract void UpdateChart(List<double> p1 = null!, List<double> p2 = null!, List<double> p3 = null!);
 
+	public virtual void UpdateEnvironment(EnvironmentParametersModel parameters) { }
+
 	public abstract void SetChartAreaAxisTitle(bool isHidden = false);
 
 	public virtual void ShowChartLegend(LegendStyle? legendStyle)
@@ -65,6 +68,7 @@ public abstract class ChartsRender : IChartRender
 	protected abstract Legend CreateLegend(LegendStyle legendStyle);
 
 	protected abstract Series[] CreateEnvironment(ModelParameters modelParameters);
+	
 
 	private void FullClearChart()
 	{

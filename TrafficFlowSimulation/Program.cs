@@ -42,6 +42,7 @@ namespace TrafficFlowSimulation
 			SettingsHelper.InitializeSettings();
 
 			var settings = SettingsHelper.Get<Properties.Settings>();
+			settings.CurrentDrivingMode = DrivingMode.StartAndStopMovement;
 			settings.AvailableDrivingModes = 
 				new[]
 				{

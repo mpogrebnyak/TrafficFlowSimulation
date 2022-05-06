@@ -51,9 +51,27 @@ public class MovementThroughOneTrafficLightChartRender : ChartsRender
 		}
 	}
 
-	public override void UpdateChart(List<double> p1 = null, List<double> p2 = null, List<double> p3 = null)
+	public override void UpdateChart(List<double> t = null!, List<double> x = null!, List<double> y = null!)
 	{
-		throw new System.NotImplementedException();
+		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		{
+			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			_chart.Series[i].Points.RemoveAt(0);
+			_chart.Series[i].Points.AddXY(x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+
+		//	_chart.Series[i].LegendText = GetCarsMovementChartLegendText(y[i], x[i]);
+		//	_chart.Series[i].Label = GetCarsMovementChartLegendText(y[i], x[i]);
+		}
+	}
+
+	public override void UpdateEnvironment(EnvironmentParametersModel parameters)
+	{
+		var environmentModel = (EnvironmentModel) parameters;
+		var trafficLine = _chart.Series.First(series => series.Name.Contains("StartLine"));
+		trafficLine.Color = environmentModel.IsGreenLight ? Color.Green : Color.Red;
+		trafficLine.Label = environmentModel.IsGreenLight 
+			? Math.Round(environmentModel.GreenTime, 2).ToString()
+			: Math.Round(environmentModel.RedTime, 2).ToString();
 	}
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)
@@ -81,24 +99,24 @@ public class MovementThroughOneTrafficLightChartRender : ChartsRender
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
 				Maximum = _chartAreaModel.AxisXMaximum,
-				//ScaleView = new AxisScaleView
-				//{
-				//	//Zoomable = true,
-				//	SizeType = DateTimeIntervalType.Number,
-				//	MinSize = 30
-				//},
-			//	Interval = _chartAreaModel.AxisXInterval,
-			//	ScrollBar = new AxisScrollBar
-			//	{
-			//		ButtonStyle = ScrollBarButtonStyles.SmallScroll,
-			//		IsPositionedInside = true,
-			//		BackColor = Color.White,
-			//		ButtonColor = Color.FromArgb(249, 246, 247)
-			//	},
-			//	IsStartedFromZero = true,
-			//	Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
-			//	TitleFont = new Font("Microsoft Sans Serif", 10F),
-			//	TitleAlignment = StringAlignment.Far
+				ScaleView = new AxisScaleView
+				{
+					//Zoomable = true,
+					SizeType = DateTimeIntervalType.Number,
+					MinSize = 30
+				},
+				Interval = _chartAreaModel.AxisXInterval,
+				ScrollBar = new AxisScrollBar
+				{
+					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
+					IsPositionedInside = true,
+					BackColor = Color.White,
+					ButtonColor = Color.FromArgb(249, 246, 247)
+				},
+				IsStartedFromZero = true,
+				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+				TitleFont = new Font("Microsoft Sans Serif", 10F),
+				TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
@@ -140,9 +158,9 @@ public class MovementThroughOneTrafficLightChartRender : ChartsRender
 			Color = Color.Red,
 			IsVisibleInLegend = false
 		};
-		startLineSeries.Points.Add(new DataPoint(1, 0));
-		startLineSeries.Points.Add(new DataPoint(1, 1));
-		
+		startLineSeries.Points.Add(new DataPoint(0, 1));
+		startLineSeries.Points.Add(new DataPoint(0.0001, 0));
+	//	startLineSeries.Label = "10";
 		return new[]
 		{
 			startLineSeries,

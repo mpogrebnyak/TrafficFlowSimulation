@@ -66,22 +66,29 @@
   <ItemGroup>
     <Compile Include="Commands\LocalizationService.cs" />
     <Compile Include="Commands\ModelParametersMapper.cs" />
+    <Compile Include="Commands\ModeSettingsMapper.cs" />
     <Compile Include="Commands\ValidationModel.cs" />
     <Compile Include="Models\AllChartsModel.cs" />
     <Compile Include="Models\LocalizationComponentsModel.cs" />
     <Compile Include="Models\ModelParametersModel.cs" />
-    <Compile Include="Models\ModeSettings.cs" />
+    <Compile Include="Models\ModeSettingsModel.cs" />
+    <Compile Include="Models\ModeSettingsModels\ModeSettings.cs" />
+    <Compile Include="Models\ModeSettingsModels\MovementThroughOneTrafficLightModeSettings.cs" />
+    <Compile Include="Models\TrafficLightModel.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\EvaluationHandler.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\IEvaluationHandler.cs" />
+    <Compile Include="MovementSimulation\EvaluationHandlers\MovementThroughOneTrafficLightEvaluationHandler.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
     <Compile Include="MovementSimulation\MovementSimulationConfiguration.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\CarsRenderingHelper.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Models\ChartAreaModel.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Models\EnvironmentParametersModel.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\RenderingHandler.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\RenderingHelper.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\ChartsRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\DistanceChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\IChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\EnvironmentModel.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\SpeedChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementChartRender.cs" />
@@ -91,6 +98,7 @@
     <Compile Include="Properties\TranslationResources\EnumResources.cs" />
     <Compile Include="Properties\TranslationResources\MenuResources.cs" />
     <Compile Include="Properties\TranslationResources\ParametersResources.cs" />
+    <Compile Include="Services\DefaultModeSettingsService.cs" />
     <Compile Include="UnityServiceRegistrator.cs" />
     <Compile Include="Windows\Controllers\DrivingModeControllers.cs" />
     <Compile Include="Windows\CustomControls\ComboboxItem.cs" />
@@ -130,6 +138,7 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\EvaluationKernel.Models.ModelParameters.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Models.ModelParametersModel.datasource" />
+    <None Include="Properties\DataSources\TrafficFlowSimulation.Models.ModeSettingsModel.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Resources.MenuResources.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Resources.ParametersResources.datasource" />
   </ItemGroup>

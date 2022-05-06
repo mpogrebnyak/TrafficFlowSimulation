@@ -5,6 +5,8 @@ namespace TrafficFlowSimulation.Properties
 {
 	public class Settings
 	{
+		public DrivingMode CurrentDrivingMode { get; set; }
+
 		[DefaultValue("StartAndStopMovement, TrafficThroughTrafficLights")]
 		public DrivingMode[] AvailableDrivingModes { get; set; }
 
