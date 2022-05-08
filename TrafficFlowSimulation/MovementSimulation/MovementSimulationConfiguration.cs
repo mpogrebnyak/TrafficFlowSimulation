@@ -24,10 +24,10 @@ public static class MovementSimulationConfiguration
 
 		if (availableModes.Contains(DrivingMode.StartAndStopMovement))
 		{
-			serviceRegistrator.RegisterInstance<IChartRender>(() => new SpeedChartRender(allCharts.SpeedChart),
+			serviceRegistrator.RegisterInstance<IChartRender>(() => new StartAndStopMovementSpeedChartRender(allCharts.SpeedChart),
 				allCharts.SpeedChart.Name + DrivingMode.StartAndStopMovement);
 
-			serviceRegistrator.RegisterInstance<IChartRender>(() => new DistanceChartRender(allCharts.DistanceChart),
+			serviceRegistrator.RegisterInstance<IChartRender>(() => new StartAndStopMovementDistanceChartRender(allCharts.DistanceChart),
 				allCharts.DistanceChart.Name + DrivingMode.StartAndStopMovement);
 
 			serviceRegistrator.RegisterInstance<IChartRender>(() => new StartAndStopMovementChartRender(allCharts.CarsMovementChart),
@@ -37,19 +37,19 @@ public static class MovementSimulationConfiguration
 				DrivingMode.StartAndStopMovement.ToString());
 		}
 
-		if (availableModes.Contains(DrivingMode.TrafficThroughTrafficLights))
+		if (availableModes.Contains(DrivingMode.TrafficThroughOneTrafficLight))
 		{
-			serviceRegistrator.RegisterInstance<IChartRender>(() => new SpeedChartRender(allCharts.SpeedChart),
-				allCharts.SpeedChart.Name + DrivingMode.TrafficThroughTrafficLights);
+			serviceRegistrator.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightSpeedChartRender(allCharts.SpeedChart),
+				allCharts.SpeedChart.Name + DrivingMode.TrafficThroughOneTrafficLight);
 
-			serviceRegistrator.RegisterInstance<IChartRender>(() => new DistanceChartRender(allCharts.DistanceChart),
-				allCharts.DistanceChart.Name + DrivingMode.TrafficThroughTrafficLights);
+			serviceRegistrator.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightDistanceChartRender(allCharts.DistanceChart),
+				allCharts.DistanceChart.Name + DrivingMode.TrafficThroughOneTrafficLight);
 
 			serviceRegistrator.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightChartRender(allCharts.CarsMovementChart),
-				allCharts.CarsMovementChart.Name + DrivingMode.TrafficThroughTrafficLights);
+				allCharts.CarsMovementChart.Name + DrivingMode.TrafficThroughOneTrafficLight);
 
 			serviceRegistrator.RegisterInstance<IEvaluationHandler>(() => new MovementThroughOneTrafficLightEvaluationHandler(),
-				DrivingMode.TrafficThroughTrafficLights.ToString());
+				DrivingMode.TrafficThroughOneTrafficLight.ToString());
 		}
 
 		serviceRegistrator.RegisterInstance<RenderingHandler>(() => new RenderingHandler(allCharts));

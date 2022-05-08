@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
+using EvaluationKernel.Equations;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models.ModeSettingsModels;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
-using TrafficFlowSimulation.Windows;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 
@@ -18,11 +16,11 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 	protected override void Evaluate(object parameters)
 	{
 		var p = (Parameters) parameters;
-		var carsMovementChart = p.Charts.CarsMovementChart;
 		var modelParameters = p.ModelParameters;
 		var modeSettings = (MovementThroughOneTrafficLightModeSettings)p.ModeSettings;
+		modelParameters.L = 10000;
 
-		var r = new RungeKuttaMethod(modelParameters);
+		var r = new RungeKuttaMethod(modelParameters, new EquationWithStop(modelParameters));
 		var n = modelParameters.n;
 
 		var xp = new double[n];
@@ -103,8 +101,8 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 					Thread.Sleep(20);
 					Application.DoEvents();
 				};
-				
-				p.Charts.CarsMovementChart.Invoke(action);
+
+				p.Form.Invoke(action);
 			}
 		}
 	}

@@ -9,7 +9,6 @@ using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.MovementSimulation;
 using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows.Controllers;
 using TrafficFlowSimulation.Сonstants;
 
@@ -101,7 +100,8 @@ namespace TrafficFlowSimulation.Windows
 
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).Execute(_allCharts,
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).Execute(
+				this,
 				modelParameters,
 				modeSettings);
 			//EvaluationHandler.AbortExecution();

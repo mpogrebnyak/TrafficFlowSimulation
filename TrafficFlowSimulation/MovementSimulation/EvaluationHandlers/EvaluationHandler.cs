@@ -1,6 +1,6 @@
 ﻿using System.Threading;
+using System.Windows.Forms;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ModeSettingsModels;
 
 namespace TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
@@ -20,11 +20,11 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		_thread = null;
 	}
 
-	public void Execute(AllChartsModel charts, ModelParameters modelParameters, ModeSettings modeSettings)
+	public void Execute(Form form, ModelParameters modelParameters, ModeSettings modeSettings)
 	{
 		var parameters = new Parameters
 		{
-			Charts = charts,
+			Form = form,
 			ModelParameters = modelParameters,
 			ModeSettings = modeSettings
 		};
@@ -59,7 +59,8 @@ public abstract class EvaluationHandler : IEvaluationHandler
 
 	protected class Parameters
 	{
-		public AllChartsModel Charts;
+		public Form Form;
+
 		public ModelParameters ModelParameters;
 		public ModeSettings ModeSettings;
 	}

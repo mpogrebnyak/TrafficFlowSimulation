@@ -8,9 +8,9 @@ using Localization;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.Properties.TranslationResources;
 
-namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 
-public class SpeedChartRender : ChartsRender
+public class StartAndStopMovementSpeedChartRender: ChartsRender
 {
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
 
@@ -26,7 +26,7 @@ public class SpeedChartRender : ChartsRender
 		AxisYMaximum = 0,
 	};
 
-	public SpeedChartRender(Chart chart) : base(chart)
+	public StartAndStopMovementSpeedChartRender(Chart chart) : base(chart)
 	{
 	}
 

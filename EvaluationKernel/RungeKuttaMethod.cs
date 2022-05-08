@@ -9,7 +9,7 @@ namespace EvaluationKernel
 		const double _h = 0.001; // 0.001
 
 		private int _N, _n;
-		private MainEquation _mainEquation;
+		private Equation _equation;
 
 		List<List<double>> x;
 		List<List<double>> y;
@@ -17,11 +17,11 @@ namespace EvaluationKernel
 		
 		List<int> CarNumberToStop = new List<int>(); 
 
-		public RungeKuttaMethod(ModelParameters modelParameters)
+		public RungeKuttaMethod(ModelParameters modelParameters, Equation equation)
 		{
 			_n = modelParameters.n;
 			_N = (int) (modelParameters.tau / _h);
-			_mainEquation = new MainEquation(modelParameters);
+			_equation = equation;
 
 			t = new List<double>();
 			x = new List<List<double>>();
@@ -76,7 +76,7 @@ namespace EvaluationKernel
 
 		double g(int i)
 		{
-			return _mainEquation.GetEquation(
+			return _equation.GetEquation(
 				new CarCoordinatesModel
 				{
 					CarNumber = i,

@@ -1229,7 +1229,7 @@ namespace TrafficFlowSimulation.Windows
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(197, 20);
             this.label12.TabIndex = 21;
-            this.label12.Tag = "TrafficThroughTrafficLights_msf";
+            this.label12.Tag = "TrafficThroughOneTrafficLight_msf";
             this.label12.Text = "Цвет первого сигнала";
             // 
             // label13
@@ -1241,7 +1241,7 @@ namespace TrafficFlowSimulation.Windows
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(217, 20);
             this.label13.TabIndex = 22;
-            this.label13.Tag = "TrafficThroughTrafficLights_msf";
+            this.label13.Tag = "TrafficThroughOneTrafficLight_msf";
             this.label13.Text = "Время зеленого сигнала";
             // 
             // textBox6
@@ -1367,7 +1367,7 @@ namespace TrafficFlowSimulation.Windows
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(216, 20);
             this.label14.TabIndex = 23;
-            this.label14.Tag = "TrafficThroughTrafficLights_msf";
+            this.label14.Tag = "TrafficThroughOneTrafficLight_msf";
             this.label14.Text = "Время красного сигнала";
             // 
             // singleLightRedTime
@@ -1378,7 +1378,7 @@ namespace TrafficFlowSimulation.Windows
             this.singleLightRedTime.Name = "singleLightRedTime";
             this.singleLightRedTime.Size = new System.Drawing.Size(85, 27);
             this.singleLightRedTime.TabIndex = 24;
-            this.singleLightRedTime.Tag = "TrafficThroughTrafficLights_msf";
+            this.singleLightRedTime.Tag = "TrafficThroughOneTrafficLight_msf";
             // 
             // ModeSettingsBinding
             // 
@@ -1392,7 +1392,7 @@ namespace TrafficFlowSimulation.Windows
             this.singleLightGreenTime.Name = "singleLightGreenTime";
             this.singleLightGreenTime.Size = new System.Drawing.Size(85, 27);
             this.singleLightGreenTime.TabIndex = 25;
-            this.singleLightGreenTime.Tag = "TrafficThroughTrafficLights_msf";
+            this.singleLightGreenTime.Tag = "TrafficThroughOneTrafficLight_msf";
             // 
             // customComboBox1
             // 
@@ -1405,7 +1405,7 @@ namespace TrafficFlowSimulation.Windows
             this.customComboBox1.Name = "customComboBox1";
             this.customComboBox1.Size = new System.Drawing.Size(85, 28);
             this.customComboBox1.TabIndex = 26;
-            this.customComboBox1.Tag = "TrafficThroughTrafficLights_msf";
+            this.customComboBox1.Tag = "TrafficThroughOneTrafficLight_msf";
             // 
             // SlamPanel
             // 

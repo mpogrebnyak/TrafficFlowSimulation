@@ -7,9 +7,9 @@ using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.Properties.TranslationResources;
 
-namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 
-public class DistanceChartRender : ChartsRender
+public class StartAndStopMovementDistanceChartRender : ChartsRender
 {
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
 
@@ -17,7 +17,7 @@ public class DistanceChartRender : ChartsRender
 
 	protected override string _chartAreaName => "DistanceChartArea";
 
-	public DistanceChartRender(Chart chart) : base(chart)
+	public StartAndStopMovementDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
 	

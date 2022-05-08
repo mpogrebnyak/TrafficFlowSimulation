@@ -27,7 +27,7 @@ public static class ModeSettingsMapper
 
 		switch (currentDrivingMode)
 		{
-			case DrivingMode.TrafficThroughTrafficLights:
+			case DrivingMode.TrafficThroughOneTrafficLight:
 				return MapMovementThroughOneTrafficLightModeSettings(modelParametersModel);
 
 			default:

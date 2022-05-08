@@ -86,19 +86,20 @@
     <Compile Include="MovementSimulation\RenderingHandlers\RenderingHandler.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\RenderingHelper.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\ChartsRender.cs" />
-    <Compile Include="MovementSimulation\RenderingHandlers\Renders\DistanceChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\IChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\EnvironmentModel.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightChartRender.cs" />
-    <Compile Include="MovementSimulation\RenderingHandlers\Renders\SpeedChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightDistanceChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightSpeedChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementDistanceChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementSpeedChartRender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Properties\TranslationResources\EnumResources.cs" />
     <Compile Include="Properties\TranslationResources\MenuResources.cs" />
     <Compile Include="Properties\TranslationResources\ParametersResources.cs" />
-    <Compile Include="Services\DefaultModeSettingsService.cs" />
     <Compile Include="UnityServiceRegistrator.cs" />
     <Compile Include="Windows\Controllers\DrivingModeControllers.cs" />
     <Compile Include="Windows\CustomControls\ComboboxItem.cs" />
@@ -176,6 +177,9 @@
     <Content Include="Properties\images\white_car.png" />
     <Content Include="Properties\images\white_car2.png" />
     <Content Include="Properties\images\white_car_big.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

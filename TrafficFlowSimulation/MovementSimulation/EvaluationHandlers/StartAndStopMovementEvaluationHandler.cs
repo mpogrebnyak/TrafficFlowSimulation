@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
+using EvaluationKernel.Equations;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 
@@ -14,10 +13,9 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 	protected override void Evaluate(object parameters)
 	{
 		var p = (Parameters) parameters;
-		var carsMovementChart = p.Charts.CarsMovementChart;
 		var modelParameters = p.ModelParameters;
 
-		var r = new RungeKuttaMethod(modelParameters);
+		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
 		var n = modelParameters.n;
 
 		var xp = new double[n];
@@ -65,16 +63,21 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 				{
 					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
 
-					if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
+					/*if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
 					{
 						var scaleView = carsMovementChart.ChartAreas[0].AxisX.ScaleView;
 						scaleView.Scroll(Math.Round(x[p.ModeSettings.ScrollFor]) - 25);
-					}
+					}*/
 
 					Thread.Sleep(20);
 					Application.DoEvents();
 				};
-				p.Charts.CarsMovementChart.Invoke(action);
+
+				p.Form.Invoke(action);
+				//MainWindow.
+				//if(MainWindow.ActiveForm != null)
+				//	MainWindow.ActiveForm.Invoke(action);
+				//p.Charts.CarsMovementChart.Invoke(action);
 			}
 		}
 	}

@@ -8,8 +8,8 @@ public enum DrivingMode
 	[LocalizedDescription("SingleLaneTraffic", typeof(EnumResources))]
 	StartAndStopMovement = 1,
 
-	[LocalizedDescription("TrafficThroughTrafficLights", typeof(EnumResources))]
-	TrafficThroughTrafficLights = 2,
+	[LocalizedDescription("TrafficThroughOneTrafficLight", typeof(EnumResources))]
+	TrafficThroughOneTrafficLight = 2,
 
 	[LocalizedDescription("SingleLaneTraffic3", typeof(EnumResources))]
 	SingleLaneTraffic3 = 3,
