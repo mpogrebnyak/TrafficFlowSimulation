@@ -39,12 +39,13 @@ public class StartAndStopMovementChartRender : ChartsRender
 		base.RenderChart(modelParameters);
 
 		_chart.ApplyPaletteColors();
+		_chart.Legends.Clear();
 
 		var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].MarkerImage = carsFolder + "\\" + _chart.Series[i].Color.Name + ".png";
+			//_chart.Series[i].MarkerImage = carsFolder + "\\" + _chart.Series[i].Color.Name + ".png";
 			_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 			_chart.Series[i].LegendText = GetCarsMovementChartLegendText(modelParameters.Vn[i], modelParameters.lambda[i]);
 			_chart.Series[i].Label = GetCarsMovementChartLegendText(modelParameters.Vn[i], modelParameters.lambda[i]);
@@ -176,5 +177,15 @@ public class StartAndStopMovementChartRender : ChartsRender
 			LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendText,
 			Math.Round(speed, 2).ToString(),
 			Math.Round(position, 2).ToString());
+	}
+
+	public override void SetMarkerImage(string path)
+	{
+		_chart.ApplyPaletteColors();
+		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		{
+			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			_chart.Series[i].MarkerImage = path + "\\" + _chart.Series[i].Color.Name + ".png";
+		}
 	}
 }

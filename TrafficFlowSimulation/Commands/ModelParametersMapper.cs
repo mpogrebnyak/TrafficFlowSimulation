@@ -16,7 +16,7 @@ namespace TrafficFlowSimulation.Commands
 		{
 			var modelParametersModel = new ModelParametersModel
 			{
-
+				// пердполагаем, что длина машины 4
 				Lenght = 100,
 				n = 3,
 				Vmax = 16.7,
@@ -27,7 +27,7 @@ namespace TrafficFlowSimulation.Commands
 				a_multiple = string.Empty,
 				q = 3,
 				q_multiple = string.Empty,
-				l = 4,
+				l = 5,
 				l_multiple = string.Empty,
 				k = 0.5,
 				k_multiple = string.Empty,

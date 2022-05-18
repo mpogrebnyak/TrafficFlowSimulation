@@ -2,6 +2,7 @@
 using System.Linq;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
+using Settings;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
@@ -42,6 +43,9 @@ public class RenderingHandler
 		var modelParameters = ModelParametersMapper.MapModel(defaultModelParameters, IdenticalCars.No);
 
 		RenderCharts(modelParameters);
+
+		var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
+		SetMarkerImage(carsFolder);
 	}
 
 	public void RenderCharts(ModelParameters modelParameters)
@@ -53,8 +57,8 @@ public class RenderingHandler
 
 	public void UpdateCharts(double t, double[] x, double[] y )
 	{
-		_speedProvider.UpdateChart(new List<double> {t}, null!, y.ToList());
-		_distanceProvider.UpdateChart(new List<double> {t}, x.ToList());
+		_speedProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+		_distanceProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
 		_carMovementProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
 	}
 
@@ -63,5 +67,10 @@ public class RenderingHandler
 		_speedProvider.UpdateEnvironment(parameters);
 		_distanceProvider.UpdateEnvironment(parameters);
 		_carMovementProvider.UpdateEnvironment(parameters);
+	}
+
+	public void SetMarkerImage(string path)
+	{
+		_carMovementProvider.SetMarkerImage(path);
 	}
 }

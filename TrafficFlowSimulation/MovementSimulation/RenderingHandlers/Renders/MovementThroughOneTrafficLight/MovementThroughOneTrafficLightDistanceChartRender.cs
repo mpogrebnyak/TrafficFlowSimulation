@@ -5,17 +5,29 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.Properties.TranslationResources;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 
-public class MovementThroughOneTrafficLightDistanceChartRender: ChartsRender
+public class MovementThroughOneTrafficLightDistanceChartRender : ChartsRender
 {
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
 
 	protected override string _seriesName => "DistanceSeries";
 
 	protected override string _chartAreaName => "DistanceChartArea";
+
+	private readonly ChartAreaModel _chartAreaModel = new()
+	{
+		AxisXMinimum = 0,
+		AxisXMaximum = 100,
+		AxisXInterval = 10,
+		AxisYMinimum = CommonChartAreaParameters.BeginOfRoad,
+		AxisYMaximum = CommonChartAreaParameters.EndOfRoad,
+		AxisYInterval = 1,
+		ZoomShift = 48
+	};
 
 	public MovementThroughOneTrafficLightDistanceChartRender(Chart chart) : base(chart)
 	{
@@ -28,9 +40,10 @@ public class MovementThroughOneTrafficLightDistanceChartRender: ChartsRender
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+			if (i == 0)
+				_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
 
-			_chart.Series[i].LegendText = GetDistanceChartLegendText(modelParameters.lambda[i]);
+			UpdateLegend(i, true, modelParameters.lambda[i]);
 		}
 	}
 
@@ -39,9 +52,15 @@ public class MovementThroughOneTrafficLightDistanceChartRender: ChartsRender
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(t.Single(), x[i]);
 
-			_chart.Series[i].LegendText = GetDistanceChartLegendText(x[i]);
+			var showLegend = false;
+			if (x[i] > _chartAreaModel.AxisYMinimum && x[i] < _chartAreaModel.AxisYMaximum)
+			{
+				_chart.Series[i].Points.AddXY(t.Single(), x[i]);
+				showLegend = true;
+			}
+
+			UpdateLegend(i, showLegend, x[i]);
 		}
 	}
 
@@ -69,16 +88,17 @@ public class MovementThroughOneTrafficLightDistanceChartRender: ChartsRender
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = 0,
-				Maximum = 20,
+				Minimum = _chartAreaModel.AxisXMinimum,
+				Maximum = _chartAreaModel.AxisXMaximum,
 				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
-				Minimum = 0,
-				Maximum = modelParameters.L + 100,
+				Minimum = _chartAreaModel.AxisYMinimum,
+				Maximum = _chartAreaModel.AxisYMaximum,
+				//Maximum = modelParameters.L + 100,
 				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
@@ -101,12 +121,5 @@ public class MovementThroughOneTrafficLightDistanceChartRender: ChartsRender
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
 	{
 		return new Series[] { };
-	}
-
-	private static string GetDistanceChartLegendText(double position)
-	{
-		return string.Format(
-			LocalizationHelper.Get<MenuResources>().DistanceChartLegendText,
-			Math.Round(position, 2).ToString());
 	}
 }

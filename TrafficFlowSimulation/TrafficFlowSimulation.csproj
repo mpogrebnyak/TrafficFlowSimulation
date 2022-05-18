@@ -87,6 +87,7 @@
     <Compile Include="MovementSimulation\RenderingHandlers\RenderingHelper.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\ChartsRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\IChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\CommonChartAreaParameters.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\EnvironmentModel.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightDistanceChartRender.cs" />

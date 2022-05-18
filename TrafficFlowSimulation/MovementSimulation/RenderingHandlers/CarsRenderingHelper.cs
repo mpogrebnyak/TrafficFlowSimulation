@@ -1,41 +1,72 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
+using Microsoft.Practices.ServiceLocation;
 using Settings;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 {
 	public static class CarsRenderingHelper
 	{
-		public static void CreatePaintedCars()
+		private static readonly string carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
+		public static void DrawCarsAsMarkerImage(Chart chart)
 		{
-			var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
-			if (!Directory.Exists(carsFolder)) Directory.CreateDirectory(carsFolder);
+			chart.Update();
+			var lengthOfSingleSegmentXPixels =
+				(float) chart.ChartAreas[0].AxisX.ValueToPixelPosition(1) - (float) chart.ChartAreas[0].AxisX.ValueToPixelPosition(0);
+			var lengthOfSingleSegmentYPixels =
+				(float) chart.ChartAreas[0].AxisY.ValueToPixelPosition(1) - (float) chart.ChartAreas[0].AxisY.ValueToPixelPosition(0);
 
+			CreatePaintedCars(lengthOfSingleSegmentXPixels, lengthOfSingleSegmentYPixels);
+
+			ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage(carsFolder);
+		}
+
+		public static void CreatePaintedCars(float wight, float height)
+		{
+			Directory.CreateDirectory(carsFolder);
+
+			var carLength = SettingsHelper.Get<Properties.Settings>().CarLength;
 			var bmp = Properties.Resources.white_car;
 
 			var colors = GetColors(ChartColorPalette.BrightPastel);
 
 			foreach (var newColor in colors)
 			{
-				var newBitmap = new Bitmap(bmp.Width, bmp.Height);
+				var coloredBmp = new Bitmap(bmp.Width, bmp.Height);
 				for (int i = 0; i < bmp.Width; i++)
 				{
 					for (int j = 0; j < bmp.Height; j++)
 					{
 						var actualColor = bmp.GetPixel(i, j);
 						if (actualColor.R == 255)
-							newBitmap.SetPixel(i, j, newColor);
+							coloredBmp.SetPixel(i, j, newColor);
 						else
-							newBitmap.SetPixel(i, j, actualColor);
+							coloredBmp.SetPixel(i, j, actualColor);
 					}
 				}
-
-				newBitmap.SetResolution(200, 200);
-
-				newBitmap.Save(carsFolder + "\\" + newColor.Name + ".png");
+				var newBitmap = new Bitmap(coloredBmp, (int)wight * 2 * carLength, coloredBmp.Height);
+				
+				string outputFileName = carsFolder + "\\" + newColor.Name + ".png";
+				using (MemoryStream memory = new MemoryStream())
+				{
+					using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+					{
+						newBitmap.Save(memory, ImageFormat.Png);
+						byte[] bytes = memory.ToArray();
+						fs.Write(bytes, 0, bytes.Length);
+					}
+				}
 			}
+		}
+
+		public static void DeleteFolder()
+		{
+			if (Directory.Exists(carsFolder))
+				Directory.Delete(carsFolder, true);
 		}
 
 		private static List<Color> GetColors(ChartColorPalette chartColorPalette)

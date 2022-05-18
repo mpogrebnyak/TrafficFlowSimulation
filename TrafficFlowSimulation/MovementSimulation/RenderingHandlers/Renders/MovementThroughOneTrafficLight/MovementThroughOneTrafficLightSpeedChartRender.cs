@@ -21,9 +21,9 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
-		AxisXMaximum = 0,
+		AxisXMaximum = 100,
 		AxisYMinimum = 0,
-		AxisYMaximum = 0,
+		ZoomShift = 40
 	};
 
 	public MovementThroughOneTrafficLightSpeedChartRender(Chart chart) : base(chart)
@@ -37,7 +37,8 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(0, 0);
+			if (i == 0)
+				_chart.Series[i].Points.AddXY(0, 0);
 
 			_chart.Series[i].LegendText = GetSpeedChartLegendText(0);
 		}
@@ -48,24 +49,44 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(t.Single(), y[i]);
 
-			_chart.Series[i].LegendText = GetSpeedChartLegendText(y[i]);
+			var showLegend = false;
+			if (x[i] > CommonChartAreaParameters.BeginOfRoad && x[i] < CommonChartAreaParameters.EndOfRoad)
+			{
+				_chart.Series[i].Points.AddXY(t.Single(), y[i]);
+				showLegend = true;
+			}
+
+			UpdateLegend(i, showLegend, y[i]);
 		}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
 	{
-		return new ChartArea
+		var chartArea = new ChartArea
 		{
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
-				Maximum = 20,
+				Maximum = _chartAreaModel.AxisXMaximum,
 				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				TitleAlignment = StringAlignment.Far
+				TitleAlignment = StringAlignment.Far,
+				ScaleView = new AxisScaleView
+				{
+					Zoomable = true,
+					SizeType = DateTimeIntervalType.Number,
+					MinSize = 30
+				},
+				Interval = _chartAreaModel.AxisXInterval,
+				ScrollBar = new AxisScrollBar
+				{
+					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
+					IsPositionedInside = true,
+					BackColor = Color.White,
+					ButtonColor = Color.FromArgb(249, 246, 247)
+				}
 			},
 			AxisY = new Axis
 			{
@@ -76,6 +97,10 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 				TitleAlignment = StringAlignment.Far
 			}
 		};
+
+		chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
+
+		return chartArea;
 	}
 
 	protected override Legend CreateLegend(LegendStyle legendStyle)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -77,8 +78,6 @@ namespace TrafficFlowSimulation.Windows
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 			DrivingModeControllers.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
 
-			// перенести в main
-			CarsRenderingHelper.CreatePaintedCars();
 			MainWindowHelper.ShowCurrentModeSettingsFields(Controls.Owner);
 		}
 
@@ -116,6 +115,12 @@ namespace TrafficFlowSimulation.Windows
 		{
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
+
+			_allCharts.DistanceChart.Dispose();
+			_allCharts.SpeedChart.Dispose();
+			_allCharts.CarsMovementChart.Dispose();
+
+			CarsRenderingHelper.DeleteFolder();
 			//EvaluationHandler.AbortExecution();
 		}
 
@@ -230,5 +235,18 @@ namespace TrafficFlowSimulation.Windows
 			var comboBox = sender as ComboBox;
 			MainWindowHelper.DrawColoredItems(comboBox, e);
 		}
-    }
+
+		private void MainWindow_SizeChanged(object sender, EventArgs e)
+		{
+			if (_allCharts != null)
+			{
+				//CarsRenderingHelper.DrawCarsAsMarkerImage(_allCharts.CarsMovementChart);
+			}
+		}
+
+		private void MainWindow_Shown(object sender, EventArgs e)
+		{
+			CarsRenderingHelper.DrawCarsAsMarkerImage(_allCharts.CarsMovementChart);
+		}
+	}
 }

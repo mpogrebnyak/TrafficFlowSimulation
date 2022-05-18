@@ -17,4 +17,6 @@ public interface IChartRender
 	public void ShowChartLegend(LegendStyle? legendStyle);
 
 	public void SetChartAreaAxisTitle(bool isHidden = false);
+
+	public void SetMarkerImage(string path);
 }

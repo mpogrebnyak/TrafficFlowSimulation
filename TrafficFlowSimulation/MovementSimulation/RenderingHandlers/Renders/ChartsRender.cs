@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
@@ -53,6 +56,21 @@ public abstract class ChartsRender : IChartRender
 
 	public abstract void SetChartAreaAxisTitle(bool isHidden = false);
 
+	public virtual void SetMarkerImage(string path) { }
+
+	public void DeleteMarkerImage()
+	{
+		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		{
+			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			_chart.Series[i].MarkerImage = null;
+			_chart.Series[i].MarkerStyle = MarkerStyle.Circle;
+			var q = _chart.Series[i].CustomProperties;
+		}
+		_chart.Images.Clear();
+		_chart.Update();
+	}
+
 	public virtual void ShowChartLegend(LegendStyle? legendStyle)
 	{
 		_chart.Legends.Clear();
@@ -61,6 +79,41 @@ public abstract class ChartsRender : IChartRender
 		{
 			_chart.Legends.Add(CreateLegend(legendStyle.Value));
 		}
+	}
+
+	protected void UpdateLegend(int i, bool showLegend, params double[] values)
+	{
+		if (showLegend)
+		{
+			_chart.Series[i].LegendText = GetLegendText(values);
+			_chart.Series[i].IsVisibleInLegend = true;
+		}
+		else
+		{
+			_chart.Series[i].IsVisibleInLegend = false;
+		}
+	}
+
+	protected void UpdateLabel(int i, bool showLabel, params double[] values)
+	{
+		if (showLabel)
+		{
+			_chart.Series[i].Label = GetLegendText(values);
+		}
+		else
+		{
+			_chart.Series[i].Label = string.Empty;
+		}
+	}
+
+	protected virtual string GetLegendText(params double[] values)
+	{
+		var sb = new StringBuilder();
+		foreach (var value in values)
+		{
+			sb.Append(Math.Round(value, 2) + " ");
+		}
+		return sb.ToString();
 	}
 
 	protected abstract ChartArea CreateChartArea(ModelParameters modelParameters);

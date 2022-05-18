@@ -71,5 +71,13 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.ru, "y")]
 		[Translation(Locales.en, "y")]
 		public string YAxisTitleText { get; set; }
+		
+		[Translation(Locales.ru, "V:")]
+		[Translation(Locales.en, "V:")]
+		public string SpeedText { get; set; }
+		
+		[Translation(Locales.ru, "S:")]
+		[Translation(Locales.en, "S:")]
+		public string DistanceText { get; set; }
 	}
 }

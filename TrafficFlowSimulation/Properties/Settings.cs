@@ -16,6 +16,9 @@ namespace TrafficFlowSimulation.Properties
 		[DefaultValue("*.bmp|*.bmp;|*.png|*.png;|*.jpg|*.jpg|*.emf|*.emf")]
 		public string AvailableFileTypes { get; set; }
 
+		[DefaultValue(4)]
+		public int CarLength { get; set; }
+
 		[DefaultValue("true")]
 		public bool Test1 { get; set; }
 		
