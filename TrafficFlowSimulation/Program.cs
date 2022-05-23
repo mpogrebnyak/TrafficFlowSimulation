@@ -47,7 +47,8 @@ namespace TrafficFlowSimulation
 				new[]
 				{
 					DrivingMode.StartAndStopMovement,
-					DrivingMode.TrafficThroughOneTrafficLight
+					DrivingMode.TrafficThroughOneTrafficLight,
+					DrivingMode.InliningInFlow
 				};
 			SettingsHelper.Set<Properties.Settings>(settings);
 		}

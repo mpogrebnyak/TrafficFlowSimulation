@@ -52,6 +52,7 @@ namespace EvaluationKernel
 		public List<double> T
 		{
 			get { return t; }
+			set => t = value;
 		}
 
 		public List<double> X(int i)
@@ -90,7 +91,7 @@ namespace EvaluationKernel
 					{
 						X = i != 0 ? x[i - 1][x[i].Count - _N] : 0,
 						Y = i != 0 ? y[i - 1][y[i].Count - _N] : 0
-					}
+					}	
 				});
 				// if (i == 0)
 				//	return 16.7 - y[i][y[i].Count - 1];

@@ -11,6 +11,9 @@ public enum DrivingMode
 	[LocalizedDescription("TrafficThroughOneTrafficLight", typeof(EnumResources))]
 	TrafficThroughOneTrafficLight = 2,
 
+	[LocalizedDescription("InliningInFlow", typeof(EnumResources))]
+	InliningInFlow = 3,
+
 	[LocalizedDescription("SingleLaneTraffic3", typeof(EnumResources))]
-	SingleLaneTraffic3 = 3,
+	SingleLaneTraffic3 = 4,
 }

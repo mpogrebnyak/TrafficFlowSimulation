@@ -95,6 +95,9 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = ModeSettingsMapper.MapModel(ModeSettingsBinding.DataSource);
 
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+
+			var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
+			ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage(carsFolder);
 			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
 
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
@@ -214,6 +217,9 @@ namespace TrafficFlowSimulation.Windows
 			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
 
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
+			ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage(carsFolder);
+
 			//
 			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
 		}

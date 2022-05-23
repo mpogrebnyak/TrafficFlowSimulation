@@ -77,6 +77,7 @@
     <Compile Include="Models\TrafficLightModel.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\EvaluationHandler.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\IEvaluationHandler.cs" />
+    <Compile Include="MovementSimulation\EvaluationHandlers\InliningInFlowEvaluationHandler.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\MovementThroughOneTrafficLightEvaluationHandler.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
     <Compile Include="MovementSimulation\MovementSimulationConfiguration.cs" />
@@ -87,12 +88,16 @@
     <Compile Include="MovementSimulation\RenderingHandlers\RenderingHelper.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\ChartsRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\IChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\InliningInFlow\InliningInFlowCarsChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\InliningInFlow\InliningInFlowChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\InliningInFlow\InliningInFlowDistanceChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\InliningInFlow\InliningInFlowSpeedChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\CommonChartAreaParameters.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\EnvironmentModel.cs" />
-    <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightCarsChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightDistanceChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightSpeedChartRender.cs" />
-    <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementChartRender.cs" />
+    <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementCarsChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementDistanceChartRender.cs" />
     <Compile Include="MovementSimulation\RenderingHandlers\Renders\StartAndStopMovement\StartAndStopMovementSpeedChartRender.cs" />
     <Compile Include="Program.cs" />

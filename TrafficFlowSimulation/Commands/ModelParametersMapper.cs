@@ -9,7 +9,7 @@ namespace TrafficFlowSimulation.Commands
 {
 	public static class ModelParametersMapper
 	{
-		private static readonly char _separator = '-';
+		private static readonly char _separator = ':';
 		private static readonly char _elementsSeparator = ' ';
 
 		public static ModelParametersModel GetDefaultParameters()
@@ -18,7 +18,7 @@ namespace TrafficFlowSimulation.Commands
 			{
 				// пердполагаем, что длина машины 4
 				Lenght = 100,
-				n = 3,
+				n = 2,
 				Vmax = 16.7,
 				Vmax_multiple = string.Empty,
 				tau = 1,

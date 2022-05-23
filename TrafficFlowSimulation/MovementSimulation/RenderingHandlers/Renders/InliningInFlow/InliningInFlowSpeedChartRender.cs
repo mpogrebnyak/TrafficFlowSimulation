@@ -8,9 +8,9 @@ using Localization;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.Properties.TranslationResources;
 
-namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.InliningInFlow;
 
-public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
+public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 {
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
 
@@ -26,7 +26,7 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 		ZoomShift = 40
 	};
 
-	public MovementThroughOneTrafficLightSpeedChartRender(Chart chart) : base(chart)
+	public InliningInFlowSpeedChartRender(Chart chart) : base(chart)
 	{
 	}
 
@@ -37,7 +37,8 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			if (i == 0)
+
+			if (i == 0) 
 				_chart.Series[i].Points.AddXY(0, 0);
 
 			UpdateLegend(i, true, 0);
@@ -50,14 +51,17 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
-			var showLegend = false;
-			if (x[i] > CommonChartAreaParameters.BeginOfRoad && x[i] < CommonChartAreaParameters.EndOfRoad)
+			if (i < x.Count)
 			{
-				_chart.Series[i].Points.AddXY(t.Single(), y[i]);
-				showLegend = true;
-			}
+				var showLegend = false;
+				if (x[i] > CommonChartAreaParameters.BeginOfRoad && x[i] < CommonChartAreaParameters.EndOfRoad)
+				{
+					_chart.Series[i].Points.AddXY(t.Single(), y[i]);
+					showLegend = true;
+				}
 
-			UpdateLegend(i, showLegend, y[i]);
+				UpdateLegend(i, showLegend, y[i]);
+			}
 		}
 	}
 

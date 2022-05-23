@@ -12,6 +12,10 @@ public class EnumResources
 	[Translation(Locales.en, "Traffic through one traffic light")]
 	public string TrafficThroughOneTrafficLight { get; set; }
 
+	[Translation(Locales.ru, "Встраивание в поток")]
+	[Translation(Locales.en, "Inlining in the flow")]
+	public string InliningInFlow { get; set; }
+
 	[Translation(Locales.ru, "Да")]
 	[Translation(Locales.en, "Yes")]
 	public string Yes { get; set; }

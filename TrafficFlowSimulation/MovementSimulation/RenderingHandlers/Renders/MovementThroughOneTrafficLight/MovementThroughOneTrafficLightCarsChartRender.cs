@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
@@ -9,9 +10,9 @@ using Settings;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.Properties.TranslationResources;
 
-namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
+namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 
-public class StartAndStopMovementChartRender : ChartsRender
+public class MovementThroughOneTrafficLightCarsChartRender : ChartsRender
 {
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
 
@@ -21,8 +22,8 @@ public class StartAndStopMovementChartRender : ChartsRender
 
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
-		AxisXMinimum = -30,
-		AxisXMaximum = 10,
+		AxisXMinimum = CommonChartAreaParameters.BeginOfRoad,
+		AxisXMaximum = CommonChartAreaParameters.EndOfRoad,
 		AxisXInterval = 10,
 		AxisYMinimum = 0,
 		AxisYMaximum = 1,
@@ -30,10 +31,10 @@ public class StartAndStopMovementChartRender : ChartsRender
 		ZoomShift = 48
 	};
 
-	public StartAndStopMovementChartRender(Chart chart) : base(chart)
+	public MovementThroughOneTrafficLightCarsChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	public override void RenderChart(ModelParameters modelParameters)
 	{
 		base.RenderChart(modelParameters);
@@ -46,9 +47,16 @@ public class StartAndStopMovementChartRender : ChartsRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 			//_chart.Series[i].MarkerImage = carsFolder + "\\" + _chart.Series[i].Color.Name + ".png";
-			_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
-			_chart.Series[i].LegendText = GetCarsMovementChartLegendText(modelParameters.Vn[i], modelParameters.lambda[i]);
-			_chart.Series[i].Label = GetCarsMovementChartLegendText(modelParameters.Vn[i], modelParameters.lambda[i]);
+
+			var showLegend = false;
+			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
+			{
+				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				showLegend = true;
+			}
+			
+			UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 	}
 
@@ -57,12 +65,29 @@ public class StartAndStopMovementChartRender : ChartsRender
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.RemoveAt(0);
-			_chart.Series[i].Points.AddXY(x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 
-			_chart.Series[i].LegendText = GetCarsMovementChartLegendText(y[i], x[i]);
-			_chart.Series[i].Label = GetCarsMovementChartLegendText(y[i], x[i]);
+			var showLegend = false;
+			if(_chart.Series[i].Points.Any())
+				_chart.Series[i].Points.RemoveAt(0);
+			if (x[i] > _chartAreaModel.AxisXMinimum && x[i] < _chartAreaModel.AxisXMaximum)
+			{
+				_chart.Series[i].Points.AddXY(x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				showLegend = true;
+			}
+
+			UpdateLegend(i, showLegend, y[i], x[i]);
+			UpdateLabel(i, showLegend, y[i], x[i]);
 		}
+	}
+
+	public override void UpdateEnvironment(EnvironmentParametersModel parameters)
+	{
+		var environmentModel = (EnvironmentModel) parameters;
+		var trafficLine = _chart.Series.First(series => series.Name.Contains("StartLine"));
+		trafficLine.Color = environmentModel.IsGreenLight ? Color.Green : Color.Red;
+		trafficLine.Label = environmentModel.IsGreenLight 
+			? Math.Round(environmentModel.GreenTime, 2).ToString()
+			: Math.Round(environmentModel.RedTime, 2).ToString();
 	}
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)
@@ -89,10 +114,10 @@ public class StartAndStopMovementChartRender : ChartsRender
 			AxisX = new Axis
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
-				Maximum = _chartAreaModel.AxisXMaximum + modelParameters.L,
+				Maximum = _chartAreaModel.AxisXMaximum,
 				ScaleView = new AxisScaleView
 				{
-					Zoomable = true,
+					//Zoomable = true,
 					SizeType = DateTimeIntervalType.Number,
 					MinSize = 30
 				},
@@ -121,7 +146,7 @@ public class StartAndStopMovementChartRender : ChartsRender
 			}
 		};
 
-		chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
+		//chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
 
 		return chartArea;
 	}
@@ -134,7 +159,7 @@ public class StartAndStopMovementChartRender : ChartsRender
 			Title = LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
-			Font = new Font("Microsoft Sans Serif", 10F),
+			Font = new Font("Microsoft Sans Serif", 10F)
 		};
 	}
 
@@ -149,36 +174,28 @@ public class StartAndStopMovementChartRender : ChartsRender
 			Color = Color.Red,
 			IsVisibleInLegend = false
 		};
-		startLineSeries.Points.Add(new DataPoint(0, 0));
 		startLineSeries.Points.Add(new DataPoint(0, 1));
-			
-		var endLineSeries = new Series
-		{
-			Name = "EndLine",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 2,
-			Color = Color.Red,
-			IsVisibleInLegend = false
-		};
-		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 0));
-		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 1));
-
+		startLineSeries.Points.Add(new DataPoint(0.00001, 0));
+	//	startLineSeries.Label = "10";
 		return new[]
 		{
 			startLineSeries,
-			endLineSeries
 		};
 	}
 
-	private static string GetCarsMovementChartLegendText(double speed, double position)
-	{
-		return string.Format(
-			LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendText,
-			Math.Round(speed, 2).ToString(),
-			Math.Round(position, 2).ToString());
-	}
 
+	protected override string GetLegendText(params double[] values)
+	{
+		var sb = new StringBuilder();
+
+		sb.Append(LocalizationHelper.Get<MenuResources>().SpeedText + " ");
+		sb.Append(Math.Round(values[0], 2));
+		sb.Append("\n");
+		sb.Append(LocalizationHelper.Get<MenuResources>().DistanceText + " ");
+		sb.Append(Math.Round(values[1], 2));
+		return sb.ToString();
+	}
+	
 	public override void SetMarkerImage(string path)
 	{
 		_chart.ApplyPaletteColors();
