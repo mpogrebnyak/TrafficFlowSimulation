@@ -1,6 +1,7 @@
 ﻿using EvaluationKernel.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Сonstants;
@@ -36,7 +37,7 @@ namespace TrafficFlowSimulation.Commands
 				g = 9.8,
 				mu = 0.6,
 
-				lambda = 5,
+				lambda = 25,
 				lambda_multiple = string.Empty,
 				Vn = 0,
 				Vn_multiple = string.Empty
@@ -192,7 +193,7 @@ namespace TrafficFlowSimulation.Commands
 				foreach (var element in elements)
 				{
 					var value = element.Split(_separator);
-					dictionary.Add(Convert.ToInt32(value[0]) - 1, Convert.ToDouble(value[1]));
+					dictionary.Add(Convert.ToInt32(value[0], CultureInfo.InvariantCulture) - 1, Convert.ToDouble(value[1]));
 				}
 			}
 

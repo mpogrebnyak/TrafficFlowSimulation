@@ -93,6 +93,15 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
 				r.T = new[] {tp}.ToList();
 				flag = false;
+				
+				MethodInvoker action = delegate
+				{
+					ServiceLocator.Current.GetInstance<RenderingHandler>().AddSeries(index);
+					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
+					Application.DoEvents();
+				};
+
+				p.Form.Invoke(action);
 			}
 			//isGreenLight = t % circleTime < modeSettings.TrafficLight.GreenSignalTime;
 

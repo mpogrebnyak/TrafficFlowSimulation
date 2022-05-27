@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using Localization.Localization;
 using Settings;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.TranslationResources;
 using TrafficFlowSimulation.Windows;
 using TrafficFlowSimulation.Сonstants;
@@ -21,6 +22,8 @@ namespace TrafficFlowSimulation
 		{
 			SetSettings();
 			Registration();
+
+			CarsRenderingHelper.CreatePaintedCars();
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

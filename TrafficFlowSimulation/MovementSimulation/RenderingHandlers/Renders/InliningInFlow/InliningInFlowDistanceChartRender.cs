@@ -21,7 +21,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
-		AxisXMaximum = 100,
+		AxisXMaximum = 60,
 		AxisXInterval = 10,
 		AxisYMinimum = CommonChartAreaParameters.BeginOfRoad,
 		AxisYMaximum = CommonChartAreaParameters.EndOfRoad,
@@ -61,13 +61,13 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 			if (i < x.Count)
 			{
 				var showLegend = false;
-				if (x[i] > _chartAreaModel.AxisXMinimum && x[i] < _chartAreaModel.AxisXMaximum)
+				if (x[i] > CommonChartAreaParameters.BeginOfRoad && x[i] < CommonChartAreaParameters.EndOfRoad)
 				{
 					_chart.Series[i].Points.AddXY(t.Single(), x[i]);
 					showLegend = true;
 				}
 
-				UpdateLegend(i, showLegend, y[i], x[i]);
+				UpdateLegend(i, showLegend, x[i]);
 			}
 		}
 	}
@@ -106,7 +106,6 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 			{
 				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = _chartAreaModel.AxisYMaximum,
-				//Maximum = modelParameters.L + 100,
 				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far

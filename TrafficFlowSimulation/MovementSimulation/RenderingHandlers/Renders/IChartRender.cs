@@ -18,5 +18,7 @@ public interface IChartRender
 
 	public void SetChartAreaAxisTitle(bool isHidden = false);
 
-	public void SetMarkerImage(string path);
+	public void SetMarkerImage();
+
+	public void AddSeries(int index);
 }

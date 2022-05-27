@@ -39,14 +39,11 @@ public class MovementThroughOneTrafficLightCarsChartRender : ChartsRender
 	{
 		base.RenderChart(modelParameters);
 
-		_chart.ApplyPaletteColors();
 		_chart.Legends.Clear();
 
-		var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			//_chart.Series[i].MarkerImage = carsFolder + "\\" + _chart.Series[i].Color.Name + ".png";
 
 			var showLegend = false;
 			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
@@ -58,6 +55,8 @@ public class MovementThroughOneTrafficLightCarsChartRender : ChartsRender
 			UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 			UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
+
+		SetMarkerImage();
 	}
 
 	public override void UpdateChart(List<double> t = null!, List<double> x = null!, List<double> y = null!)
@@ -194,15 +193,5 @@ public class MovementThroughOneTrafficLightCarsChartRender : ChartsRender
 		sb.Append(LocalizationHelper.Get<MenuResources>().DistanceText + " ");
 		sb.Append(Math.Round(values[1], 2));
 		return sb.ToString();
-	}
-	
-	public override void SetMarkerImage(string path)
-	{
-		_chart.ApplyPaletteColors();
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
-		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].MarkerImage = path + "\\" + _chart.Series[i].Color.Name + ".png";
-		}
 	}
 }

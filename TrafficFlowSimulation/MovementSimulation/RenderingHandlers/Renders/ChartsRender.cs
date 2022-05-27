@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
+using Settings;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
@@ -15,6 +17,8 @@ public abstract class ChartsRender : IChartRender
 	protected virtual string _seriesName => "Series";
 
 	protected virtual string _chartAreaName => "ChartArea";
+
+	protected virtual string _colorPalette => ChartColorPalette.BrightPastel.ToString();
 
 	protected Chart _chart;
 
@@ -54,21 +58,47 @@ public abstract class ChartsRender : IChartRender
 
 	public virtual void UpdateEnvironment(EnvironmentParametersModel parameters) { }
 
+	public virtual void AddSeries(int index) { }
+
 	public abstract void SetChartAreaAxisTitle(bool isHidden = false);
 
-	public virtual void SetMarkerImage(string path) { }
-
-	public void DeleteMarkerImage()
+	public virtual void SetMarkerImage()
 	{
+		var path = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
+		_chart.Update();
+		_chart.ApplyPaletteColors();
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].MarkerImage = null;
-			_chart.Series[i].MarkerStyle = MarkerStyle.Circle;
-			var q = _chart.Series[i].CustomProperties;
+
+			float lengthOfSingleSegmentXPixels;
+			float lengthOfSingleSegmentYPixels;
+			try
+			{
+				lengthOfSingleSegmentXPixels =
+					(float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(1) - (float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(0);
+				lengthOfSingleSegmentYPixels =
+					(float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(1);
+			}
+			catch (NullReferenceException e)
+			{
+				return;
+			}
+
+			var carLength = SettingsHelper.Get<Properties.Settings>().CarLength;
+
+			var bmp = new Bitmap(path + "\\" + _colorPalette + "\\" + series.Color.Name + ".png");
+			var newBitmap = new Bitmap(bmp, 
+				(int)lengthOfSingleSegmentXPixels * 2 * carLength, 
+				(int)lengthOfSingleSegmentYPixels / 5);
+
+			if (_chart.Images.Any(x => x.Name == "MarkerImage" + i))
+				_chart.Images["MarkerImage" + i] = new NamedImage("MarkerImage" + i, newBitmap);
+			else
+				_chart.Images.Add(new NamedImage("MarkerImage" + i, newBitmap));
+
+			series.MarkerImage = "MarkerImage" + i;
 		}
-		_chart.Images.Clear();
-		_chart.Update();
 	}
 
 	public virtual void ShowChartLegend(LegendStyle? legendStyle)

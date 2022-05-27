@@ -43,9 +43,6 @@ public class RenderingHandler
 		var modelParameters = ModelParametersMapper.MapModel(defaultModelParameters, IdenticalCars.No);
 
 		RenderCharts(modelParameters);
-
-		var carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
-		SetMarkerImage(carsFolder);
 	}
 
 	public void RenderCharts(ModelParameters modelParameters)
@@ -69,8 +66,15 @@ public class RenderingHandler
 		_carMovementProvider.UpdateEnvironment(parameters);
 	}
 
-	public void SetMarkerImage(string path)
+	public void SetMarkerImage()
 	{
-		_carMovementProvider.SetMarkerImage(path);
+		_carMovementProvider.SetMarkerImage();
+	}
+
+	public void AddSeries(int index)
+	{
+		_speedProvider.AddSeries(index);
+		_distanceProvider.AddSeries(index);
+		_carMovementProvider.AddSeries(index);
 	}
 }

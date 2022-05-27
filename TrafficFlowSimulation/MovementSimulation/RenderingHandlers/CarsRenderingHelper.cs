@@ -1,63 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
-using Microsoft.Practices.ServiceLocation;
 using Settings;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 {
 	public static class CarsRenderingHelper
 	{
-		private static readonly string carsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
-		public static void DrawCarsAsMarkerImage(Chart chart)
+		private static readonly string CarsFolder = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
+
+		public static void CreatePaintedCars()
 		{
-			chart.Update();
-			var lengthOfSingleSegmentXPixels =
-				(float) chart.ChartAreas[0].AxisX.ValueToPixelPosition(1) - (float) chart.ChartAreas[0].AxisX.ValueToPixelPosition(0);
-			var lengthOfSingleSegmentYPixels =
-				(float) chart.ChartAreas[0].AxisY.ValueToPixelPosition(1) - (float) chart.ChartAreas[0].AxisY.ValueToPixelPosition(0);
+			DeleteFolder();
+			Directory.CreateDirectory(CarsFolder);
+			var directory = new DirectoryInfo(CarsFolder);
 
-			CreatePaintedCars(lengthOfSingleSegmentXPixels, lengthOfSingleSegmentYPixels);
-
-			ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage(carsFolder);
-		}
-
-		public static void CreatePaintedCars(float wight, float height)
-		{
-			Directory.CreateDirectory(carsFolder);
-
-			var carLength = SettingsHelper.Get<Properties.Settings>().CarLength;
 			var bmp = Properties.Resources.white_car;
 
-			var colors = GetColors(ChartColorPalette.BrightPastel);
+			var colorPalettes = GetColors();
 
-			foreach (var newColor in colors)
+			foreach (var colorPalette in colorPalettes)
 			{
-				var coloredBmp = new Bitmap(bmp.Width, bmp.Height);
-				for (int i = 0; i < bmp.Width; i++)
+				directory.CreateSubdirectory(colorPalette.PaletteName);
+
+				foreach (var newColor in colorPalette.Colors)
 				{
-					for (int j = 0; j < bmp.Height; j++)
+					var coloredBmp = new Bitmap(bmp.Width, bmp.Height);
+					for (int i = 0; i < bmp.Width; i++)
 					{
-						var actualColor = bmp.GetPixel(i, j);
-						if (actualColor.R == 255)
-							coloredBmp.SetPixel(i, j, newColor);
-						else
-							coloredBmp.SetPixel(i, j, actualColor);
+						for (int j = 0; j < bmp.Height; j++)
+						{
+							var actualColor = bmp.GetPixel(i, j);
+							if (actualColor.R == 255)
+								coloredBmp.SetPixel(i, j, newColor);
+							else
+								coloredBmp.SetPixel(i, j, actualColor);
+						}
 					}
-				}
-				var newBitmap = new Bitmap(coloredBmp, (int)wight * 2 * carLength, coloredBmp.Height);
-				
-				string outputFileName = carsFolder + "\\" + newColor.Name + ".png";
-				using (MemoryStream memory = new MemoryStream())
-				{
-					using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+
+					var subDirectory = directory.GetDirectories().Single(x => x.Name == colorPalette.PaletteName);
+					string outputFileName = subDirectory.FullName + "\\" + newColor.Name + ".png";
+					using (MemoryStream memory = new MemoryStream())
 					{
-						newBitmap.Save(memory, ImageFormat.Png);
-						byte[] bytes = memory.ToArray();
-						fs.Write(bytes, 0, bytes.Length);
+						using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+						{
+							coloredBmp.Save(memory, ImageFormat.Png);
+							byte[] bytes = memory.ToArray();
+							fs.Write(bytes, 0, bytes.Length);
+						}
 					}
 				}
 			}
@@ -65,16 +59,18 @@ namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 
 		public static void DeleteFolder()
 		{
-			if (Directory.Exists(carsFolder))
-				Directory.Delete(carsFolder, true);
+			if (Directory.Exists(CarsFolder))
+				Directory.Delete(CarsFolder, true);
 		}
 
-		private static List<Color> GetColors(ChartColorPalette chartColorPalette)
+		private static List<ColorPalette> GetColors()
 		{
-			switch (chartColorPalette)
+			return new List<ColorPalette>
 			{
-				case ChartColorPalette.BrightPastel:
-					return new List<Color>
+				new ColorPalette
+				{
+					PaletteName = ChartColorPalette.BrightPastel.ToString(),
+					Colors = new List<Color>
 					{
 						Color.FromArgb(0x41, 140, 240),
 						Color.FromArgb(0xfc, 180, 0x41),
@@ -91,12 +87,17 @@ namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 						Color.FromArgb(0xf1, 0xb9, 0xa8),
 						Color.FromArgb(0xe0, 0x83, 10),
 						Color.FromArgb(120, 0x93, 190)
-
-					};
-
-				default:
-					return new List<Color> { Color.White };
-
+					}
+				},
+				new ColorPalette
+				{
+					PaletteName = "RedAndBlue",
+					Colors = new List<Color>
+					{
+						CustomColor.Red,
+						CustomColor.Blue
+					}
+				}
 			};
 			//var Berry = { Color.BlueViolet, MediumOrchid, RoyalBlue, MediumVioletRed, Blue, BlueViolet, Orchid, MediumSlateBlue, ARGB(0xc0, 0, 0xc0), MediumBlue, Purple }
 			//BrightPastel = { ARGB(0x41, 140, 240), ARGB(0xfc, 180, 0x41), ARGB(0xe0, 0x40, 10), ARGB(5, 100, 0x92), ARGB(0xbf, 0xbf, 0xbf), ARGB(0x1a, 0x3b, 0x69), ARGB(0xff, 0xe3, 130), ARGB(0x12, 0x9c, 0xdd), ARGB(0xca, 0x6b, 0x4b), ARGB(0, 0x5c, 0xdb), ARGB(0xf3, 210, 0x88), ARGB(80, 0x63, 0x81), ARGB(0xf1, 0xb9, 0xa8), ARGB(0xe0, 0x83, 10), ARGB(120, 0x93, 190) }
@@ -110,6 +111,13 @@ namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 			//SeaGreen = { SeaGreen, MediumAquamarine, SteelBlue, DarkCyan, CadetBlue, MediumSeaGreen, MediumTurquoise, LightSteelBlue, DarkSeaGreen, SkyBlue }
 			//SemiTransparent = { ARGB(150, 0xff, 0, 0), ARGB(150, 0, 0xff, 0), ARGB(150, 0, 0, 0xff), ARGB(150, 0xff, 0xff, 0), ARGB(150, 0, 0xff, 0xff), ARGB(150, 0xff, 0, 0xff), ARGB(150, 170, 120, 20), ARGB(80, 0xff, 0, 0), ARGB(80, 0, 0xff, 0), ARGB(80, 0, 0, 0xff), ARGB(80, 0xff, 0xff, 0), ARGB(80, 0, 0xff, 0xff), ARGB(80, 0xff, 0, 0xff), ARGB(80, 170, 120, 20), ARGB(150, 100, 120, 50), ARGB(150, 40, 90, 150) }
 			//Палитра оттенков серого определяется: gray value = 200 - (
+		}
+
+		private class ColorPalette
+		{
+			public string PaletteName { get; set; }
+
+			public List<Color> Colors { get; set; }
 		}
 	}
 }

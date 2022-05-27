@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Windows\MainWindowHelper.cs" />
     <Compile Include="Сonstants\AutoScroll.cs" />
+    <Compile Include="Сonstants\CustomColor.cs" />
     <Compile Include="Сonstants\DrivingMode.cs" />
     <Compile Include="Сonstants\IdenticalCars.cs" />
     <Compile Include="Сonstants\LegendDisplayOptions.cs" />

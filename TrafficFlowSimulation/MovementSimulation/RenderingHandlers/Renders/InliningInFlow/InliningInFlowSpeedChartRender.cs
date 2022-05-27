@@ -21,7 +21,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
-		AxisXMaximum = 100,
+		AxisXMaximum = 60,
 		AxisYMinimum = 0,
 		ZoomShift = 40
 	};
@@ -77,12 +77,14 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far,
+				/*
 				ScaleView = new AxisScaleView
 				{
 					Zoomable = true,
 					SizeType = DateTimeIntervalType.Number,
 					MinSize = 30
 				},
+				*/
 				Interval = _chartAreaModel.AxisXInterval,
 				ScrollBar = new AxisScrollBar
 				{
@@ -102,7 +104,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 			}
 		};
 
-		chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
+		//chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
 
 		return chartArea;
 	}

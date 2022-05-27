@@ -49,7 +49,7 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 				var showLegend = false;
 				if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
 				{
-					_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+					series.Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 					showLegend = true;
 				}
 
@@ -60,6 +60,8 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 
 		var inliningCar = _chart.Series.First(series => series.Name.Contains(_seriesName + modelParameters.n));
 		inliningCar.Points.AddXY(0, _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 10);
+
+		SetMarkerImage();
 	}
 
 	public override void UpdateChart(List<double> t = null!, List<double> x = null!, List<double> y = null!)
@@ -71,15 +73,15 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 			if (i < x.Count)
 			{
 				var showLegend = false;
-				if(_chart.Series[i].Points.Any())
-					_chart.Series[i].Points.RemoveAt(0);
+				if(series.Points.Any())
+					series.Points.RemoveAt(0);
 
 				if (x[i] > _chartAreaModel.AxisXMinimum && x[i] < _chartAreaModel.AxisXMaximum)
 				{
-					var yValue =_chart.Series[i].Tag != null && _chart.Series[i].Tag.ToString() == _inliningTag
+					var yValue = series.Tag != null && series.Tag.ToString() == _inliningTag
 						? CalculateWay(x[i])
 						: _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2;
-					_chart.Series[i].Points.AddXY(x[i], yValue);
+					series.Points.AddXY(x[i], yValue);
 					showLegend = true;
 				}
 
@@ -174,7 +176,19 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
 	{
-		/*var startLineSeries = new Series
+		var lineSeries = new Series
+		{
+			Name = "line",
+			ChartType = SeriesChartType.Line,
+			ChartArea = _chartAreaName,
+			BorderWidth = 1,
+			Color = Color.Black,
+			IsVisibleInLegend = false
+		};
+		lineSeries.Points.Add(new DataPoint(_chartAreaModel.AxisXMinimum, 0));
+		lineSeries.Points.Add(new DataPoint(_chartAreaModel.AxisXMaximum, 0));
+		
+		var startLineSeries = new Series
 		{
 			Name = "StartLine",
 			ChartType = SeriesChartType.Line,
@@ -184,12 +198,12 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 			IsVisibleInLegend = false
 		};
 		startLineSeries.Points.Add(new DataPoint(0, 1));
-		startLineSeries.Points.Add(new DataPoint(0.00001, 0));
-	//	startLineSeries.Label = "10";
-	*/
+		startLineSeries.Points.Add(new DataPoint(0, 0));
+
 		return new Series[]
 		{
-			//startLineSeries,
+			lineSeries,
+			startLineSeries,
 		};
 	}
 
@@ -204,16 +218,6 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 		sb.Append(LocalizationHelper.Get<MenuResources>().DistanceText + " ");
 		sb.Append(Math.Round(values[1], 2));
 		return sb.ToString();
-	}
-	
-	public override void SetMarkerImage(string path)
-	{
-		_chart.ApplyPaletteColors();
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
-		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].MarkerImage = path + "\\" + _chart.Series[i].Color.Name + ".png";
-		}
 	}
 
 	private double CalculateWay(double x)
