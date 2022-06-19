@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using Localization.Localization;
+using Settings;
+using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Сonstants;
+
+namespace TrafficFlowSimulation.Windows.Components;
+
+public class TableLayoutPanelComponent
+{
+	private static TableLayoutPanelComponentHelper _helper;
+
+	private static BindingSource _bindingSource;
+
+	private TableLayoutPanel _tableLayoutPanel;
+
+	private ErrorProvider _errorProvider;
+
+	private Type _modelType;
+
+	private static readonly Font _font = new Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+
+	private static readonly string _textBoxPrefix = "textBox_";
+	private static readonly string _labelPrefix = "label_";
+	private static readonly string _comboBoxPrefix = "comboBox_";
+
+	protected static readonly string _multipleTag = "multiple";
+
+	public TableLayoutPanelComponent(
+		Type modelType,
+		TableLayoutPanel tableLayoutPanel, 
+		Dictionary<Type, BindingSource> bindingSources, 
+		ErrorProvider errorProvider)
+	{
+		_modelType = modelType;
+		_tableLayoutPanel = tableLayoutPanel;
+		_errorProvider = errorProvider;
+
+		_helper = new TableLayoutPanelComponentHelper(_multipleTag);
+		_tableLayoutPanel.CellPaint += _helper.TableLayoutCellPaintEvent;
+
+		var bindingSource = _helper.CreateBindingSource(modelType);
+		bindingSources.Add(modelType, bindingSource);
+		_bindingSource = bindingSource;
+	}
+
+	public void Initialize()
+	{
+		var locale = SettingsHelper.Get<Properties.Settings>().Locale;
+		var controls = _tableLayoutPanel.Controls;
+
+		_tableLayoutPanel.Controls.Clear();
+		_tableLayoutPanel.RowCount = 0;
+		var row = _tableLayoutPanel.RowCount - 1;
+		var counter = 0;
+
+		var properties = from property in _modelType.GetProperties()
+			where Attribute.IsDefined(property, typeof(CustomDisplayAttribute))
+			orderby ((CustomDisplayAttribute)property
+				.GetCustomAttributes(typeof(CustomDisplayAttribute), false)
+				.Single()).Order
+			select property;
+
+		foreach (var property in properties)
+		{
+			row++;
+			var translationAttribute = (TranslationAttribute[])property.GetCustomAttributes(typeof(TranslationAttribute), false);
+			var text = translationAttribute.SingleOrDefault(x => x.Locale == locale)?.Value;
+
+			var displayFormatAttribute = (CustomDisplayAttribute[])property.GetCustomAttributes(typeof(CustomDisplayAttribute), false);
+			var attribute = displayFormatAttribute.Single();
+
+			if (attribute.EnumType != null)
+			{
+				var comboBox = CreateComboBox(property.Name, property.Name, attribute.EnumType , counter++);
+				if (attribute.IsMultiple)
+				{
+					controls.Add(comboBox, 0, row);
+					_tableLayoutPanel.SetColumnSpan(comboBox, 2);
+				}
+				else
+				{
+					var label = CreateLabel(property.Name, text, counter++);
+					controls.Add(label, 0, row);
+					controls.Add(comboBox, 1, row);
+				}
+
+			//	var selectedItem = comboBoxes.SingleOrDefault(x => x.Tag != null && x.Tag.Equals(attribute.EnumType))?.SelectedItem;
+			//	comboBox.SelectedItem = selectedItem;
+
+				continue;
+			}
+
+			var textBox = CreateTextBox(property.Name, property.Name, _tableLayoutPanel.Size.Width, attribute.IsHidden, counter++);
+			if (attribute.IsMultiple)
+			{
+				textBox.Tag = _multipleTag;
+				controls.Add(textBox, 0, row);
+				_tableLayoutPanel.SetColumnSpan(textBox, 2);
+			}
+			else
+			{
+				var label = CreateLabel(property.Name, text, counter++);
+				controls.Add(label, 0, row);
+				controls.Add(textBox, 1, row);
+			}
+			_errorProvider.SetIconAlignment(textBox, ErrorIconAlignment.MiddleLeft);
+		}
+	}
+
+	private TextBox CreateTextBox(string name, string dataMember, int width, bool isHidden, int tabIndex)
+	{
+		var textBox = new TextBox
+		{
+			Font = _font,
+			Name = _textBoxPrefix + name,
+			Size = new Size(width, 27),
+			TabIndex = tabIndex
+		};
+
+		textBox.DataBindings.Add(new Binding("Text", _bindingSource, dataMember, true));
+		if(isHidden) textBox.Hide();
+
+		return textBox;
+	}
+
+	private Label CreateLabel(string name, string text, int tabIndex)
+	{
+		var label = new Label
+		{
+			Font = _font,
+			Name = _labelPrefix + name,
+			Text = text,
+			Anchor = AnchorStyles.Left,
+			AutoSize = true,
+			TabIndex = tabIndex
+		};
+
+		return label;
+	}
+
+	private ComboBox CreateComboBox(string name, string dataMember, Type enumType, int tabIndex)
+	{
+		var comboBox = new ComboBox
+		{
+			Font = _font,
+			Name = _comboBoxPrefix + name,
+			DrawMode = DrawMode.OwnerDrawVariable,
+			DropDownStyle = ComboBoxStyle.DropDownList,
+			FormattingEnabled = true,
+			Tag = enumType,
+			TabIndex = tabIndex
+		};
+
+		comboBox.DataSource = _helper.GetComboBoxDataSource(typeof(IdenticalCars));
+		comboBox.DataBindings.Add(new Binding("SelectedItem", _bindingSource, dataMember, true));
+
+		comboBox.DrawItem += _helper.ComboBoxDrawItemEvent;
+		comboBox.SelectedIndexChanged += _helper.GetComboBoxSelectedIndexChangedEvent(enumType);
+
+		return comboBox;
+	}
+}

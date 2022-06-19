@@ -5,6 +5,9 @@ namespace TrafficFlowSimulation.Properties
 {
 	public class Settings
 	{
+		[DefaultValue("ru")]
+		public string Locale { get; set; }
+
 		public DrivingMode CurrentDrivingMode { get; set; }
 
 		[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow")]

@@ -97,7 +97,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 			AxisY = new Axis
 			{
 				Minimum = _chartAreaModel.AxisYMinimum,
-				Maximum = MaxSpeedRound(modelParameters.Vmax),
+				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
 				Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
@@ -141,11 +141,5 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
 	{
 		return new Series[] { };
-	}
-
-	private double MaxSpeedRound(double[] v)
-	{
-		var round = Math.Round(v.Max() / 10) * 10;
-		return round > v.Max() ? round : round + 10;
 	}
 }

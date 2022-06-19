@@ -1,10 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TrafficFlowSimulation.Commands;
+using TrafficFlowSimulation.Windows;
+using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Models
 {
 	public class ModelParametersModel : ValidationModel
 	{
+		public ComboboxItem value { get; set; }
+
 		[Required]
 		[Range(1, 10000)]
 		public int n { get; set; }

@@ -6,20 +6,20 @@ namespace Localization.Localization
 {
 	public class LoadedResourcesBuilder
 	{
-		private readonly IDictionary<string, IDictionary<string, string>> _locale2Values;
+		private readonly IDictionary<string, IDictionary<string, string>> _localeToValues;
 
 		public IList<ResourceMetadata> Metadata { get; }
 
 		public LoadedResourcesBuilder()
 		{
-			_locale2Values = new Dictionary<string, IDictionary<string, string>>(StringComparer.Ordinal);
+			_localeToValues = new Dictionary<string, IDictionary<string, string>>(StringComparer.Ordinal);
 			Metadata = new List<ResourceMetadata>();
 		}
 		public LoadedResourcesBuilder AppendValue(string locale, string key, string value)
 		{
 			IDictionary<string, string> values;
-			if (_locale2Values.TryGetValue(locale, out values) == false)
-				_locale2Values[locale] = values = new Dictionary<string, string>(StringComparer.Ordinal);
+			if (_localeToValues.TryGetValue(locale, out values) == false)
+				_localeToValues[locale] = values = new Dictionary<string, string>(StringComparer.Ordinal);
 
 			values[key] = value;
 			return this;
@@ -29,8 +29,8 @@ namespace Localization.Localization
 		{
 			return new LoadedResources
 			{
-				Locales = _locale2Values.Keys.ToArray(),
-				Locale2Values = _locale2Values
+				Locales = _localeToValues.Keys.ToArray(),
+				LocaleToValues = _localeToValues
 			};
 		}
 	}

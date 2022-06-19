@@ -1,9 +1,13 @@
-﻿using Settings;
+﻿using System;
+using Settings;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Windows.Components;
+using TrafficFlowSimulation.Windows.Models;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows
@@ -123,6 +127,33 @@ namespace TrafficFlowSimulation.Windows
 
 			fieldsForShow.ForEach(x => x.Show());
 			fieldsForHide.ForEach(x => x.Hide());
+		}
+
+		public static void InitializeTableLayoutPanelComponent(
+			TableLayoutPanelsModel tableLayoutPanels, 
+			Dictionary<Type, BindingSource> bindingSources, 
+			ErrorProvider errorProvider)
+		{
+			var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
+				typeof(EditBasicModelParameters),
+				tableLayoutPanels.BasicParametersTableLayoutPanel, 
+				bindingSources,
+				errorProvider);
+			basicParametersTableLayoutPanelComponent.Initialize();
+
+			var additionalParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
+				typeof(EditAdditionalModelParameters),
+				tableLayoutPanels.AdditionalParametersTableLayoutPanel,
+				bindingSources,
+				errorProvider);
+			additionalParametersTableLayoutPanelComponent.Initialize();
+
+			var initialConditionsTableLayoutPanelComponent = new TableLayoutPanelComponent(
+				typeof(EditInitialConditionsModelParameters),
+				tableLayoutPanels.InitialConditionsTableLayoutPanel,
+				bindingSources,
+				errorProvider);
+			initialConditionsTableLayoutPanelComponent.Initialize();
 		}
 	}
 }

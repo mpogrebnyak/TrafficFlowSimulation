@@ -22,7 +22,7 @@ namespace TrafficFlowSimulation.Commands
 					new ValidationContext(this, null, null)
 					{
 						MemberName = property,
-						DisplayName = EmptyDisplayName.Value,	  
+						DisplayName = EmptyDisplayName.Value,
 					},
 					results);
 				if (!result)

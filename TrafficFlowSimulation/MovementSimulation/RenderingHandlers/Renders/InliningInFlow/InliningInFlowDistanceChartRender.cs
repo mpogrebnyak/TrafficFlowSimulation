@@ -44,7 +44,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 			if (i == 0)
 				_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
 
-			var lambda = i < modelParameters.lambda.Length
+			var lambda = i < modelParameters.lambda.Count
 				? modelParameters.lambda[i]
 				: 0;
 

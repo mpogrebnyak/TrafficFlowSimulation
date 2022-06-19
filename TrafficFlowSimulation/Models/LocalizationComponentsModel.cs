@@ -20,9 +20,5 @@ namespace TrafficFlowSimulation.Models
 		public ToolStripButton ContinueToolStripButton { get; set; }
 
 		public ToolStripLabel DrivingModeStripLabel { get; set; }
-
-		public ComboBox AutoScrollComboBox { get; set; }
-
-		public ComboBox IdenticalCarsComboBox { get; set; }
 	}
 }

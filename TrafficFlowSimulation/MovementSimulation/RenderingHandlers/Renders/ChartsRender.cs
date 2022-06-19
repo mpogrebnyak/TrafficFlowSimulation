@@ -71,19 +71,10 @@ public abstract class ChartsRender : IChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
-			float lengthOfSingleSegmentXPixels;
-			float lengthOfSingleSegmentYPixels;
-			try
-			{
-				lengthOfSingleSegmentXPixels =
+			var lengthOfSingleSegmentXPixels =
 					(float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(1) - (float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(0);
-				lengthOfSingleSegmentYPixels =
+			var lengthOfSingleSegmentYPixels =
 					(float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(1);
-			}
-			catch (NullReferenceException e)
-			{
-				return;
-			}
 
 			var carLength = SettingsHelper.Get<Properties.Settings>().CarLength;
 

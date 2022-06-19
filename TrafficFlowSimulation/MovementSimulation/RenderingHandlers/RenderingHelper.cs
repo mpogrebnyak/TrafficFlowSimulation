@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
@@ -9,6 +12,12 @@ namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 {
 	public static class RenderingHelper
 	{
+		public static double CalculateMaxSpeed(List<double> v)
+		{
+			var round = Math.Round(v.Max() / 10) * 10;
+			return round > v.Max() ? round : round + 10;
+		}
+		
 		public static void ShowLegend(Chart chart, LegendStyle? legendStyle)
 		{
 			var provider =

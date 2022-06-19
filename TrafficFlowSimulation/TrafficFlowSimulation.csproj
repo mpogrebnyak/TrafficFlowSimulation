@@ -69,6 +69,11 @@
     <Compile Include="Commands\ModeSettingsMapper.cs" />
     <Compile Include="Commands\ValidationModel.cs" />
     <Compile Include="Models\AllChartsModel.cs" />
+    <Compile Include="Models\CustomDisplayAttribute.cs" />
+    <Compile Include="Models\EditAdditionalModelParameters.cs" />
+    <Compile Include="Models\EditBasicModelParameters.cs" />
+    <Compile Include="Models\EditInitialConditionsModelParameters.cs" />
+    <Compile Include="Models\EditModelParameters.cs" />
     <Compile Include="Models\LocalizationComponentsModel.cs" />
     <Compile Include="Models\ModelParametersModel.cs" />
     <Compile Include="Models\ModeSettingsModel.cs" />
@@ -106,8 +111,11 @@
     <Compile Include="Properties\TranslationResources\EnumResources.cs" />
     <Compile Include="Properties\TranslationResources\MenuResources.cs" />
     <Compile Include="Properties\TranslationResources\ParametersResources.cs" />
+    <Compile Include="Services\DefaultParametersValuesService.cs" />
     <Compile Include="UnityServiceRegistrator.cs" />
-    <Compile Include="Windows\Controllers\DrivingModeControllers.cs" />
+    <Compile Include="Windows\Components\DrivingModeComponent.cs" />
+    <Compile Include="Windows\Components\TableLayoutPanelComponent.cs" />
+    <Compile Include="Windows\Components\TableLayoutPanelComponentHelper.cs" />
     <Compile Include="Windows\CustomControls\ComboboxItem.cs" />
     <Compile Include="Windows\CustomControls\ControlToolStripCustomRender.cs" />
     <Compile Include="Windows\CustomControls\CustomComboBox.cs">
@@ -124,6 +132,7 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindowHelper.cs" />
+    <Compile Include="Windows\Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Сonstants\AutoScroll.cs" />
     <Compile Include="Сonstants\CustomColor.cs" />
     <Compile Include="Сonstants\DrivingMode.cs" />
@@ -145,6 +154,9 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\EvaluationKernel.Models.ModelParameters.datasource" />
+    <None Include="Properties\DataSources\TrafficFlowSimulation.Models.EditAdditionalModelParameters.datasource" />
+    <None Include="Properties\DataSources\TrafficFlowSimulation.Models.EditBasicModelParameters.datasource" />
+    <None Include="Properties\DataSources\TrafficFlowSimulation.Models.EditModelParameters.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Models.ModelParametersModel.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Models.ModeSettingsModel.datasource" />
     <None Include="Properties\DataSources\TrafficFlowSimulation.Resources.MenuResources.datasource" />
@@ -186,7 +198,7 @@
     <Content Include="Properties\images\white_car_big.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Localization.Localization;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Windows;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Commands
@@ -17,6 +19,11 @@ namespace TrafficFlowSimulation.Commands
 		{
 			var modelParametersModel = new ModelParametersModel
 			{
+				value = new ComboboxItem
+                {
+					Text= IdenticalCars.No.GetDescription(),
+					Value= IdenticalCars.No
+				},
 				// пердполагаем, что длина машины 4
 				Lenght = 100,
 				n = 2,
@@ -162,20 +169,20 @@ namespace TrafficFlowSimulation.Commands
 			return new ModelParameters
 			{
 				n = n,
-				Vmax = vMaxList.ToArray(),
-				a = aList.ToArray(),
-				q = qList.ToArray(),
-				l = lList.ToArray(),
+				Vmax = vMaxList,
+				a = aList,
+				q = qList,
+				l = lList,
 				tau = tau,
 				Vmin = 0,
 				L = L,
 				g = g,
 				mu = mu,
 				eps = 1,
-				k = kList.ToArray(),
-				s = sList.ToArray(),
-				lambda = lambdaList.ToArray(),
-				Vn = vNList.ToArray()
+				k = kList,
+				s = sList,
+				lambda = lambdaList,
+				Vn = vNList
 			};
 		}
 

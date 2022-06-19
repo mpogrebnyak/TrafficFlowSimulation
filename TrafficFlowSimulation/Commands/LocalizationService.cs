@@ -25,8 +25,6 @@ namespace TrafficFlowSimulation.Commands
 			lc.ContinueToolStripButton.Text = LocalizationHelper.Get<MenuResources>().ContinueButtonTitle;
 			lc.DrivingModeStripLabel.Text = LocalizationHelper.Get<MenuResources>().DrivingModeLabel;
 
-			TranslateCombobox(lc.AutoScrollComboBox, typeof(AutoScroll));
-			TranslateCombobox(lc.IdenticalCarsComboBox, typeof(IdenticalCars));
 			AllChartsTranslator(lc.AllCharts);
 
 			lc.LocalizationBinding.DataSource = new ParametersResources
@@ -106,35 +104,6 @@ namespace TrafficFlowSimulation.Commands
 				allCharts.DistanceChart.ChartAreas[0].AxisY.Title =
 					LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText;
 			}
-		}
-
-		private static void TranslateCombobox(ComboBox comboBox, Type enumType)
-		{
-			var selectedItem = comboBox.SelectedItem;
-			var elements = new List<ComboboxItem>();
-
-			if (enumType == typeof(AutoScroll))
-			{
-				elements = (from AutoScroll e in Enum.GetValues(typeof(AutoScroll))
-					select new ComboboxItem
-					{
-						Text = e.GetDescription(),
-						Value = e
-					}).ToList();
-			}
-
-			if (enumType == typeof(IdenticalCars))
-			{
-				elements = (from IdenticalCars e in Enum.GetValues(typeof(IdenticalCars))
-					select new ComboboxItem
-					{
-						Text = e.GetDescription(),
-						Value = e
-					}).ToList();
-			}
-
-			comboBox.DataSource = elements;
-			comboBox.SelectedItem = selectedItem ?? 0;
 		}
 	}
 }

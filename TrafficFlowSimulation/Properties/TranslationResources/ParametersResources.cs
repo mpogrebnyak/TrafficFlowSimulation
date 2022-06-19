@@ -63,5 +63,10 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.ru, "Элементы управления:")]
 		[Translation(Locales.en, "Controls:")]
 		public string ControlsGroupBoxText { get; set; }
+		
+		
+		[Translation(Locales.ru, "11")]
+		[Translation(Locales.en, "11")]
+		public string Eee { get; set; }
 	}
 }

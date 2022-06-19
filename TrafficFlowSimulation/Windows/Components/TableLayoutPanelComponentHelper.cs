@@ -1,0 +1,127 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using Localization.Localization;
+using TrafficFlowSimulation.Services;
+using TrafficFlowSimulation.Сonstants;
+
+namespace TrafficFlowSimulation.Windows.Components;
+
+public class TableLayoutPanelComponentHelper
+{
+	private static string _multipleTag;
+
+	public TableLayoutPanelComponentHelper(string multipleTag)
+	{
+		_multipleTag = multipleTag;
+	}
+
+	public List<ComboboxItem> GetComboBoxDataSource(Type enumType)
+	{
+		var elements = new List<ComboboxItem>();
+
+		if (enumType == typeof(AutoScroll))
+		{
+			elements = (from AutoScroll e in Enum.GetValues(typeof(AutoScroll))
+				select new ComboboxItem
+				{
+					Text = e.GetDescription(),
+					Value = e
+				}).ToList();
+		}
+
+		if (enumType == typeof(IdenticalCars))
+		{
+			elements = (from IdenticalCars e in Enum.GetValues(typeof(IdenticalCars))
+				select new ComboboxItem
+				{
+					Text = e.GetDescription(),
+					Value = e
+				}).ToList();
+		}
+
+		return elements;
+	}
+	
+	public EventHandler GetComboBoxSelectedIndexChangedEvent(Type enumType)
+	{
+		if (enumType == typeof(IdenticalCars))
+		{
+			return IdenticalCarsComboBox_SelectedIndexChanged;
+		}
+
+		return null;
+	} 
+
+	private void IdenticalCarsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+	{
+		var comboBox = sender as ComboBox;
+		var tableLayoutPanel = comboBox.Parent as TableLayoutPanel;
+		var controls = tableLayoutPanel.Controls;
+
+		var multipleControls = controls
+			.OfType<Control>()
+			.Where(x => x.Tag != null && x.Tag.Equals(_multipleTag))
+			.ToList();
+
+		var comboboxItem = (ComboboxItem) comboBox.SelectedItem;
+		if (comboboxItem.Value.Equals(IdenticalCars.Yes))
+			multipleControls.ForEach(x => x.Hide());
+		else
+			multipleControls.ForEach(x => x.Show());
+	}
+
+	public void TableLayoutCellPaintEvent(object sender, TableLayoutCellPaintEventArgs e)
+	{
+		var tableLayoutPanel = sender as TableLayoutPanel;
+		var comboBox = tableLayoutPanel.Controls
+			.OfType<ComboBox>()
+			.SingleOrDefault(x => x.Tag != null && x.Tag.Equals(typeof(IdenticalCars)));
+
+		var selectedItem = comboBox?.SelectedItem as ComboboxItem;
+		if (selectedItem != null && selectedItem.Value.Equals(IdenticalCars.No))
+		{
+			var childControl = tableLayoutPanel.GetControlFromPosition(e.Column, e.Row);
+			if (childControl != null && childControl.Tag != null && childControl.Tag.Equals(_multipleTag))
+			{
+				var topLeft = new Point(e.CellBounds.Left, e.CellBounds.Bottom);
+				var topRight = new Point(e.CellBounds.Right, e.CellBounds.Bottom);
+				var pen = new Pen(Color.FromArgb(255, 151, 29), 0.1f);
+
+				e.Graphics.DrawLine(pen, topLeft, topRight);
+			}
+		}
+	}
+
+	public void ComboBoxDrawItemEvent(object sender, DrawItemEventArgs e)
+	{
+		var comboBox = sender as ComboBox;
+
+		e.Graphics.FillRectangle(
+			(e.State & DrawItemState.Selected) == DrawItemState.Selected
+				? new SolidBrush(Color.LightGray)
+				: new SolidBrush(SystemColors.Window), e.Bounds);
+
+		if (e.Index != -1)
+			e.Graphics.DrawString(comboBox.Items[e.Index].ToString(),
+				e.Font,
+				new SolidBrush(Color.Black),
+				new Point(e.Bounds.X, e.Bounds.Y));
+	}
+
+	public BindingSource CreateBindingSource(Type modelType)
+	{
+		var bs = new BindingSource();
+		((System.ComponentModel.ISupportInitialize)bs).BeginInit();
+		bs.DataSource = modelType;
+		((System.ComponentModel.ISupportInitialize)bs).EndInit();
+
+		bs.DataSource = DefaultParametersValuesService.GetDefaultEditBasicModelParameters(modelType);
+	//	var instance = Activator.CreateInstance(modelType);
+	//	bs.DataSource = instance;
+
+		return bs;
+	}
+}

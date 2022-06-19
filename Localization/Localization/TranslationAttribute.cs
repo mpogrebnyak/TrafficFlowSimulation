@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Localization.Localization
+﻿namespace Localization.Localization
 {
 	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = true)]
 	public class TranslationAttribute : Attribute

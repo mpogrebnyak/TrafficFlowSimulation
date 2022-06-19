@@ -131,32 +131,17 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, int index, double[] lambda, double[] Vn)
 	{
-		var lambdaNew = lambda.ToList();
-		lambdaNew.Insert(index, 0);
+		modelParameters.n++;
+		modelParameters.a.Insert(index, 4);
+		modelParameters.q.Insert(index, 3);
+		modelParameters.l.Insert(index, 5);
+		modelParameters.Vmax.Insert(index, 16.7);
+		modelParameters.k.Insert(index, 0.5);
+		modelParameters.s.Insert(index, 20);
+		modelParameters.lambda.Insert(index, 0);
+		modelParameters.Vn.Insert(index, 0);
 
-		var VnNew = Vn.ToList();
-		VnNew.Insert(index, 0);
-
-		return new ModelParameters
-		{
-			n = modelParameters.n + 1,
-			a = modelParameters.a.Append(4).ToArray(),
-			q = modelParameters.q.Append(3).ToArray(),
-			l = modelParameters.l.Append(5).ToArray(),
-			Vmax = modelParameters.Vmax.Append(16.7).ToArray(),
-			k = modelParameters.k.Append(0.5).ToArray(),
-			s = modelParameters.s.Append(20).ToArray(),
-
-			tau = modelParameters.tau,
-			eps = modelParameters.eps,
-			g = modelParameters.g,
-			mu = modelParameters.mu,
-			L = modelParameters.L,
-			Vmin = modelParameters.Vmin,
-
-			lambda = lambdaNew.ToArray(),
-			Vn = VnNew.ToArray(),
-		};
+		return modelParameters;
 	}
 
 	private bool IsInliningAvaliable(ModelParameters modelParameters, int n, double[] x, double[] v, out int inline)
