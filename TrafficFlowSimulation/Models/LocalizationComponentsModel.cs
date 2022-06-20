@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using TrafficFlowSimulation.Windows.CustomControls;
+using TrafficFlowSimulation.Windows.Models;
 
 namespace TrafficFlowSimulation.Models
 {

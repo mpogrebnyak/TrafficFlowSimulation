@@ -13,11 +13,11 @@ namespace TrafficFlowSimulation.Windows.Components;
 
 public static class DrivingModeComponent
 {
-	private static Control _root { get; set; }
+	private static MainWindowHelper _mainWindowHelper { get; set; }
 
-	public static void Initialize(ToolStripDropDownButton modesButton, Control root)
+	public static void Initialize(ToolStripDropDownButton modesButton, MainWindowHelper helper)
 	{
-		_root = root;
+		_mainWindowHelper = helper;
 		modesButton.DropDownItems.Clear();
 		var availableModes = SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes.ToList();
 
@@ -58,7 +58,7 @@ public static class DrivingModeComponent
 		settings.CurrentDrivingMode = mode;
 		SettingsHelper.Set<Properties.Settings>(settings);
 
-		MainWindowHelper.ShowCurrentModeSettingsFields(_root);
+		_mainWindowHelper.InitializeModeSettingsTableLayoutPanelComponent();
 		ServiceLocator.Current.GetInstance<RenderingHandler>().ChangeDrivingMode(mode);
 	}
 }

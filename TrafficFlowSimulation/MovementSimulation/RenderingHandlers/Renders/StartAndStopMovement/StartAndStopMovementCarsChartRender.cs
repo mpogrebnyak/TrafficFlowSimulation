@@ -62,11 +62,18 @@ public class StartAndStopMovementCarsChartRender : ChartsRender
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.RemoveAt(0);
-			_chart.Series[i].Points.AddXY(x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 
-			_chart.Series[i].LegendText = GetCarsMovementChartLegendText(y[i], x[i]);
-			_chart.Series[i].Label = GetCarsMovementChartLegendText(y[i], x[i]);
+			var showLegend = false;
+			if(_chart.Series[i].Points.Any())
+				_chart.Series[i].Points.RemoveAt(0);
+			if (x[i] > _chartAreaModel.AxisXMinimum && x[i] < _chartAreaModel.AxisXMaximum)
+			{
+				_chart.Series[i].Points.AddXY(x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				showLegend = true;
+			}
+
+			UpdateLegend(i, showLegend, y[i], x[i]);
+			UpdateLabel(i, showLegend, y[i], x[i]);
 		}
 	}
 

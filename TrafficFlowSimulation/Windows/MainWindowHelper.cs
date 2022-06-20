@@ -5,16 +5,64 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using EvaluationKernel.Models;
+using Microsoft.Practices.ObjectBuilder2;
+using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.ParametersModels;
+using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Models;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows
 {
-	public static class MainWindowHelper
+	public class MainWindowHelper
 	{
-		public static Chart GetChartFromContextMenu(object o)
+		private LocalizationComponentsModel _localizationComponents;
+
+		private AllChartsModel _allCharts;
+
+		private TableLayoutPanelsModel _tableLayoutPanels;
+
+		private ErrorProvider _errorProvider;
+
+		private Dictionary<Type, BindingSource> _bindingSources;
+
+		public MainWindowHelper(
+			LocalizationComponentsModel localizationComponentsModel,
+			AllChartsModel allCharts,
+			TableLayoutPanelsModel tableLayoutPanels,
+			ErrorProvider errorProvider)
+		{
+			_localizationComponents = localizationComponentsModel;
+			_allCharts = allCharts;
+			_tableLayoutPanels = tableLayoutPanels;
+			_errorProvider = errorProvider;
+			_bindingSources = new();
+		}
+
+		public void InitializeInterface()
+		{
+			InitializeTableLayoutPanelComponent();
+			LocalizationService.Translate(_localizationComponents);
+
+			//var defaultModeSettings = ModeSettingsMapper.GetDefault();
+			//ModeSettingsBinding.DataSource = defaultModeSettings;
+
+			//MainWindowHelper.ShowCurrentModeSettingsFields(Controls.Owner);
+		}
+		
+		public LocalizationComponentsModel LocalizationComponents => _localizationComponents;
+
+		public AllChartsModel AllCharts => _allCharts;
+
+		public TableLayoutPanelsModel TableLayoutPanels => _tableLayoutPanels;
+
+		public Dictionary<Type, BindingSource> BindingSources => _bindingSources;
+
+
+		public Chart GetChartFromContextMenu(object o)
 		{
 			var owner = (o as ToolStripMenuItem).Owner;
 
@@ -26,134 +74,72 @@ namespace TrafficFlowSimulation.Windows
 			return (owner as ContextMenuStrip).SourceControl as Chart;
 		}
 
-		public static void HideMultipleField(Control root)
-		{
-			var allControls = GetAllControls(root);
-			var multipleTextBoxes = allControls
-				.OfType<TextBox>()
-				.Where(x => x.Tag != null && x.Tag.ToString() == "MultipleField")
-				.ToList();
-			multipleTextBoxes.ForEach(x => x.Hide());
-
-			var checkBoxes = allControls
-				.OfType<CheckBox>()
-				.Where(x => x.Tag != null && x.Tag.ToString() == "MultipleField")
-				.ToList();
-
-			checkBoxes.ForEach(x => x.Hide());
-		}
-
-		public static void ShowMultipleField(Control root)
-		{
-			var allControls = GetAllControls(root);
-			var multipleTextBoxes = allControls
-				.OfType<TextBox>()
-				.Where(x => x.Tag != null && x.Tag.ToString() == "MultipleField")
-				.ToList();
-			multipleTextBoxes.ForEach(x => x.Show());
-
-			var checkBoxes = allControls
-				.OfType<CheckBox>()
-				.Where(x => x.Tag != null && x.Tag.ToString() == "MultipleField")
-				.ToList();
-
-			checkBoxes.ForEach(x => x.Show());
-		}
-
-		public static void PaintCellPaint(object control, TableLayoutCellPaintEventArgs e)
-        {
-			var tableLayoutPanel = control as TableLayoutPanel;
-			var childControl = tableLayoutPanel.GetControlFromPosition(e.Column, e.Row);
-			if (childControl != null && childControl.Tag != null && childControl.Tag == "MultipleField")
-			{
-				var topLeft = new Point(e.CellBounds.Left, e.CellBounds.Bottom);
-				var topRight = new Point(e.CellBounds.Right, e.CellBounds.Bottom);
-				var pen = new Pen(Color.FromArgb(255, 151, 29), 0.1f);
-
-				e.Graphics.DrawLine(pen, topLeft, topRight);
-			}
-		}
-
-		private static IEnumerable<Control> GetAllControls(Control root)
-		{
-			var stack = new Stack<Control>();
-			stack.Push(root);
-
-			while (stack.Any())
-			{
-				var next = stack.Pop();
-				foreach (Control child in next.Controls)
-					stack.Push(child);
-
-				yield return next;
-			}
-		}
-
-		public static void DrawColoredItems(ComboBox comboBox, DrawItemEventArgs e)
-		{
-			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-			{
-				e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), e.Bounds);
-			}
-			else
-			{
-				e.Graphics.FillRectangle(new SolidBrush(SystemColors.Window), e.Bounds);
-			}
-
-			if (e.Index != -1)
-				e.Graphics.DrawString(comboBox.Items[e.Index].ToString(),
-					e.Font,
-					new SolidBrush(Color.Black),
-					new Point(e.Bounds.X, e.Bounds.Y));
-		}
-
-		public static void ShowCurrentModeSettingsFields(Control root)
-		{
-			var postfix = "_msf"; //modeSettingsField
-
-			var modeSettingsFields = GetAllControls(root)
-				.Where(x => x.Tag != null && x.Tag.ToString().Contains(postfix))
-				.ToList();
-
-			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
-
-			var fieldsForShow = modeSettingsFields
-				.Where(x => x.Tag.ToString().Contains(currentDrivingMode.ToString()))
-				.ToList();
-
-			var fieldsForHide = modeSettingsFields
-				.Except(fieldsForShow)
-				.ToList();
-
-			fieldsForShow.ForEach(x => x.Show());
-			fieldsForHide.ForEach(x => x.Hide());
-		}
-
-		public static void InitializeTableLayoutPanelComponent(
-			TableLayoutPanelsModel tableLayoutPanels, 
-			Dictionary<Type, BindingSource> bindingSources, 
-			ErrorProvider errorProvider)
+		public void InitializeTableLayoutPanelComponent()
 		{
 			var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
-				typeof(EditBasicModelParameters),
-				tableLayoutPanels.BasicParametersTableLayoutPanel, 
-				bindingSources,
-				errorProvider);
+				typeof(BasicParametersModel),
+				_tableLayoutPanels.BasicParametersTableLayoutPanel, 
+				_bindingSources,
+				_errorProvider);
 			basicParametersTableLayoutPanelComponent.Initialize();
 
 			var additionalParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
-				typeof(EditAdditionalModelParameters),
-				tableLayoutPanels.AdditionalParametersTableLayoutPanel,
-				bindingSources,
-				errorProvider);
+				typeof(AdditionalParametersModel),
+				_tableLayoutPanels.AdditionalParametersTableLayoutPanel,
+				_bindingSources,
+				_errorProvider);
 			additionalParametersTableLayoutPanelComponent.Initialize();
 
 			var initialConditionsTableLayoutPanelComponent = new TableLayoutPanelComponent(
-				typeof(EditInitialConditionsModelParameters),
-				tableLayoutPanels.InitialConditionsTableLayoutPanel,
-				bindingSources,
-				errorProvider);
+				typeof(InitialConditionsParametersModel),
+				_tableLayoutPanels.InitialConditionsTableLayoutPanel,
+				_bindingSources,
+				_errorProvider);
 			initialConditionsTableLayoutPanelComponent.Initialize();
+
+			InitializeModeSettingsTableLayoutPanelComponent();
+		}
+
+		public void InitializeModeSettingsTableLayoutPanelComponent()
+		{
+			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			TableLayoutPanelComponent settingsTableLayoutPanelComponent = null;
+
+			switch (currentDrivingMode)
+			{
+				case DrivingMode.StartAndStopMovement:
+				{
+					settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
+						typeof(StartAndStopMovementModeSettingsModel),
+						_tableLayoutPanels.SettingsTableLayoutPanel,
+						_bindingSources,
+						_errorProvider);
+					break;
+				}
+				case DrivingMode.TrafficThroughOneTrafficLight:
+				{
+					settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
+						typeof(MovementThroughOneTrafficLightModeSettingsModel),
+						_tableLayoutPanels.SettingsTableLayoutPanel,
+						_bindingSources,
+						_errorProvider);
+					break;
+				}
+			}
+
+			settingsTableLayoutPanelComponent?.Initialize();
+		}
+
+		public ModelParameters CollectParametersFromBindingSource()
+		{
+			var modelParameters = new ModelParameters();
+			_bindingSources.ForEach(x => x.Value.EndEdit());
+
+			((BasicParametersModel)_bindingSources[typeof(BasicParametersModel)].DataSource).MapTo(modelParameters);
+			((AdditionalParametersModel)_bindingSources[typeof(AdditionalParametersModel)].DataSource).MapTo(modelParameters);
+			((InitialConditionsParametersModel)_bindingSources[typeof(InitialConditionsParametersModel)].DataSource).MapTo(modelParameters);
+
+			return modelParameters;
 		}
 	}
 }

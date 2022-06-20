@@ -8,6 +8,7 @@ using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.InliningInFlow;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
+using TrafficFlowSimulation.Windows.Models;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.MovementSimulation;

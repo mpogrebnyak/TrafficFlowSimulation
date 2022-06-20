@@ -43,6 +43,9 @@ public class TableLayoutPanelComponent
 		_helper = new TableLayoutPanelComponentHelper(_multipleTag);
 		_tableLayoutPanel.CellPaint += _helper.TableLayoutCellPaintEvent;
 
+		if (bindingSources.ContainsKey(modelType))
+			bindingSources.Remove(modelType);
+
 		var bindingSource = _helper.CreateBindingSource(modelType);
 		bindingSources.Add(modelType, bindingSource);
 		_bindingSource = bindingSource;

@@ -118,9 +118,7 @@ public class TableLayoutPanelComponentHelper
 		bs.DataSource = modelType;
 		((System.ComponentModel.ISupportInitialize)bs).EndInit();
 
-		bs.DataSource = DefaultParametersValuesService.GetDefaultEditBasicModelParameters(modelType);
-	//	var instance = Activator.CreateInstance(modelType);
-	//	bs.DataSource = instance;
+		bs.DataSource = DefaultParametersValuesService.GetDefaultEditModelParameters(modelType);
 
 		return bs;
 	}

@@ -65,20 +65,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\LocalizationService.cs" />
-    <Compile Include="Commands\ModelParametersMapper.cs" />
     <Compile Include="Commands\ModeSettingsMapper.cs" />
     <Compile Include="Commands\ValidationModel.cs" />
-    <Compile Include="Models\AllChartsModel.cs" />
     <Compile Include="Models\CustomDisplayAttribute.cs" />
-    <Compile Include="Models\EditAdditionalModelParameters.cs" />
-    <Compile Include="Models\EditBasicModelParameters.cs" />
-    <Compile Include="Models\EditInitialConditionsModelParameters.cs" />
-    <Compile Include="Models\EditModelParameters.cs" />
     <Compile Include="Models\LocalizationComponentsModel.cs" />
-    <Compile Include="Models\ModelParametersModel.cs" />
     <Compile Include="Models\ModeSettingsModel.cs" />
     <Compile Include="Models\ModeSettingsModels\ModeSettings.cs" />
     <Compile Include="Models\ModeSettingsModels\MovementThroughOneTrafficLightModeSettings.cs" />
+    <Compile Include="Models\ParametersModels\AdditionalParametersModel.cs" />
+    <Compile Include="Models\ParametersModels\BaseParametersModel.cs" />
+    <Compile Include="Models\ParametersModels\BasicParametersModel.cs" />
+    <Compile Include="Models\ParametersModels\InitialConditionsParametersModel.cs" />
+    <Compile Include="Models\SettingsModels\MovementThroughOneTrafficLightModeSettingsModel.cs" />
+    <Compile Include="Models\SettingsModels\StartAndStopMovementModeSettingsModel.cs" />
     <Compile Include="Models\TrafficLightModel.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\EvaluationHandler.cs" />
     <Compile Include="MovementSimulation\EvaluationHandlers\IEvaluationHandler.cs" />
@@ -132,6 +131,7 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindowHelper.cs" />
+    <Compile Include="Windows\Models\AllChartsModel.cs" />
     <Compile Include="Windows\Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Сonstants\AutoScroll.cs" />
     <Compile Include="Сonstants\CustomColor.cs" />

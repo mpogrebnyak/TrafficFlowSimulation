@@ -10,6 +10,7 @@ using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.TranslationResources;
 using TrafficFlowSimulation.Windows;
+using TrafficFlowSimulation.Windows.Models;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Commands
@@ -18,7 +19,7 @@ namespace TrafficFlowSimulation.Commands
 	{
 		public static void Translate(LocalizationComponentsModel lc)
 		{
-			lc.ParametersErrorProvider.UpdateBinding();
+			//lc.ParametersErrorProvider.UpdateBinding();
 			lc.LanguagesSwitcherButton.Text = LocalizationHelper.Get<MenuResources>().LanguagesSwitcheButtomTitle;
 			lc.StartToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StartButtonTitle;
 			lc.StopToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StopButtonTitle;

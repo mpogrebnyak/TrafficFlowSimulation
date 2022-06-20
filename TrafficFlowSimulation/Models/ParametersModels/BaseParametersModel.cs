@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EvaluationKernel.Models;
 using TrafficFlowSimulation.Commands;
 
-namespace TrafficFlowSimulation.Models;
+namespace TrafficFlowSimulation.Models.ParametersModels;
 
-public abstract class EditModelParameters : ValidationModel
+public abstract class BaseParametersModel : ValidationModel
 {
+	public abstract void MapTo(ModelParameters mp);
+
 	private static readonly char _separator = ':';
 
 	private static readonly char _elementsSeparator = ' ';

@@ -9,22 +9,24 @@ using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.ParametersModels;
 using TrafficFlowSimulation.MovementSimulation;
 using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Models;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows
 {
 	public partial class MainWindow : Form
 	{
+		private MainWindowHelper _mainWindowHelper;
 		// вынести в хелпер, там создать, от туда и получать
-		private LocalizationComponentsModel _localizationComponents;
-		private AllChartsModel _allCharts;
-		private TableLayoutPanelsModel _panels;
-		private Dictionary<Type, BindingSource> _bindingSources = new();
+		// создать тут передать в конструктор хелпера и из него все возвращать
+		//private LocalizationComponentsModel _localizationComponents;
+		//private AllChartsModel _allCharts;
+		//private TableLayoutPanelsModel _panels;
+		//private Dictionary<Type, BindingSource> _bindingSources = new();
 
 		public MainWindow()
 		{
@@ -33,7 +35,7 @@ namespace TrafficFlowSimulation.Windows
 			InitializeInterface();
 
 			//доделать
-			MultipleField_tau.Enabled = false;
+			//MultipleField_tau.Enabled = false;
 			SaveButton.Enabled = false;
 			LoadButton.Enabled = false;
 		}
@@ -45,16 +47,16 @@ namespace TrafficFlowSimulation.Windows
 			ControlMenuStrip.Renderer = new ControlToolStripCustomRender();
 			ChartContainerСontextMenuStrip.Renderer = new ToolStripProfessionalRenderer(new SubMenuCustomColorTable());
 
-			_allCharts = new AllChartsModel
+			var allCharts = new AllChartsModel
 			{
 				SpeedChart = speedChart,
 				DistanceChart = distanceChart,
 				CarsMovementChart = carsMovementChart
 			};
 
-			_localizationComponents = new LocalizationComponentsModel
+			var localizationComponents = new LocalizationComponentsModel
 			{
-				AllCharts = _allCharts,
+				AllCharts = allCharts,
 				LocalizationBinding = LocalizationBinding,
 				ParametersErrorProvider = ParametersErrorProvider,
 				LanguagesSwitcherButton = languagesSwitcherButton,
@@ -64,52 +66,46 @@ namespace TrafficFlowSimulation.Windows
 				DrivingModeStripLabel = DrivingModeStripLabel,
 			};
 
-			_panels = new TableLayoutPanelsModel
+			var panels = new TableLayoutPanelsModel
 			{
 				BasicParametersTableLayoutPanel = BasicParametersTableLayoutPanel,
 				AdditionalParametersTableLayoutPanel = AdditionalParametersTableLayoutPanel,
-				InitialConditionsTableLayoutPanel = InitialConditionsTableLayoutPanel
+				InitialConditionsTableLayoutPanel = InitialConditionsTableLayoutPanel,
+				SettingsTableLayoutPanel = SettingsTableLayoutPanel
 			};
 
-			MovementSimulationConfiguration.Registrate(_allCharts);
+			_mainWindowHelper = new MainWindowHelper(localizationComponents,
+				allCharts,
+				panels,
+				ParametersErrorProvider
+			);
+
+			MovementSimulationConfiguration.Registrate(allCharts);
 		}
 
 		private void InitializeInterface()
 		{
-			DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
+			_mainWindowHelper.InitializeInterface();
+			DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, _mainWindowHelper);
 
-			MainWindowHelper.InitializeTableLayoutPanelComponent(_panels, _bindingSources, ParametersErrorProvider);
-			LocalizationService.Translate(_localizationComponents);
+			//_mainWindowHelper.InitializeTableLayoutPanelComponent(_panels, _bindingSources, ParametersErrorProvider);
+			//LocalizationService.Translate(_localizationComponents);
 
-			var defaultModelParameters = ModelParametersMapper.GetDefaultParameters();
-			ModelParametersBinding.DataSource = defaultModelParameters;
+			//var defaultModeSettings = ModeSettingsMapper.GetDefault();
+			//ModeSettingsBinding.DataSource = defaultModeSettings;
 
-			var defaultModeSettings = ModeSettingsMapper.GetDefault();
-			ModeSettingsBinding.DataSource = defaultModeSettings;
-
-			//EditModelParametersBinding.DataSource = new EditBasicModelParameters
-			//{
-			//	n = 100,
-			//	Vmax_multiple = "123",
-			//};
-			//var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
-			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
-			//ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
-
-			MainWindowHelper.ShowCurrentModeSettingsFields(Controls.Owner);
+			//MainWindowHelper.ShowCurrentModeSettingsFields(Controls.Owner);
 		}
 
 		private void StartToolStripButton_Click(object sender, EventArgs e)
 		{
 			parametersPanel.Hide();
-			ModelParametersBinding.EndEdit();
 			ModeSettingsBinding.EndEdit();
-			EditModelParametersBinding.EndEdit();
 
-
-			var ee = (EditModelParameters)EditModelParametersBinding.DataSource;
+			var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
+			//var ee = (EditModelParameters)EditModelParametersBinding.DataSource;
 			//var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
-			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
+			//var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
 			
 			// временно возьмем значения по умолчанию, потом сделаем закгрузку с интерфейса
 			// var modeSettings = new ModeSettingsModel();
@@ -156,8 +152,8 @@ namespace TrafficFlowSimulation.Windows
 		{
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("En");
 			languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
-			LocalizationService.Translate(_localizationComponents);
-			DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
+			LocalizationService.Translate(_mainWindowHelper.LocalizationComponents);
+			//DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
 			
 			
 			var settings = SettingsHelper.Get<Properties.Settings>();
@@ -175,8 +171,8 @@ namespace TrafficFlowSimulation.Windows
 		{
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 			languagesSwitcherButton.Image = Properties.Resources.russia;
-			LocalizationService.Translate(_localizationComponents);
-			DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
+			LocalizationService.Translate(_mainWindowHelper.LocalizationComponents);
+			//DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
 			
 			var settings = SettingsHelper.Get<Properties.Settings>();
 			settings.Locale = "ru";
@@ -203,52 +199,31 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.SaveChart(chart);
 		}
 
 		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowLegend(chart, null);
 		}
 
 		private void ShowFullToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowLegend(chart, LegendStyle.Table);
 		}
 
 		private void ShowPartiallyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowLegend(chart, LegendStyle.Column);
-		}
-
-		private void IdenticalCarsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			var item = (ComboboxItem)IdenticalCarsComboBox.SelectedItem;
-			switch (item.Value)
-			{
-				case IdenticalCars.Yes:
-					MainWindowHelper.HideMultipleField(Controls.Owner);
-					break;
-				case IdenticalCars.No:
-					ModelParametersBinding.EndEdit();
-					ModelParametersBinding.DataSource = ModelParametersMapper.MapMultiple(ModelParametersBinding.DataSource);
-					MainWindowHelper.ShowMultipleField(Controls.Owner);
-					break;
-			}
 		}
 
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
-			var modelParameters = new ModelParameters();
-			_bindingSources.ForEach(x => x.Value.EndEdit());
-
-			((EditBasicModelParameters)_bindingSources[typeof(EditBasicModelParameters)].DataSource).MapTo(modelParameters);
-			((EditAdditionalModelParameters)_bindingSources[typeof(EditAdditionalModelParameters)].DataSource).MapTo(modelParameters);
-			((EditInitialConditionsModelParameters)_bindingSources[typeof(EditInitialConditionsModelParameters)].DataSource).MapTo(modelParameters);
+			var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
 			
 			//((EditBasicModelParameters)ee.DataSource).MapTo(modelParameters);
 			//((EditBasicModelParameters) ee.DataSource).MapTo(modelParameters);
@@ -265,25 +240,25 @@ namespace TrafficFlowSimulation.Windows
 
 		private void HideAxisToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowAxis(chart, true);
 		}
 
 		private void ShowAxisToolStripMenuItem_Click(object sender, EventArgs e)
 		{ 
-			var chart = MainWindowHelper.GetChartFromContextMenu(sender);
+			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
 			RenderingHelper.ShowAxis(chart, false);
 		}
 
-		private void DrawColoredItems(object sender, DrawItemEventArgs e)
-		{
-			var comboBox = sender as ComboBox;
-			MainWindowHelper.DrawColoredItems(comboBox, e);
-		}
+		//private void DrawColoredItems(object sender, DrawItemEventArgs e)
+		//{
+		//	var comboBox = sender as ComboBox;
+		//	MainWindowHelper.DrawColoredItems(comboBox, e);
+		//}
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
 		{
-			if (_allCharts != null)
+			if (_mainWindowHelper != null && _mainWindowHelper.AllCharts != null)
 			{
 				ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
 			}
@@ -291,7 +266,8 @@ namespace TrafficFlowSimulation.Windows
 
 		private void MainWindow_Shown(object sender, EventArgs e)
 		{
-			var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
+			var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
+
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 			// проинициализировать чарты в этом месте 
 			//ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();

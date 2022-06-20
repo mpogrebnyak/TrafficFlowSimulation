@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EvaluationKernel.Models;
 using Localization.Localization;
-using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows;
 using TrafficFlowSimulation.Сonstants;
 
-namespace TrafficFlowSimulation.Models;
+namespace TrafficFlowSimulation.Models.ParametersModels;
 
-public class EditBasicModelParameters : EditModelParameters
+public class BasicParametersModel : BaseParametersModel
 {
 	[Translation(Locales.ru, "Количество автомобилей")]
 	[Translation(Locales.en, "Vehicles number")]
@@ -92,7 +91,7 @@ public class EditBasicModelParameters : EditModelParameters
 	[CustomDisplayAttribute(18, true, true)] 
 	public string s_multiple { get; set; }
 
-	public void MapTo(ModelParameters mp)
+	public override void MapTo(ModelParameters mp)
 	{
 		mp.n = n;
 		mp.tau = tau;

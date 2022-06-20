@@ -2,12 +2,12 @@
 using EvaluationKernel.Models;
 using Localization.Localization;
 
-namespace TrafficFlowSimulation.Models;
+namespace TrafficFlowSimulation.Models.ParametersModels;
 
-public class EditInitialConditionsModelParameters : EditModelParameters
+public class InitialConditionsParametersModel : BaseParametersModel
 {
 	[Translation(Locales.ru, "Нчальные скорости")]
-	[Translation(Locales.en, "88888")]
+	[Translation(Locales.en, "Initial speeds")]
 	[CustomDisplayAttribute(1)]
 	[Required]
 	public double Vn { get; set; }
@@ -16,7 +16,7 @@ public class EditInitialConditionsModelParameters : EditModelParameters
 	public string Vn_multiple { get; set; }
 
 	[Translation(Locales.ru, "Начальные положения")]
-	[Translation(Locales.en, "88888")]
+	[Translation(Locales.en, "Initial positions")]
 	[CustomDisplayAttribute(3)]
 	[Required]
 	public double lambda { get; set; }
@@ -24,7 +24,7 @@ public class EditInitialConditionsModelParameters : EditModelParameters
 	[CustomDisplayAttribute(4, true)] 
 	public string lambda_multiple { get; set; }
 
-	public void MapTo(ModelParameters mp)
+	public override void MapTo(ModelParameters mp)
 	{
 		var VnDictionary = ParseMultipleValues(Vn_multiple);
 		var lambdaDictionary = ParseMultipleValues(lambda_multiple);

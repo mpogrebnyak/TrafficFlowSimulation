@@ -9,4 +9,6 @@ public class TableLayoutPanelsModel
 	public TableLayoutPanel AdditionalParametersTableLayoutPanel { get; set; }
 
 	public TableLayoutPanel InitialConditionsTableLayoutPanel { get; set; }
+
+	public TableLayoutPanel SettingsTableLayoutPanel { get; set; }
 }
