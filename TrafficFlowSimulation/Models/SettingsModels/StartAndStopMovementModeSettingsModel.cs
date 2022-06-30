@@ -4,7 +4,7 @@ using Localization.Localization;
 
 namespace TrafficFlowSimulation.Models.SettingsModels;
 
-public class StartAndStopMovementModeSettingsModel
+public class StartAndStopMovementModeSettingsModel : BaseParametersModel
 {
 	[Translation(Locales.ru, "Расстояние до остановки")]
 	[Translation(Locales.en, "Distance to the stop")]

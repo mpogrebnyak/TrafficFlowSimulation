@@ -2,9 +2,6 @@
 using System.Linq;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using Settings;
-using TrafficFlowSimulation.Commands;
-using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Services;
@@ -41,7 +38,7 @@ public class RenderingHandler
 		_distanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.DistanceChart.Name + drivingMode);
 		_carMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.CarsMovementChart.Name + drivingMode);
 
-		var modelParameters = DefaultParametersValuesService.GetDefaultModelParameters();
+		var modelParameters = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>().GetDefaultModelParameters();
 		RenderCharts(modelParameters);
 	}
 

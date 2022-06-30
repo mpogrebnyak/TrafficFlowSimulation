@@ -32,10 +32,13 @@ public class TableLayoutPanelComponent
 
 	public TableLayoutPanelComponent(
 		Type modelType,
-		TableLayoutPanel tableLayoutPanel, 
+		TableLayoutPanel? tableLayoutPanel, 
 		Dictionary<Type, BindingSource> bindingSources, 
 		ErrorProvider errorProvider)
 	{
+		if (tableLayoutPanel == null)
+			throw new InvalidOperationException();
+
 		_modelType = modelType;
 		_tableLayoutPanel = tableLayoutPanel;
 		_errorProvider = errorProvider;
@@ -53,7 +56,7 @@ public class TableLayoutPanelComponent
 
 	public void Initialize()
 	{
-		var locale = SettingsHelper.Get<Properties.Settings>().Locale;
+		var locale = SettingsHelper.Get<LocalizationSettings>().CurrentLocale;
 		var controls = _tableLayoutPanel.Controls;
 
 		_tableLayoutPanel.Controls.Clear();

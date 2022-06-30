@@ -5,11 +5,11 @@ using System.Linq;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Commands;
 
-namespace TrafficFlowSimulation.Models.ParametersModels;
+namespace TrafficFlowSimulation.Models;
 
-public abstract class BaseParametersModel : ValidationModel
+public class BaseParametersModel: ValidationModel
 {
-	public abstract void MapTo(ModelParameters mp);
+	public virtual void MapTo(ModelParameters mp) { }
 
 	private static readonly char _separator = ':';
 

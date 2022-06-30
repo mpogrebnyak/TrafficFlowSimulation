@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Settings;
 
 namespace Localization.Localization
 {
@@ -6,9 +7,15 @@ namespace Localization.Localization
 	{
 		public static string GetCurrentLocale()
 		{
-			var currentLocale = CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName;
+			var availableLocales = SettingsHelper.Get<LocalizationSettings>().AvailableLocales;
+			var currentLocale = SettingsHelper.Get<LocalizationSettings>().CurrentLocale;
 
-			return currentLocale;
+			if (availableLocales.Contains(currentLocale))
+			{
+				return currentLocale;
+			}
+
+			return SettingsHelper.Get<LocalizationSettings>().DefaultLocale;
 		}
 	}
 }

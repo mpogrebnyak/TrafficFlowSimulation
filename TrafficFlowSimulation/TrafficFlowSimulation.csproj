@@ -67,13 +67,13 @@
     <Compile Include="Commands\LocalizationService.cs" />
     <Compile Include="Commands\ModeSettingsMapper.cs" />
     <Compile Include="Commands\ValidationModel.cs" />
+    <Compile Include="Models\BaseParametersModel.cs" />
     <Compile Include="Models\CustomDisplayAttribute.cs" />
     <Compile Include="Models\LocalizationComponentsModel.cs" />
     <Compile Include="Models\ModeSettingsModel.cs" />
     <Compile Include="Models\ModeSettingsModels\ModeSettings.cs" />
     <Compile Include="Models\ModeSettingsModels\MovementThroughOneTrafficLightModeSettings.cs" />
     <Compile Include="Models\ParametersModels\AdditionalParametersModel.cs" />
-    <Compile Include="Models\ParametersModels\BaseParametersModel.cs" />
     <Compile Include="Models\ParametersModels\BasicParametersModel.cs" />
     <Compile Include="Models\ParametersModels\InitialConditionsParametersModel.cs" />
     <Compile Include="Models\SettingsModels\MovementThroughOneTrafficLightModeSettingsModel.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="Properties\TranslationResources\MenuResources.cs" />
     <Compile Include="Properties\TranslationResources\ParametersResources.cs" />
     <Compile Include="Services\DefaultParametersValuesService.cs" />
+    <Compile Include="TrafficFlowSimulationModule.cs" />
     <Compile Include="UnityServiceRegistrator.cs" />
     <Compile Include="Windows\Components\DrivingModeComponent.cs" />
     <Compile Include="Windows\Components\TableLayoutPanelComponent.cs" />
@@ -130,10 +131,12 @@
     <Compile Include="Windows\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MainWindowConfiguration.cs" />
     <Compile Include="Windows\MainWindowHelper.cs" />
     <Compile Include="Windows\Models\AllChartsModel.cs" />
     <Compile Include="Windows\Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Сonstants\AutoScroll.cs" />
+    <Compile Include="Сonstants\ControlName.cs" />
     <Compile Include="Сonstants\CustomColor.cs" />
     <Compile Include="Сonstants\DrivingMode.cs" />
     <Compile Include="Сonstants\IdenticalCars.cs" />

@@ -36,16 +36,6 @@ namespace TrafficFlowSimulation.Commands
 				AdditionalParametersGroupBoxText = LocalizationHelper.Get<ParametersResources>().AdditionalParametersGroupBoxText,
 				InitialConditionsGroupBoxText = LocalizationHelper.Get<ParametersResources>().InitialConditionsGroupBoxText,
 				ControlsGroupBoxText = LocalizationHelper.Get<ParametersResources>().ControlsGroupBoxText,
-				
-				VehiclesNumberLabel = LocalizationHelper.Get<ParametersResources>().VehiclesNumberLabel,
-				IdenticalCarsLabel = LocalizationHelper.Get<ParametersResources>().IdenticalCarsLabel,
-				DriverResponseTimeLabel = LocalizationHelper.Get<ParametersResources>().DriverResponseTimeLabel,
-				MaximumSpeedLabel = LocalizationHelper.Get<ParametersResources>().MaximumSpeedLabel,
-				AccelerationIntensityLabel = LocalizationHelper.Get<ParametersResources>().AccelerationIntensityLabel,
-				DecelerationIntensityLabel = LocalizationHelper.Get<ParametersResources>().DecelerationIntensityLabel,
-				SafelyDistanceLabel = LocalizationHelper.Get<ParametersResources>().SafelyDistanceLabel,
-				SmoothnessCoefficientLabel = LocalizationHelper.Get<ParametersResources>().SmoothnessCoefficientLabel,
-				InfluenceDistanceLabel = LocalizationHelper.Get<ParametersResources>().InfluenceDistanceLabel,
 			};
 		}
 

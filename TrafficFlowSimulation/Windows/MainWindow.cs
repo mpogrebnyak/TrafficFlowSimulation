@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using Microsoft.Practices.ObjectBuilder2;
+using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ParametersModels;
-using TrafficFlowSimulation.MovementSimulation;
 using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
+using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Models;
 
@@ -20,7 +19,7 @@ namespace TrafficFlowSimulation.Windows
 {
 	public partial class MainWindow : Form
 	{
-		private MainWindowHelper _mainWindowHelper;
+		//private MainWindowHelper _mainWindowHelper;
 		// вынести в хелпер, там создать, от туда и получать
 		// создать тут передать в конструктор хелпера и из него все возвращать
 		//private LocalizationComponentsModel _localizationComponents;
@@ -59,34 +58,35 @@ namespace TrafficFlowSimulation.Windows
 				AllCharts = allCharts,
 				LocalizationBinding = LocalizationBinding,
 				ParametersErrorProvider = ParametersErrorProvider,
-				LanguagesSwitcherButton = languagesSwitcherButton,
+				LanguagesSwitcherButton = LanguagesSwitcherButton,
 				StartToolStripButton = StartToolStripButton,
 				StopToolStripButton = StopToolStripButton,
 				ContinueToolStripButton = ContinueToolStripButton,
 				DrivingModeStripLabel = DrivingModeStripLabel,
 			};
 
-			var panels = new TableLayoutPanelsModel
-			{
-				BasicParametersTableLayoutPanel = BasicParametersTableLayoutPanel,
-				AdditionalParametersTableLayoutPanel = AdditionalParametersTableLayoutPanel,
-				InitialConditionsTableLayoutPanel = InitialConditionsTableLayoutPanel,
-				SettingsTableLayoutPanel = SettingsTableLayoutPanel
-			};
-
-			_mainWindowHelper = new MainWindowHelper(localizationComponents,
+		var mainWindowConfiguration = new MainWindowConfiguration(localizationComponents,
 				allCharts,
-				panels,
-				ParametersErrorProvider
-			);
+				ParametersErrorProvider,
+				Controls);
 
-			MovementSimulationConfiguration.Registrate(allCharts);
+			mainWindowConfiguration.Initialize();
+
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().InitializeInterface();
 		}
 
 		private void InitializeInterface()
 		{
-			_mainWindowHelper.InitializeInterface();
-			DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, _mainWindowHelper);
+			//var qq = ServiceLocator.Current.GetInstance<MainWindowHelper>();
+			//ServiceLocator.Current.GetInstance<MainWindowHelper>("eee").InitializeInterface();
+			//_mainWindowHelper.InitializeInterface();
+		//	var eeeee = Controls.Find("ControlMenuStrip", true).Single();
+		//	var qqq = eeeee as ToolStrip;
+		//	var q = qqq.Items.Find("DrivingModeStripDropDownButton", false).Single();
+		//	var ww = q as ToolStripDropDownButton;
+			//var ee = Controls.Find("DrivingModeStripDropDownButton",true).Single();
+		//	var qq = ee as System.Windows.Forms.ToolStripDropDownButton;
+		//	DrivingModeComponent.Initialize(ww);
 
 			//_mainWindowHelper.InitializeTableLayoutPanelComponent(_panels, _bindingSources, ParametersErrorProvider);
 			//LocalizationService.Translate(_localizationComponents);
@@ -102,7 +102,7 @@ namespace TrafficFlowSimulation.Windows
 			parametersPanel.Hide();
 			ModeSettingsBinding.EndEdit();
 
-			var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
+			//var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
 			//var ee = (EditModelParameters)EditModelParametersBinding.DataSource;
 			//var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
 			//var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
@@ -111,7 +111,7 @@ namespace TrafficFlowSimulation.Windows
 			// var modeSettings = new ModeSettingsModel();
 			//modeSettings.MapTo(ModelParametersBinding.DataSource);
 			var modeSettings = ModeSettingsMapper.MapModel(ModeSettingsBinding.DataSource);
-
+			var modelParameters = new ModelParameters();
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 
 			//ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
@@ -150,39 +150,12 @@ namespace TrafficFlowSimulation.Windows
 
 		private void EnglishMenuItem_Click(object sender, EventArgs e)
 		{
-			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("En");
-			languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
-			LocalizationService.Translate(_mainWindowHelper.LocalizationComponents);
-			//DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
-			
-			
-			var settings = SettingsHelper.Get<Properties.Settings>();
-			settings.Locale = "en";
-			SettingsHelper.Set<Properties.Settings>(settings);
-		//	var tableLayoutPanelComponent = new TableLayoutPanelComponent(
-		//		BasicParametersTableLayoutPanel, 
-		//		EditModelParametersBinding,
-		//		ParametersErrorProvider);
-		//	tableLayoutPanelComponent.Initialize(typeof(EditBasicModelParameters));
-
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().TranslateComponents(Locales.en);
 		}
 
 		private void RussianMenuItem_Click(object sender, EventArgs e)
 		{
-			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
-			languagesSwitcherButton.Image = Properties.Resources.russia;
-			LocalizationService.Translate(_mainWindowHelper.LocalizationComponents);
-			//DrivingModeComponent.Initialize(DrivingModeStripDropDownButton, Controls.Owner);
-			
-			var settings = SettingsHelper.Get<Properties.Settings>();
-			settings.Locale = "ru";
-			SettingsHelper.Set<Properties.Settings>(settings);
-		//	var tableLayoutPanelComponent = new TableLayoutPanelComponent(
-		//		BasicParametersTableLayoutPanel, 
-		//		EditModelParametersBinding,
-		//		ParametersErrorProvider);
-		//	tableLayoutPanelComponent.Initialize(typeof(EditBasicModelParameters));
-
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().TranslateComponents(Locales.ru);
 		}
 
 		private void StopToolStripButton_Click(object sender, EventArgs e)
@@ -199,31 +172,31 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.SaveChart(chart);
+			//var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
+			//RenderingHelper.SaveChart(chart);
 		}
 
 		private void HideLegendToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowLegend(chart, null);
+			///var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
+			//RenderingHelper.ShowLegend(chart, null);
 		}
 
 		private void ShowFullToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowLegend(chart, LegendStyle.Table);
+			//var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
+			//RenderingHelper.ShowLegend(chart, LegendStyle.Table);
 		}
 
 		private void ShowPartiallyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowLegend(chart, LegendStyle.Column);
+			//var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
+			//RenderingHelper.ShowLegend(chart, LegendStyle.Column);
 		}
 
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
-			var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
+			//var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
 			
 			//((EditBasicModelParameters)ee.DataSource).MapTo(modelParameters);
 			//((EditBasicModelParameters) ee.DataSource).MapTo(modelParameters);
@@ -234,20 +207,20 @@ namespace TrafficFlowSimulation.Windows
 			//var isAllCarsIdentical = (IdenticalCars)(IdenticalCarsComboBox.SelectedItem as ComboboxItem).Value;
 			//var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
 
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			//ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
 		}
 
 		private void HideAxisToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowAxis(chart, true);
+			//var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
+			//RenderingHelper.ShowAxis(chart, true);
 		}
 
 		private void ShowAxisToolStripMenuItem_Click(object sender, EventArgs e)
 		{ 
-			var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
-			RenderingHelper.ShowAxis(chart, false);
+			//var chart = _mainWindowHelper.GetChartFromContextMenu(sender);
+			//RenderingHelper.ShowAxis(chart, false);
 		}
 
 		//private void DrawColoredItems(object sender, DrawItemEventArgs e)
@@ -258,15 +231,17 @@ namespace TrafficFlowSimulation.Windows
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
 		{
-			if (_mainWindowHelper != null && _mainWindowHelper.AllCharts != null)
-			{
-				ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
-			}
+			//if (_mainWindowHelper != null && _mainWindowHelper.AllCharts != null)
+			///{
+			//	ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
+			//}
 		}
 
 		private void MainWindow_Shown(object sender, EventArgs e)
 		{
-			var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
+			var modelParameters = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>()
+				.GetDefaultModelParameters();
+				//_mainWindowHelper.CollectParametersFromBindingSource();
 
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 			// проинициализировать чарты в этом месте 

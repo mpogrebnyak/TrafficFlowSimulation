@@ -9,14 +9,16 @@ using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Services;
 
-public static class DefaultParametersValuesService
+public interface IDefaultParametersValuesService
 {
-	// Переделать регистрацию сервисов, этот сервис зарегистрировать 
-	//DefaultParametersValuesService()
-	//{
-		
-	//}
-	public static ModelParameters GetDefaultModelParameters()
+	ModelParameters GetDefaultModelParameters();
+
+	BaseParametersModel GetDefaultEditModelParameters(Type modelType);
+}
+
+public class DefaultParametersValuesService : IDefaultParametersValuesService
+{
+	public ModelParameters GetDefaultModelParameters()
 	{
 		var modelParameters = new ModelParameters();
 
@@ -29,7 +31,7 @@ public static class DefaultParametersValuesService
 		return modelParameters;
 	}
 
-	public static object GetDefaultEditModelParameters(Type modelType)
+	public BaseParametersModel GetDefaultEditModelParameters(Type modelType)
 	{
 		var instance = Activator.CreateInstance(modelType);
 
@@ -44,13 +46,15 @@ public static class DefaultParametersValuesService
 
 			case StartAndStopMovementModeSettingsModel:
 				return GetStartAndStopMovementModeSettingsModel();
+			case MovementThroughOneTrafficLightModeSettingsModel:
+				return GetMovementThroughOneTrafficLightModeSettingsModel();
 
 			default:
-				return instance;
+				throw new InvalidOperationException();
 		}
 	}
 
-	private static BasicParametersModel GetBasicParametersModel()
+	private BasicParametersModel GetBasicParametersModel()
 	{
 		return new BasicParametersModel
 		{
@@ -77,7 +81,7 @@ public static class DefaultParametersValuesService
 		};
 	}
 
-	private static AdditionalParametersModel GetAdditionalParametersModel()
+	private AdditionalParametersModel GetAdditionalParametersModel()
 	{
 		return new AdditionalParametersModel
 		{
@@ -86,7 +90,7 @@ public static class DefaultParametersValuesService
 		};
 	}
 
-	private static InitialConditionsParametersModel GetInitialConditionsParametersModel()
+	private InitialConditionsParametersModel GetInitialConditionsParametersModel()
 	{
 		return new InitialConditionsParametersModel
 		{
@@ -97,11 +101,20 @@ public static class DefaultParametersValuesService
 		};
 	}
 
-	private static StartAndStopMovementModeSettingsModel GetStartAndStopMovementModeSettingsModel()
+	private StartAndStopMovementModeSettingsModel GetStartAndStopMovementModeSettingsModel()
 	{
 		return new StartAndStopMovementModeSettingsModel
 		{
 			L = 200
+		};
+	}
+
+	private MovementThroughOneTrafficLightModeSettingsModel GetMovementThroughOneTrafficLightModeSettingsModel()
+	{
+		return new MovementThroughOneTrafficLightModeSettingsModel
+		{
+			SingleLightGreenTime = 10,
+			SingleLightRedTime = 20
 		};
 	}
 }

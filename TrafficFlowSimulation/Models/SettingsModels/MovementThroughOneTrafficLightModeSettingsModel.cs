@@ -3,7 +3,7 @@ using Localization.Localization;
 
 namespace TrafficFlowSimulation.Models.SettingsModels;
 
-public class MovementThroughOneTrafficLightModeSettingsModel
+public class MovementThroughOneTrafficLightModeSettingsModel : BaseParametersModel
 {
 	[Translation(Locales.ru, "Зеленый")]
 	[Translation(Locales.en, "")]

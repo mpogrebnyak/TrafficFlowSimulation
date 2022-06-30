@@ -45,7 +45,7 @@ namespace TrafficFlowSimulation.Windows
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ControlMenuStrip = new System.Windows.Forms.ToolStrip();
             this.StartToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.languagesSwitcherButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.LanguagesSwitcherButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.RussianMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StopToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -146,7 +146,7 @@ namespace TrafficFlowSimulation.Windows
             this.ControlMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (249)))), ((int) (((byte) (246)))), ((int) (((byte) (247)))));
             this.ControlMenuStrip.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.ControlMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.ControlMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.StartToolStripButton, this.languagesSwitcherButton, this.StopToolStripButton, this.ContinueToolStripButton, this.toolStripSeparator2, this.DrivingModeStripLabel, this.DrivingModeStripDropDownButton});
+            this.ControlMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.StartToolStripButton, this.LanguagesSwitcherButton, this.StopToolStripButton, this.ContinueToolStripButton, this.toolStripSeparator2, this.DrivingModeStripLabel, this.DrivingModeStripDropDownButton});
             this.ControlMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ControlMenuStrip.Name = "ControlMenuStrip";
             this.ControlMenuStrip.Size = new System.Drawing.Size(1539, 30);
@@ -162,22 +162,21 @@ namespace TrafficFlowSimulation.Windows
             this.StartToolStripButton.Text = "Start";
             this.StartToolStripButton.Click += new System.EventHandler(this.StartToolStripButton_Click);
             // 
-            // languagesSwitcherButton
+            // LanguagesSwitcherButton
             // 
-            this.languagesSwitcherButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.languagesSwitcherButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.RussianMenuItem, this.EnglishMenuItem});
-            this.languagesSwitcherButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
-            this.languagesSwitcherButton.Image = ((System.Drawing.Image) (resources.GetObject("languagesSwitcherButton.Image")));
-            this.languagesSwitcherButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.languagesSwitcherButton.Name = "languagesSwitcherButton";
-            this.languagesSwitcherButton.Size = new System.Drawing.Size(105, 27);
-            this.languagesSwitcherButton.Text = "Русский";
+            this.LanguagesSwitcherButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.LanguagesSwitcherButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.RussianMenuItem, this.EnglishMenuItem});
+            this.LanguagesSwitcherButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.LanguagesSwitcherButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LanguagesSwitcherButton.Name = "LanguagesSwitcherButton";
+            this.LanguagesSwitcherButton.Size = new System.Drawing.Size(85, 27);
+            this.LanguagesSwitcherButton.Text = "Русский";
             // 
             // RussianMenuItem
             // 
             this.RussianMenuItem.Image = ((System.Drawing.Image) (resources.GetObject("RussianMenuItem.Image")));
             this.RussianMenuItem.Name = "RussianMenuItem";
-            this.RussianMenuItem.Size = new System.Drawing.Size(142, 28);
+            this.RussianMenuItem.Size = new System.Drawing.Size(156, 28);
             this.RussianMenuItem.Text = "Русский";
             this.RussianMenuItem.Click += new System.EventHandler(this.RussianMenuItem_Click);
             // 
@@ -185,7 +184,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.EnglishMenuItem.Image = ((System.Drawing.Image) (resources.GetObject("EnglishMenuItem.Image")));
             this.EnglishMenuItem.Name = "EnglishMenuItem";
-            this.EnglishMenuItem.Size = new System.Drawing.Size(142, 28);
+            this.EnglishMenuItem.Size = new System.Drawing.Size(156, 28);
             this.EnglishMenuItem.Text = "English";
             this.EnglishMenuItem.Click += new System.EventHandler(this.EnglishMenuItem_Click);
             // 
@@ -1026,7 +1025,7 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.Panel parametersPanel;
         private System.Windows.Forms.Panel SlamPanel;
         private System.Windows.Forms.ToolStripButton StartToolStripButton;
-        private System.Windows.Forms.ToolStripDropDownButton languagesSwitcherButton;
+        private System.Windows.Forms.ToolStripDropDownButton LanguagesSwitcherButton;
         private System.Windows.Forms.ToolStripMenuItem RussianMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EnglishMenuItem;
         private System.Windows.Forms.BindingSource LocalizationBinding;

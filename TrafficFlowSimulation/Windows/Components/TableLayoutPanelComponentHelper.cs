@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization.Localization;
+using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Сonstants;
 
@@ -118,7 +119,7 @@ public class TableLayoutPanelComponentHelper
 		bs.DataSource = modelType;
 		((System.ComponentModel.ISupportInitialize)bs).EndInit();
 
-		bs.DataSource = DefaultParametersValuesService.GetDefaultEditModelParameters(modelType);
+		bs.DataSource = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>().GetDefaultEditModelParameters(modelType);
 
 		return bs;
 	}
