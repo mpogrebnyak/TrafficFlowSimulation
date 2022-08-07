@@ -7,15 +7,23 @@ using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Windows.Helpers;
 using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows.Components;
 
-public static class DrivingModeComponent
+public class DrivingModeComponent : IComponent
 {
-	public static void Initialize(ToolStripDropDownButton modesButton)
+	private ToolStripDropDownButton _modeButton;
+
+	public DrivingModeComponent(ToolStripDropDownButton modeButton)
 	{
-		modesButton.DropDownItems.Clear();
+		_modeButton = modeButton;
+	}
+	
+	public void Initialize()
+	{
+		_modeButton.DropDownItems.Clear();
 		var availableModes = SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes.ToList();
 
 		foreach (DrivingMode mode in Enum.GetValues(typeof(DrivingMode)))
@@ -31,19 +39,19 @@ public static class DrivingModeComponent
 				};
 
 				menuItem.Click += new System.EventHandler(MenuItem_Click);
-				modesButton.DropDownItems.Add(menuItem);
+				_modeButton.DropDownItems.Add(menuItem);
 			}
 		}
 
-		modesButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold,
+		_modeButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold,
 			System.Drawing.GraphicsUnit.Point, ((byte) (204)));
 
-		modesButton.Text = modesButton.DropDownItems.Count > 0
-			? modesButton.DropDownItems[0].Text
+		_modeButton.Text = _modeButton.DropDownItems.Count > 0
+			? _modeButton.DropDownItems[0].Text
 			: LocalizationHelper.Get<MenuResources>().EmptyDrivingModeLabel;
 	}
 
-	private static void MenuItem_Click(object sender, EventArgs e)
+	private void MenuItem_Click(object sender, EventArgs e)
 	{
 		var selectedModeItem = sender as ToolStripMenuItem;
 		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu).OwnerItem;

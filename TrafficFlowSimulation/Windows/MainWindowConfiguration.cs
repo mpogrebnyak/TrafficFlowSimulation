@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.MovementSimulation;
 using TrafficFlowSimulation.Services;
+using TrafficFlowSimulation.Windows.Helpers;
 using TrafficFlowSimulation.Windows.Models;
 
 namespace TrafficFlowSimulation.Windows;

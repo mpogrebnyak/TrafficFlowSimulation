@@ -28,6 +28,67 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.en, "No modes available")]
 		public string EmptyDrivingModeLabel { get; set; }
 
+		[Translation(Locales.ru, "Параметры движения:")]
+		[Translation(Locales.en, "Movement parameters:")]
+		public string MovementParametersGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Настройки режима:")]
+		[Translation(Locales.en, "Mode settings:")]
+		public string ModeSettingsGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Основные параметры:")]
+		[Translation(Locales.en, "Basic parameters:")]
+		public string BasicParametersGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Дополнительные параметры:")]
+		[Translation(Locales.en, "Additional parameters:")]
+		public string AdditionalParametersGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Начальные условия:")]
+		[Translation(Locales.en, "Initial conditions:")]
+		public string InitialConditionsGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Элементы управления:")]
+		[Translation(Locales.en, "Controls:")]
+		public string ControlsGroupBoxText { get; set; }
+
+		[Translation(Locales.ru, "Легенда")]
+		[Translation(Locales.en, "Legend")]
+		public string LegendToolStripMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Отображать полностью")]
+		[Translation(Locales.en, "Display full")]
+		public string DisplayLegendFullMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Отображать частично")]
+		[Translation(Locales.en, "Display partially")]
+		public string DisplayLegendPartiallyMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Скрыть")]
+		[Translation(Locales.en, "Hide")]
+		public string HideLegendMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Оси")]
+		[Translation(Locales.en, "Axes")]
+		public string AxesToolStripMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Показать")]
+		[Translation(Locales.en, "Display")]
+		public string DisplayAxesMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Скрыть")]
+		[Translation(Locales.en, "Hide")]
+		public string HideAxesMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Сохранить")]
+		[Translation(Locales.en, "Save")]
+		public string SaveChartToolStripMenuItem { get; set; }
+
+		[Translation(Locales.ru, "Сохранить изображение как ...")]
+		[Translation(Locales.en, "Save image as ...")]
+		public string SaveImageText { get; set; }
+
+		// Возможно стоит сделать ресурсы для чартов
 		[Translation(Locales.ru, "V: {0} \nS: {1}")]
 		[Translation(Locales.en, "V: {0} \nS: {1}")]
 		public string CarsMovementChartLegendText { get; set; }
@@ -63,7 +124,7 @@ namespace TrafficFlowSimulation.Properties.TranslationResources
 		[Translation(Locales.ru, "Расстояние")]
 		[Translation(Locales.en, "Distance")]
 		public string DistanceAxisTitleText { get; set; }
-		
+
 		[Translation(Locales.ru, "x")]
 		[Translation(Locales.en, "x")]
 		public string XAxisTitleText { get; set; }

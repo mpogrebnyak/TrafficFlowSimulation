@@ -93,9 +93,9 @@ namespace TrafficFlowSimulation.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap russia {
+        internal static System.Drawing.Bitmap ru_square {
             get {
-                object obj = ResourceManager.GetObject("russia", resourceCulture);
+                object obj = ResourceManager.GetObject("ru_square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace TrafficFlowSimulation.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap united_kingdom {
+        internal static System.Drawing.Bitmap uk_square {
             get {
-                object obj = ResourceManager.GetObject("united_kingdom", resourceCulture);
+                object obj = ResourceManager.GetObject("uk_square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

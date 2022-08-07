@@ -55,16 +55,6 @@ namespace TrafficFlowSimulation.Windows
             this.DrivingModeStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.carsMovementContainer = new System.Windows.Forms.SplitContainer();
             this.carsMovementChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.ChartContainerСontextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.LegendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShowFullToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShowPartiallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HideLegendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AxisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShowAxisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HideAxisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartsContainer = new System.Windows.Forms.SplitContainer();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.distanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -75,7 +65,6 @@ namespace TrafficFlowSimulation.Windows
             this.LoadButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.SubmitButton = new System.Windows.Forms.Button();
-            this.LocalizationBinding = new System.Windows.Forms.BindingSource(this.components);
             this.InitialConditionsGroupBox = new System.Windows.Forms.GroupBox();
             this.InitialConditionsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.AdditionalParametersGroupBox = new System.Windows.Forms.GroupBox();
@@ -113,40 +102,45 @@ namespace TrafficFlowSimulation.Windows
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.autoScrollBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ControlMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.carsMovementContainer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.carsMovementContainer)).BeginInit();
             this.carsMovementContainer.Panel1.SuspendLayout();
             this.carsMovementContainer.Panel2.SuspendLayout();
             this.carsMovementContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.carsMovementChart)).BeginInit();
-            this.ChartContainerСontextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.chartsContainer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.carsMovementChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartsContainer)).BeginInit();
             this.chartsContainer.Panel1.SuspendLayout();
             this.chartsContainer.Panel2.SuspendLayout();
             this.chartsContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.speedChart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.distanceChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speedChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).BeginInit();
             this.parametersPanel.SuspendLayout();
             this.MovementParametersGroupBox.SuspendLayout();
             this.ControlsGroupBox.SuspendLayout();
             this.ControlsTableLayoutPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.LocalizationBinding)).BeginInit();
             this.InitialConditionsGroupBox.SuspendLayout();
             this.AdditionalParametersGroupBox.SuspendLayout();
             this.BasicParametersGroupBox.SuspendLayout();
             this.ModeSettingsGroupBox.SuspendLayout();
             this.SettingsTableLayoutPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.ScrollForNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.ModeSettingsBinding)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.ParametersErrorProvider)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.autoScrollBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScrollForNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ModeSettingsBinding)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ParametersErrorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.autoScrollBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // ControlMenuStrip
             // 
-            this.ControlMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (249)))), ((int) (((byte) (246)))), ((int) (((byte) (247)))));
-            this.ControlMenuStrip.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.ControlMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
+            this.ControlMenuStrip.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ControlMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.ControlMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.StartToolStripButton, this.LanguagesSwitcherButton, this.StopToolStripButton, this.ContinueToolStripButton, this.toolStripSeparator2, this.DrivingModeStripLabel, this.DrivingModeStripDropDownButton});
+            this.ControlMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StartToolStripButton,
+            this.LanguagesSwitcherButton,
+            this.StopToolStripButton,
+            this.ContinueToolStripButton,
+            this.toolStripSeparator2,
+            this.DrivingModeStripLabel,
+            this.DrivingModeStripDropDownButton});
             this.ControlMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ControlMenuStrip.Name = "ControlMenuStrip";
             this.ControlMenuStrip.Size = new System.Drawing.Size(1539, 30);
@@ -154,8 +148,8 @@ namespace TrafficFlowSimulation.Windows
             // 
             // StartToolStripButton
             // 
-            this.StartToolStripButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
-            this.StartToolStripButton.Image = ((System.Drawing.Image) (resources.GetObject("StartToolStripButton.Image")));
+            this.StartToolStripButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StartToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("StartToolStripButton.Image")));
             this.StartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartToolStripButton.Name = "StartToolStripButton";
             this.StartToolStripButton.Size = new System.Drawing.Size(69, 27);
@@ -165,33 +159,33 @@ namespace TrafficFlowSimulation.Windows
             // LanguagesSwitcherButton
             // 
             this.LanguagesSwitcherButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.LanguagesSwitcherButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.RussianMenuItem, this.EnglishMenuItem});
-            this.LanguagesSwitcherButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.LanguagesSwitcherButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RussianMenuItem,
+            this.EnglishMenuItem});
+            this.LanguagesSwitcherButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.LanguagesSwitcherButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.LanguagesSwitcherButton.Name = "LanguagesSwitcherButton";
-            this.LanguagesSwitcherButton.Size = new System.Drawing.Size(85, 27);
+            this.LanguagesSwitcherButton.Size = new System.Drawing.Size(86, 27);
             this.LanguagesSwitcherButton.Text = "Русский";
             // 
             // RussianMenuItem
             // 
-            this.RussianMenuItem.Image = ((System.Drawing.Image) (resources.GetObject("RussianMenuItem.Image")));
+            this.RussianMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RussianMenuItem.Image")));
             this.RussianMenuItem.Name = "RussianMenuItem";
             this.RussianMenuItem.Size = new System.Drawing.Size(156, 28);
             this.RussianMenuItem.Text = "Русский";
-            this.RussianMenuItem.Click += new System.EventHandler(this.RussianMenuItem_Click);
             // 
             // EnglishMenuItem
             // 
-            this.EnglishMenuItem.Image = ((System.Drawing.Image) (resources.GetObject("EnglishMenuItem.Image")));
+            this.EnglishMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("EnglishMenuItem.Image")));
             this.EnglishMenuItem.Name = "EnglishMenuItem";
             this.EnglishMenuItem.Size = new System.Drawing.Size(156, 28);
             this.EnglishMenuItem.Text = "English";
-            this.EnglishMenuItem.Click += new System.EventHandler(this.EnglishMenuItem_Click);
             // 
             // StopToolStripButton
             // 
-            this.StopToolStripButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
-            this.StopToolStripButton.Image = ((System.Drawing.Image) (resources.GetObject("StopToolStripButton.Image")));
+            this.StopToolStripButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StopToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("StopToolStripButton.Image")));
             this.StopToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopToolStripButton.Name = "StopToolStripButton";
             this.StopToolStripButton.Size = new System.Drawing.Size(68, 27);
@@ -201,7 +195,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // ContinueToolStripButton
             // 
-            this.ContinueToolStripButton.Image = ((System.Drawing.Image) (resources.GetObject("ContinueToolStripButton.Image")));
+            this.ContinueToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ContinueToolStripButton.Image")));
             this.ContinueToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ContinueToolStripButton.Name = "ContinueToolStripButton";
             this.ContinueToolStripButton.Size = new System.Drawing.Size(133, 27);
@@ -222,10 +216,10 @@ namespace TrafficFlowSimulation.Windows
             // DrivingModeStripDropDownButton
             // 
             this.DrivingModeStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.DrivingModeStripDropDownButton.Image = ((System.Drawing.Image) (resources.GetObject("DrivingModeStripDropDownButton.Image")));
+            this.DrivingModeStripDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("DrivingModeStripDropDownButton.Image")));
             this.DrivingModeStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.DrivingModeStripDropDownButton.Name = "DrivingModeStripDropDownButton";
-            this.DrivingModeStripDropDownButton.Size = new System.Drawing.Size(89, 27);
+            this.DrivingModeStripDropDownButton.Size = new System.Drawing.Size(90, 27);
             this.DrivingModeStripDropDownButton.Text = "Режимы";
             // 
             // carsMovementContainer
@@ -250,7 +244,6 @@ namespace TrafficFlowSimulation.Windows
             // 
             chartArea1.Name = "ChartArea1";
             this.carsMovementChart.ChartAreas.Add(chartArea1);
-            this.carsMovementChart.ContextMenuStrip = this.ChartContainerСontextMenuStrip;
             this.carsMovementChart.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend1";
             this.carsMovementChart.Legends.Add(legend1);
@@ -264,75 +257,6 @@ namespace TrafficFlowSimulation.Windows
             this.carsMovementChart.Size = new System.Drawing.Size(1539, 375);
             this.carsMovementChart.TabIndex = 0;
             this.carsMovementChart.Text = "chart1";
-            // 
-            // ChartContainerСontextMenuStrip
-            // 
-            this.ChartContainerСontextMenuStrip.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (249)))), ((int) (((byte) (246)))), ((int) (((byte) (247)))));
-            this.ChartContainerСontextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.ChartContainerСontextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.LegendToolStripMenuItem, this.AxisToolStripMenuItem, this.toolStripSeparator1, this.SaveToolStripMenuItem});
-            this.ChartContainerСontextMenuStrip.Name = "contextMenuStrip1";
-            this.ChartContainerСontextMenuStrip.Size = new System.Drawing.Size(153, 82);
-            // 
-            // LegendToolStripMenuItem
-            // 
-            this.LegendToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.ShowFullToolStripMenuItem, this.ShowPartiallyToolStripMenuItem, this.HideLegendToolStripMenuItem});
-            this.LegendToolStripMenuItem.Name = "LegendToolStripMenuItem";
-            this.LegendToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.LegendToolStripMenuItem.Text = "Легенда";
-            // 
-            // ShowFullToolStripMenuItem
-            // 
-            this.ShowFullToolStripMenuItem.Name = "ShowFullToolStripMenuItem";
-            this.ShowFullToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.ShowFullToolStripMenuItem.Text = "Отображать полностью";
-            this.ShowFullToolStripMenuItem.Click += new System.EventHandler(this.ShowFullToolStripMenuItem_Click);
-            // 
-            // ShowPartiallyToolStripMenuItem
-            // 
-            this.ShowPartiallyToolStripMenuItem.Name = "ShowPartiallyToolStripMenuItem";
-            this.ShowPartiallyToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.ShowPartiallyToolStripMenuItem.Text = "Отображать частично";
-            this.ShowPartiallyToolStripMenuItem.Click += new System.EventHandler(this.ShowPartiallyToolStripMenuItem_Click);
-            // 
-            // HideLegendToolStripMenuItem
-            // 
-            this.HideLegendToolStripMenuItem.Name = "HideLegendToolStripMenuItem";
-            this.HideLegendToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.HideLegendToolStripMenuItem.Text = "Скрыть";
-            this.HideLegendToolStripMenuItem.Click += new System.EventHandler(this.HideLegendToolStripMenuItem_Click);
-            // 
-            // AxisToolStripMenuItem
-            // 
-            this.AxisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.ShowAxisToolStripMenuItem, this.HideAxisToolStripMenuItem});
-            this.AxisToolStripMenuItem.Name = "AxisToolStripMenuItem";
-            this.AxisToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.AxisToolStripMenuItem.Text = "Оси";
-            // 
-            // ShowAxisToolStripMenuItem
-            // 
-            this.ShowAxisToolStripMenuItem.Name = "ShowAxisToolStripMenuItem";
-            this.ShowAxisToolStripMenuItem.Size = new System.Drawing.Size(142, 24);
-            this.ShowAxisToolStripMenuItem.Text = "Показать";
-            this.ShowAxisToolStripMenuItem.Click += new System.EventHandler(this.ShowAxisToolStripMenuItem_Click);
-            // 
-            // HideAxisToolStripMenuItem
-            // 
-            this.HideAxisToolStripMenuItem.Name = "HideAxisToolStripMenuItem";
-            this.HideAxisToolStripMenuItem.Size = new System.Drawing.Size(142, 24);
-            this.HideAxisToolStripMenuItem.Text = "Скрыть";
-            this.HideAxisToolStripMenuItem.Click += new System.EventHandler(this.HideAxisToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // SaveToolStripMenuItem
-            // 
-            this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.SaveToolStripMenuItem.Text = "Сохранить";
-            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // chartsContainer
             // 
@@ -355,7 +279,6 @@ namespace TrafficFlowSimulation.Windows
             // 
             chartArea2.Name = "ChartArea1";
             this.speedChart.ChartAreas.Add(chartArea2);
-            this.speedChart.ContextMenuStrip = this.ChartContainerСontextMenuStrip;
             this.speedChart.Dock = System.Windows.Forms.DockStyle.Fill;
             legend2.Name = "Legend1";
             this.speedChart.Legends.Add(legend2);
@@ -374,7 +297,6 @@ namespace TrafficFlowSimulation.Windows
             // 
             chartArea3.Name = "ChartArea1";
             this.distanceChart.ChartAreas.Add(chartArea3);
-            this.distanceChart.ContextMenuStrip = this.ChartContainerСontextMenuStrip;
             this.distanceChart.Dock = System.Windows.Forms.DockStyle.Fill;
             legend3.Name = "Legend1";
             this.distanceChart.Legends.Add(legend3);
@@ -392,7 +314,7 @@ namespace TrafficFlowSimulation.Windows
             // parametersPanel
             // 
             this.parametersPanel.AutoScroll = true;
-            this.parametersPanel.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (249)))), ((int) (((byte) (246)))), ((int) (((byte) (247)))));
+            this.parametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
             this.parametersPanel.Controls.Add(this.MovementParametersGroupBox);
             this.parametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.parametersPanel.Location = new System.Drawing.Point(1143, 30);
@@ -409,9 +331,8 @@ namespace TrafficFlowSimulation.Windows
             this.MovementParametersGroupBox.Controls.Add(this.AdditionalParametersGroupBox);
             this.MovementParametersGroupBox.Controls.Add(this.BasicParametersGroupBox);
             this.MovementParametersGroupBox.Controls.Add(this.ModeSettingsGroupBox);
-            this.MovementParametersGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "MovementParametersGroupBoxText", true));
             this.MovementParametersGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.MovementParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.MovementParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MovementParametersGroupBox.Location = new System.Drawing.Point(0, 0);
             this.MovementParametersGroupBox.Name = "MovementParametersGroupBox";
             this.MovementParametersGroupBox.Size = new System.Drawing.Size(375, 741);
@@ -424,9 +345,8 @@ namespace TrafficFlowSimulation.Windows
             this.ControlsGroupBox.AutoSize = true;
             this.ControlsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ControlsGroupBox.Controls.Add(this.ControlsTableLayoutPanel);
-            this.ControlsGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "ControlsGroupBoxText", true));
             this.ControlsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ControlsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.ControlsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ControlsGroupBox.Location = new System.Drawing.Point(3, 591);
             this.ControlsGroupBox.Name = "ControlsGroupBox";
             this.ControlsGroupBox.Size = new System.Drawing.Size(369, 147);
@@ -456,10 +376,10 @@ namespace TrafficFlowSimulation.Windows
             // LoadButton
             // 
             this.LoadButton.AutoSize = true;
-            this.LoadButton.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (243)))), ((int) (((byte) (241)))), ((int) (((byte) (245)))));
+            this.LoadButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(241)))), ((int)(((byte)(245)))));
             this.ControlsTableLayoutPanel.SetColumnSpan(this.LoadButton, 2);
             this.LoadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LoadButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.LoadButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.LoadButton.Location = new System.Drawing.Point(3, 79);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(357, 32);
@@ -470,10 +390,10 @@ namespace TrafficFlowSimulation.Windows
             // SaveButton
             // 
             this.SaveButton.AutoSize = true;
-            this.SaveButton.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (243)))), ((int) (((byte) (241)))), ((int) (((byte) (245)))));
+            this.SaveButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(241)))), ((int)(((byte)(245)))));
             this.ControlsTableLayoutPanel.SetColumnSpan(this.SaveButton, 2);
             this.SaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SaveButton.Location = new System.Drawing.Point(3, 41);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(357, 32);
@@ -484,10 +404,10 @@ namespace TrafficFlowSimulation.Windows
             // SubmitButton
             // 
             this.SubmitButton.AutoSize = true;
-            this.SubmitButton.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (243)))), ((int) (((byte) (241)))), ((int) (((byte) (245)))));
+            this.SubmitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(241)))), ((int)(((byte)(245)))));
             this.ControlsTableLayoutPanel.SetColumnSpan(this.SubmitButton, 2);
             this.SubmitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SubmitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.SubmitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SubmitButton.Location = new System.Drawing.Point(3, 3);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(357, 32);
@@ -496,18 +416,13 @@ namespace TrafficFlowSimulation.Windows
             this.SubmitButton.UseVisualStyleBackColor = false;
             this.SubmitButton.Click += new System.EventHandler(this.SubmitButton_Click);
             // 
-            // LocalizationBinding
-            // 
-            this.LocalizationBinding.DataSource = typeof(TrafficFlowSimulation.Properties.TranslationResources.ParametersResources);
-            // 
             // InitialConditionsGroupBox
             // 
             this.InitialConditionsGroupBox.AutoSize = true;
             this.InitialConditionsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.InitialConditionsGroupBox.Controls.Add(this.InitialConditionsTableLayoutPanel);
-            this.InitialConditionsGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "InitialConditionsGroupBoxText", true));
             this.InitialConditionsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.InitialConditionsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.InitialConditionsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.InitialConditionsGroupBox.Location = new System.Drawing.Point(3, 558);
             this.InitialConditionsGroupBox.Name = "InitialConditionsGroupBox";
             this.InitialConditionsGroupBox.Size = new System.Drawing.Size(369, 33);
@@ -540,9 +455,8 @@ namespace TrafficFlowSimulation.Windows
             this.AdditionalParametersGroupBox.AutoSize = true;
             this.AdditionalParametersGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.AdditionalParametersGroupBox.Controls.Add(this.AdditionalParametersTableLayoutPanel);
-            this.AdditionalParametersGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "AdditionalParametersGroupBoxText", true));
             this.AdditionalParametersGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.AdditionalParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.AdditionalParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AdditionalParametersGroupBox.Location = new System.Drawing.Point(3, 527);
             this.AdditionalParametersGroupBox.Name = "AdditionalParametersGroupBox";
             this.AdditionalParametersGroupBox.Size = new System.Drawing.Size(369, 31);
@@ -571,9 +485,8 @@ namespace TrafficFlowSimulation.Windows
             this.BasicParametersGroupBox.AutoSize = true;
             this.BasicParametersGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BasicParametersGroupBox.Controls.Add(this.BasicParametersTableLayoutPanel);
-            this.BasicParametersGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "BasicParametersGroupBoxText", true));
             this.BasicParametersGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.BasicParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.BasicParametersGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.BasicParametersGroupBox.Location = new System.Drawing.Point(3, 496);
             this.BasicParametersGroupBox.Name = "BasicParametersGroupBox";
             this.BasicParametersGroupBox.Size = new System.Drawing.Size(369, 31);
@@ -616,9 +529,8 @@ namespace TrafficFlowSimulation.Windows
             this.ModeSettingsGroupBox.AutoSize = true;
             this.ModeSettingsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ModeSettingsGroupBox.Controls.Add(this.SettingsTableLayoutPanel);
-            this.ModeSettingsGroupBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.LocalizationBinding, "ModeSettingsGroupBoxText", true));
             this.ModeSettingsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ModeSettingsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.ModeSettingsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ModeSettingsGroupBox.Location = new System.Drawing.Point(3, 34);
             this.ModeSettingsGroupBox.Name = "ModeSettingsGroupBox";
             this.ModeSettingsGroupBox.Size = new System.Drawing.Size(369, 462);
@@ -680,7 +592,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.Location = new System.Drawing.Point(3, 7);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(240, 20);
@@ -692,7 +604,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.Location = new System.Drawing.Point(3, 40);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(210, 20);
@@ -705,7 +617,7 @@ namespace TrafficFlowSimulation.Windows
             this.AutoScrollComboBox.BorderColor = System.Drawing.Color.LightGray;
             this.AutoScrollComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.AutoScrollComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AutoScrollComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.AutoScrollComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AutoScrollComboBox.FormattingEnabled = true;
             this.AutoScrollComboBox.Location = new System.Drawing.Point(275, 3);
             this.AutoScrollComboBox.Name = "AutoScrollComboBox";
@@ -717,7 +629,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.Location = new System.Drawing.Point(3, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(228, 20);
@@ -727,7 +639,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // ScrollForNumericUpDown
             // 
-            this.ScrollForNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.ScrollForNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ScrollForNumericUpDown.Location = new System.Drawing.Point(275, 37);
             this.ScrollForNumericUpDown.Name = "ScrollForNumericUpDown";
             this.ScrollForNumericUpDown.Size = new System.Drawing.Size(85, 27);
@@ -736,7 +648,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // SingleField_Lenght
             // 
-            this.SingleField_Lenght.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.SingleField_Lenght.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SingleField_Lenght.Location = new System.Drawing.Point(275, 70);
             this.SingleField_Lenght.Name = "SingleField_Lenght";
             this.SingleField_Lenght.Size = new System.Drawing.Size(85, 27);
@@ -747,7 +659,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label12.Location = new System.Drawing.Point(3, 107);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(197, 20);
@@ -759,7 +671,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label13.Location = new System.Drawing.Point(3, 140);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(217, 20);
@@ -770,7 +682,7 @@ namespace TrafficFlowSimulation.Windows
             // textBox6
             // 
             this.SettingsTableLayoutPanel.SetColumnSpan(this.textBox6, 2);
-            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox6.Location = new System.Drawing.Point(3, 401);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(357, 27);
@@ -781,7 +693,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label11.Location = new System.Drawing.Point(3, 371);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(216, 20);
@@ -791,7 +703,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // textBox7
             // 
-            this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox7.Location = new System.Drawing.Point(275, 368);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(85, 27);
@@ -801,7 +713,7 @@ namespace TrafficFlowSimulation.Windows
             // textBox5
             // 
             this.SettingsTableLayoutPanel.SetColumnSpan(this.textBox5, 2);
-            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox5.Location = new System.Drawing.Point(3, 335);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(357, 27);
@@ -812,7 +724,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.Location = new System.Drawing.Point(3, 305);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(217, 20);
@@ -822,7 +734,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // textBox4
             // 
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox4.Location = new System.Drawing.Point(275, 302);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(85, 27);
@@ -832,7 +744,7 @@ namespace TrafficFlowSimulation.Windows
             // textBox3
             // 
             this.SettingsTableLayoutPanel.SetColumnSpan(this.textBox3, 2);
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox3.Location = new System.Drawing.Point(3, 269);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(357, 27);
@@ -843,7 +755,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(3, 239);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(214, 20);
@@ -853,7 +765,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // textBox2
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox2.Location = new System.Drawing.Point(275, 236);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(85, 27);
@@ -862,7 +774,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // textBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(275, 203);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(85, 27);
@@ -873,7 +785,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(3, 206);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(219, 20);
@@ -885,7 +797,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label14.Location = new System.Drawing.Point(3, 173);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(216, 20);
@@ -896,7 +808,7 @@ namespace TrafficFlowSimulation.Windows
             // singleLightRedTime
             // 
             this.singleLightRedTime.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModeSettingsBinding, "SingleLightRedTime", true));
-            this.singleLightRedTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.singleLightRedTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.singleLightRedTime.Location = new System.Drawing.Point(275, 170);
             this.singleLightRedTime.Name = "singleLightRedTime";
             this.singleLightRedTime.Size = new System.Drawing.Size(85, 27);
@@ -910,7 +822,7 @@ namespace TrafficFlowSimulation.Windows
             // singleLightGreenTime
             // 
             this.singleLightGreenTime.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.ModeSettingsBinding, "SingleLightGreenTime", true));
-            this.singleLightGreenTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.singleLightGreenTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.singleLightGreenTime.Location = new System.Drawing.Point(275, 137);
             this.singleLightGreenTime.Name = "singleLightGreenTime";
             this.singleLightGreenTime.Size = new System.Drawing.Size(85, 27);
@@ -922,7 +834,7 @@ namespace TrafficFlowSimulation.Windows
             this.customComboBox1.BorderColor = System.Drawing.Color.LightGray;
             this.customComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.customComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.customComboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.customComboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.customComboBox1.FormattingEnabled = true;
             this.customComboBox1.Location = new System.Drawing.Point(275, 103);
             this.customComboBox1.Name = "customComboBox1";
@@ -932,7 +844,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // SlamPanel
             // 
-            this.SlamPanel.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (151)))), ((int) (((byte) (29)))));
+            this.SlamPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(151)))), ((int)(((byte)(29)))));
             this.SlamPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SlamPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.SlamPanel.Location = new System.Drawing.Point(1135, 30);
@@ -945,7 +857,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.ParametersErrorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.ParametersErrorProvider.ContainerControl = this;
-            this.ParametersErrorProvider.Icon = ((System.Drawing.Icon) (resources.GetObject("ParametersErrorProvider.Icon")));
+            this.ParametersErrorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("ParametersErrorProvider.Icon")));
             // 
             // toolTip1
             // 
@@ -965,7 +877,7 @@ namespace TrafficFlowSimulation.Windows
             this.Controls.Add(this.parametersPanel);
             this.Controls.Add(this.carsMovementContainer);
             this.Controls.Add(this.ControlMenuStrip);
-            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -978,16 +890,15 @@ namespace TrafficFlowSimulation.Windows
             this.ControlMenuStrip.PerformLayout();
             this.carsMovementContainer.Panel1.ResumeLayout(false);
             this.carsMovementContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.carsMovementContainer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.carsMovementContainer)).EndInit();
             this.carsMovementContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.carsMovementChart)).EndInit();
-            this.ChartContainerСontextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.carsMovementChart)).EndInit();
             this.chartsContainer.Panel1.ResumeLayout(false);
             this.chartsContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.chartsContainer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartsContainer)).EndInit();
             this.chartsContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.speedChart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.distanceChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speedChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).EndInit();
             this.parametersPanel.ResumeLayout(false);
             this.parametersPanel.PerformLayout();
             this.MovementParametersGroupBox.ResumeLayout(false);
@@ -996,7 +907,6 @@ namespace TrafficFlowSimulation.Windows
             this.ControlsGroupBox.PerformLayout();
             this.ControlsTableLayoutPanel.ResumeLayout(false);
             this.ControlsTableLayoutPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.LocalizationBinding)).EndInit();
             this.InitialConditionsGroupBox.ResumeLayout(false);
             this.InitialConditionsGroupBox.PerformLayout();
             this.AdditionalParametersGroupBox.ResumeLayout(false);
@@ -1007,12 +917,13 @@ namespace TrafficFlowSimulation.Windows
             this.ModeSettingsGroupBox.PerformLayout();
             this.SettingsTableLayoutPanel.ResumeLayout(false);
             this.SettingsTableLayoutPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.ScrollForNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.ModeSettingsBinding)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.ParametersErrorProvider)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.autoScrollBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScrollForNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ModeSettingsBinding)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ParametersErrorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.autoScrollBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -1028,18 +939,10 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.ToolStripDropDownButton LanguagesSwitcherButton;
         private System.Windows.Forms.ToolStripMenuItem RussianMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EnglishMenuItem;
-        private System.Windows.Forms.BindingSource LocalizationBinding;
         private System.Windows.Forms.ErrorProvider ParametersErrorProvider;
         private System.Windows.Forms.DataVisualization.Charting.Chart carsMovementChart;
-        private System.Windows.Forms.ContextMenuStrip ChartContainerСontextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem LegendToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton StopToolStripButton;
         private System.Windows.Forms.ToolStripButton ContinueToolStripButton;
-        private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ShowFullToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ShowPartiallyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem HideLegendToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.GroupBox MovementParametersGroupBox;
         private System.Windows.Forms.GroupBox ModeSettingsGroupBox;
         private System.Windows.Forms.GroupBox BasicParametersGroupBox;
@@ -1062,9 +965,6 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button SubmitButton;
         private System.Windows.Forms.Button SaveButton;
-        private System.Windows.Forms.ToolStripMenuItem AxisToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ShowAxisToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem HideAxisToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel DrivingModeStripLabel;
         private System.Windows.Forms.ToolStripDropDownButton DrivingModeStripDropDownButton;
@@ -1086,6 +986,6 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox singleLightRedTime;
         private System.Windows.Forms.TextBox singleLightGreenTime;
-        private CustomControls.CustomComboBox customComboBox1;
+        private TrafficFlowSimulation.Windows.CustomControls.CustomComboBox customComboBox1;
     }
 }

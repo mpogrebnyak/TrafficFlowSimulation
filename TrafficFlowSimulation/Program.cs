@@ -42,9 +42,7 @@ namespace TrafficFlowSimulation
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 
 			var menuResourcesProvider = new ResourceProvider(typeof(MenuResources));
-			var parametersResourcesProvider = new ResourceProvider(typeof(ParametersResources));
 			LocalizationHelper.Register(menuResourcesProvider);
-			LocalizationHelper.Register(parametersResourcesProvider);
 		}
 
 		private static void SetSettings()

@@ -6,11 +6,10 @@ using System.Windows.Forms;
 using Localization.Localization;
 using Settings;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows.Components;
 
-public class TableLayoutPanelComponent
+public class TableLayoutPanelComponent : IComponent
 {
 	private static TableLayoutPanelComponentHelper _helper;
 
@@ -95,9 +94,6 @@ public class TableLayoutPanelComponent
 					controls.Add(comboBox, 1, row);
 				}
 
-			//	var selectedItem = comboBoxes.SingleOrDefault(x => x.Tag != null && x.Tag.Equals(attribute.EnumType))?.SelectedItem;
-			//	comboBox.SelectedItem = selectedItem;
-
 				continue;
 			}
 
@@ -162,7 +158,7 @@ public class TableLayoutPanelComponent
 			TabIndex = tabIndex
 		};
 
-		comboBox.DataSource = _helper.GetComboBoxDataSource(typeof(IdenticalCars));
+		comboBox.DataSource = _helper.GetComboBoxDataSource(enumType);
 		comboBox.DataBindings.Add(new Binding("SelectedItem", _bindingSource, dataMember, true));
 
 		comboBox.DrawItem += _helper.ComboBoxDrawItemEvent;

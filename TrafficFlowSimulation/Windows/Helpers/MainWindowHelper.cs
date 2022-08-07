@@ -1,14 +1,11 @@
 ﻿using System;
-using Settings;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using Localization.Localization;
 using Microsoft.Practices.ObjectBuilder2;
-using TrafficFlowSimulation.Commands;
+using Settings;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ParametersModels;
 using TrafficFlowSimulation.Models.SettingsModels;
@@ -16,17 +13,21 @@ using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Models;
 using TrafficFlowSimulation.Сonstants;
 
-namespace TrafficFlowSimulation.Windows
+namespace TrafficFlowSimulation.Windows.Helpers
 {
 	public class MainWindowHelper
 	{
-		public LocalizationComponentsModel _localizationComponents;
+		private LocalizationWindowHelper _localizationWindowHelper;
 
-		public AllChartsModel _allCharts;
+		private ChartContextMenuStripComponent _chartContextMenuStripComponent;
 
-		public ErrorProvider _errorProvider;
+		//private LocalizationComponentsModel _localizationComponents;
 
-		public Dictionary<Type, BindingSource> _bindingSources;
+		private AllChartsModel _allCharts;
+
+		private ErrorProvider _errorProvider;
+
+		private Dictionary<Type, BindingSource> _bindingSources;
 
 		private readonly Control.ControlCollection _controls;
 
@@ -38,7 +39,9 @@ namespace TrafficFlowSimulation.Windows
 			//Component component
 			)
 		{
-			_localizationComponents = localizationComponentsModel;
+			_localizationWindowHelper = new LocalizationWindowHelper(localizationComponentsModel);
+			_chartContextMenuStripComponent = new ChartContextMenuStripComponent(allCharts);
+			//_localizationComponents = localizationComponentsModel;
 			_allCharts = allCharts;
 			_errorProvider = errorProvider;
 			_bindingSources = new();
@@ -49,8 +52,12 @@ namespace TrafficFlowSimulation.Windows
 		{
 			InitializeTableLayoutPanelComponent();
 			InitializeDrivingModeComponent();
-			
-			LocalizationService.Translate(_localizationComponents);
+			InitializeLanguageComponent();
+			_chartContextMenuStripComponent.Initialize();
+
+			_localizationWindowHelper.LocalizeComponents();
+			//LocalizationWindowHelper.Translate(_localizationComponents);
+			//LocalizationService.Translate(_localizationComponents);
 
 			//var defaultModeSettings = ModeSettingsMapper.GetDefault();
 			//ModeSettingsBinding.DataSource = defaultModeSettings;
@@ -58,7 +65,7 @@ namespace TrafficFlowSimulation.Windows
 			//MainWindowHelper.ShowCurrentModeSettingsFields(Controls.Owner);
 		}
 		
-		public LocalizationComponentsModel LocalizationComponents => _localizationComponents;
+		//public LocalizationComponentsModel LocalizationComponents => _localizationComponents;
 
 		public AllChartsModel AllCharts => _allCharts;
 
@@ -135,13 +142,28 @@ namespace TrafficFlowSimulation.Windows
 			settingsTableLayoutPanelComponent?.Initialize();
 		}
 
-		public void InitializeDrivingModeComponent()
+		private void InitializeDrivingModeComponent()
 		{
 			var controlMenuStrip = _controls.Find(ControlName.ControlMenuStrip, true).Single() as ToolStrip;
 			var drivingModeStripDropDownButton = controlMenuStrip?.Items.Find(ControlName.DrivingModeStripDropDownButton, false).Single() as ToolStripDropDownButton;
-			
+
 			if (drivingModeStripDropDownButton != null)
-				DrivingModeComponent.Initialize(drivingModeStripDropDownButton);
+			{
+				var drivingModeComponent = new DrivingModeComponent(drivingModeStripDropDownButton);
+				drivingModeComponent.Initialize();
+			}
+		}
+
+		private void InitializeLanguageComponent()
+		{
+			var controlMenuStrip = _controls.Find(ControlName.ControlMenuStrip, true).Single() as ToolStrip;
+			var languagesSwitcherButton = controlMenuStrip?.Items.Find(ControlName.LanguagesSwitcherButton, false).Single() as ToolStripDropDownButton;
+
+			if (languagesSwitcherButton != null)
+			{
+				var languageComponent = new LanguageComponent(languagesSwitcherButton);
+				languageComponent.Initialize();
+			}
 		}
 
 		public ModelParameters CollectParametersFromBindingSource()
@@ -156,34 +178,37 @@ namespace TrafficFlowSimulation.Windows
 			return modelParameters;
 		}
 
-		public void TranslateComponents(string locale)
+		public void LocalizeComponents()
 		{
-			var controlMenuStrip = _controls.Find(ControlName.ControlMenuStrip, true).Single() as ToolStrip;
-			var languagesSwitcherButton = controlMenuStrip?.Items.Find(ControlName.LanguagesSwitcherButton, true).Single() as ToolStripDropDownButton;
-			var settings = SettingsHelper.Get<LocalizationSettings>();
+			_chartContextMenuStripComponent.Initialize();
 
-			if (languagesSwitcherButton != null)
+			_localizationWindowHelper.LocalizeComponents();
+
+			_localizationWindowHelper.LocalizePanel(typeof(BasicParametersModel),
+				_controls.Find(ControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel);
+			_localizationWindowHelper.LocalizePanel(typeof(AdditionalParametersModel),
+				_controls.Find(ControlName.AdditionalParametersTableLayoutPanel, true).Single() as TableLayoutPanel);
+			_localizationWindowHelper.LocalizePanel(typeof(InitialConditionsParametersModel),
+				_controls.Find(ControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel);
+
+			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			var settingsTableLayoutPanel = _controls.Find(ControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
+
+			switch (currentDrivingMode)
 			{
-				switch (locale)
+				case DrivingMode.StartAndStopMovement:
 				{
-					case Locales.ru:
-					{
-						settings.CurrentLocale = Locales.ru;
-						languagesSwitcherButton.Image = Properties.Resources.russia;
-						break;
-					}
-
-					case Locales.en:
-					{
-						settings.CurrentLocale = Locales.en;
-						languagesSwitcherButton.Image = Properties.Resources.united_kingdom;
-						break;
-					}
+					_localizationWindowHelper.LocalizePanel(typeof(StartAndStopMovementModeSettingsModel),
+						settingsTableLayoutPanel);
+					break;
+				}
+				case DrivingMode.TrafficThroughOneTrafficLight:
+				{
+					_localizationWindowHelper.LocalizePanel(typeof(MovementThroughOneTrafficLightModeSettingsModel),
+						settingsTableLayoutPanel);
+					break;
 				}
 			}
-			SettingsHelper.Set<LocalizationSettings>(settings);
-			InitializeTableLayoutPanelComponent();
-			LocalizationService.Translate(_localizationComponents);
 		}
 	}
 }

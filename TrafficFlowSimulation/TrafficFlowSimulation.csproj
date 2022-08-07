@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\LocalizationService.cs" />
     <Compile Include="Commands\ModeSettingsMapper.cs" />
     <Compile Include="Commands\ValidationModel.cs" />
     <Compile Include="Models\BaseParametersModel.cs" />
@@ -109,11 +108,14 @@
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Properties\TranslationResources\EnumResources.cs" />
     <Compile Include="Properties\TranslationResources\MenuResources.cs" />
-    <Compile Include="Properties\TranslationResources\ParametersResources.cs" />
     <Compile Include="Services\DefaultParametersValuesService.cs" />
     <Compile Include="TrafficFlowSimulationModule.cs" />
     <Compile Include="UnityServiceRegistrator.cs" />
+    <Compile Include="Windows\Components\ChartContextMenuStripComponent.cs" />
+    <Compile Include="Windows\Components\ChartContextMenuStripComponentHelper.cs" />
     <Compile Include="Windows\Components\DrivingModeComponent.cs" />
+    <Compile Include="Windows\Components\IComponent.cs" />
+    <Compile Include="Windows\Components\LanguageComponent.cs" />
     <Compile Include="Windows\Components\TableLayoutPanelComponent.cs" />
     <Compile Include="Windows\Components\TableLayoutPanelComponentHelper.cs" />
     <Compile Include="Windows\CustomControls\ComboboxItem.cs" />
@@ -125,6 +127,8 @@
       <DependentUpon>CustomComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\CustomControls\SubMenuCustomColorTable.cs" />
+    <Compile Include="Windows\Helpers\LocalizationWindowHelper.cs" />
+    <Compile Include="Windows\Helpers\MainWindowHelper.cs" />
     <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,7 +136,6 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindowConfiguration.cs" />
-    <Compile Include="Windows\MainWindowHelper.cs" />
     <Compile Include="Windows\Models\AllChartsModel.cs" />
     <Compile Include="Windows\Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Сonstants\AutoScroll.cs" />
@@ -140,7 +143,6 @@
     <Compile Include="Сonstants\CustomColor.cs" />
     <Compile Include="Сonstants\DrivingMode.cs" />
     <Compile Include="Сonstants\IdenticalCars.cs" />
-    <Compile Include="Сonstants\LegendDisplayOptions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -199,9 +201,6 @@
     <Content Include="Properties\images\white_car.png" />
     <Content Include="Properties\images\white_car2.png" />
     <Content Include="Properties\images\white_car_big.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

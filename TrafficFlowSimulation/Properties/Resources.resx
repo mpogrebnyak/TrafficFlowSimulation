@@ -125,10 +125,10 @@
     <value>images\double_car.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ru" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\ru.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="russia" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\russia.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ru_square" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\ru.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="start_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\start_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -137,10 +137,10 @@
     <value>images\stop_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="uk" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>images\uk.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="united_kingdom" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\united-kingdom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="uk_square" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\uk.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="white_car" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\white_car.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
