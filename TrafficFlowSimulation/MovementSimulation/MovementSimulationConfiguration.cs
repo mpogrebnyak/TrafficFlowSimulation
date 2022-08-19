@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
@@ -8,7 +9,6 @@ using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.Inlinin
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 using TrafficFlowSimulation.Windows.Models;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.MovementSimulation;
 

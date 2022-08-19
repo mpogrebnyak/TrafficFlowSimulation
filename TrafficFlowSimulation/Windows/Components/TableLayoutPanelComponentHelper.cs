@@ -5,8 +5,11 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
+using TrafficFlowSimulation.Models.ParametersModels.Constants;
+using TrafficFlowSimulation.Models.SettingsModels.Constants;
 using TrafficFlowSimulation.Services;
-using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Windows.CustomControls;
+using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows.Components;
 
@@ -19,31 +22,9 @@ public class TableLayoutPanelComponentHelper
 		_multipleTag = multipleTag;
 	}
 
-	public List<ComboboxItem> GetComboBoxDataSource(Type enumType)
+	public List<ComboBoxItem> GetComboBoxDataSource(Type enumType)
 	{
-		var elements = new List<ComboboxItem>();
-
-		if (enumType == typeof(AutoScroll))
-		{
-			elements = (from AutoScroll e in Enum.GetValues(typeof(AutoScroll))
-				select new ComboboxItem
-				{
-					Text = e.GetDescription(),
-					Value = e
-				}).ToList();
-		}
-
-		if (enumType == typeof(IdenticalCars))
-		{
-			elements = (from IdenticalCars e in Enum.GetValues(typeof(IdenticalCars))
-				select new ComboboxItem
-				{
-					Text = e.GetDescription(),
-					Value = e
-				}).ToList();
-		}
-
-		return elements;
+		return EnumComboBoxHelper.GetEnumComboBoxItems(enumType);
 	}
 	
 	public EventHandler GetComboBoxSelectedIndexChangedEvent(Type enumType)
@@ -67,7 +48,7 @@ public class TableLayoutPanelComponentHelper
 			.Where(x => x.Tag != null && x.Tag.Equals(_multipleTag))
 			.ToList();
 
-		var comboboxItem = (ComboboxItem) comboBox.SelectedItem;
+		var comboboxItem = (ComboBoxItem) comboBox.SelectedItem;
 		if (comboboxItem.Value.Equals(IdenticalCars.Yes))
 			multipleControls.ForEach(x => x.Hide());
 		else
@@ -81,7 +62,7 @@ public class TableLayoutPanelComponentHelper
 			.OfType<ComboBox>()
 			.SingleOrDefault(x => x.Tag != null && x.Tag.Equals(typeof(IdenticalCars)));
 
-		var selectedItem = comboBox?.SelectedItem as ComboboxItem;
+		var selectedItem = comboBox?.SelectedItem as ComboBoxItem;
 		if (selectedItem != null && selectedItem.Value.Equals(IdenticalCars.No))
 		{
 			var childControl = tableLayoutPanel.GetControlFromPosition(e.Column, e.Row);

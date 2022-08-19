@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.Commands;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
@@ -15,21 +13,12 @@ namespace TrafficFlowSimulation.Windows
 {
 	public partial class MainWindow : Form
 	{
-		//private MainWindowHelper _mainWindowHelper;
-		// вынести в хелпер, там создать, от туда и получать
-		// создать тут передать в конструктор хелпера и из него все возвращать
-		//private LocalizationComponentsModel _localizationComponents;
-		//private AllChartsModel _allCharts;
-		//private TableLayoutPanelsModel _panels;
-		//private Dictionary<Type, BindingSource> _bindingSources = new();
-
 		public MainWindow()
 		{
 			InitializeComponent();
 			CustomInitializeComponent();
 
 			//доделать
-			//MultipleField_tau.Enabled = false;
 			SaveButton.Enabled = false;
 			LoadButton.Enabled = false;
 		}
@@ -80,20 +69,11 @@ namespace TrafficFlowSimulation.Windows
 			parametersPanel.Hide();
 			ModeSettingsBinding.EndEdit();
 
-			//var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
-			//var ee = (EditModelParameters)EditModelParametersBinding.DataSource;
-			//var isAllCarsIdentical = MainWindowHelper.IsAllCarsIdentical(IdenticalCarsComboBox);
-			//var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, IdenticalCars.Yes);
-			
-			// временно возьмем значения по умолчанию, потом сделаем закгрузку с интерфейса
-			// var modeSettings = new ModeSettingsModel();
-			//modeSettings.MapTo(ModelParametersBinding.DataSource);
-			var modeSettings = ModeSettingsMapper.MapModel(ModeSettingsBinding.DataSource);
-			var modelParameters = new ModelParameters();
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
+			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			//ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
-			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			//ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateChartEnvironments();
 
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
@@ -101,21 +81,12 @@ namespace TrafficFlowSimulation.Windows
 				this,
 				modelParameters,
 				modeSettings);
-			//EvaluationHandler.AbortExecution();
-			//EvaluationHandler.Execute(
-			//	_allCharts,
-			//	modelParameters,
-			//	modeSettings
-			//	);
 		}
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
-
-			//CarsRenderingHelper.DeleteFolder();
-			//EvaluationHandler.AbortExecution();
 		}
 
 		private void SlamPanel_MouseClick(object sender, MouseEventArgs e)
@@ -140,44 +111,22 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
-			//var modelParameters = _mainWindowHelper.CollectParametersFromBindingSource();
-			
-			//((EditBasicModelParameters)ee.DataSource).MapTo(modelParameters);
-			//((EditBasicModelParameters) ee.DataSource).MapTo(modelParameters);
+			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
+			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-		//	var ee2 = _bindingSources.Single(x => x.Key == typeof(EditAdditionalModelParameters));
-		//	((EditAdditionalModelParameters)ee2.Value.DataSource).MapTo(modelParameters);
-			//editModelParameters.MapTo(modelParameters);
-			//var isAllCarsIdentical = (IdenticalCars)(IdenticalCarsComboBox.SelectedItem as ComboboxItem).Value;
-			//var modelParameters = ModelParametersMapper.MapModel(ModelParametersBinding.DataSource, isAllCarsIdentical);
-
-			//ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
-			//RenderingHelper.CreateCharts(_allCharts, modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 		}
-
-		//private void DrawColoredItems(object sender, DrawItemEventArgs e)
-		//{
-		//	var comboBox = sender as ComboBox;
-		//	MainWindowHelper.DrawColoredItems(comboBox, e);
-		//}
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
 		{
-			//if (_mainWindowHelper != null && _mainWindowHelper.AllCharts != null)
-			///{
-			//	ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
-			//}
+			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<RenderingHandler>())
+				ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
 		}
 
 		private void MainWindow_Shown(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>()
-				.GetDefaultModelParameters();
-				//_mainWindowHelper.CollectParametersFromBindingSource();
-
+			var modelParameters = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>().GetDefaultModelParameters();
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
-			// проинициализировать чарты в этом месте 
-			//ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
 		}
 	}
 }

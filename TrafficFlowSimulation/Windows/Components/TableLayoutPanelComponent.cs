@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Localization.Localization;
 using Settings;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.Attribute;
 
 namespace TrafficFlowSimulation.Windows.Components;
 
@@ -64,7 +65,7 @@ public class TableLayoutPanelComponent : IComponent
 		var counter = 0;
 
 		var properties = from property in _modelType.GetProperties()
-			where Attribute.IsDefined(property, typeof(CustomDisplayAttribute))
+			where !Attribute.IsDefined(property, typeof(HiddenAttribute))&& Attribute.IsDefined(property, typeof(CustomDisplayAttribute))
 			orderby ((CustomDisplayAttribute)property
 				.GetCustomAttributes(typeof(CustomDisplayAttribute), false)
 				.Single()).Order

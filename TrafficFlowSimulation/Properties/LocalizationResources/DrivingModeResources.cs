@@ -1,8 +1,8 @@
 ﻿using Localization.Localization;
 
-namespace TrafficFlowSimulation.Properties.TranslationResources;
+namespace TrafficFlowSimulation.Properties.LocalizationResources;
 
-public class EnumResources
+public class DrivingModeResources
 {
 	[Translation(Locales.ru, "Движение и остановка")]
 	[Translation(Locales.en, "Movement and stopping")]
@@ -15,12 +15,4 @@ public class EnumResources
 	[Translation(Locales.ru, "Встраивание в поток")]
 	[Translation(Locales.en, "Inlining in the flow")]
 	public string InliningInFlow { get; set; }
-
-	[Translation(Locales.ru, "Да")]
-	[Translation(Locales.en, "Yes")]
-	public string Yes { get; set; }
-
-	[Translation(Locales.ru, "Нет")]
-	[Translation(Locales.en, "No")]
-	public string No { get; set; }
 }

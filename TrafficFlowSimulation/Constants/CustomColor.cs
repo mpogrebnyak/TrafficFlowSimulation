@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace TrafficFlowSimulation.Сonstants;
+namespace TrafficFlowSimulation.Constants;
 
 public static class CustomColor
 {

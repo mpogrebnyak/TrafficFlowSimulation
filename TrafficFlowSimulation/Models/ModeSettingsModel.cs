@@ -1,6 +1,4 @@
-﻿using TrafficFlowSimulation.Commands;
-
-namespace TrafficFlowSimulation.Models;
+﻿namespace TrafficFlowSimulation.Models;
 
 public class ModeSettingsModel : ValidationModel
 {

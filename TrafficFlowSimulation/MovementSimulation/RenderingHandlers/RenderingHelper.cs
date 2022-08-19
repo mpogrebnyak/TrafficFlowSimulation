@@ -6,7 +6,6 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 {

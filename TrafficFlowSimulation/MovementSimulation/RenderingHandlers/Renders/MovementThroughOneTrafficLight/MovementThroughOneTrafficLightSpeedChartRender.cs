@@ -6,7 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 
@@ -21,9 +21,9 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
-		AxisXMaximum = 100,
+		AxisXMaximum = 60,
 		AxisYMinimum = 0,
-		ZoomShift = 40
+	//	ZoomShift = 40
 	};
 
 	public MovementThroughOneTrafficLightSpeedChartRender(Chart chart) : base(chart)
@@ -98,7 +98,7 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 			}
 		};
 
-		chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
+		//chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
 
 		return chartArea;
 	}

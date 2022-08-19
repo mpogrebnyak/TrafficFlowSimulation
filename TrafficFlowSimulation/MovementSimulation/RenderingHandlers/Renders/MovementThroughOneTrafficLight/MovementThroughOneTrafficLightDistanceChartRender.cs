@@ -6,7 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 
@@ -21,12 +21,12 @@ public class MovementThroughOneTrafficLightDistanceChartRender : ChartsRender
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
-		AxisXMaximum = 100,
+		AxisXMaximum = 60,
 		AxisXInterval = 10,
 		AxisYMinimum = CommonChartAreaParameters.BeginOfRoad,
 		AxisYMaximum = CommonChartAreaParameters.EndOfRoad,
 		AxisYInterval = 1,
-		ZoomShift = 48
+		//ZoomShift = 48
 	};
 
 	public MovementThroughOneTrafficLightDistanceChartRender(Chart chart) : base(chart)

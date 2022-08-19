@@ -5,10 +5,10 @@ using System.Windows.Forms;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Windows;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation
 {

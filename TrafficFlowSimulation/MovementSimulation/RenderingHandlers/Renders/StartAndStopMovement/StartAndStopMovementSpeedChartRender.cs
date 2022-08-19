@@ -6,7 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 
@@ -21,7 +21,7 @@ public class StartAndStopMovementSpeedChartRender : ChartsRender
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
-		AxisXMaximum = 0,
+		AxisXMaximum = 60,
 		AxisYMinimum = 0,
 		AxisYMaximum = 0,
 	};
@@ -62,7 +62,7 @@ public class StartAndStopMovementSpeedChartRender : ChartsRender
 			AxisX = new Axis
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
-				Maximum = 20,
+				Maximum = _chartAreaModel.AxisXMaximum,
 				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far

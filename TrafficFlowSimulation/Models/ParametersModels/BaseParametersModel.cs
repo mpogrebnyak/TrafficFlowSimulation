@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Commands;
 
-namespace TrafficFlowSimulation.Models;
+namespace TrafficFlowSimulation.Models.ParametersModels;
 
-public class BaseParametersModel: ValidationModel
+public class BaseParametersModel : ValidationModel
 {
 	public virtual void MapTo(ModelParameters mp) { }
 

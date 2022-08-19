@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace TrafficFlowSimulation.Models;
+namespace TrafficFlowSimulation.Models.Attribute;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
-public class CustomDisplayAttribute : Attribute
+public class CustomDisplayAttribute : System.Attribute
 {
 	public int Order { get; }
 

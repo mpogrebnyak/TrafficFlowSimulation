@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Localization;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Windows.Models;
 
 namespace TrafficFlowSimulation.Windows.Components;

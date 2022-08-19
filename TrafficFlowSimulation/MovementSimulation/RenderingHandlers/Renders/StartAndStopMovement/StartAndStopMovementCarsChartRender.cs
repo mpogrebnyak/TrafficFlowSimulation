@@ -6,7 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 
@@ -66,7 +66,7 @@ public class StartAndStopMovementCarsChartRender : ChartsRender
 			var showLegend = false;
 			if(_chart.Series[i].Points.Any())
 				_chart.Series[i].Points.RemoveAt(0);
-			if (x[i] > _chartAreaModel.AxisXMinimum && x[i] < _chartAreaModel.AxisXMaximum)
+			if (x[i] > _chartAreaModel.AxisXMinimum)
 			{
 				_chart.Series[i].Points.AddXY(x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;

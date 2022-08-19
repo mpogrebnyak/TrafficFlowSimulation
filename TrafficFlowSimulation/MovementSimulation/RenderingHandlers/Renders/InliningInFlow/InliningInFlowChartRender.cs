@@ -4,7 +4,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Constants;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.InliningInFlow;
 

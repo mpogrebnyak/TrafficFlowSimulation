@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Constants;
 
 namespace TrafficFlowSimulation.Properties
 {

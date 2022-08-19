@@ -1,4 +1,4 @@
-﻿namespace TrafficFlowSimulation.Сonstants;
+﻿namespace TrafficFlowSimulation.Constants;
 
 public static class ControlName
 {

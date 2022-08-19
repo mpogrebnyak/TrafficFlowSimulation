@@ -5,7 +5,8 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.StartAndStopMovement;
 
@@ -16,6 +17,14 @@ public class StartAndStopMovementDistanceChartRender : ChartsRender
 	protected override string _seriesName => "DistanceSeries";
 
 	protected override string _chartAreaName => "DistanceChartArea";
+
+	private readonly ChartAreaModel _chartAreaModel = new()
+	{
+		AxisXMinimum = 0,
+		AxisXMaximum = 60,
+		AxisYMinimum = 0,
+		AxisYMaximum = 0,
+	};
 
 	public StartAndStopMovementDistanceChartRender(Chart chart) : base(chart)
 	{
@@ -69,15 +78,15 @@ public class StartAndStopMovementDistanceChartRender : ChartsRender
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = 0,
-				Maximum = 20,
+				Minimum = _chartAreaModel.AxisXMinimum,
+				Maximum = _chartAreaModel.AxisXMaximum,
 				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
-				Minimum = 0,
+				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = modelParameters.L + 100,
 				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),

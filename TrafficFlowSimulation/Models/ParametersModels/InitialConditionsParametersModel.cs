@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EvaluationKernel.Models;
 using Localization.Localization;
+using TrafficFlowSimulation.Models.Attribute;
 
 namespace TrafficFlowSimulation.Models.ParametersModels;
 
@@ -8,20 +9,20 @@ public class InitialConditionsParametersModel : BaseParametersModel
 {
 	[Translation(Locales.ru, "Нчальные скорости")]
 	[Translation(Locales.en, "Initial speeds")]
-	[CustomDisplayAttribute(1)]
+	[CustomDisplay(1)]
 	[Required]
 	public double Vn { get; set; }
 
-	[CustomDisplayAttribute(2, true)] 
+	[CustomDisplay(2, true)] 
 	public string Vn_multiple { get; set; }
 
 	[Translation(Locales.ru, "Начальные положения")]
 	[Translation(Locales.en, "Initial positions")]
-	[CustomDisplayAttribute(3)]
+	[CustomDisplay(3)]
 	[Required]
 	public double lambda { get; set; }
 
-	[CustomDisplayAttribute(4, true)] 
+	[CustomDisplay(4, true)] 
 	public string lambda_multiple { get; set; }
 
 	public override void MapTo(ModelParameters mp)

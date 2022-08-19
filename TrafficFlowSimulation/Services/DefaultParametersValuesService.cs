@@ -3,9 +3,11 @@ using EvaluationKernel.Models;
 using Localization.Localization;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ParametersModels;
+using TrafficFlowSimulation.Models.ParametersModels.Constants;
 using TrafficFlowSimulation.Models.SettingsModels;
+using TrafficFlowSimulation.Models.SettingsModels.Constants;
 using TrafficFlowSimulation.Windows;
-using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Services;
 
@@ -13,7 +15,7 @@ public interface IDefaultParametersValuesService
 {
 	ModelParameters GetDefaultModelParameters();
 
-	BaseParametersModel GetDefaultEditModelParameters(Type modelType);
+	object GetDefaultEditModelParameters(Type modelType);
 }
 
 public class DefaultParametersValuesService : IDefaultParametersValuesService
@@ -31,7 +33,7 @@ public class DefaultParametersValuesService : IDefaultParametersValuesService
 		return modelParameters;
 	}
 
-	public BaseParametersModel GetDefaultEditModelParameters(Type modelType)
+	public object GetDefaultEditModelParameters(Type modelType)
 	{
 		var instance = Activator.CreateInstance(modelType);
 
@@ -58,7 +60,7 @@ public class DefaultParametersValuesService : IDefaultParametersValuesService
 	{
 		return new BasicParametersModel
 		{
-			IsCarsIdentical = new ComboboxItem
+			IsCarsIdentical = new ComboBoxItem
 			{
 				Text = IdenticalCars.No.GetDescription(),
 				Value = IdenticalCars.No
@@ -113,6 +115,12 @@ public class DefaultParametersValuesService : IDefaultParametersValuesService
 	{
 		return new MovementThroughOneTrafficLightModeSettingsModel
 		{
+			L = 10000,
+			FirstTrafficLightColor = new ComboBoxItem
+			{
+				Text = FirstTrafficLightColor.Green.GetDescription(),
+				Value = FirstTrafficLightColor.Green
+			},
 			SingleLightGreenTime = 10,
 			SingleLightRedTime = 20
 		};

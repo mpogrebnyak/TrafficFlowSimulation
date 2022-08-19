@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using Settings;
-using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Constants;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
 {

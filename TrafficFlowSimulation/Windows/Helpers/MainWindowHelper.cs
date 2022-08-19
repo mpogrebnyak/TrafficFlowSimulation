@@ -6,12 +6,12 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ParametersModels;
 using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Models;
-using TrafficFlowSimulation.Сonstants;
 
 namespace TrafficFlowSimulation.Windows.Helpers
 {
@@ -164,6 +164,30 @@ namespace TrafficFlowSimulation.Windows.Helpers
 				var languageComponent = new LanguageComponent(languagesSwitcherButton);
 				languageComponent.Initialize();
 			}
+		}
+
+		public BaseSettingsModels CollectModeSettingsFromBindingSource(ModelParameters modelParameters)
+		{
+			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			_bindingSources.ForEach(x => x.Value.EndEdit());
+
+			var modeSettings = new BaseSettingsModels();
+			switch (currentDrivingMode)
+			{
+				case DrivingMode.StartAndStopMovement:
+				{
+					modeSettings = (StartAndStopMovementModeSettingsModel) _bindingSources[typeof(StartAndStopMovementModeSettingsModel)].DataSource;
+					break;
+				}
+				case DrivingMode.TrafficThroughOneTrafficLight:
+				{
+					modeSettings = (MovementThroughOneTrafficLightModeSettingsModel) _bindingSources[typeof(MovementThroughOneTrafficLightModeSettingsModel)].DataSource;
+					break;
+				}
+			}
+			modeSettings.MapTo(modelParameters);
+
+			return modeSettings;
 		}
 
 		public ModelParameters CollectParametersFromBindingSource()

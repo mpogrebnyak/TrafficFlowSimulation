@@ -1,13 +1,12 @@
 ﻿using System.Windows.Forms;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ModeSettingsModels;
+using TrafficFlowSimulation.Models.SettingsModels;
 
 namespace TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 
 public interface IEvaluationHandler
 {
-	public void Execute(Form form, ModelParameters modelParameters, ModeSettings modeSettings);
+	public void Execute(Form form, ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
 	public void StartExecution();
 

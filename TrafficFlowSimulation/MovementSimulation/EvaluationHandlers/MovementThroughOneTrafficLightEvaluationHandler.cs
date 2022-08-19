@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Models.ModeSettingsModels;
+using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 
@@ -17,8 +17,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 	{
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
-		var modeSettings = (MovementThroughOneTrafficLightModeSettings)p.ModeSettings;
-		modelParameters.L = 10000;
+		var modeSettings = (MovementThroughOneTrafficLightModeSettingsModel)p.ModeSettings;
 
 		var r = new RungeKuttaMethod(modelParameters, new EquationWithStop(modelParameters));
 		var n = modelParameters.n;
@@ -36,7 +35,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 		}
 
 		bool isGreenLight = true;
-		var circleTime = modeSettings.TrafficLight.GreenSignalTime + modeSettings.TrafficLight.RedSignalTime;
+		var circleTime = modeSettings.SingleLightGreenTime + modeSettings.SingleLightRedTime;
 		bool isCarToStopNotFound = true;
 		StartExecution();
 		while (true)
@@ -74,7 +73,8 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 				}
 				else
 				{
-					if (x[i] < modeSettings.TrafficLight.Position && isCarToStopNotFound)
+					//if (x[i] < modeSettings.TrafficLight.Position && isCarToStopNotFound)
+					if (x[i] < 0 && isCarToStopNotFound)
 					{
 						r.SetCarNumberToStop(new List<int> {i});
 						isCarToStopNotFound = false;
@@ -82,7 +82,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 				}
 			}
 
-			isGreenLight = t % circleTime < modeSettings.TrafficLight.GreenSignalTime;
+			isGreenLight = t % circleTime < modeSettings.SingleLightGreenTime;
 
 			if (t - tp > 0.1)
 			{
@@ -94,7 +94,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 						new EnvironmentModel
 						{
 							IsGreenLight = isGreenLight,
-							GreenTime = modeSettings.TrafficLight.GreenSignalTime - t % circleTime,
+							GreenTime = modeSettings.SingleLightGreenTime - t % circleTime,
 							RedTime = circleTime - t % circleTime
 						});
 

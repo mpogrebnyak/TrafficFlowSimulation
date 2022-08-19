@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EvaluationKernel.Models;
 using Localization.Localization;
+using TrafficFlowSimulation.Models.Attribute;
+using TrafficFlowSimulation.Models.ParametersModels.Constants;
 using TrafficFlowSimulation.Windows;
-using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Models.ParametersModels;
 
@@ -10,85 +12,85 @@ public class BasicParametersModel : BaseParametersModel
 {
 	[Translation(Locales.ru, "Количество автомобилей")]
 	[Translation(Locales.en, "Vehicles number")]
-	[CustomDisplayAttribute(1)]
+	[CustomDisplay(1)]
 	[Required, Range(1, 10000)]
 	public int n { get; set; }
 
 	[Translation(Locales.ru, "Все автомобили одинаковы")]
 	[Translation(Locales.en, "All vehicles are the same")]
-	[CustomDisplayAttribute(2, enumType: typeof(IdenticalCars))]
+	[CustomDisplay(2, enumType: typeof(IdenticalCars))]
 	public object IsCarsIdentical { get; set; }
 
 	[Translation(Locales.ru, "Максимальная скорость")]
 	[Translation(Locales.en, "Maximum speed")]
-	[CustomDisplayAttribute(3)]
+	[CustomDisplay(3)]
 	[Required]
 	public double Vmax { get; set; }
 
-	[CustomDisplayAttribute(4, true, true)] 
+	[CustomDisplay(4, true, true)] 
 	public string Vmax_multiple { get; set; }
 
 	[Translation(Locales.ru, "Время реакции водителя")]
 	[Translation(Locales.en, "Driver's response time")]
-	[CustomDisplayAttribute(5)]
+	[CustomDisplay(5)]
 	[Required]
 	public double tau { get; set; }
 
-	[CustomDisplayAttribute(6, true, true)] 
+	[CustomDisplay(6, true, true)] 
 	public string tau_multiple { get; set; }
 
 	[Translation(Locales.ru, "Интенсивность разгона")]
 	[Translation(Locales.en, "Acceleration intensity")]
-	[CustomDisplayAttribute(7)]
+	[CustomDisplay(7)]
 	[Required]
 	public double a { get; set; }
 
-	[CustomDisplayAttribute(8, true, true)] 
+	[CustomDisplay(8, true, true)] 
 	public string a_multiple { get; set; }
 
 	[Translation(Locales.ru, "Интенсивность торможения")]
 	[Translation(Locales.en, "Deceleration intensity")]
-	[CustomDisplayAttribute(9)]
+	[CustomDisplay(9)]
 	[Required]
 	public double q { get; set; }
 
-	[CustomDisplayAttribute(10, true, true)] 
+	[CustomDisplay(10, true, true)] 
 	public string q_multiple { get; set; }
 
 	[Translation(Locales.ru, "Безопасное расстояние")]
 	[Translation(Locales.en, "Safely Distance")]
-	[CustomDisplayAttribute(11)]
+	[CustomDisplay(11)]
 	[Required]
 	public double l_safe { get; set; }
 
-	[CustomDisplayAttribute(12, true, true)] 
+	[CustomDisplay(12, true, true)] 
 	public string l_safe_multiple { get; set; }
 
 	[Translation(Locales.ru, "Длина автомобиля")]
 	[Translation(Locales.en, "Vehicle length")]
-	[CustomDisplayAttribute(13)]
+	[CustomDisplay(13)]
 	[Required]
 	public double l_car { get; set; }
 
-	[CustomDisplayAttribute(14, true, true)] 
+	[CustomDisplay(14, true, true)] 
 	public string l_car_multiple { get; set; }
 
 	[Translation(Locales.ru, "Коэффициент плавности")]
 	[Translation(Locales.en, "Smoothness coefficient")]
-	[CustomDisplayAttribute(15)]
+	[CustomDisplay(15)]
 	[Required]
 	public double k { get; set; }
 
-	[CustomDisplayAttribute(16, true, true)] 
+	[CustomDisplay(16, true, true)] 
 	public string k_multiple { get; set; }
 
 	[Translation(Locales.ru, "Расстояние влияния")]
 	[Translation(Locales.en, "Influence distance")]
-	[CustomDisplayAttribute(17)]
+	[CustomDisplay(17)]
 	[Required]
 	public double s { get; set; }
 
-	[CustomDisplayAttribute(18, true, true)] 
+	[CustomDisplay(18, true, true)] 
 	public string s_multiple { get; set; }
 
 	public override void MapTo(ModelParameters mp)
@@ -96,7 +98,7 @@ public class BasicParametersModel : BaseParametersModel
 		mp.n = n;
 		mp.tau = tau;
 
-		switch (((ComboboxItem) IsCarsIdentical).Value)
+		switch (((ComboBoxItem) IsCarsIdentical).Value)
 		{
 			case IdenticalCars.Yes:
 			{

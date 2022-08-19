@@ -7,10 +7,13 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Localization;
 using Localization.Localization;
 using Settings;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.Attribute;
+using TrafficFlowSimulation.Models.SettingsModels.Constants;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.Properties.TranslationResources;
-using TrafficFlowSimulation.Сonstants;
+using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Windows.Helpers;
 
@@ -103,7 +106,7 @@ public class LocalizationWindowHelper
 		}
 
 		var properties = from property in modelType.GetProperties()
-			where Attribute.IsDefined(property, typeof(CustomDisplayAttribute))
+			where !Attribute.IsDefined(property, typeof(HiddenAttribute))&& Attribute.IsDefined(property, typeof(CustomDisplayAttribute))
 			orderby ((CustomDisplayAttribute) property
 				.GetCustomAttributes(typeof(CustomDisplayAttribute), false)
 				.Single()).Order
@@ -122,16 +125,6 @@ public class LocalizationWindowHelper
 			}
 		}
 
-		foreach (var comboBox in comboBoxesList)
-		{
-			var type = Type.GetType(comboBox.Tag.ToString());
-
-			if (type == typeof(AutoScroll))
-				foreach (AutoScroll value in Enum.GetValues(typeof(AutoScroll)))
-					comboBox.Items.Cast<ComboboxItem>().SingleOrDefault(x => (AutoScroll)x.Value == value)!.Text = value.GetDescription();
-			if (type == typeof(IdenticalCars))
-				foreach (IdenticalCars value in Enum.GetValues(typeof(IdenticalCars)))
-					comboBox.Items.Cast<ComboboxItem>().SingleOrDefault(x => (IdenticalCars)x.Value == value)!.Text = value.GetDescription();
-		}
+		EnumComboBoxHelper.LocalizeEnumComboBoxItems(comboBoxesList);
 	}
 }

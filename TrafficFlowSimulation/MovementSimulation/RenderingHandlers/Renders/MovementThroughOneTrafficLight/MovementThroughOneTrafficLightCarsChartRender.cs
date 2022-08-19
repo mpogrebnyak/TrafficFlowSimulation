@@ -8,7 +8,7 @@ using EvaluationKernel.Models;
 using Localization;
 using Settings;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
-using TrafficFlowSimulation.Properties.TranslationResources;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 
@@ -84,7 +84,10 @@ public class MovementThroughOneTrafficLightCarsChartRender : ChartsRender
 		var environmentModel = (EnvironmentModel) parameters;
 		var trafficLine = _chart.Series.First(series => series.Name.Contains("StartLine"));
 		trafficLine.Color = environmentModel.IsGreenLight ? Color.Green : Color.Red;
-		trafficLine.Label = environmentModel.IsGreenLight 
+
+		var timePoint = _chart.Series.First(series => series.Name.Contains("TimePoint"));
+		timePoint.LabelForeColor = environmentModel.IsGreenLight ? Color.Green : Color.Red;
+		timePoint.Label = environmentModel.IsGreenLight 
 			? Math.Round(environmentModel.GreenTime, 2).ToString()
 			: Math.Round(environmentModel.RedTime, 2).ToString();
 	}
@@ -175,10 +178,25 @@ public class MovementThroughOneTrafficLightCarsChartRender : ChartsRender
 		};
 		startLineSeries.Points.Add(new DataPoint(0, 1));
 		startLineSeries.Points.Add(new DataPoint(0.00001, 0));
-	//	startLineSeries.Label = "10";
+
+		var timePointSeries = new Series()
+		{
+			Name = "TimePoint",
+			ChartType = SeriesChartType.Point,
+			ChartArea = _chartAreaName,
+			BorderWidth = 2,
+			Color = Color.Transparent,
+			IsVisibleInLegend = false,
+			Label = "0",
+			LabelForeColor = Color.Red,
+			Font = new Font("Microsoft Sans Serif", 10F)
+		};
+		timePointSeries.Points.Add(new DataPoint(1, 1));
+
 		return new[]
 		{
 			startLineSeries,
+			timePointSeries
 		};
 	}
 

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace TrafficFlowSimulation.Commands
+namespace TrafficFlowSimulation.Models
 {
 	public class ValidationModel : IDataErrorInfo
 	{

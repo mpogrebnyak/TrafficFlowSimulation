@@ -1,6 +1,6 @@
 ﻿using Localization.Localization;
 
-namespace TrafficFlowSimulation.Properties.TranslationResources
+namespace TrafficFlowSimulation.Properties.LocalizationResources
 {
 	public class MenuResources
 	{

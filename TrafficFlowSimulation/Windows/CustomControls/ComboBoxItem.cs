@@ -1,6 +1,6 @@
-﻿namespace TrafficFlowSimulation.Windows;
+﻿namespace TrafficFlowSimulation.Windows.CustomControls;
 
-public class ComboboxItem
+public class ComboBoxItem
 {
 	public string Text { get; set; }
 	public object Value { get; set; }

@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using Settings;
-using TrafficFlowSimulation.Models.ModeSettingsModels;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders.MovementThroughOneTrafficLight;
 
 namespace TrafficFlowSimulation.MovementSimulation.EvaluationHandlers;
 
@@ -19,7 +15,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 	{
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
-		var modeSettings = (MovementThroughOneTrafficLightModeSettings) p.ModeSettings;
+		//var modeSettings = (MovementThroughOneTrafficLightModeSettings) p.ModeSettings;
 		modelParameters.L = 10000;
 
 		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
