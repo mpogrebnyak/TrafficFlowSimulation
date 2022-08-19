@@ -137,6 +137,15 @@ namespace TrafficFlowSimulation.Windows.Helpers
 						_errorProvider);
 					break;
 				}
+				case DrivingMode.InliningInFlow:
+				{
+					settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
+						typeof(InliningInFlowModeSettingsModel),
+						settingsTableLayoutPanel,
+						_bindingSources,
+						_errorProvider);
+					break;
+				}
 			}
 
 			settingsTableLayoutPanelComponent?.Initialize();
@@ -182,6 +191,11 @@ namespace TrafficFlowSimulation.Windows.Helpers
 				case DrivingMode.TrafficThroughOneTrafficLight:
 				{
 					modeSettings = (MovementThroughOneTrafficLightModeSettingsModel) _bindingSources[typeof(MovementThroughOneTrafficLightModeSettingsModel)].DataSource;
+					break;
+				}
+				case DrivingMode.InliningInFlow:
+				{
+					modeSettings = (InliningInFlowModeSettingsModel) _bindingSources[typeof(InliningInFlowModeSettingsModel)].DataSource;
 					break;
 				}
 			}

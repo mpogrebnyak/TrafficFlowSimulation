@@ -15,8 +15,6 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 	{
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
-		//var modeSettings = (MovementThroughOneTrafficLightModeSettings) p.ModeSettings;
-		modelParameters.L = 10000;
 
 		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
 		var n = modelParameters.n;
@@ -86,10 +84,11 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				yNew.Insert(index, 0);
 				y = yNew.ToArray();
 
+				var time = r.T;
 				r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
-				r.T = new[] {tp}.ToList();
+				r.T = time;
 				flag = false;
-				
+
 				MethodInvoker action = delegate
 				{
 					ServiceLocator.Current.GetInstance<RenderingHandler>().AddSeries(index);
@@ -99,22 +98,13 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 				p.Form.Invoke(action);
 			}
-			//isGreenLight = t % circleTime < modeSettings.TrafficLight.GreenSignalTime;
 
-			//if (t - tp > 0.1) 
 			if (t - tp > 0.01)
 			{
 				tp = t;
 				MethodInvoker action = delegate
 				{
 					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
-				//	ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateChartEnvironments(
-				//		new EnvironmentModel
-				//		{
-				//			IsGreenLight = isGreenLight,
-				//			GreenTime = modeSettings.TrafficLight.GreenSignalTime - t % circleTime,
-				//			RedTime = circleTime - t % circleTime
-				//		});
 
 					Thread.Sleep(20);
 					Application.DoEvents();
@@ -134,6 +124,9 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		modelParameters.Vmax.Insert(index, 16.7);
 		modelParameters.k.Insert(index, 0.5);
 		modelParameters.s.Insert(index, 20);
+
+		modelParameters.lambda = lambda.ToList();
+		modelParameters.Vn = Vn.ToList();
 		modelParameters.lambda.Insert(index, 0);
 		modelParameters.Vn.Insert(index, 0);
 

@@ -50,6 +50,8 @@ public class DefaultParametersValuesService : IDefaultParametersValuesService
 				return GetStartAndStopMovementModeSettingsModel();
 			case MovementThroughOneTrafficLightModeSettingsModel:
 				return GetMovementThroughOneTrafficLightModeSettingsModel();
+			case InliningInFlowModeSettingsModel:
+				return GetInliningInFlowModeSettingsModel();
 
 			default:
 				throw new InvalidOperationException();
@@ -123,6 +125,14 @@ public class DefaultParametersValuesService : IDefaultParametersValuesService
 			},
 			SingleLightGreenTime = 10,
 			SingleLightRedTime = 20
+		};
+	}
+
+	private InliningInFlowModeSettingsModel GetInliningInFlowModeSettingsModel()
+	{
+		return new InliningInFlowModeSettingsModel
+		{
+			L = 10000
 		};
 	}
 }

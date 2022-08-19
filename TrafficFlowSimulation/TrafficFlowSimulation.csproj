@@ -79,6 +79,7 @@
     <Compile Include="Models\SettingsModels\BaseSettingsModels.cs" />
     <Compile Include="Models\SettingsModels\Constants\AutoScroll.cs" />
     <Compile Include="Models\SettingsModels\Constants\FirstTrafficLightColor.cs" />
+    <Compile Include="Models\SettingsModels\InliningInFlowModeSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\MovementThroughOneTrafficLightModeSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\StartAndStopMovementModeSettingsModel.cs" />
     <Compile Include="Models\TrafficLightModel.cs" />
