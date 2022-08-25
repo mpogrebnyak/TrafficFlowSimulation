@@ -6,8 +6,10 @@ using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation
@@ -28,10 +30,10 @@ namespace TrafficFlowSimulation
 			
 			SetSettings();
 			Registration();
+			InitializeConfiguration();
 
 			CarsRenderingHelper.CreatePaintedCars();
-			var ee = new TrafficFlowSimulationModule(); 
-			ee.Initialize();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWindow());
@@ -59,6 +61,15 @@ namespace TrafficFlowSimulation
 					DrivingMode.InliningInFlow
 				};
 			SettingsHelper.Set<Properties.Settings>(settings);
+		}
+
+		private static void InitializeConfiguration()
+		{
+			var trafficFlowSimulationModule = new TrafficFlowSimulationModule(); 
+			trafficFlowSimulationModule.Initialize();
+
+			var handlersConfiguration = new HandlersConfiguration();
+			handlersConfiguration.Initialize();
 		}
 	}
 }

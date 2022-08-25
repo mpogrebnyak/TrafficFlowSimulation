@@ -21,8 +21,6 @@ namespace TrafficFlowSimulation.Windows.Helpers
 
 		private ChartContextMenuStripComponent _chartContextMenuStripComponent;
 
-		//private LocalizationComponentsModel _localizationComponents;
-
 		private AllChartsModel _allCharts;
 
 		private ErrorProvider _errorProvider;
@@ -36,12 +34,10 @@ namespace TrafficFlowSimulation.Windows.Helpers
 			AllChartsModel allCharts,
 			ErrorProvider errorProvider,
 			Control.ControlCollection controls
-			//Component component
 			)
 		{
 			_localizationWindowHelper = new LocalizationWindowHelper(localizationComponentsModel);
 			_chartContextMenuStripComponent = new ChartContextMenuStripComponent(allCharts);
-			//_localizationComponents = localizationComponentsModel;
 			_allCharts = allCharts;
 			_errorProvider = errorProvider;
 			_bindingSources = new();

@@ -26,7 +26,7 @@ namespace TrafficFlowSimulation.Properties.LocalizationResources
 
 		[Translation(Locales.ru, "Нет доступных режимов")]
 		[Translation(Locales.en, "No modes available")]
-		public string EmptyDrivingModeLabel { get; set; }
+		public string EmptyModeLabel { get; set; }
 
 		[Translation(Locales.ru, "Параметры движения:")]
 		[Translation(Locales.en, "Movement parameters:")]

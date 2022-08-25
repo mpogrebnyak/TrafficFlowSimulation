@@ -10,6 +10,11 @@ namespace TrafficFlowSimulation.Properties
 		[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow")]
 		public DrivingMode[] AvailableDrivingModes { get; set; }
 
+		public ParametersSelectionMode CurrentParametersSelectionMode { get; set; }
+
+		[DefaultValue("InliningDistance")]
+		public ParametersSelectionMode[] AvailableParametersSelectionModes { get; set; }
+
 		[DefaultValue("ColorCars")]
 		public string PaintedCarsFolder { get; set; }
 		

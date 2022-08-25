@@ -4,6 +4,7 @@ using Localization.Localization;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ParametersModels;
 using TrafficFlowSimulation.Models.ParametersModels.Constants;
+using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Models.SettingsModels.Constants;
 using TrafficFlowSimulation.Windows;
@@ -52,6 +53,9 @@ public class DefaultParametersValuesService : IDefaultParametersValuesService
 				return GetMovementThroughOneTrafficLightModeSettingsModel();
 			case InliningInFlowModeSettingsModel:
 				return GetInliningInFlowModeSettingsModel();
+			
+			case InliningDistanceSettingsModel:
+				return GetInliningDistanceSettingsModel();
 
 			default:
 				throw new InvalidOperationException();
@@ -133,6 +137,14 @@ public class DefaultParametersValuesService : IDefaultParametersValuesService
 		return new InliningInFlowModeSettingsModel
 		{
 			L = 10000
+		};
+	}
+
+	private InliningDistanceSettingsModel GetInliningDistanceSettingsModel()
+	{
+		return new InliningDistanceSettingsModel
+		{
+			n = 2
 		};
 	}
 }

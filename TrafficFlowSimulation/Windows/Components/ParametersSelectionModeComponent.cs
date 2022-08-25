@@ -6,28 +6,28 @@ using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
+using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows.Components;
 
-public class DrivingModeComponent : IComponent
+public class ParametersSelectionModeComponent : IComponent
 {
 	private ToolStripDropDownButton _modeButton;
 
-	public DrivingModeComponent(ToolStripDropDownButton modeButton)
+	public ParametersSelectionModeComponent(ToolStripDropDownButton modeButton)
 	{
 		_modeButton = modeButton;
 	}
-	
+
 	public void Initialize()
 	{
 		_modeButton.DropDownItems.Clear();
-		var availableModes = SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes.ToList();
+		var availableModes = SettingsHelper.Get<Properties.Settings>().AvailableParametersSelectionModes.ToList();
 
-		foreach (DrivingMode mode in Enum.GetValues(typeof(DrivingMode)))
+		foreach (ParametersSelectionMode mode in Enum.GetValues(typeof(ParametersSelectionMode)))
 		{
 			if (availableModes.Contains(mode))
 			{
@@ -58,13 +58,13 @@ public class DrivingModeComponent : IComponent
 		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu).OwnerItem;
 		owner.Text = selectedModeItem.Text;
 
-		var mode = (DrivingMode) Enum.Parse(typeof(DrivingMode), selectedModeItem.Name);
+		var mode = (ParametersSelectionMode) Enum.Parse(typeof(ParametersSelectionMode), selectedModeItem.Name);
 
 		var settings = SettingsHelper.Get<Properties.Settings>();
-		settings.CurrentDrivingMode = mode;
+		settings.CurrentParametersSelectionMode = mode;
 		SettingsHelper.Set<Properties.Settings>(settings);
 
-		ServiceLocator.Current.GetInstance<MainWindowHelper>().InitializeModeSettingsTableLayoutPanelComponent();
-		ServiceLocator.Current.GetInstance<RenderingHandler>().ChangeDrivingMode(mode);
+		ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().InitializeTableLayoutPanelComponent();
+		ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().ChangeParametersSelectionMode(mode);
 	}
 }
