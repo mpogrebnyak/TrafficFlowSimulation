@@ -10,10 +10,8 @@ using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.Attribute;
-using TrafficFlowSimulation.Models.SettingsModels.Constants;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Windows.CustomControls;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 
 namespace TrafficFlowSimulation.Windows.Helpers;
 

@@ -54,7 +54,7 @@ namespace TrafficFlowSimulation.Windows
             this.DrivingModeStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.DrivingModeStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ParametersEvaluationToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.ParametersSelectionToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.carsMovementContainer = new System.Windows.Forms.SplitContainer();
             this.carsMovementChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartsContainer = new System.Windows.Forms.SplitContainer();
@@ -119,7 +119,7 @@ namespace TrafficFlowSimulation.Windows
             this.DrivingModeStripLabel,
             this.DrivingModeStripDropDownButton,
             this.toolStripSeparator1,
-            this.ParametersEvaluationToolStripButton});
+            this.ParametersSelectionToolStripButton});
             this.ControlMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ControlMenuStrip.Name = "ControlMenuStrip";
             this.ControlMenuStrip.Size = new System.Drawing.Size(1539, 31);
@@ -207,15 +207,15 @@ namespace TrafficFlowSimulation.Windows
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
-            // ParametersEvaluationToolStripButton
+            // ParametersSelectionToolStripButton
             // 
-            this.ParametersEvaluationToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.ParametersEvaluationToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ParametersEvaluationToolStripButton.Image")));
-            this.ParametersEvaluationToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ParametersEvaluationToolStripButton.Name = "ParametersEvaluationToolStripButton";
-            this.ParametersEvaluationToolStripButton.Size = new System.Drawing.Size(193, 28);
-            this.ParametersEvaluationToolStripButton.Text = "Оценка параметров";
-            this.ParametersEvaluationToolStripButton.Click += new System.EventHandler(this.ParametersEvaluationToolStripButton_Click);
+            this.ParametersSelectionToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.ParametersSelectionToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ParametersSelectionToolStripButton.Image")));
+            this.ParametersSelectionToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ParametersSelectionToolStripButton.Name = "ParametersSelectionToolStripButton";
+            this.ParametersSelectionToolStripButton.Size = new System.Drawing.Size(193, 28);
+            this.ParametersSelectionToolStripButton.Text = "Оценка параметров";
+            this.ParametersSelectionToolStripButton.Click += new System.EventHandler(this.ParametersSelectionToolStripButton_Click);
             // 
             // carsMovementContainer
             // 
@@ -683,6 +683,6 @@ namespace TrafficFlowSimulation.Windows
         private System.Windows.Forms.ToolStripDropDownButton DrivingModeStripDropDownButton;
         private System.Windows.Forms.BindingSource ModeSettingsBinding;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton ParametersEvaluationToolStripButton;
+        private System.Windows.Forms.ToolStripButton ParametersSelectionToolStripButton;
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 
-namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers
+namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders
 {
 	public static class RenderingHelper
 	{

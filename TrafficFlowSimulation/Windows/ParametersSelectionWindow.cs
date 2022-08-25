@@ -1,29 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using EvaluationKernel;
-using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
+using TrafficFlowSimulation.Renders.ChartRenders;
 using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows
 {
-	public partial class ParametersEvaluationWindow : Form
+	public partial class ParametersSelectionWindow : Form
 	{
-		public ParametersEvaluationWindow(ModelParameters modelParameters)
+		public ParametersSelectionWindow()
 		{
 			InitializeComponent();
 			CustomInitializeComponent();
@@ -34,11 +23,11 @@ namespace TrafficFlowSimulation.Windows
 
 		private void CustomInitializeComponent()
 		{
-			var parametersEvaluationConfiguration = new ParametersEvaluationWindowConfiguration(ParametersSelectionChart,
+			var parametersSelectionConfiguration = new ParametersSelectionWindowConfiguration(ParametersSelectionChart,
 				ParametersErrorProvider,
 				Controls);
 
-			parametersEvaluationConfiguration.Initialize();
+			parametersSelectionConfiguration.Initialize();
 
 			ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().InitializeInterface();
 		}

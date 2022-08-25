@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.MovementSimulation;
-using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
-using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows.Helpers;
 using TrafficFlowSimulation.Windows.Models;
 

@@ -5,7 +5,7 @@ using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows;
 
-public class ParametersEvaluationWindowConfiguration : TrafficFlowSimulationModule
+public class ParametersSelectionWindowConfiguration : TrafficFlowSimulationModule
 {
 	private readonly Chart _chart;
 
@@ -13,7 +13,7 @@ public class ParametersEvaluationWindowConfiguration : TrafficFlowSimulationModu
 
 	private readonly Control.ControlCollection _controls;
 
-	public ParametersEvaluationWindowConfiguration(
+	public ParametersSelectionWindowConfiguration(
 		Chart chart,
 		ErrorProvider errorProvider,
 		Control.ControlCollection controls)

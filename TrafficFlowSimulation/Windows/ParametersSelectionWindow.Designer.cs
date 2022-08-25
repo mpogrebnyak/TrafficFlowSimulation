@@ -1,6 +1,6 @@
 ﻿namespace TrafficFlowSimulation.Windows
 {
-    partial class ParametersEvaluationWindow
+    partial class ParametersSelectionWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParametersEvaluationWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParametersSelectionWindow));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -197,7 +197,7 @@
             this.ParametersErrorProvider.ContainerControl = this;
             this.ParametersErrorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("ParametersErrorProvider.Icon")));
             // 
-            // ParametersEvaluationWindow
+            // ParametersSelectionWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -207,7 +207,7 @@
             this.Controls.Add(this.ParametersSelectionChart);
             this.Controls.Add(this.ControlMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ParametersEvaluationWindow";
+            this.Name = "ParametersSelectionWindow";
             this.Text = "Traffic flow simulation";
             this.ControlMenuStrip.ResumeLayout(false);
             this.ControlMenuStrip.PerformLayout();

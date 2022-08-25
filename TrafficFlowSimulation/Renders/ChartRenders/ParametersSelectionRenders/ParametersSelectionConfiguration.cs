@@ -2,7 +2,6 @@
 using System.Windows.Forms.DataVisualization.Charting;
 using Settings;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -21,7 +20,7 @@ public class ParametersSelectionConfiguration : TrafficFlowSimulationModule
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistance))
 		{
-			_serviceRegistrator.RegisterInstance<IChartRender>(() => new InliningDistanceEvaluationChartRender(_chart),
+			_serviceRegistrator.RegisterInstance<IChartRender>(() => new InliningDistanceSelectionChartRender(_chart),
 				_chart.Name + ParametersSelectionMode.InliningDistance);
 		}
 		

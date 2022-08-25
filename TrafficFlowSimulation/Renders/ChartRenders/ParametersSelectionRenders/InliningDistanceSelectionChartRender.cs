@@ -5,9 +5,9 @@ using EvaluationKernel.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
-public class InliningDistanceEvaluationChartRender : ChartsRender
+public class InliningDistanceSelectionChartRender : ChartsRender
 {
-	public InliningDistanceEvaluationChartRender(Chart chart) : base(chart)
+	public InliningDistanceSelectionChartRender(Chart chart) : base(chart)
 	{
 		FullClearChart();
 

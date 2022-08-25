@@ -4,9 +4,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Services;
-using TrafficFlowSimulation.Windows.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 

@@ -1,4 +1,4 @@
-﻿namespace TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models
+﻿namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models
 {
 	public class ChartAreaModel
 	{

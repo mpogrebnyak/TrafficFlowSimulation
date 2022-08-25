@@ -5,9 +5,8 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 

@@ -1,4 +1,4 @@
-﻿using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
+﻿using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 

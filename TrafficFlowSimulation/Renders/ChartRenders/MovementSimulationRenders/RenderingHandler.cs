@@ -3,8 +3,7 @@ using System.Linq;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Models;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows.Models;
 

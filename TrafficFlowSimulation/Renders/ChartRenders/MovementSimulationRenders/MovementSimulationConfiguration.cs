@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using Settings;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.StartAndStopMovement;

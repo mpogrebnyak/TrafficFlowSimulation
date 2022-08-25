@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;

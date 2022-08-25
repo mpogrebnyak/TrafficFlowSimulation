@@ -2,11 +2,9 @@
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Localization;
-using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 
 namespace TrafficFlowSimulation.Windows.Components;
 

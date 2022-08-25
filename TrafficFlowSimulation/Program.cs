@@ -7,7 +7,6 @@ using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Handlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Windows;

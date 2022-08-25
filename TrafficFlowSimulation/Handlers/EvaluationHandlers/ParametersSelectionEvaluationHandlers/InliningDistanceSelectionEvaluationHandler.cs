@@ -4,11 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
-using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
@@ -100,7 +96,7 @@ public class InliningDistanceSelectionEvaluationHandler : EvaluationHandler
 		//	Application.DoEvents();
 		//};
 
-		//ParametersEvaluationWindow.Invoke(action);
+		//ParametersSelectionWindow.Invoke(action);
 		//MainWindow.
 		//if(MainWindow.ActiveForm != null)
 		//	MainWindow.ActiveForm.Invoke(action);

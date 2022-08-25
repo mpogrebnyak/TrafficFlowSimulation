@@ -4,7 +4,6 @@ using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.MovementSimulation.RenderingHandlers;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows.Helpers;
@@ -130,13 +129,13 @@ namespace TrafficFlowSimulation.Windows
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 		}
 
-		private void ParametersEvaluationToolStripButton_Click(object sender, EventArgs e)
+		private void ParametersSelectionToolStripButton_Click(object sender, EventArgs e)
 		{
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource(); 
 			ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			var parametersEvaluationWindow = new ParametersEvaluationWindow(modelParameters);
-			parametersEvaluationWindow.ShowDialog();
+			var parametersSelectionWindow = new ParametersSelectionWindow();
+			parametersSelectionWindow.ShowDialog();
 		}
     }
 }
