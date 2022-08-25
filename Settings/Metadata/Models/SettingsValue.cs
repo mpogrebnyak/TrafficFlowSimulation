@@ -26,7 +26,7 @@ public class SettingsValue
 	}
 
 	/// <summary>
-	///     Значение настройки.
+	///	 Значение настройки.
 	/// </summary>
 	public string Value { get; set; }
 

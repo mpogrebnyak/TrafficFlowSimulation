@@ -60,7 +60,7 @@ namespace Settings.Metadata
 		}
 
 		/// <summary>
-		///     Заполнить метаданные из атрибутов свойства.
+		///	 Заполнить метаданные из атрибутов свойства.
 		/// </summary>
 		private void FillFromProperty(SettingsMetadata commonMetadata, PropertyInfo pi)
 		{
@@ -69,7 +69,7 @@ namespace Settings.Metadata
 		}
 
 		/// <summary>
-		///     Список пропертей из класса.
+		///	 Список пропертей из класса.
 		/// </summary>
 		private IEnumerable<PropertyInfo> GetProperties(Type type)
 		{
@@ -82,27 +82,27 @@ namespace Settings.Metadata
 		}
 
 		/// <summary>
-		///     Тип из набора простых типов.
+		///	 Тип из набора простых типов.
 		/// </summary>
 		public static bool IsSimpleType(Type type)
 		{
 			if(type == null) return false;
 
 			return type.IsEnum
-			       || type == typeof(bool)
-			       || type == typeof(byte) || type == typeof(sbyte)
-			       || type == typeof(short) || type == typeof(ushort)
-			       || type == typeof(int) || type == typeof(uint)
-			       || type == typeof(long) || type == typeof(ulong)
-			       || type == typeof(char)
-			       || type == typeof(double)
-			       || type == typeof(float)
-			       || type == typeof(decimal)
-			       || type == typeof(DateTime)
-			       || type == typeof(TimeSpan)
-			       || type == typeof(Type)
-			       || type == typeof(Guid)
-			       || type == typeof(string);
+				   || type == typeof(bool)
+				   || type == typeof(byte) || type == typeof(sbyte)
+				   || type == typeof(short) || type == typeof(ushort)
+				   || type == typeof(int) || type == typeof(uint)
+				   || type == typeof(long) || type == typeof(ulong)
+				   || type == typeof(char)
+				   || type == typeof(double)
+				   || type == typeof(float)
+				   || type == typeof(decimal)
+				   || type == typeof(DateTime)
+				   || type == typeof(TimeSpan)
+				   || type == typeof(Type)
+				   || type == typeof(Guid)
+				   || type == typeof(string);
 		}
 	}
 }

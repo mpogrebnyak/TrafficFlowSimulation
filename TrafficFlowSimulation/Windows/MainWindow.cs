@@ -137,5 +137,5 @@ namespace TrafficFlowSimulation.Windows
 			var parametersSelectionWindow = new ParametersSelectionWindow();
 			parametersSelectionWindow.ShowDialog();
 		}
-    }
+	}
 }
