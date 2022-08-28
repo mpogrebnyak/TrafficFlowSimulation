@@ -65,5 +65,9 @@ public class DrivingModeComponent : IComponent
 
 		ServiceLocator.Current.GetInstance<MainWindowHelper>().InitializeModeSettingsTableLayoutPanelComponent();
 		ServiceLocator.Current.GetInstance<RenderingHandler>().ChangeDrivingMode(mode);
+
+		var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
+		ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+		ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 	}
 }

@@ -16,6 +16,9 @@ public class InliningDistanceSelectionEvaluationHandler : EvaluationHandler
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
 
+		if(modelParameters.n != 2)
+			return;
+
 		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
 		var n = modelParameters.n;
 
@@ -31,8 +34,12 @@ public class InliningDistanceSelectionEvaluationHandler : EvaluationHandler
 			y[i] = r.Y(i).Last();
 		}
 
-		int ee = 0;
-		while (true)
+		var eps = 0.0001;
+		var xPoints = new List<double>();
+		var yPoints = new List<double>();
+
+		var continueCalculating = true;
+		while (continueCalculating)
 		{
 			for (int i = 0; i < n; i++)
 			{
@@ -51,61 +58,22 @@ public class InliningDistanceSelectionEvaluationHandler : EvaluationHandler
 			if (t - tp > 0.1)
 			{
 				tp = t;
-				MethodInvoker action = delegate
-				{
-					var xx = new List<double>();
-					xx.Add(x[0]-x[1]);
-					var yy = new List<double>();
-					yy.Add(y[0]-y[1]);
-					ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(0, xx.ToArray(), yy.ToArray());
-					//ServiceLocator.Current.GetInstance<<IChartRender>().UpdateCharts(t, x, y);
-
-					/*if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
-					{
-						var scaleView = carsMovementChart.ChartAreas[0].AxisX.ScaleView;
-						scaleView.Scroll(Math.Round(x[p.ModeSettings.ScrollFor]) - 25);
-					}*/
-
-					Thread.Sleep(20);
-					Application.DoEvents();
-				};
-
-				p.Form.Invoke(action);
 				
-				ee++;
-				
-				if(y[0] >=modelParameters.Vmax[0]-0.0001 && y[1]>=modelParameters.Vmax[1]-0.0001)
-					return;
+				xPoints.Add(x[0]-x[1]);
+				yPoints.Add(y[0]-y[1]);
+
+				if(y[0] >= modelParameters.Vmax[0] - eps && y[1] >= modelParameters.Vmax[1] - eps)
+					continueCalculating = false;
 			}
 		}
 		
-		
-		//	chart1.Series[0].Points.AddXY(x[0]-x[1], y[0]-y[1]);
-		//tp = t;
-		//MethodInvoker action = delegate
-		//{
-		//	ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
-
-		/*if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
+		MethodInvoker action = delegate
 		{
-			var scaleView = carsMovementChart.ChartAreas[0].AxisX.ScaleView;
-			scaleView.Scroll(Math.Round(x[p.ModeSettings.ScrollFor]) - 25);
-		}*/
+			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(xPoints, yPoints);
 
-		//	Thread.Sleep(20);
-		//	Application.DoEvents();
-		//};
+			Application.DoEvents();
+		};
 
-		//ParametersSelectionWindow.Invoke(action);
-		//MainWindow.
-		//if(MainWindow.ActiveForm != null)
-		//	MainWindow.ActiveForm.Invoke(action);
-		//p.Charts.CarsMovementChart.Invoke(action);
-		//		}
-
-		//		ee++;
-				
-		//		if(ee>10000)
-		//			return;
+		p.Form.Invoke(action);
 	}
 }

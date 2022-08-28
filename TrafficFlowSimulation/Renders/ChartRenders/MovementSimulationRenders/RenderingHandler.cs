@@ -4,7 +4,6 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
-using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
@@ -36,9 +35,6 @@ public class RenderingHandler
 		_speedProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.SpeedChart.Name + drivingMode);
 		_distanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.DistanceChart.Name + drivingMode);
 		_carMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.CarsMovementChart.Name + drivingMode);
-
-		var modelParameters = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>().GetDefaultModelParameters();
-		RenderCharts(modelParameters);
 	}
 
 	public void RenderCharts(ModelParameters modelParameters)

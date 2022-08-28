@@ -5,7 +5,7 @@ using TrafficFlowSimulation.Models.Attribute;
 
 namespace TrafficFlowSimulation.Models.SettingsModels;
 
-public class BaseSettingsModels : ValidationModel
+public class BaseSettingsModels : ValidationModel, IModel
 {
 	[Translation(Locales.ru, "Расстояние до остановки")]
 	[Translation(Locales.en, "Distance to the stop")]
@@ -16,5 +16,13 @@ public class BaseSettingsModels : ValidationModel
 	public void MapTo(ModelParameters mp)
 	{
 		mp.L = L;
+	}
+
+	public virtual object GetDefault()
+	{
+		return new BaseSettingsModels
+		{
+			L = 0
+		};
 	}
 }

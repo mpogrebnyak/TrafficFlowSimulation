@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using EvaluationKernel.Models;
 
 namespace TrafficFlowSimulation.Models.ParametersModels;
 
-public class BaseParametersModel : ValidationModel
+public class BaseParametersModel : ValidationModel, IModel
 {
-	public virtual void MapTo(ModelParameters mp) { }
+	//public virtual void MapTo(ModelParameters mp) { }
 
 	private static readonly char _separator = ':';
 
@@ -33,5 +32,10 @@ public class BaseParametersModel : ValidationModel
 		}
 
 		return dictionary;
+	}
+
+	public virtual object GetDefault()
+	{
+		return null;
 	}
 }

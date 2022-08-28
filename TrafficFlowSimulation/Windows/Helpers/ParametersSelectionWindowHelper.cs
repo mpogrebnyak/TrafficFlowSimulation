@@ -57,9 +57,9 @@ public class ParametersSelectionWindowHelper
 
 	private void InitializeParametersSelectionModeComponent()
 	{
-		var controlMenuStrip = _controls.Find(ControlName.ControlMenuStrip, true).Single() as ToolStrip;
+		var controlMenuStrip = _controls.Find(ControlName.ParametersSelectionWindowControlName.ControlMenuStrip, true).Single() as ToolStrip;
 		var parametersSelectionStripDropDownButton =
-			controlMenuStrip?.Items.Find(ControlName.ParametersSelectionStripDropDownButton, false).Single() as
+			controlMenuStrip?.Items.Find(ControlName.ParametersSelectionWindowControlName.ParametersSelectionStripDropDownButton, false).Single() as
 				ToolStripDropDownButton;
 
 		if (parametersSelectionStripDropDownButton != null)
@@ -73,7 +73,7 @@ public class ParametersSelectionWindowHelper
 	public void InitializeTableLayoutPanelComponent()
 	{
 		var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
-		var settingsTableLayoutPanel = _controls.Find(ControlName.SettingsTableLayoutPanel2, true).Single() as TableLayoutPanel;
+		var settingsTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel;
 
 		TableLayoutPanelComponent settingsTableLayoutPanelComponent = null;
 

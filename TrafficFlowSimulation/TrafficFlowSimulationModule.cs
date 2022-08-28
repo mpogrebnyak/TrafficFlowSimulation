@@ -1,5 +1,4 @@
 ﻿using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Services;
 
 namespace TrafficFlowSimulation;
 
@@ -9,6 +8,6 @@ public class TrafficFlowSimulationModule
 
 	public virtual void Initialize()
 	{
-		_serviceRegistrator.RegisterInstance<IDefaultParametersValuesService>(typeof(DefaultParametersValuesService));
+	//	_serviceRegistrator.RegisterInstance<IDefaultParametersValuesService>(typeof(DefaultParametersValuesService));
 	}
 }

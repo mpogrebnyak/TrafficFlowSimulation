@@ -7,6 +7,10 @@ namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class InliningDistanceSelectionChartRender : ChartsRender
 {
+	protected override string _seriesName => "InliningDistanceSeries";
+
+	protected override string _chartAreaName => "InliningDistanceChartArea";
+
 	public InliningDistanceSelectionChartRender(Chart chart) : base(chart)
 	{
 		FullClearChart();
@@ -16,7 +20,7 @@ public class InliningDistanceSelectionChartRender : ChartsRender
 
 		_chart.Series.Add(new Series
 		{
-			Name = "SeriesName",
+			Name = _seriesName,
 			ChartType = _seriesChartType,
 			ChartArea = chartArea.Name,
 			BorderWidth = 2,
@@ -39,17 +43,16 @@ public class InliningDistanceSelectionChartRender : ChartsRender
 	{
 		return new ChartArea()
 		{
-			Name = "ChartArea",
+			Name = _chartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 50,
+				Maximum = 100,
 			},
 			AxisY = new Axis
 			{
 				Minimum = -10,
 				Maximum = 20,
-
 			}
 		};
 	}
@@ -78,7 +81,14 @@ public class InliningDistanceSelectionChartRender : ChartsRender
 
 	public override void UpdateChart(List<double> p1 = null, List<double> p2 = null, List<double> p3 = null)
 	{
-		_chart.Series[0].Points.AddXY(p1[0], p2[0]);
+		if(p1.Count != p2.Count)
+			return;
+
+		var count = p1.Count;
+		for (var i = 0; i < count; i++)
+		{
+			_chart.Series[_seriesName].Points.AddXY(p1[i], p2[i]);
+		}
 	}
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)

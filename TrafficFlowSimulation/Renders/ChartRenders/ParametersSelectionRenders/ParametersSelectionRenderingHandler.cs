@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Services;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -28,14 +26,11 @@ public class ParametersSelectionRenderingHandler
 	{
 		_parametersSelectionMode = parametersSelectionMode;
 		_provider = ServiceLocator.Current.GetInstance<IChartRender>(_chart.Name + _parametersSelectionMode);
-
-		var modelParameters = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>().GetDefaultModelParameters();
-		RenderCharts(modelParameters);
 	}
 	
-	public void UpdateChart(double t, double[] x, double[] y )
+	public void UpdateChart(List<double> x, List<double>  y)
 	{
-		_provider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+		_provider.UpdateChart(x, y);
 	}
 
 	public void RenderCharts(ModelParameters modelParameters)

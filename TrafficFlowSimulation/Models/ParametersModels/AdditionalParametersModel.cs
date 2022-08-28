@@ -19,9 +19,18 @@ public class AdditionalParametersModel : BaseParametersModel
 	[Required, Range(0, 1)]
 	public double mu { get; set; }
 
-	public override void MapTo(ModelParameters mp)
+	public void MapTo(ModelParameters mp)
 	{
 		mp.g = g;
 		mp.mu = mu;
+	}
+
+	public override object GetDefault()
+	{
+		return new AdditionalParametersModel
+		{
+			g = 9.8,
+			mu = 0.6
+		};
 	}
 }

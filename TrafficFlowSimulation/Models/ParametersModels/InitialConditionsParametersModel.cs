@@ -25,7 +25,7 @@ public class InitialConditionsParametersModel : BaseParametersModel
 	[CustomDisplay(4, true)] 
 	public string lambda_multiple { get; set; }
 
-	public override void MapTo(ModelParameters mp)
+	public void MapTo(ModelParameters mp)
 	{
 		var VnDictionary = ParseMultipleValues(Vn_multiple);
 		var lambdaDictionary = ParseMultipleValues(lambda_multiple);
@@ -35,5 +35,16 @@ public class InitialConditionsParametersModel : BaseParametersModel
 			mp.Vn.Add(VnDictionary.ContainsKey(i) ? VnDictionary[i] : Vn);
 			mp.lambda.Add(lambdaDictionary.ContainsKey(i) ? lambdaDictionary[i] : lambda * -i);
 		}
+	}
+
+	public override object GetDefault()
+	{
+		return new InitialConditionsParametersModel
+		{
+			lambda = 25,
+			lambda_multiple = string.Empty,
+			Vn = 0,
+			Vn_multiple = string.Empty
+		};
 	}
 }

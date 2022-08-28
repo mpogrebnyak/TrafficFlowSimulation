@@ -77,8 +77,9 @@
     <Compile Include="Handlers\HandlersConfiguration.cs" />
     <Compile Include="Models\Attribute\CustomDisplayAttribute.cs" />
     <Compile Include="Models\Attribute\HiddenAttribute.cs" />
+    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\LocalizationComponentsModel.cs" />
-    <Compile Include="Models\ModeSettingsModel.cs" />
+    <Compile Include="Models\ModelsConfiguration.cs" />
     <Compile Include="Models\ParametersModels\AdditionalParametersModel.cs" />
     <Compile Include="Models\ParametersModels\BaseParametersModel.cs" />
     <Compile Include="Models\ParametersModels\BasicParametersModel.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Models\SettingsModels\InliningInFlowModeSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\MovementThroughOneTrafficLightModeSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\StartAndStopMovementModeSettingsModel.cs" />
-    <Compile Include="Models\TrafficLightModel.cs" />
     <Compile Include="Models\ValidationModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,8 +121,6 @@
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceSelectionChartRender.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionRenderingHandler.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionSettingsModels\InliningDistanceSettingsModel.cs" />
-    <Compile Include="Services\DefaultParametersValuesService.cs" />
     <Compile Include="TrafficFlowSimulationModule.cs" />
     <Compile Include="UnityServiceRegistrator.cs" />
     <Compile Include="Windows\Components\ChartContextMenuStripComponent.cs" />

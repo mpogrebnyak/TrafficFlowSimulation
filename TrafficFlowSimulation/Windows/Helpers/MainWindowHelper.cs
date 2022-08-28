@@ -84,21 +84,21 @@ namespace TrafficFlowSimulation.Windows.Helpers
 		{
 			var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
 				typeof(BasicParametersModel),
-				_controls.Find(ControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
+				_controls.Find(ControlName.MainWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
 				_bindingSources,
 				_errorProvider);
 			basicParametersTableLayoutPanelComponent.Initialize();
 
 			var additionalParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
 				typeof(AdditionalParametersModel),
-				_controls.Find(ControlName.AdditionalParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
+				_controls.Find(ControlName.MainWindowControlName.AdditionalParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
 				_bindingSources,
 				_errorProvider);
 			additionalParametersTableLayoutPanelComponent.Initialize();
 
 			var initialConditionsTableLayoutPanelComponent = new TableLayoutPanelComponent(
 				typeof(InitialConditionsParametersModel),
-				_controls.Find(ControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel, 
+				_controls.Find(ControlName.MainWindowControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel, 
 				_bindingSources,
 				_errorProvider);
 			initialConditionsTableLayoutPanelComponent.Initialize();
@@ -109,7 +109,7 @@ namespace TrafficFlowSimulation.Windows.Helpers
 		public void InitializeModeSettingsTableLayoutPanelComponent()
 		{
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
-			var settingsTableLayoutPanel = _controls.Find(ControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
+			var settingsTableLayoutPanel = _controls.Find(ControlName.MainWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
 
 			TableLayoutPanelComponent settingsTableLayoutPanelComponent = null;
 
@@ -149,8 +149,8 @@ namespace TrafficFlowSimulation.Windows.Helpers
 
 		private void InitializeDrivingModeComponent()
 		{
-			var controlMenuStrip = _controls.Find(ControlName.ControlMenuStrip, true).Single() as ToolStrip;
-			var drivingModeStripDropDownButton = controlMenuStrip?.Items.Find(ControlName.DrivingModeStripDropDownButton, false).Single() as ToolStripDropDownButton;
+			var controlMenuStrip = _controls.Find(ControlName.MainWindowControlName.ControlMenuStrip, true).Single() as ToolStrip;
+			var drivingModeStripDropDownButton = controlMenuStrip?.Items.Find(ControlName.MainWindowControlName.DrivingModeStripDropDownButton, false).Single() as ToolStripDropDownButton;
 
 			if (drivingModeStripDropDownButton != null)
 			{
@@ -161,8 +161,8 @@ namespace TrafficFlowSimulation.Windows.Helpers
 
 		private void InitializeLanguageComponent()
 		{
-			var controlMenuStrip = _controls.Find(ControlName.ControlMenuStrip, true).Single() as ToolStrip;
-			var languagesSwitcherButton = controlMenuStrip?.Items.Find(ControlName.LanguagesSwitcherButton, false).Single() as ToolStripDropDownButton;
+			var controlMenuStrip = _controls.Find(ControlName.MainWindowControlName.ControlMenuStrip, true).Single() as ToolStrip;
+			var languagesSwitcherButton = controlMenuStrip?.Items.Find(ControlName.MainWindowControlName.LanguagesSwitcherButton, false).Single() as ToolStripDropDownButton;
 
 			if (languagesSwitcherButton != null)
 			{
@@ -219,14 +219,14 @@ namespace TrafficFlowSimulation.Windows.Helpers
 			_localizationWindowHelper.LocalizeComponents();
 
 			_localizationWindowHelper.LocalizePanel(typeof(BasicParametersModel),
-				_controls.Find(ControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel);
+				_controls.Find(ControlName.MainWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel);
 			_localizationWindowHelper.LocalizePanel(typeof(AdditionalParametersModel),
-				_controls.Find(ControlName.AdditionalParametersTableLayoutPanel, true).Single() as TableLayoutPanel);
+				_controls.Find(ControlName.MainWindowControlName.AdditionalParametersTableLayoutPanel, true).Single() as TableLayoutPanel);
 			_localizationWindowHelper.LocalizePanel(typeof(InitialConditionsParametersModel),
-				_controls.Find(ControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel);
+				_controls.Find(ControlName.MainWindowControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel);
 
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
-			var settingsTableLayoutPanel = _controls.Find(ControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
+			var settingsTableLayoutPanel = _controls.Find(ControlName.MainWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
 
 			switch (currentDrivingMode)
 			{

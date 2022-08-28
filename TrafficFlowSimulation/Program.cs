@@ -7,6 +7,7 @@ using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Handlers;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Windows;
@@ -69,6 +70,9 @@ namespace TrafficFlowSimulation
 
 			var handlersConfiguration = new HandlersConfiguration();
 			handlersConfiguration.Initialize();
+
+			var modelsConfiguration = new ModelsConfiguration();
+			modelsConfiguration.Initialize();
 		}
 	}
 }

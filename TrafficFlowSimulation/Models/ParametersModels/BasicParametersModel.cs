@@ -3,7 +3,6 @@ using EvaluationKernel.Models;
 using Localization.Localization;
 using TrafficFlowSimulation.Models.Attribute;
 using TrafficFlowSimulation.Models.ParametersModels.Constants;
-using TrafficFlowSimulation.Windows;
 using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Models.ParametersModels;
@@ -93,7 +92,7 @@ public class BasicParametersModel : BaseParametersModel
 	[CustomDisplay(18, true, true)] 
 	public string s_multiple { get; set; }
 
-	public override void MapTo(ModelParameters mp)
+	public void MapTo(ModelParameters mp)
 	{
 		mp.n = n;
 		mp.tau = tau;
@@ -140,5 +139,32 @@ public class BasicParametersModel : BaseParametersModel
 			mp.k.Add(kDictionary.ContainsKey(i) ? kDictionary[i] : k);
 			mp.s.Add(sDictionary.ContainsKey(i) ? sDictionary[i] : s);
 		}
+	}
+	
+	public override object GetDefault()
+	{
+		return new BasicParametersModel
+		{
+			IsCarsIdentical = new ComboBoxItem
+			{
+				Text = IdenticalCars.No.GetDescription(),
+				Value = IdenticalCars.No
+			},
+			n = 2,
+			Vmax = 16.7,
+			Vmax_multiple = string.Empty,
+			tau = 1,
+			tau_multiple = string.Empty,
+			a = 4,
+			a_multiple = string.Empty,
+			q = 3,
+			q_multiple = string.Empty,
+			l_safe = 5,
+			l_safe_multiple = string.Empty,
+			k = 0.5,
+			k_multiple = string.Empty,
+			s = 20,
+			s_multiple = string.Empty,
+		};
 	}
 }

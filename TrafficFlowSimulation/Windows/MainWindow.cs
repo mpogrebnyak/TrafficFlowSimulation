@@ -5,7 +5,6 @@ using Settings;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
-using TrafficFlowSimulation.Services;
 using TrafficFlowSimulation.Windows.Helpers;
 using TrafficFlowSimulation.Windows.Models;
 
@@ -67,7 +66,6 @@ namespace TrafficFlowSimulation.Windows
 		private void StartToolStripButton_Click(object sender, EventArgs e)
 		{
 			parametersPanel.Hide();
-			ModeSettingsBinding.EndEdit();
 
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
@@ -125,7 +123,9 @@ namespace TrafficFlowSimulation.Windows
 
 		private void MainWindow_Shown(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>().GetDefaultModelParameters();
+			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 		}
 
