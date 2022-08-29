@@ -2,6 +2,8 @@
 using System;
 using System.Globalization;
 using System.Windows.Forms;
+using Common;
+using Common.Modularity;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
@@ -23,14 +25,14 @@ namespace TrafficFlowSimulation
 		[STAThread]
 		static void Main()
 		{
-			var serviceRegistrator = new UnityServiceRegistrator();
+			var bootstrapper = new Bootstrapper();
+			bootstrapper.Start();
 
-			var locator = serviceRegistrator.CreateLocator();
-			ServiceLocator.SetLocatorProvider(() => locator);
-			
 			SetSettings();
 			Registration();
-			InitializeConfiguration();
+
+			var trafficFlowSimulationModule = new TrafficFlowSimulationModule(); 
+			trafficFlowSimulationModule.Initialize();
 
 			CarsRenderingHelper.CreatePaintedCars();
 
@@ -61,18 +63,6 @@ namespace TrafficFlowSimulation
 					DrivingMode.InliningInFlow
 				};
 			SettingsHelper.Set<Properties.Settings>(settings);
-		}
-
-		private static void InitializeConfiguration()
-		{
-			var trafficFlowSimulationModule = new TrafficFlowSimulationModule(); 
-			trafficFlowSimulationModule.Initialize();
-
-			var handlersConfiguration = new HandlersConfiguration();
-			handlersConfiguration.Initialize();
-
-			var modelsConfiguration = new ModelsConfiguration();
-			modelsConfiguration.Initialize();
 		}
 	}
 }

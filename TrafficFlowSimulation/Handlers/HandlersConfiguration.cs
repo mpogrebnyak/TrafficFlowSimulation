@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Common;
+using Common.Modularity;
 using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
@@ -7,9 +9,9 @@ using TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvalu
 
 namespace TrafficFlowSimulation.Handlers;
 
-public class HandlersConfiguration : TrafficFlowSimulationModule
+public class HandlersConfiguration : IInitializable
 {
-	public override void Initialize()
+	public void Initialize()
 	{
 		InitializeMovementSimulationEvaluationHandlers();
 		InitializeParametersSelectionEvaluationHandlers();
@@ -21,19 +23,19 @@ public class HandlersConfiguration : TrafficFlowSimulationModule
 
 		if (availableModes.Contains(DrivingMode.StartAndStopMovement))
 		{
-			_serviceRegistrator.RegisterInstance<IEvaluationHandler>(() => new StartAndStopMovementEvaluationHandler(),
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new StartAndStopMovementEvaluationHandler(),
 				DrivingMode.StartAndStopMovement.ToString());
 		}
 
 		if (availableModes.Contains(DrivingMode.TrafficThroughOneTrafficLight))
 		{
-			_serviceRegistrator.RegisterInstance<IEvaluationHandler>(() => new MovementThroughOneTrafficLightEvaluationHandler(),
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new MovementThroughOneTrafficLightEvaluationHandler(),
 				DrivingMode.TrafficThroughOneTrafficLight.ToString());
 		}
 
 		if (availableModes.Contains(DrivingMode.InliningInFlow))
 		{
-			_serviceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningInFlowEvaluationHandler(),
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningInFlowEvaluationHandler(),
 				DrivingMode.InliningInFlow.ToString());
 		}
 	}
@@ -44,7 +46,7 @@ public class HandlersConfiguration : TrafficFlowSimulationModule
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistance))
 		{
-			_serviceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningDistanceSelectionEvaluationHandler(),
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningDistanceSelectionEvaluationHandler(),
 				ParametersSelectionMode.InliningDistance.ToString());
 		}
 	}

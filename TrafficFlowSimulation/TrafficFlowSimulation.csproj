@@ -122,7 +122,6 @@
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionRenderingHandler.cs" />
     <Compile Include="TrafficFlowSimulationModule.cs" />
-    <Compile Include="UnityServiceRegistrator.cs" />
     <Compile Include="Windows\Components\ChartContextMenuStripComponent.cs" />
     <Compile Include="Windows\Components\ChartContextMenuStripComponentHelper.cs" />
     <Compile Include="Windows\Components\DrivingModeComponent.cs" />
@@ -191,6 +190,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{dabe3a8d-47ac-44f6-89f9-cad6d20a2f2f}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EvaluationKernel\EvaluationKernel.csproj">
       <Project>{9c69a824-499e-4a97-9df9-bead244f1a26}</Project>
       <Name>EvaluationKernel</Name>

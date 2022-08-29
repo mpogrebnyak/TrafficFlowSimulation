@@ -1,13 +1,19 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using Common;
+using Common.Modularity;
+using Microsoft.Practices.ServiceLocation;
+using TrafficFlowSimulation.Handlers;
+using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation;
 
-public class TrafficFlowSimulationModule
+public class TrafficFlowSimulationModule : IInitializable
 {
-	protected IServiceRegistrator _serviceRegistrator = ServiceLocator.Current.GetInstance<IServiceRegistrator>();
-
-	public virtual void Initialize()
+	public void Initialize()
 	{
-	//	_serviceRegistrator.RegisterInstance<IDefaultParametersValuesService>(typeof(DefaultParametersValuesService));
+		var handlersConfiguration = new HandlersConfiguration();
+		handlersConfiguration.Initialize();
+
+		var modelsConfiguration = new ModelsConfiguration();
+		modelsConfiguration.Initialize();
 	}
 }

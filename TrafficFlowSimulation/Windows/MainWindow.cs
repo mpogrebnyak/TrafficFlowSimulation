@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using Common;
+using Common.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;

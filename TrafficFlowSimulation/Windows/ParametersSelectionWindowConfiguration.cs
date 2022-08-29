@@ -1,11 +1,13 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Common;
+using Common.Modularity;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows;
 
-public class ParametersSelectionWindowConfiguration : TrafficFlowSimulationModule
+public class ParametersSelectionWindowConfiguration : IInitializable
 {
 	private readonly Chart _chart;
 
@@ -22,9 +24,9 @@ public class ParametersSelectionWindowConfiguration : TrafficFlowSimulationModul
 		_errorProvider = errorProvider;
 		_controls = controls;
 	}
-	public override void Initialize()
+	public void Initialize()
 	{
-		_serviceRegistrator.RegisterInstance<ParametersSelectionWindowHelper>(() => new ParametersSelectionWindowHelper(
+		CommonHelper.ServiceRegistrator.RegisterInstance<ParametersSelectionWindowHelper>(() => new ParametersSelectionWindowHelper(
 		//	_localizationComponents,
 		//	_allCharts,
 			_errorProvider,

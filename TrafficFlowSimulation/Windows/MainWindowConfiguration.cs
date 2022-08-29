@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Common;
+using Common.Modularity;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Windows.Helpers;
@@ -8,7 +10,7 @@ using TrafficFlowSimulation.Windows.Models;
 
 namespace TrafficFlowSimulation.Windows;
 
-public class MainWindowConfiguration : TrafficFlowSimulationModule
+public class MainWindowConfiguration : IInitializable
 {
 	private readonly LocalizationComponentsModel _localizationComponents;
 
@@ -33,9 +35,9 @@ public class MainWindowConfiguration : TrafficFlowSimulationModule
 		_controls = controls;
 	}
 
-	public override void Initialize()
+	public void Initialize()
 	{
-		_serviceRegistrator.RegisterInstance<MainWindowHelper>(() => new MainWindowHelper(
+		CommonHelper.ServiceRegistrator.RegisterInstance<MainWindowHelper>(() => new MainWindowHelper(
 			_localizationComponents,
 			_allCharts,
 			_errorProvider,

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.ServiceLocation;
 
-namespace TrafficFlowSimulation;
+namespace Common.Modularity;
 
 public interface IServiceRegistrator
 {
