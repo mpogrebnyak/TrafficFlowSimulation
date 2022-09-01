@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using EvaluationKernel.Models;
+using Microsoft.Practices.ObjectBuilder2;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Windows.Components;
 
@@ -72,6 +75,16 @@ public class ParametersSelectionWindowHelper
 
 	public void InitializeTableLayoutPanelComponent()
 	{
+		var qq = _controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true)
+			.Single() as TableLayoutPanel;
+
+		var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
+			typeof(InliningDistanceModelParametersModel),
+			_controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
+			_bindingSources,
+			_errorProvider);
+		basicParametersTableLayoutPanelComponent.Initialize();
+
 		var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
 		var settingsTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel;
 
@@ -91,5 +104,34 @@ public class ParametersSelectionWindowHelper
 		}
 
 		settingsTableLayoutPanelComponent?.Initialize();
+	}
+	
+	public BaseSettingsModels CollectModeSettingsFromBindingSource(ModelParameters modelParameters)
+	{
+		var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+		_bindingSources.ForEach(x => x.Value.EndEdit());
+
+		var modeSettings = new BaseSettingsModels();
+		switch (currentDrivingMode)
+		{
+			case DrivingMode.StartAndStopMovement:
+			{
+				modeSettings = (InliningDistanceSettingsModel) _bindingSources[typeof(InliningDistanceSettingsModel)].DataSource;
+				break;
+			}
+		}
+		modeSettings.MapTo(modelParameters);
+
+		return modeSettings;
+	}
+
+	public ModelParameters CollectParametersFromBindingSource()
+	{
+		var modelParameters = new ModelParameters();
+		_bindingSources.ForEach(x => x.Value.EndEdit());
+
+		((InliningDistanceModelParametersModel)_bindingSources[typeof(InliningDistanceModelParametersModel)].DataSource).MapTo(modelParameters);
+
+		return modelParameters;
 	}
 }

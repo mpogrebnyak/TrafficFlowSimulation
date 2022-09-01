@@ -13,7 +13,7 @@ public class BasicParametersModel : BaseParametersModel
 	[Translation(Locales.en, "Vehicles number")]
 	[CustomDisplay(1)]
 	[Required, Range(1, 10000)]
-	public int n { get; set; }
+	public virtual int n { get; set; }
 
 	[Translation(Locales.ru, "Все автомобили одинаковы")]
 	[Translation(Locales.en, "All vehicles are the same")]

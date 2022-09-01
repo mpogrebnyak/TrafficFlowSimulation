@@ -5,7 +5,7 @@ namespace TrafficFlowSimulation.Constants;
 
 public enum DrivingMode
 {
-	[LocalizedDescription("SingleLaneTraffic", typeof(DrivingModeResources))]
+	[LocalizedDescription("StartAndStopMovement", typeof(DrivingModeResources))]
 	StartAndStopMovement = 1,
 
 	[LocalizedDescription("TrafficThroughOneTrafficLight", typeof(DrivingModeResources))]

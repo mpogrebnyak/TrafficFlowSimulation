@@ -26,5 +26,7 @@ public class ModelsConfiguration : IInitializable
 
 		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceSettingsModel(),
 			typeof(InliningDistanceSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceModelParametersModel(),
+			typeof(InliningDistanceModelParametersModel).ToString());
 	}
 }

@@ -11,13 +11,16 @@ public class CustomDisplayAttribute : System.Attribute
 
 	public bool IsHidden { get; }
 
+	public bool IsReadOnly { get; }
+
 	public Type? EnumType { get; }
 
-	public CustomDisplayAttribute(int order,  bool isMultiple = false, bool isHidden = false, Type? enumType = null)
+	public CustomDisplayAttribute(int order, bool isMultiple = false, bool isHidden = false, bool isReadOnly = false,Type? enumType = null)
 	{
 		Order = order;
 		IsMultiple = isMultiple;
 		IsHidden = isHidden;
+		IsReadOnly = isReadOnly;
 		EnumType = enumType;
 	}
 }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization.Localization;
 using Settings;
-using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.Attribute;
 
 namespace TrafficFlowSimulation.Windows.Components;
@@ -98,7 +97,7 @@ public class TableLayoutPanelComponent : IComponent
 				continue;
 			}
 
-			var textBox = CreateTextBox(property.Name, property.Name, _tableLayoutPanel.Size.Width, attribute.IsHidden, counter++);
+			var textBox = CreateTextBox(property.Name, property.Name, _tableLayoutPanel.Size.Width, attribute.IsHidden, attribute.IsReadOnly, counter++);
 			if (attribute.IsMultiple)
 			{
 				textBox.Tag = _multipleTag;
@@ -115,7 +114,7 @@ public class TableLayoutPanelComponent : IComponent
 		}
 	}
 
-	private TextBox CreateTextBox(string name, string dataMember, int width, bool isHidden, int tabIndex)
+	private TextBox CreateTextBox(string name, string dataMember, int width, bool isHidden, bool isReadOnly, int tabIndex)
 	{
 		var textBox = new TextBox
 		{
@@ -127,6 +126,7 @@ public class TableLayoutPanelComponent : IComponent
 
 		textBox.DataBindings.Add(new Binding("Text", _bindingSource, dataMember, true));
 		if(isHidden) textBox.Hide();
+		if(isReadOnly) textBox.Enabled = false;
 
 		return textBox;
 	}

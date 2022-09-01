@@ -2,6 +2,7 @@
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
+using Settings;
 using TrafficFlowSimulation.Constants;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
@@ -17,7 +18,7 @@ public class ParametersSelectionRenderingHandler
 	public ParametersSelectionRenderingHandler(Chart chart)
 	{
 		_chart = chart;
-		//Сделать дефолтное значение
+		_parametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
 		_parametersSelectionMode = ParametersSelectionMode.InliningDistance;
 		_provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + _parametersSelectionMode);
 	}

@@ -1,7 +1,10 @@
-﻿namespace TrafficFlowSimulation.Constants;
+﻿using Localization.Localization;
+using TrafficFlowSimulation.Properties.LocalizationResources;
+
+namespace TrafficFlowSimulation.Constants;
 
 public enum ParametersSelectionMode
 {
-	//[LocalizedDescription("SingleLaneTraffic", typeof(DrivingModeResources))]
+	[LocalizedDescription("InliningDistance", typeof(ParametersSelectionModeResources))]
 	InliningDistance = 1,
 }

@@ -14,8 +14,13 @@ public class InliningDistanceSelectionChartRender : ChartsRender
 	public InliningDistanceSelectionChartRender(Chart chart) : base(chart)
 	{
 		FullClearChart();
+	}
 
-		var chartArea = CreateChartArea(null);
+	public override void RenderChart(ModelParameters modelParameters)
+	{
+		FullClearChart();
+
+		var chartArea = CreateChartArea(modelParameters);
 		_chart.ChartAreas.Add(chartArea);
 
 		_chart.Series.Add(new Series
@@ -24,19 +29,13 @@ public class InliningDistanceSelectionChartRender : ChartsRender
 			ChartType = _seriesChartType,
 			ChartArea = chartArea.Name,
 			BorderWidth = 2,
-			
 		});
-		
-		var environmentSeries = CreateEnvironment(null);
+
+		var environmentSeries = CreateEnvironment(modelParameters);
 		foreach (var series in environmentSeries)
 		{
 			_chart.Series.Add(series);
 		}
-	}
-
-	public override void RenderChart(ModelParameters modelParameters)
-	{
-		//base.RenderChart(modelParameters);
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
@@ -51,8 +50,9 @@ public class InliningDistanceSelectionChartRender : ChartsRender
 			},
 			AxisY = new Axis
 			{
-				Minimum = -10,
-				Maximum = 20,
+				Minimum = -modelParameters.Vmax[1],
+				Maximum = modelParameters.Vmax[1],
+				Interval = modelParameters.Vmax[1] / 2,
 			}
 		};
 	}

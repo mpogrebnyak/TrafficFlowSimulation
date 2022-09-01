@@ -2,6 +2,7 @@
 using System.Linq;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
+using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 using TrafficFlowSimulation.Windows.Models;
@@ -21,8 +22,7 @@ public class RenderingHandler
 	public RenderingHandler(AllChartsModel charts)
 	{
 		_charts = charts;
-		//Сделать дефолтное значение
-		_drivingMode = DrivingMode.StartAndStopMovement;
+		_drivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 		_speedProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.SpeedChart.Name + _drivingMode);
 		_distanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.DistanceChart.Name + _drivingMode);
 		_carMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.CarsMovementChart.Name + _drivingMode);

@@ -23,6 +23,8 @@ public static class ControlName
 	{
 		public static string ControlMenuStrip = "ControlMenuStrip";
 
+		public static string BasicParametersTableLayoutPanel = "BasicParametersTableLayoutPanel";
+
 		public static string ParametersSelectionStripDropDownButton = "ParametersSelectionStripDropDownButton";
 
 		public static string SettingsTableLayoutPanel = "SettingsTableLayoutPanel";

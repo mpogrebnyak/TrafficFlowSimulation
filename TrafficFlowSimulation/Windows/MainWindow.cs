@@ -73,7 +73,6 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
-			//ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateChartEnvironments();
 
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
@@ -133,11 +132,9 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ParametersSelectionToolStripButton_Click(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource(); 
-			ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
-
 			var parametersSelectionWindow = new ParametersSelectionWindow();
-			parametersSelectionWindow.ShowDialog();
+			parametersSelectionWindow.Show();
+			//parametersSelectionWindow.ShowDialog();
 		}
 	}
 }

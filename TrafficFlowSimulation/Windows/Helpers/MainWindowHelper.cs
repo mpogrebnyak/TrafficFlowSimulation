@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
@@ -52,32 +51,6 @@ namespace TrafficFlowSimulation.Windows.Helpers
 			_chartContextMenuStripComponent.Initialize();
 
 			_localizationWindowHelper.LocalizeComponents();
-			//LocalizationWindowHelper.Translate(_localizationComponents);
-			//LocalizationService.Translate(_localizationComponents);
-
-			//var defaultModeSettings = ModeSettingsMapper.GetDefault();
-			//ModeSettingsBinding.DataSource = defaultModeSettings;
-
-			//MainWindowHelper.ShowCurrentModeSettingsFields(Controls.Owner);
-		}
-		
-		//public LocalizationComponentsModel LocalizationComponents => _localizationComponents;
-
-		public AllChartsModel AllCharts => _allCharts;
-
-		public Dictionary<Type, BindingSource> BindingSources => _bindingSources;
-
-
-		public Chart GetChartFromContextMenu(object o)
-		{
-			var owner = (o as ToolStripMenuItem).Owner;
-
-			if ((owner as ToolStripDropDownMenu).OwnerItem != null)
-			{
-				owner = ((owner as ToolStripDropDownMenu).OwnerItem as ToolStripMenuItem).Owner;
-			}
-			
-			return (owner as ContextMenuStrip).SourceControl as Chart;
 		}
 
 		public void InitializeTableLayoutPanelComponent()

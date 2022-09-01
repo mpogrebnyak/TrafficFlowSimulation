@@ -6,7 +6,7 @@ public class DrivingModeResources
 {
 	[Translation(Locales.ru, "Движение и остановка")]
 	[Translation(Locales.en, "Movement and stopping")]
-	public string SingleLaneTraffic { get; set; }
+	public string StartAndStopMovement { get; set; }
 
 	[Translation(Locales.ru, "Движение через один светофор")]
 	[Translation(Locales.en, "Traffic through one traffic light")]

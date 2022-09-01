@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
@@ -16,7 +15,7 @@ public class InliningDistanceSelectionEvaluationHandler : EvaluationHandler
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
 
-		if(modelParameters.n != 2)
+		if (modelParameters.n != 2)
 			return;
 
 		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
@@ -28,7 +27,7 @@ public class InliningDistanceSelectionEvaluationHandler : EvaluationHandler
 		var tp = t;
 		var x = new double[n];
 		var y = new double[n];
-		for (int i = 0; i < n; i++) 
+		for (int i = 0; i < n; i++)
 		{
 			x[i] = r.X(i).Last();
 			y[i] = r.Y(i).Last();
@@ -58,15 +57,15 @@ public class InliningDistanceSelectionEvaluationHandler : EvaluationHandler
 			if (t - tp > 0.1)
 			{
 				tp = t;
-				
-				xPoints.Add(x[0]-x[1]);
-				yPoints.Add(y[0]-y[1]);
 
-				if(y[0] >= modelParameters.Vmax[0] - eps && y[1] >= modelParameters.Vmax[1] - eps)
+				xPoints.Add(x[0] - x[1]);
+				yPoints.Add(y[0] - y[1]);
+
+				if (y[0] >= modelParameters.Vmax[0] - eps && y[1] >= modelParameters.Vmax[1] - eps)
 					continueCalculating = false;
 			}
 		}
-		
+
 		MethodInvoker action = delegate
 		{
 			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(xPoints, yPoints);

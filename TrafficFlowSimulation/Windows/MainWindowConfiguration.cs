@@ -41,7 +41,7 @@ public class MainWindowConfiguration : IInitializable
 			_localizationComponents,
 			_allCharts,
 			_errorProvider,
-			_controls));
+			_controls), skipIfAlreadyRegistered: false);
 
 		var movementSimulationConfiguration = new MovementSimulationConfiguration(_allCharts);
 		movementSimulationConfiguration.Initialize();

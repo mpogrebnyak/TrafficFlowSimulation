@@ -30,7 +30,7 @@ public class ParametersSelectionWindowConfiguration : IInitializable
 		//	_localizationComponents,
 		//	_allCharts,
 			_errorProvider,
-			_controls));
+			_controls), skipIfAlreadyRegistered: false);
 
 		var movementSimulationConfiguration = new ParametersSelectionConfiguration(_chart);
 		movementSimulationConfiguration.Initialize();

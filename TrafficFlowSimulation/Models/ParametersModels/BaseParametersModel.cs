@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EvaluationKernel.Models;
 
 namespace TrafficFlowSimulation.Models.ParametersModels;
 
@@ -33,7 +34,6 @@ public class BaseParametersModel : ValidationModel, IModel
 
 		return dictionary;
 	}
-
 	public virtual object GetDefault()
 	{
 		return null;

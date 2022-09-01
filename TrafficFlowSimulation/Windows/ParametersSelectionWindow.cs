@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Common;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
 using TrafficFlowSimulation.Renders.ChartRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows
@@ -14,15 +16,19 @@ namespace TrafficFlowSimulation.Windows
 	{
 		public ParametersSelectionWindow()
 		{
+			
 			InitializeComponent();
+			var ee = ParametersSelectionStripDropDownButton.DropDownItems;
 			CustomInitializeComponent();
-			parametersPanel.Hide();
+			//parametersPanel.Hide();
 
-			ServiceLocator.Current.GetInstance<IChartRender>(ParametersSelectionChart.Name+ ParametersSelectionMode.InliningDistance).RenderChart(null);
+			//ServiceLocator.Current.GetInstance<IChartRender>(ParametersSelectionChart.Name+ ParametersSelectionMode.InliningDistance).RenderChart(null);
 		}
 
 		private void CustomInitializeComponent()
 		{
+			ControlMenuStrip.Renderer = new ControlToolStripCustomRender();
+
 			var parametersSelectionConfiguration = new ParametersSelectionWindowConfiguration(ParametersSelectionChart,
 				ParametersErrorProvider,
 				Controls);
@@ -40,31 +46,21 @@ namespace TrafficFlowSimulation.Windows
 				parametersPanel.Show();
 		}
 
-		private void SelectParametersToolStripButton1_Click(object sender, EventArgs e)
+		private void SelectParametersToolStripButton_Click(object sender, EventArgs e)
 		{
-			var modelParameters = new ModelParameters
-			{
-				n = 2,
-				a = new List<double> {4, 4},
-				q = new List<double> {3, 3},
-				eps = 0,
-				g = 9.8,
-				k = new List<double> {0.5, 0.5},
-				l = new List<double> {5, 5},
-				mu = 0.6,
-				s = new List<double>{20,20},
-				tau = 1,
-				L = 10000,
-				Vmax = new List<double> {16.7,16.7},
-				Vmin = 0,
-				Vn = new List<double> {0, 16.7},
-				lambda = new List<double> {0, -50},
-			};
-			
+			var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectParametersFromBindingSource();
+			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+
+			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters);
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(ParametersSelectionMode.InliningDistance.ToString()).Execute(
 				this,
 				modelParameters,
-				null);
+				modeSettings);
 		}
-	}
+
+        private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+	        
+        }
+    }
 }

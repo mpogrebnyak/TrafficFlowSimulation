@@ -23,10 +23,9 @@ public class ParametersSelectionConfiguration : IInitializable
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistance))
 		{
 			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new InliningDistanceSelectionChartRender(_chart),
-				_chart.Name + ParametersSelectionMode.InliningDistance);
+				_chart.Name + ParametersSelectionMode.InliningDistance, false);
 		}
 		
 		CommonHelper.ServiceRegistrator.RegisterInstance<ParametersSelectionRenderingHandler>(() => new ParametersSelectionRenderingHandler(_chart));
-
 	}
 }

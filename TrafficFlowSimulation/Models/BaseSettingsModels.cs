@@ -3,7 +3,7 @@ using EvaluationKernel.Models;
 using Localization.Localization;
 using TrafficFlowSimulation.Models.Attribute;
 
-namespace TrafficFlowSimulation.Models.SettingsModels;
+namespace TrafficFlowSimulation.Models;
 
 public class BaseSettingsModels : ValidationModel, IModel
 {
@@ -13,7 +13,7 @@ public class BaseSettingsModels : ValidationModel, IModel
 	[Required]
 	public virtual double L { get; set; }
 
-	public void MapTo(ModelParameters mp)
+	public virtual void MapTo(ModelParameters mp)
 	{
 		mp.L = L;
 	}
