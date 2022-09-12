@@ -5,6 +5,7 @@ using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.StartAndStopMovement;
 using TrafficFlowSimulation.Windows.Models;
 
@@ -57,6 +58,18 @@ public class MovementSimulationConfiguration : IInitializable
 
 			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new InliningInFlowCarsChartRender(_allCharts.CarsMovementChart),
 				_allCharts.CarsMovementChart.Name + DrivingMode.InliningInFlow);
+		}
+
+		if (availableModes.Contains(DrivingMode.SpeedLimitChanging))
+		{
+			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new SpeedLimitChangingSpeedChartRender(_allCharts.SpeedChart),
+				_allCharts.SpeedChart.Name + DrivingMode.SpeedLimitChanging);
+
+			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new SpeedLimitChangingDistanceChartRender(_allCharts.DistanceChart),
+				_allCharts.DistanceChart.Name + DrivingMode.SpeedLimitChanging);
+
+			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new SpeedLimitChangingCarsChartRender(_allCharts.CarsMovementChart),
+				_allCharts.CarsMovementChart.Name + DrivingMode.SpeedLimitChanging);
 		}
 
 		CommonHelper.ServiceRegistrator.RegisterInstance<RenderingHandler>(() => new RenderingHandler(_allCharts));

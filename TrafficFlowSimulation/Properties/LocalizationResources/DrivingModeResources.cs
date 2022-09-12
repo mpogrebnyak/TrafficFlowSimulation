@@ -15,4 +15,8 @@ public class DrivingModeResources
 	[Translation(Locales.ru, "Встраивание в поток")]
 	[Translation(Locales.en, "Inlining in the flow")]
 	public string InliningInFlow { get; set; }
+
+	[Translation(Locales.ru, "Изменение скоростного режима")]
+	[Translation(Locales.en, "Speed limit changing")]
+	public string SpeedLimitChanging { get; set; }
 }

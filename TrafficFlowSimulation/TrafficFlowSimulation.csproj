@@ -72,6 +72,7 @@
     <Compile Include="Handlers\EvaluationHandlers\IEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\InliningInFlowEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\MovementThroughOneTrafficLightEvaluationHandler.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\SpeedLimitChangingEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceSelectionEvaluationHandler.cs" />
     <Compile Include="Handlers\HandlersConfiguration.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Models\SettingsModels\Constants\FirstTrafficLightColor.cs" />
     <Compile Include="Models\SettingsModels\InliningInFlowModeSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\MovementThroughOneTrafficLightModeSettingsModel.cs" />
+    <Compile Include="Models\SettingsModels\SpeedLimitChangingModeSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\StartAndStopMovementModeSettingsModel.cs" />
     <Compile Include="Models\ValidationModel.cs" />
     <Compile Include="Program.cs" />
@@ -103,6 +105,8 @@
     <Compile Include="Renders\CarsRenderingHelper.cs" />
     <Compile Include="Renders\ChartRenders\ChartsRender.cs" />
     <Compile Include="Renders\ChartRenders\IChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\CarsChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\DistanceChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\InliningInFlow\InliningInFlowCarsChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\InliningInFlow\InliningInFlowChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\InliningInFlow\InliningInFlowDistanceChartRender.cs" />
@@ -112,6 +116,10 @@
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightCarsChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightDistanceChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightSpeedChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingCarsChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingDistanceChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingSpeedChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementCarsChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementDistanceChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementSpeedChartRender.cs" />
@@ -226,9 +234,6 @@
     <Content Include="Properties\images\white_car.png" />
     <Content Include="Properties\images\white_car2.png" />
     <Content Include="Properties\images\white_car_big.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

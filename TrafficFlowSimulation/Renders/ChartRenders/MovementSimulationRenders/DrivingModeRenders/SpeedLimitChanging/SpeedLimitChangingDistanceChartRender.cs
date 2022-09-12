@@ -8,25 +8,22 @@ using Localization;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
+namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
 
-public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRender
+public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 {
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
 		AxisXMaximum = 60,
-		AxisXInterval = 10,
-		AxisYMinimum = CommonChartAreaParameters.BeginOfRoad,
-		AxisYMaximum = CommonChartAreaParameters.EndOfRoad,
-		AxisYInterval = 1,
-		//ZoomShift = 48
+		AxisYMinimum = 0,
+		AxisYMaximum = 0,
 	};
 
-	public MovementThroughOneTrafficLightDistanceChartRender(Chart chart) : base(chart)
+	public SpeedLimitChangingDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	public override void RenderChart(ModelParameters modelParameters)
 	{
 		base.RenderChart(modelParameters);
@@ -34,8 +31,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			if (i == 0)
-				_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+			_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
 
 			UpdateLegend(i, true, modelParameters.lambda[i]);
 		}
@@ -46,15 +42,9 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			_chart.Series[i].Points.AddXY(t.Single(), x[i]);
 
-			var showLegend = false;
-			if (x[i] > _chartAreaModel.AxisYMinimum && x[i] < _chartAreaModel.AxisYMaximum)
-			{
-				_chart.Series[i].Points.AddXY(t.Single(), x[i]);
-				showLegend = true;
-			}
-
-			UpdateLegend(i, showLegend, x[i]);
+			UpdateLegend(i, true, x[i]);
 		}
 	}
 
@@ -74,8 +64,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 			AxisY = new Axis
 			{
 				Minimum = _chartAreaModel.AxisYMinimum,
-				Maximum = _chartAreaModel.AxisYMaximum,
-				//Maximum = modelParameters.L + 100,
+				Maximum = modelParameters.L + 100,
 				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far

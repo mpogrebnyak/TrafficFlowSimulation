@@ -9,6 +9,7 @@ namespace EvaluationKernel
 		const double _h = 0.001; // 0.001
 
 		private int _N, _n;
+
 		private Equation _equation;
 
 		List<List<double>> x;
@@ -47,6 +48,11 @@ namespace EvaluationKernel
 					y[j].Add(modelParameters.Vn[j]);
 				}
 			}
+		}
+
+		public Equation Equation
+		{
+			set => _equation = value;
 		}
 
 		public List<double> T

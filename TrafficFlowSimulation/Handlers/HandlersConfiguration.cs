@@ -38,6 +38,12 @@ public class HandlersConfiguration : IInitializable
 			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningInFlowEvaluationHandler(),
 				DrivingMode.InliningInFlow.ToString());
 		}
+		
+		if (availableModes.Contains(DrivingMode.SpeedLimitChanging))
+		{
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new SpeedLimitChangingEvaluationHandler(),
+				DrivingMode.SpeedLimitChanging.ToString());
+		}
 	}
 
 	private void InitializeParametersSelectionEvaluationHandlers()

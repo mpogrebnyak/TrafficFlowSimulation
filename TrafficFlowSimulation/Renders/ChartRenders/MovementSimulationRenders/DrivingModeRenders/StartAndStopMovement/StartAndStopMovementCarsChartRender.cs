@@ -10,14 +10,8 @@ using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Model
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.StartAndStopMovement;
 
-public class StartAndStopMovementCarsChartRender : ChartsRender
+public class StartAndStopMovementCarsChartRender : CarsChartRender
 {
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
-
-	protected override string _seriesName => "CarsMovementSeries";
-
-	protected override string _chartAreaName => "CarsMovementChartArea";
-
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = -30,
@@ -77,22 +71,6 @@ public class StartAndStopMovementCarsChartRender : ChartsRender
 		}
 	}
 
-	public override void SetChartAreaAxisTitle(bool isHidden = false)
-	{
-		if (_chart.ChartAreas.Any())
-		{
-			if (isHidden)
-			{
-				_chart.ChartAreas[0].AxisX.Title = string.Empty;
-				_chart.ChartAreas[0].AxisY.Title = string.Empty;
-			}
-			else
-			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
-			}
-		}
-	}
-
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
 	{
 		var chartArea = new ChartArea
@@ -138,18 +116,6 @@ public class StartAndStopMovementCarsChartRender : ChartsRender
 		return chartArea;
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle)
-	{
-		return new Legend
-		{
-			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendTitleText,
-			TitleFont = new Font("Microsoft Sans Serif", 10F),
-			LegendStyle = legendStyle,
-			Font = new Font("Microsoft Sans Serif", 10F),
-		};
-	}
-
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
 	{
 		var startLineSeries = new Series
@@ -163,7 +129,7 @@ public class StartAndStopMovementCarsChartRender : ChartsRender
 		};
 		startLineSeries.Points.Add(new DataPoint(0, 0));
 		startLineSeries.Points.Add(new DataPoint(0, 1));
-			
+
 		var endLineSeries = new Series
 		{
 			Name = "EndLine",
@@ -181,13 +147,5 @@ public class StartAndStopMovementCarsChartRender : ChartsRender
 			startLineSeries,
 			endLineSeries
 		};
-	}
-
-	private static string GetCarsMovementChartLegendText(double speed, double position)
-	{
-		return string.Format(
-			LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendText,
-			Math.Round(speed, 2).ToString(),
-			Math.Round(position, 2).ToString());
 	}
 }

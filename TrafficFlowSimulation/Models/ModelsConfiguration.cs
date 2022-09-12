@@ -23,6 +23,8 @@ public class ModelsConfiguration : IInitializable
 			typeof(MovementThroughOneTrafficLightModeSettingsModel).ToString());
 		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningInFlowModeSettingsModel(),
 			typeof(InliningInFlowModeSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new SpeedLimitChangingModeSettingsModel(),
+			typeof(SpeedLimitChangingModeSettingsModel).ToString());
 
 		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceSettingsModel(),
 			typeof(InliningDistanceSettingsModel).ToString());

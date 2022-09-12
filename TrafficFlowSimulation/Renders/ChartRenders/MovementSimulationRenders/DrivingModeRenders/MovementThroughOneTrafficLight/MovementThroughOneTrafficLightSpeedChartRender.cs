@@ -10,14 +10,8 @@ using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Model
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 
-public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
+public class MovementThroughOneTrafficLightSpeedChartRender : SpeedChartRender
 {
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
-
-	protected override string _seriesName => "SpeedSeries";
-
-	protected override string _chartAreaName => "SpeedChartArea";
-
 	private readonly ChartAreaModel _chartAreaModel = new()
 	{
 		AxisXMinimum = 0,
@@ -101,39 +95,5 @@ public class MovementThroughOneTrafficLightSpeedChartRender : ChartsRender
 		//chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
 
 		return chartArea;
-	}
-
-	protected override Legend CreateLegend(LegendStyle legendStyle)
-	{
-		return new Legend
-		{
-			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().SpeedChartLegendTitleText,
-			TitleFont = new Font("Microsoft Sans Serif", 10F),
-			LegendStyle = legendStyle,
-			Font = new Font("Microsoft Sans Serif", 10F),
-		};
-	}
-
-	public override void SetChartAreaAxisTitle(bool isHidden = false)
-	{
-		if (_chart.ChartAreas.Any())
-		{
-			if (isHidden)
-			{
-				_chart.ChartAreas[0].AxisX.Title = string.Empty;
-				_chart.ChartAreas[0].AxisY.Title = string.Empty;
-			}
-			else
-			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText;
-			}
-		}
-	}
-
-	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
-	{
-		return new Series[] { };
 	}
 }

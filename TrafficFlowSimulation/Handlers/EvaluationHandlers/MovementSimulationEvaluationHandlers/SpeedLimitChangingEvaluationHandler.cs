@@ -3,20 +3,25 @@ using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
+using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
+using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
-public class StartAndStopMovementEvaluationHandler : EvaluationHandler
+public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 {
 	protected override void Evaluate(object parameters)
 	{
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
+		var modeSettings = (SpeedLimitChangingModeSettingsModel) p.ModeSettings;
 
 		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
 		var n = modelParameters.n;
+		var initialSpeed = new double[n];
+		modelParameters.Vmax.CopyTo(initialSpeed);
 
 		var xp = new double[n];
 		var yp = new double[n];
@@ -50,10 +55,28 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 
 			r.Solve();
 			t = r.T.Last();
+
+			var isChange = false;
 			for (int i = 0; i < n; i++)
 			{
 				x[i] = r.X(i).Last();
 				y[i] = r.Y(i).Last();
+				
+				if (x[i] >= modeSettings.SegmentBeginning && modelParameters.Vmax[i] != modeSettings.SpeedInSegment)
+				{
+					modelParameters.Vmax[i] = modeSettings.SpeedInSegment;
+					isChange = true;
+				}
+				if (x[i] >= modeSettings.SegmentEnding && modelParameters.Vmax[i] == modeSettings.SpeedInSegment)
+				{
+					modelParameters.Vmax[i] = initialSpeed[i];
+					isChange = true;
+				}
+			}
+
+			if (isChange)
+			{
+				r.Equation = new BaseEquation(modelParameters);
 			}
 
 			if (t - tp > 0.1)

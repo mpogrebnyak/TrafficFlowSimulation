@@ -115,6 +115,15 @@ namespace TrafficFlowSimulation.Windows.Helpers
 						_errorProvider);
 					break;
 				}
+				case DrivingMode.SpeedLimitChanging:
+				{
+					settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
+						typeof(SpeedLimitChangingModeSettingsModel),
+						settingsTableLayoutPanel,
+						_bindingSources,
+						_errorProvider);
+					break;
+				}
 			}
 
 			settingsTableLayoutPanelComponent?.Initialize();
@@ -165,6 +174,11 @@ namespace TrafficFlowSimulation.Windows.Helpers
 				case DrivingMode.InliningInFlow:
 				{
 					modeSettings = (InliningInFlowModeSettingsModel) _bindingSources[typeof(InliningInFlowModeSettingsModel)].DataSource;
+					break;
+				}
+				case DrivingMode.SpeedLimitChanging:
+				{
+					modeSettings = (SpeedLimitChangingModeSettingsModel) _bindingSources[typeof(SpeedLimitChangingModeSettingsModel)].DataSource;
 					break;
 				}
 			}
