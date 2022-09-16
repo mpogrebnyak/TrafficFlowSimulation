@@ -60,7 +60,7 @@ namespace TrafficFlowSimulation.Windows
             this.chartsContainer = new System.Windows.Forms.SplitContainer();
             this.speedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.distanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.parametersPanel = new System.Windows.Forms.Panel();
+            this.ParametersPanel = new System.Windows.Forms.Panel();
             this.MovementParametersGroupBox = new System.Windows.Forms.GroupBox();
             this.ControlsGroupBox = new System.Windows.Forms.GroupBox();
             this.ControlsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -91,7 +91,7 @@ namespace TrafficFlowSimulation.Windows
             this.chartsContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).BeginInit();
-            this.parametersPanel.SuspendLayout();
+            this.ParametersPanel.SuspendLayout();
             this.MovementParametersGroupBox.SuspendLayout();
             this.ControlsGroupBox.SuspendLayout();
             this.ControlsTableLayoutPanel.SuspendLayout();
@@ -306,14 +306,14 @@ namespace TrafficFlowSimulation.Windows
             // 
             // parametersPanel
             // 
-            this.parametersPanel.AutoScroll = true;
-            this.parametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
-            this.parametersPanel.Controls.Add(this.MovementParametersGroupBox);
-            this.parametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.parametersPanel.Location = new System.Drawing.Point(1143, 31);
-            this.parametersPanel.Name = "parametersPanel";
-            this.parametersPanel.Size = new System.Drawing.Size(396, 653);
-            this.parametersPanel.TabIndex = 2;
+            this.ParametersPanel.AutoScroll = true;
+            this.ParametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
+            this.ParametersPanel.Controls.Add(this.MovementParametersGroupBox);
+            this.ParametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ParametersPanel.Location = new System.Drawing.Point(1143, 31);
+            this.ParametersPanel.Name = "ParametersPanel";
+            this.ParametersPanel.Size = new System.Drawing.Size(396, 653);
+            this.ParametersPanel.TabIndex = 2;
             // 
             // MovementParametersGroupBox
             // 
@@ -567,7 +567,6 @@ namespace TrafficFlowSimulation.Windows
             this.SlamPanel.Name = "SlamPanel";
             this.SlamPanel.Size = new System.Drawing.Size(8, 653);
             this.SlamPanel.TabIndex = 3;
-            this.SlamPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SlamPanel_MouseClick);
             // 
             // ParametersErrorProvider
             // 
@@ -590,7 +589,7 @@ namespace TrafficFlowSimulation.Windows
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(1539, 684);
             this.Controls.Add(this.SlamPanel);
-            this.Controls.Add(this.parametersPanel);
+            this.Controls.Add(this.ParametersPanel);
             this.Controls.Add(this.carsMovementContainer);
             this.Controls.Add(this.ControlMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -615,8 +614,8 @@ namespace TrafficFlowSimulation.Windows
             this.chartsContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.speedChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.distanceChart)).EndInit();
-            this.parametersPanel.ResumeLayout(false);
-            this.parametersPanel.PerformLayout();
+            this.ParametersPanel.ResumeLayout(false);
+            this.ParametersPanel.PerformLayout();
             this.MovementParametersGroupBox.ResumeLayout(false);
             this.MovementParametersGroupBox.PerformLayout();
             this.ControlsGroupBox.ResumeLayout(false);
@@ -645,7 +644,7 @@ namespace TrafficFlowSimulation.Windows
 		private System.Windows.Forms.SplitContainer chartsContainer;
 		private System.Windows.Forms.DataVisualization.Charting.Chart speedChart;
 		private System.Windows.Forms.DataVisualization.Charting.Chart distanceChart;
-		private System.Windows.Forms.Panel parametersPanel;
+		private System.Windows.Forms.Panel ParametersPanel;
 		private System.Windows.Forms.Panel SlamPanel;
 		private System.Windows.Forms.ToolStripButton StartToolStripButton;
 		private System.Windows.Forms.ToolStripDropDownButton LanguagesSwitcherButton;

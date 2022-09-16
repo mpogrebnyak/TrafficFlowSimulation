@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Common;
 using Common.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
@@ -21,7 +20,9 @@ namespace TrafficFlowSimulation.Windows
 
 			//доделать
 			SaveButton.Enabled = false;
+			SaveButton.Hide();
 			LoadButton.Enabled = false;
+			LoadButton.Hide();
 		}
 
 		private void CustomInitializeComponent()
@@ -67,7 +68,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void StartToolStripButton_Click(object sender, EventArgs e)
 		{
-			parametersPanel.Hide();
+			ParametersPanel.Hide();
 
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
@@ -88,14 +89,6 @@ namespace TrafficFlowSimulation.Windows
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 		}
 
-		private void SlamPanel_MouseClick(object sender, MouseEventArgs e)
-		{
-			if (parametersPanel.Visible)
-				parametersPanel.Hide();
-			else
-				parametersPanel.Show();
-		}
-
 		private void StopToolStripButton_Click(object sender, EventArgs e)
 		{
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
@@ -111,7 +104,7 @@ namespace TrafficFlowSimulation.Windows
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
 		}
@@ -133,8 +126,7 @@ namespace TrafficFlowSimulation.Windows
 		private void ParametersSelectionToolStripButton_Click(object sender, EventArgs e)
 		{
 			var parametersSelectionWindow = new ParametersSelectionWindow();
-			parametersSelectionWindow.Show();
-			//parametersSelectionWindow.ShowDialog();
+			parametersSelectionWindow.ShowDialog();
 		}
 	}
 }

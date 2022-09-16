@@ -39,7 +39,7 @@
             this.ParametersSelectionModeStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.ParametersSelectionStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ParametersSelectionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.parametersPanel = new System.Windows.Forms.Panel();
+            this.ParametersPanel = new System.Windows.Forms.Panel();
             this.BasicParametersGroupBox = new System.Windows.Forms.GroupBox();
             this.BasicParametersTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MovementParametersGroupBox = new System.Windows.Forms.GroupBox();
@@ -49,7 +49,7 @@
             this.ParametersErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ControlMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ParametersSelectionChart)).BeginInit();
-            this.parametersPanel.SuspendLayout();
+            this.ParametersPanel.SuspendLayout();
             this.BasicParametersGroupBox.SuspendLayout();
             this.MovementParametersGroupBox.SuspendLayout();
             this.ModeSettingsGroupBox.SuspendLayout();
@@ -117,17 +117,17 @@
             this.ParametersSelectionChart.TabIndex = 1;
             this.ParametersSelectionChart.Text = "ParametersSelectionChart";
             // 
-            // parametersPanel
+            // ParametersPanel
             // 
-            this.parametersPanel.AutoScroll = true;
-            this.parametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
-            this.parametersPanel.Controls.Add(this.BasicParametersGroupBox);
-            this.parametersPanel.Controls.Add(this.MovementParametersGroupBox);
-            this.parametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.parametersPanel.Location = new System.Drawing.Point(404, 27);
-            this.parametersPanel.Name = "parametersPanel";
-            this.parametersPanel.Size = new System.Drawing.Size(396, 423);
-            this.parametersPanel.TabIndex = 3;
+            this.ParametersPanel.AutoScroll = true;
+            this.ParametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
+            this.ParametersPanel.Controls.Add(this.BasicParametersGroupBox);
+            this.ParametersPanel.Controls.Add(this.MovementParametersGroupBox);
+            this.ParametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ParametersPanel.Location = new System.Drawing.Point(404, 27);
+            this.ParametersPanel.Name = "parametersPanel";
+            this.ParametersPanel.Size = new System.Drawing.Size(396, 423);
+            this.ParametersPanel.TabIndex = 3;
             // 
             // BasicParametersGroupBox
             // 
@@ -237,7 +237,6 @@
             this.SlamPanel.Name = "SlamPanel";
             this.SlamPanel.Size = new System.Drawing.Size(8, 423);
             this.SlamPanel.TabIndex = 4;
-            this.SlamPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SlamPanel_MouseClick);
             // 
             // ParametersErrorProvider
             // 
@@ -251,7 +250,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.SlamPanel);
-            this.Controls.Add(this.parametersPanel);
+            this.Controls.Add(this.ParametersPanel);
             this.Controls.Add(this.ParametersSelectionChart);
             this.Controls.Add(this.ControlMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -261,8 +260,8 @@
             this.ControlMenuStrip.ResumeLayout(false);
             this.ControlMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ParametersSelectionChart)).EndInit();
-            this.parametersPanel.ResumeLayout(false);
-            this.parametersPanel.PerformLayout();
+            this.ParametersPanel.ResumeLayout(false);
+            this.ParametersPanel.PerformLayout();
             this.BasicParametersGroupBox.ResumeLayout(false);
             this.BasicParametersGroupBox.PerformLayout();
             this.MovementParametersGroupBox.ResumeLayout(false);
@@ -280,7 +279,7 @@
 		private System.Windows.Forms.ToolStrip ControlMenuStrip;
 		private System.Windows.Forms.ToolStripButton SelectParametersToolStripButton;
 		private System.Windows.Forms.DataVisualization.Charting.Chart ParametersSelectionChart;
-		private System.Windows.Forms.Panel parametersPanel;
+		private System.Windows.Forms.Panel ParametersPanel;
 		private System.Windows.Forms.GroupBox MovementParametersGroupBox;
 		private System.Windows.Forms.GroupBox ModeSettingsGroupBox;
 		private System.Windows.Forms.TableLayoutPanel SettingsTableLayoutPanel;

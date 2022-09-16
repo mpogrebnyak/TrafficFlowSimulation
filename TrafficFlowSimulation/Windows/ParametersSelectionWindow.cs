@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using Common;
-using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
+using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
-using TrafficFlowSimulation.Renders.ChartRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
+using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows
@@ -16,34 +14,25 @@ namespace TrafficFlowSimulation.Windows
 	{
 		public ParametersSelectionWindow()
 		{
-			
 			InitializeComponent();
-			var ee = ParametersSelectionStripDropDownButton.DropDownItems;
 			CustomInitializeComponent();
-			//parametersPanel.Hide();
-
-			//ServiceLocator.Current.GetInstance<IChartRender>(ParametersSelectionChart.Name+ ParametersSelectionMode.InliningDistance).RenderChart(null);
 		}
 
 		private void CustomInitializeComponent()
 		{
+			var slamPanelComponent = new SlamPanelComponent(Controls);
+			slamPanelComponent.Initialize();
+
 			ControlMenuStrip.Renderer = new ControlToolStripCustomRender();
+
+			ParametersPanel.Hide();
 
 			var parametersSelectionConfiguration = new ParametersSelectionWindowConfiguration(ParametersSelectionChart,
 				ParametersErrorProvider,
 				Controls);
-
 			parametersSelectionConfiguration.Initialize();
 
 			ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().InitializeInterface();
-		}
-
-		private void SlamPanel_MouseClick(object sender, MouseEventArgs e)
-		{
-			if (parametersPanel.Visible)
-				parametersPanel.Hide();
-			else
-				parametersPanel.Show();
 		}
 
 		private void SelectParametersToolStripButton_Click(object sender, EventArgs e)
@@ -58,9 +47,10 @@ namespace TrafficFlowSimulation.Windows
 				modeSettings);
 		}
 
-        private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-	        
-        }
-    }
+		private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
+		}
+	}
 }

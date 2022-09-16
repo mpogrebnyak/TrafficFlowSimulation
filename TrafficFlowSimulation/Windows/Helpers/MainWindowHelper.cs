@@ -45,6 +45,9 @@ namespace TrafficFlowSimulation.Windows.Helpers
 
 		public void InitializeInterface()
 		{
+			var slamPanelComponent = new SlamPanelComponent(_controls);
+			slamPanelComponent.Initialize();
+
 			InitializeTableLayoutPanelComponent();
 			InitializeDrivingModeComponent();
 			InitializeLanguageComponent();

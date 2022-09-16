@@ -2,31 +2,38 @@
 
 public static class ControlName
 {
+	public static class CommonControlName
+	{
+		public const string ParametersPanelName = "ParametersPanel";
+
+		public const string SlamPanelName = "SlamPanel";
+	}
+
 	public static class MainWindowControlName
 	{
-		public static string ControlMenuStrip = "ControlMenuStrip";
+		public const string ControlMenuStrip = "ControlMenuStrip";
 
-		public static string DrivingModeStripDropDownButton = "DrivingModeStripDropDownButton";
+		public const string DrivingModeStripDropDownButton = "DrivingModeStripDropDownButton";
 
-		public static string BasicParametersTableLayoutPanel = "BasicParametersTableLayoutPanel";
+		public const string BasicParametersTableLayoutPanel = "BasicParametersTableLayoutPanel";
 
-		public static string AdditionalParametersTableLayoutPanel = "AdditionalParametersTableLayoutPanel";
+		public const string AdditionalParametersTableLayoutPanel = "AdditionalParametersTableLayoutPanel";
 
-		public static string InitialConditionsTableLayoutPanel = "InitialConditionsTableLayoutPanel";
+		public const string InitialConditionsTableLayoutPanel = "InitialConditionsTableLayoutPanel";
 
-		public static string SettingsTableLayoutPanel = "SettingsTableLayoutPanel";
+		public const string SettingsTableLayoutPanel = "SettingsTableLayoutPanel";
 
-		public static string LanguagesSwitcherButton = "LanguagesSwitcherButton";
+		public const string LanguagesSwitcherButton = "LanguagesSwitcherButton";
 	}
 
 	public static class ParametersSelectionWindowControlName
 	{
-		public static string ControlMenuStrip = "ControlMenuStrip";
+		public const string ControlMenuStrip = "ControlMenuStrip";
 
-		public static string BasicParametersTableLayoutPanel = "BasicParametersTableLayoutPanel";
+		public const string BasicParametersTableLayoutPanel = "BasicParametersTableLayoutPanel";
 
-		public static string ParametersSelectionStripDropDownButton = "ParametersSelectionStripDropDownButton";
+		public const string ParametersSelectionStripDropDownButton = "ParametersSelectionStripDropDownButton";
 
-		public static string SettingsTableLayoutPanel = "SettingsTableLayoutPanel";
+		public const string SettingsTableLayoutPanel = "SettingsTableLayoutPanel";
 	}
 }

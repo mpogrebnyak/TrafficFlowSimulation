@@ -6,6 +6,7 @@ using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Handlers.EvaluationHandlers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Windows.Helpers;
@@ -56,6 +57,9 @@ public class DrivingModeComponent : IComponent
 		var selectedModeItem = sender as ToolStripMenuItem;
 		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu).OwnerItem;
 		owner.Text = selectedModeItem.Text;
+
+		var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+		ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 
 		var mode = (DrivingMode) Enum.Parse(typeof(DrivingMode), selectedModeItem.Name);
 

@@ -138,6 +138,7 @@
     <Compile Include="Windows\Components\IComponent.cs" />
     <Compile Include="Windows\Components\LanguageComponent.cs" />
     <Compile Include="Windows\Components\ParametersSelectionModeComponent.cs" />
+    <Compile Include="Windows\Components\SlamPanelComponent.cs" />
     <Compile Include="Windows\Components\TableLayoutPanelComponent.cs" />
     <Compile Include="Windows\Components\TableLayoutPanelComponentHelper.cs" />
     <Compile Include="Windows\CustomControls\ComboBoxItem.cs" />
