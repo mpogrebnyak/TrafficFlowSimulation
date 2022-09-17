@@ -20,10 +20,10 @@ public class ParametersSelectionConfiguration : IInitializable
 	{
 		var parametersSelectionModes = SettingsHelper.Get<Properties.Settings>().AvailableParametersSelectionModes.ToList();
 
-		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistance))
+		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistanceChanging))
 		{
 			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new InliningDistanceSelectionChartRender(_chart),
-				_chart.Name + ParametersSelectionMode.InliningDistance, false);
+				_chart.Name + ParametersSelectionMode.InliningDistanceChanging, false);
 		}
 		
 		CommonHelper.ServiceRegistrator.RegisterInstance<ParametersSelectionRenderingHandler>(() => new ParametersSelectionRenderingHandler(_chart));

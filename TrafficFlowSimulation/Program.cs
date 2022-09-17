@@ -55,7 +55,7 @@ namespace TrafficFlowSimulation
 
 			var settings = SettingsHelper.Get<Properties.Settings>();
 			settings.CurrentDrivingMode = DrivingMode.StartAndStopMovement;
-			settings.CurrentParametersSelectionMode = ParametersSelectionMode.InliningDistance;
+			settings.CurrentParametersSelectionMode = ParametersSelectionMode.InliningDistanceChanging;
 			settings.AvailableDrivingModes = 
 				new[]
 				{

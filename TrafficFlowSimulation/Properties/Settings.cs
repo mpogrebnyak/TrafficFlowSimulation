@@ -12,7 +12,7 @@ namespace TrafficFlowSimulation.Properties
 
 		public ParametersSelectionMode CurrentParametersSelectionMode { get; set; }
 
-		[DefaultValue("InliningDistance")]
+		[DefaultValue("InliningDistanceChanging")]
 		public ParametersSelectionMode[] AvailableParametersSelectionModes { get; set; }
 
 		[DefaultValue("ColorCars")]

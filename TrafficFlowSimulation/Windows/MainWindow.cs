@@ -18,7 +18,7 @@ namespace TrafficFlowSimulation.Windows
 			InitializeComponent();
 			CustomInitializeComponent();
 
-			//доделать
+			//TODO: доделать возможность импорта и экспорта параметров
 			SaveButton.Enabled = false;
 			SaveButton.Hide();
 			LoadButton.Enabled = false;

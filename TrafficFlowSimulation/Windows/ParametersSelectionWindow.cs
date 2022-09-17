@@ -41,7 +41,7 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters);
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(ParametersSelectionMode.InliningDistance.ToString()).Execute(
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(ParametersSelectionMode.InliningDistanceChanging.ToString()).Execute(
 				this,
 				modelParameters,
 				modeSettings);

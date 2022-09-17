@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using EvaluationKernel.Models;
 
 namespace TrafficFlowSimulation.Models.ParametersModels;
 
+/*
+	При длинном названии парметра явно проставлять \n в месте переноса строки
+*/
 public class BaseParametersModel : ValidationModel, IModel
 {
-	//public virtual void MapTo(ModelParameters mp) { }
-
 	private static readonly char _separator = ':';
 
 	private static readonly char _elementsSeparator = ' ';

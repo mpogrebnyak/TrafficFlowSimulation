@@ -7,13 +7,13 @@ namespace TrafficFlowSimulation.Models.ParametersModels;
 
 public class AdditionalParametersModel : BaseParametersModel
 {
-	[Translation(Locales.ru, "Ускорение свободного падения")]
+	[Translation(Locales.ru, "Ускорение свободного\nпадения")]
 	[Translation(Locales.en, "Gravitational acceleration")]
 	[CustomDisplay(1)]
 	[Required, Range(1, 10000)]
 	public double g { get; set; }
 
-	[Translation(Locales.ru, "Коэффициент трения")]
+	[Translation(Locales.ru, "Коэффициент трения,\nскольжения")]
 	[Translation(Locales.en, "Friction coefficient")]
 	[CustomDisplay(2)]
 	[Required, Range(0, 1)]

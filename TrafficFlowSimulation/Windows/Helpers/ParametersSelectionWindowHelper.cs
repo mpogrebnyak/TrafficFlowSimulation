@@ -92,7 +92,7 @@ public class ParametersSelectionWindowHelper
 
 		switch (currentParametersSelectionMode)
 		{
-			case ParametersSelectionMode.InliningDistance:
+			case ParametersSelectionMode.InliningDistanceChanging:
 			{
 				settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
 					typeof(InliningDistanceSettingsModel),

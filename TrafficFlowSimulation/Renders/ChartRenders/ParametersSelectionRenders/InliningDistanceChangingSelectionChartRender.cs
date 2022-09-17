@@ -7,9 +7,9 @@ namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class InliningDistanceSelectionChartRender : ChartsRender
 {
-	protected override string _seriesName => "InliningDistanceSeries";
+	protected override string _seriesName => "InliningDistanceChangingSeries";
 
-	protected override string _chartAreaName => "InliningDistanceChartArea";
+	protected override string _chartAreaName => "InliningDistanceChangingChartArea";
 
 	public InliningDistanceSelectionChartRender(Chart chart) : base(chart)
 	{

@@ -19,7 +19,7 @@ public class ParametersSelectionRenderingHandler
 	{
 		_chart = chart;
 		_parametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
-		_parametersSelectionMode = ParametersSelectionMode.InliningDistance;
+		_parametersSelectionMode = ParametersSelectionMode.InliningDistanceChanging;
 		_provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + _parametersSelectionMode);
 	}
 

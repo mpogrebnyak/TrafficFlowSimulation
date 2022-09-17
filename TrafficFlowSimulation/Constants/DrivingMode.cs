@@ -1,7 +1,27 @@
 ﻿using Localization.Localization;
-using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.Constants;
+
+public class DrivingModeResources
+{
+	// ReSharper disable UnusedMember.Global
+	[Translation(Locales.ru, "Движение и остановка")]
+	[Translation(Locales.en, "Movement and stopping")]
+	public string StartAndStopMovement { get; set; }
+
+	[Translation(Locales.ru, "Движение через один светофор")]
+	[Translation(Locales.en, "Traffic through one traffic light")]
+	public string TrafficThroughOneTrafficLight { get; set; }
+
+	[Translation(Locales.ru, "Встраивание в поток")]
+	[Translation(Locales.en, "Inlining in the flow")]
+	public string InliningInFlow { get; set; }
+
+	[Translation(Locales.ru, "Изменение скоростного режима")]
+	[Translation(Locales.en, "Speed limit changing")]
+	public string SpeedLimitChanging { get; set; }
+	// ReSharper restore UnusedMember.Global
+}
 
 public enum DrivingMode
 {
