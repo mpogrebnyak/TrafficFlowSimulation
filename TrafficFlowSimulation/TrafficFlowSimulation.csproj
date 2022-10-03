@@ -115,6 +115,7 @@
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightDistanceChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightSpeedChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedFromDistanceChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingCarsChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingDistanceChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingSpeedChartRender.cs" />

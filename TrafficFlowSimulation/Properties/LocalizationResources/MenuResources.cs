@@ -80,6 +80,10 @@ namespace TrafficFlowSimulation.Properties.LocalizationResources
 		[Translation(Locales.en, "Hide")]
 		public string HideAxesMenuItem { get; set; }
 
+		[Translation(Locales.ru, "Показать график скорости от расстояния")]
+		[Translation(Locales.en, "Show speed from distance chart")]
+		public string ShowSpeedFromDistanceChartMenuItem { get; set; }
+
 		[Translation(Locales.ru, "Сохранить")]
 		[Translation(Locales.en, "Save")]
 		public string SaveChartToolStripMenuItem { get; set; }

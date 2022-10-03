@@ -24,6 +24,10 @@ public static class ControlName
 		public const string SettingsTableLayoutPanel = "SettingsTableLayoutPanel";
 
 		public const string LanguagesSwitcherButton = "LanguagesSwitcherButton";
+
+		public const string ChartsSplitContainer = "ChartsSplitContainer";
+
+		public const string SpeedAndDistanceSplitContainer = "SpeedAndDistanceSplitContainer";
 	}
 
 	public static class ParametersSelectionWindowControlName

@@ -27,15 +27,21 @@ namespace TrafficFlowSimulation.Windows
 
 		private void CustomInitializeComponent()
 		{
-			carsMovementContainer.SplitterDistance = carsMovementContainer.Size.Height / 2;
-			chartsContainer.SplitterDistance = chartsContainer.Size.Width / 2;
+			ParametersPanel.Hide();
+			ChartsSplitContainer.Panel2Collapsed = true;
+			ChartsSplitContainer.Panel2.Hide();
+
+			CarsMovementSplitContainer.SplitterDistance = CarsMovementSplitContainer.Size.Height / 2;
+			SpeedAndDistanceSplitContainer.SplitterDistance = ChartsSplitContainer.Size.Width / 2;
+
 			ControlMenuStrip.Renderer = new ControlToolStripCustomRender();
 
 			var allCharts = new AllChartsModel
 			{
-				SpeedChart = speedChart,
-				DistanceChart = distanceChart,
-				CarsMovementChart = carsMovementChart
+				SpeedChart = SpeedChart,
+				DistanceChart = DistanceChart,
+				SpeedFromDistanceChart = SpeedFromDistanceChart,
+				CarsMovementChart = CarsMovementChart
 			};
 
 			var localizationComponents = new LocalizationComponentsModel

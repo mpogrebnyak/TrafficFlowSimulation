@@ -8,5 +8,7 @@ public class AllChartsModel
 
 	public Chart DistanceChart { get; set; }
 
+	public Chart SpeedFromDistanceChart { get; set; }
+
 	public Chart CarsMovementChart { get; set; }
 }

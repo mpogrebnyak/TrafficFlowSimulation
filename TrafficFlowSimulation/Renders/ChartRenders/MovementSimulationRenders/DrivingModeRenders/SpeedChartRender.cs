@@ -18,7 +18,7 @@ public abstract class SpeedChartRender : ChartsRender
 	protected SpeedChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	protected override Legend CreateLegend(LegendStyle legendStyle)
 	{
 		return new Legend

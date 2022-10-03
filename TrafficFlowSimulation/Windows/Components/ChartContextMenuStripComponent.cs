@@ -17,16 +17,17 @@ public class ChartContextMenuStripComponent : IComponent
 
 	private static class MenuItemName
 	{
-		public static readonly string ChartContextMenuStrip = "ChartContextMenuStrip";
-		public static readonly string LegendToolStripMenuItem = "LegendToolStripMenuItem";
-		public static readonly string DisplayLegendFullMenuItem = "DisplayLegendFullMenuItem";
-		public static readonly string DisplayLegendPartiallyMenuItem = "DisplayLegendPartiallyMenuItem";
-		public static readonly string HideLegendMenuItem = "HideLegendMenuItem";
-		public static readonly string DisplayAxesToolStripMenuItem = "DisplayAxesToolStripMenuItem";
-		public static readonly string DisplayAxesMenuItem = "DisplayAxesMenuItem";
-		public static readonly string HideAxesMenuItem = "HideAxesMenuItem";
-		public static readonly string ToolStripSeparator = "ToolStripSeparator";
-		public static readonly string SaveChartToolStripMenuItem = "SaveChartToolStripMenuItem";
+		public const string ChartContextMenuStrip = "ChartContextMenuStrip";
+		public const string LegendToolStripMenuItem = "LegendToolStripMenuItem";
+		public const string DisplayLegendFullMenuItem = "DisplayLegendFullMenuItem";
+		public const string DisplayLegendPartiallyMenuItem = "DisplayLegendPartiallyMenuItem";
+		public const string HideLegendMenuItem = "HideLegendMenuItem";
+		public const string DisplayAxesToolStripMenuItem = "DisplayAxesToolStripMenuItem";
+		public const string DisplayAxesMenuItem = "DisplayAxesMenuItem";
+		public const string HideAxesMenuItem = "HideAxesMenuItem";
+		public const string ToolStripSeparator = "ToolStripSeparator";
+		public const string SaveChartToolStripMenuItem = "SaveChartToolStripMenuItem";
+		public const string DisplaySpeedFromDistanceChartMenuItem = "DisplaySpeedFromDistanceChartMenuItem";
 	}
 
 	public void Initialize()
@@ -40,7 +41,13 @@ public class ChartContextMenuStripComponent : IComponent
 
 		var contextMenuStrip = helper.CreateContextMenuStrip(MenuItemName.ChartContextMenuStrip);
 
-		var legendMenuItem = helper.CreateToolStripMenuItem(MenuItemName.LegendToolStripMenuItem, resources.LegendToolStripMenuItem);
+		var displaySpeedFromDistanceChartMenuItem = helper.CreateToolStripMenuItem(MenuItemName.DisplaySpeedFromDistanceChartMenuItem, resources.ShowSpeedFromDistanceChartMenuItem, Properties.Resources.speedFromDistanceChart_icon);
+		displaySpeedFromDistanceChartMenuItem.Click += helper.DisplaySpeedFromDistanceChart_Click;
+		contextMenuStrip.Items.Add(displaySpeedFromDistanceChartMenuItem);
+
+		contextMenuStrip.Items.Add(helper.CreateToolStripSeparator(MenuItemName.ToolStripSeparator));
+
+		var legendMenuItem = helper.CreateToolStripMenuItem(MenuItemName.LegendToolStripMenuItem, resources.LegendToolStripMenuItem, Properties.Resources.legend_icon);
 		var displayFullLegend = helper.CreateChartLegendMenuItem(MenuItemName.DisplayLegendFullMenuItem, resources.DisplayLegendFullMenuItem, LegendStyle.Table);
 		var displayPartiallyLegend = helper.CreateChartLegendMenuItem(MenuItemName.DisplayLegendPartiallyMenuItem, resources.DisplayLegendPartiallyMenuItem, LegendStyle.Column);
 		var hideLegend = helper.CreateChartLegendMenuItem(MenuItemName.HideLegendMenuItem, resources.HideLegendMenuItem, null);

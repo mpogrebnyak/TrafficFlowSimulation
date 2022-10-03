@@ -11,62 +11,72 @@ namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 
 public class RenderingHandler
 {
-	private AllChartsModel _charts { get; set; }
+	private AllChartsModel Charts { get; }
 
-	private DrivingMode _drivingMode { get; set; }
+	private DrivingMode DrivingMode { get; set; }
 
-	private IChartRender _speedProvider { get; set; }
-	private IChartRender _distanceProvider { get; set; }
-	private IChartRender _carMovementProvider { get; set; }
+	private IChartRender SpeedProvider { get; set; }
+
+	private IChartRender DistanceProvider { get; set; }
+
+	private IChartRender CarMovementProvider { get; set; }
+
+	private IChartRender SpeedFromDistanceProvider { get; set; }
 
 	public RenderingHandler(AllChartsModel charts)
 	{
-		_charts = charts;
-		_drivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
-		_speedProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.SpeedChart.Name + _drivingMode);
-		_distanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.DistanceChart.Name + _drivingMode);
-		_carMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.CarsMovementChart.Name + _drivingMode);
+		Charts = charts;
+		DrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+		SpeedProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.SpeedChart.Name + DrivingMode);
+		DistanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.DistanceChart.Name + DrivingMode);
+		CarMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.CarsMovementChart.Name + DrivingMode);
+
+		SpeedFromDistanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.SpeedFromDistanceChart.Name);
 	}
 
 	public void ChangeDrivingMode(DrivingMode drivingMode)
 	{
-		_drivingMode = drivingMode;
+		DrivingMode = drivingMode;
 
-		_speedProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.SpeedChart.Name + drivingMode);
-		_distanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.DistanceChart.Name + drivingMode);
-		_carMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(_charts.CarsMovementChart.Name + drivingMode);
+		SpeedProvider = ServiceLocator.Current.GetInstance<IChartRender>(Charts.SpeedChart.Name + drivingMode);
+		DistanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(Charts.DistanceChart.Name + drivingMode);
+		CarMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(Charts.CarsMovementChart.Name + drivingMode);
 	}
 
 	public void RenderCharts(ModelParameters modelParameters)
 	{
-		_speedProvider.RenderChart(modelParameters);
-		_distanceProvider.RenderChart(modelParameters);
-		_carMovementProvider.RenderChart(modelParameters);
+		SpeedProvider.RenderChart(modelParameters);
+		DistanceProvider.RenderChart(modelParameters);
+		CarMovementProvider.RenderChart(modelParameters);
+
+		SpeedFromDistanceProvider.RenderChart(modelParameters);
 	}
 
 	public void UpdateCharts(double t, double[] x, double[] y )
 	{
-		_speedProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
-		_distanceProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
-		_carMovementProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+		SpeedProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+		DistanceProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+		CarMovementProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+
+		SpeedFromDistanceProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
 	}
 
 	public void UpdateChartEnvironments(EnvironmentParametersModel parameters)
 	{
-		_speedProvider.UpdateEnvironment(parameters);
-		_distanceProvider.UpdateEnvironment(parameters);
-		_carMovementProvider.UpdateEnvironment(parameters);
+		SpeedProvider.UpdateEnvironment(parameters);
+		DistanceProvider.UpdateEnvironment(parameters);
+		CarMovementProvider.UpdateEnvironment(parameters);
 	}
 
 	public void SetMarkerImage()
 	{
-		_carMovementProvider.SetMarkerImage();
+		CarMovementProvider.SetMarkerImage();
 	}
 
 	public void AddSeries(int index)
 	{
-		_speedProvider.AddSeries(index);
-		_distanceProvider.AddSeries(index);
-		_carMovementProvider.AddSeries(index);
+		SpeedProvider.AddSeries(index);
+		DistanceProvider.AddSeries(index);
+		CarMovementProvider.AddSeries(index);
 	}
 }

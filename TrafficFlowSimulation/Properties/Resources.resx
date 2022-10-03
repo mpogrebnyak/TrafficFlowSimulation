@@ -151,4 +151,10 @@
   <data name="white_car_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>images\white_car_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="speedFromDistanceChart_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\speedFromDistanceChart_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legend_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>images\legend_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

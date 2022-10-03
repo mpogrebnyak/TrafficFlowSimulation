@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Localization;
 using Settings;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 
@@ -10,17 +13,12 @@ namespace TrafficFlowSimulation.Windows.Components;
 
 public class ChartContextMenuStripComponentHelper
 {
-	public ChartContextMenuStripComponentHelper()
-	{
-		
-	}
-
 	public ToolStripSeparator CreateToolStripSeparator(string name)
 	{
 		return new ToolStripSeparator
 		{
 			Name = name,
-			Size = new System.Drawing.Size(149, 6)
+			Size = new Size(149, 6)
 		};
 	}
 
@@ -28,20 +26,21 @@ public class ChartContextMenuStripComponentHelper
 	{
 		return new ContextMenuStrip
 		{
-			BackColor = System.Drawing.Color.FromArgb(249,246,247),
-			ImageScalingSize = new System.Drawing.Size(20, 20),
+			BackColor = Color.FromArgb(249,246,247),
+			ImageScalingSize = new Size(20, 20),
 			Name = name,
-			Size = new System.Drawing.Size(153, 104)
+			Size = new Size(153, 104)
 		};
 	}
 
-	public ToolStripMenuItem CreateToolStripMenuItem(string name, string text)
+	public ToolStripMenuItem CreateToolStripMenuItem(string name, string text, Image? image = null)
 	{
 		return new ToolStripMenuItem
 		{
 			Name = name,
-			Size = new System.Drawing.Size(244, 24),
-			Text = text
+			Size = new Size(244, 24),
+			Text = text,
+			Image = image
 		};
 	}
 
@@ -147,5 +146,58 @@ public class ChartContextMenuStripComponentHelper
 				case 4: chart.SaveImage(sfd.FileName, ChartImageFormat.Emf); break;
 			}
 		}
+	}
+
+	public void DisplaySpeedFromDistanceChart_Click(object sender, EventArgs e)
+	{
+		var menuItem = sender as ToolStripMenuItem;
+
+		if (menuItem?.Owner is not ContextMenuStrip menu || menu.SourceControl == null)
+			return;
+		
+		var chart = menu.SourceControl as Chart;
+
+		// ReSharper disable warning CS8602 - Dereference of a possibly null reference
+		var panel = chart.Parent as Panel;
+		var splitContainer = panel.Parent as SplitContainer;
+		Control.ControlCollection controls;
+		while (true)
+		{
+			if (splitContainer.Parent is Panel p && p.Parent is SplitContainer)
+			{
+				panel = splitContainer.Parent as Panel;
+				splitContainer = panel.Parent as SplitContainer;
+			}
+			else
+			{
+				var mainWindow = splitContainer.Parent as MainWindow;
+				controls = mainWindow.Controls;
+				break;
+			}
+		}
+
+		var chartsSplitContainer = controls
+			.Find(ControlName.MainWindowControlName.ChartsSplitContainer, true)
+			.Single() as SplitContainer;
+		var speedAndDistanceSplitContainer = controls
+			.Find(ControlName.MainWindowControlName.SpeedAndDistanceSplitContainer, true)
+			.Single() as SplitContainer;
+
+		if (chartsSplitContainer.Panel2Collapsed)
+		{
+			chartsSplitContainer.Panel2Collapsed = false;
+			chartsSplitContainer.Panel2.Show();
+
+			var width = chartsSplitContainer.Size.Width / 3;
+			chartsSplitContainer.SplitterDistance = 2 * width;
+			speedAndDistanceSplitContainer.SplitterDistance = width;
+		}
+		else
+		{
+			chartsSplitContainer.Panel2Collapsed = true;
+			chartsSplitContainer.Panel2.Hide();
+			speedAndDistanceSplitContainer.SplitterDistance = speedAndDistanceSplitContainer.Size.Width / 2;
+		}
+		// ReSharper restore warning CS8602
 	}
 }
