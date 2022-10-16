@@ -37,14 +37,16 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 		}
 	}
 
-	public override void UpdateChart(List<double> t = null!, List<double> x = null!, List<double> y = null!)
+	public override void UpdateChart(object parameters)
 	{
+		var cm = (CoordinatesModel) parameters;
+
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(t.Single(), y[i]);
+			_chart.Series[i].Points.AddXY(cm.t, cm.y[i]);
 
-			UpdateLegend(i, true, y[i]);
+			UpdateLegend(i, true, cm.y[i]);
 		}
 	}
 

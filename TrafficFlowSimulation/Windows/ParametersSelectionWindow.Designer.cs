@@ -38,6 +38,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ParametersSelectionModeStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.ParametersSelectionStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.ParametersSelectionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ParametersPanel = new System.Windows.Forms.Panel();
             this.BasicParametersGroupBox = new System.Windows.Forms.GroupBox();
@@ -62,11 +64,13 @@
             this.ControlMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SelectParametersToolStripButton,
             this.toolStripSeparator1,
+            this.ToolStripProgressBar,
+            this.toolStripSeparator2,
             this.ParametersSelectionModeStripLabel,
             this.ParametersSelectionStripDropDownButton});
             this.ControlMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ControlMenuStrip.Name = "ControlMenuStrip";
-            this.ControlMenuStrip.Size = new System.Drawing.Size(800, 27);
+            this.ControlMenuStrip.Size = new System.Drawing.Size(800, 31);
             this.ControlMenuStrip.TabIndex = 0;
             this.ControlMenuStrip.Text = "ControlMenuStrip";
             // 
@@ -75,19 +79,19 @@
             this.SelectParametersToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectParametersToolStripButton.Image")));
             this.SelectParametersToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SelectParametersToolStripButton.Name = "SelectParametersToolStripButton";
-            this.SelectParametersToolStripButton.Size = new System.Drawing.Size(176, 24);
+            this.SelectParametersToolStripButton.Size = new System.Drawing.Size(176, 28);
             this.SelectParametersToolStripButton.Text = "Оценить параметры";
             this.SelectParametersToolStripButton.Click += new System.EventHandler(this.SelectParametersToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // ParametersSelectionModeStripLabel
             // 
             this.ParametersSelectionModeStripLabel.Name = "ParametersSelectionModeStripLabel";
-            this.ParametersSelectionModeStripLabel.Size = new System.Drawing.Size(203, 24);
+            this.ParametersSelectionModeStripLabel.Size = new System.Drawing.Size(203, 28);
             this.ParametersSelectionModeStripLabel.Text = "Режим оценки параметров:";
             // 
             // ParametersSelectionStripDropDownButton
@@ -96,8 +100,18 @@
             this.ParametersSelectionStripDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("ParametersSelectionStripDropDownButton.Image")));
             this.ParametersSelectionStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ParametersSelectionStripDropDownButton.Name = "ParametersSelectionStripDropDownButton";
-            this.ParametersSelectionStripDropDownButton.Size = new System.Drawing.Size(81, 24);
+            this.ParametersSelectionStripDropDownButton.Size = new System.Drawing.Size(81, 28);
             this.ParametersSelectionStripDropDownButton.Text = "Режимы";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            // 
+            // ToolStripProgressBar
+            // 
+            this.ToolStripProgressBar.Name = "ToolStripProgressBar";
+            this.ToolStripProgressBar.Size = new System.Drawing.Size(150, 28);
             // 
             // ParametersSelectionChart
             // 
@@ -106,14 +120,14 @@
             this.ParametersSelectionChart.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend1";
             this.ParametersSelectionChart.Legends.Add(legend1);
-            this.ParametersSelectionChart.Location = new System.Drawing.Point(0, 27);
+            this.ParametersSelectionChart.Location = new System.Drawing.Point(0, 31);
             this.ParametersSelectionChart.Name = "ParametersSelectionChart";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.ParametersSelectionChart.Series.Add(series1);
-            this.ParametersSelectionChart.Size = new System.Drawing.Size(800, 423);
+            this.ParametersSelectionChart.Size = new System.Drawing.Size(800, 419);
             this.ParametersSelectionChart.TabIndex = 1;
             this.ParametersSelectionChart.Text = "ParametersSelectionChart";
             // 
@@ -124,9 +138,9 @@
             this.ParametersPanel.Controls.Add(this.BasicParametersGroupBox);
             this.ParametersPanel.Controls.Add(this.MovementParametersGroupBox);
             this.ParametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ParametersPanel.Location = new System.Drawing.Point(404, 27);
-            this.ParametersPanel.Name = "parametersPanel";
-            this.ParametersPanel.Size = new System.Drawing.Size(396, 423);
+            this.ParametersPanel.Location = new System.Drawing.Point(404, 31);
+            this.ParametersPanel.Name = "ParametersPanel";
+            this.ParametersPanel.Size = new System.Drawing.Size(396, 419);
             this.ParametersPanel.TabIndex = 3;
             // 
             // BasicParametersGroupBox
@@ -233,9 +247,9 @@
             this.SlamPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(151)))), ((int)(((byte)(29)))));
             this.SlamPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SlamPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SlamPanel.Location = new System.Drawing.Point(396, 27);
+            this.SlamPanel.Location = new System.Drawing.Point(396, 31);
             this.SlamPanel.Name = "SlamPanel";
-            this.SlamPanel.Size = new System.Drawing.Size(8, 423);
+            this.SlamPanel.Size = new System.Drawing.Size(8, 419);
             this.SlamPanel.TabIndex = 4;
             // 
             // ParametersErrorProvider
@@ -257,6 +271,7 @@
             this.Name = "ParametersSelectionWindow";
             this.Text = "Traffic flow simulation";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParametersSelectionWindow_FormClosing);
+            this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.ControlMenuStrip.ResumeLayout(false);
             this.ControlMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ParametersSelectionChart)).EndInit();
@@ -290,5 +305,7 @@
 		private System.Windows.Forms.ErrorProvider ParametersErrorProvider;
         private System.Windows.Forms.GroupBox BasicParametersGroupBox;
         private System.Windows.Forms.TableLayoutPanel BasicParametersTableLayoutPanel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripProgressBar ToolStripProgressBar;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using EvaluationKernel.Models;
 using Localization.Localization;
 using TrafficFlowSimulation.Models.Attribute;
@@ -7,7 +6,7 @@ using TrafficFlowSimulation.Models.ParametersModels;
 
 namespace TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 
-public class InliningDistanceModelParametersModel : BasicParametersModel
+public class InliningDistanceEstimationModelParametersModel : BasicParametersModel
 {
 	[Translation(Locales.ru, "Количество автомобилей")]
 	[Translation(Locales.en, "Vehicles number")]
@@ -38,7 +37,7 @@ public class InliningDistanceModelParametersModel : BasicParametersModel
 	{
 		var defaultValues = (BasicParametersModel)base.GetDefault();
 
-		return new InliningDistanceModelParametersModel
+		return new InliningDistanceEstimationModelParametersModel
 		{
 			IsCarsIdentical = defaultValues.IsCarsIdentical,
 			n = defaultValues.n,

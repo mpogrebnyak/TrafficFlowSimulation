@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Settings;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders;
@@ -54,7 +55,7 @@ public abstract class ChartsRender : IChartRender
 		}
 	}
 
-	public abstract void UpdateChart(List<double> p1 = null!, List<double> p2 = null!, List<double> p3 = null!);
+	public abstract void UpdateChart(object parameters);
 
 	public virtual void UpdateEnvironment(EnvironmentParametersModel parameters) { }
 

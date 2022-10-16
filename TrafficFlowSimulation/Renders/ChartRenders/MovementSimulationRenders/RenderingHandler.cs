@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EvaluationKernel.Models;
+﻿using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
@@ -52,13 +50,13 @@ public class RenderingHandler
 		SpeedFromDistanceProvider.RenderChart(modelParameters);
 	}
 
-	public void UpdateCharts(double t, double[] x, double[] y )
+	public void UpdateCharts(object parameters)
 	{
-		SpeedProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
-		DistanceProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
-		CarMovementProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+		SpeedProvider.UpdateChart(parameters);
+		DistanceProvider.UpdateChart(parameters);
+		CarMovementProvider.UpdateChart(parameters);
 
-		SpeedFromDistanceProvider.UpdateChart(new List<double> {t}, x.ToList(), y.ToList());
+		SpeedFromDistanceProvider.UpdateChart(parameters);
 	}
 
 	public void UpdateChartEnvironments(EnvironmentParametersModel parameters)

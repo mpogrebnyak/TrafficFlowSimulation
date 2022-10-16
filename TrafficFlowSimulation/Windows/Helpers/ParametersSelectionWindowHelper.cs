@@ -79,7 +79,7 @@ public class ParametersSelectionWindowHelper
 			.Single() as TableLayoutPanel;
 
 		var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
-			typeof(InliningDistanceModelParametersModel),
+			typeof(InliningDistanceEstimationModelParametersModel),
 			_controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
 			_bindingSources,
 			_errorProvider);
@@ -92,10 +92,10 @@ public class ParametersSelectionWindowHelper
 
 		switch (currentParametersSelectionMode)
 		{
-			case ParametersSelectionMode.InliningDistanceChanging:
+			case ParametersSelectionMode.InliningDistanceEstimation:
 			{
 				settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
-					typeof(InliningDistanceSettingsModel),
+					typeof(InliningDistanceEstimationSettingsModel),
 					settingsTableLayoutPanel,
 					_bindingSources,
 					_errorProvider);
@@ -116,7 +116,7 @@ public class ParametersSelectionWindowHelper
 		{
 			case DrivingMode.StartAndStopMovement:
 			{
-				modeSettings = (InliningDistanceSettingsModel) _bindingSources[typeof(InliningDistanceSettingsModel)].DataSource;
+				modeSettings = (InliningDistanceEstimationSettingsModel) _bindingSources[typeof(InliningDistanceEstimationSettingsModel)].DataSource;
 				break;
 			}
 		}
@@ -130,7 +130,7 @@ public class ParametersSelectionWindowHelper
 		var modelParameters = new ModelParameters();
 		_bindingSources.ForEach(x => x.Value.EndEdit());
 
-		((InliningDistanceModelParametersModel)_bindingSources[typeof(InliningDistanceModelParametersModel)].DataSource).MapTo(modelParameters);
+		((InliningDistanceEstimationModelParametersModel)_bindingSources[typeof(InliningDistanceEstimationModelParametersModel)].DataSource).MapTo(modelParameters);
 
 		return modelParameters;
 	}

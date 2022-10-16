@@ -9,7 +9,7 @@ public interface IChartRender
 {
 	public void RenderChart(ModelParameters modelParameters);
 
-	public void UpdateChart(List<double> p1 = null!, List<double> p2 = null!, List<double> p3 = null!);
+	public void UpdateChart(object parameters);
 
 	public void UpdateEnvironment(EnvironmentParametersModel parameters);
 

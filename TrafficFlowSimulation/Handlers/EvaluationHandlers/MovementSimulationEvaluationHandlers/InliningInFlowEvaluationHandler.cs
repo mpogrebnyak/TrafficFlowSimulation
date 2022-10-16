@@ -6,6 +6,7 @@ using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
@@ -92,7 +93,13 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				MethodInvoker action = delegate
 				{
 					ServiceLocator.Current.GetInstance<RenderingHandler>().AddSeries(index);
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
+					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
+						new CoordinatesModel
+						{
+							t = t,
+							x = x.ToList(),
+							y = y.ToList()
+						});
 					Application.DoEvents();
 				};
 
@@ -104,7 +111,13 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				tp = t;
 				MethodInvoker action = delegate
 				{
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
+					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
+						new CoordinatesModel
+						{
+							t = t,
+							x = x.ToList(),
+							y = y.ToList()
+						});
 
 					Thread.Sleep(20);
 					Application.DoEvents();

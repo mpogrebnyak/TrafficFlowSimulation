@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
@@ -19,7 +19,6 @@ public class ParametersSelectionRenderingHandler
 	{
 		_chart = chart;
 		_parametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
-		_parametersSelectionMode = ParametersSelectionMode.InliningDistanceChanging;
 		_provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + _parametersSelectionMode);
 	}
 
@@ -29,9 +28,9 @@ public class ParametersSelectionRenderingHandler
 		_provider = ServiceLocator.Current.GetInstance<IChartRender>(_chart.Name + _parametersSelectionMode);
 	}
 	
-	public void UpdateChart(List<double> x, List<double>  y)
+	public void UpdateChart(object parameters)
 	{
-		_provider.UpdateChart(x, y);
+		_provider.UpdateChart(parameters);
 	}
 
 	public void RenderCharts(ModelParameters modelParameters)

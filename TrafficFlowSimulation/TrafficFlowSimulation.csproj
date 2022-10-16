@@ -74,7 +74,7 @@
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\MovementThroughOneTrafficLightEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\SpeedLimitChangingEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceSelectionEvaluationHandler.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceEstimationSelectionEvaluationHandler.cs" />
     <Compile Include="Handlers\HandlersConfiguration.cs" />
     <Compile Include="Models\Attribute\CustomDisplayAttribute.cs" />
     <Compile Include="Models\Attribute\HiddenAttribute.cs" />
@@ -87,8 +87,8 @@
     <Compile Include="Models\ParametersModels\BasicParametersModel.cs" />
     <Compile Include="Models\ParametersModels\Constants\IdenticalCars.cs" />
     <Compile Include="Models\ParametersModels\InitialConditionsParametersModel.cs" />
-    <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceModelParametersModel.cs" />
-    <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceSettingsModel.cs" />
+    <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationModelParametersModel.cs" />
+    <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\Constants\AutoScroll.cs" />
     <Compile Include="Models\SettingsModels\Constants\FirstTrafficLightColor.cs" />
     <Compile Include="Models\SettingsModels\InliningInFlowModeSettingsModel.cs" />
@@ -123,11 +123,13 @@
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementDistanceChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementSpeedChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\ChartAreaModel.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\CoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\EnvironmentParametersModel.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\MovementSimulationConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHandler.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHelper.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceChangingSelectionChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceEstimationSelectionChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\InliningDistanceEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionRenderingHandler.cs" />
     <Compile Include="TrafficFlowSimulationModule.cs" />

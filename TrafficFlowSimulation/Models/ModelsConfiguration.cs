@@ -26,9 +26,9 @@ public class ModelsConfiguration : IInitializable
 		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new SpeedLimitChangingModeSettingsModel(),
 			typeof(SpeedLimitChangingModeSettingsModel).ToString());
 
-		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceSettingsModel(),
-			typeof(InliningDistanceSettingsModel).ToString());
-		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceModelParametersModel(),
-			typeof(InliningDistanceModelParametersModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceEstimationSettingsModel(),
+			typeof(InliningDistanceEstimationSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceEstimationModelParametersModel(),
+			typeof(InliningDistanceEstimationModelParametersModel).ToString());
 	}
 }

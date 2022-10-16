@@ -7,6 +7,7 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
@@ -84,7 +85,13 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 				tp = t;
 				MethodInvoker action = delegate
 				{
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
+					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
+						new CoordinatesModel
+						{
+							t = t,
+							x = x.ToList(),
+							y = y.ToList()
+						});
 
 					/*if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
 					{

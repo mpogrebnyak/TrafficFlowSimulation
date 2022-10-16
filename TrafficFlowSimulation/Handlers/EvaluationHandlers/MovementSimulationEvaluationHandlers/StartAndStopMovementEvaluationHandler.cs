@@ -5,6 +5,7 @@ using EvaluationKernel;
 using EvaluationKernel.Equations;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
@@ -61,7 +62,13 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 				tp = t;
 				MethodInvoker action = delegate
 				{
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(t, x, y);
+					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
+						new CoordinatesModel
+						{
+							t = t,
+							x = x.ToList(),
+							y = y.ToList()
+						});
 
 					/*if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
 					{

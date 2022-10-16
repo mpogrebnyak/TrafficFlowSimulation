@@ -51,8 +51,10 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 		SetMarkerImage();
 	}
 
-	public override void UpdateChart(List<double> t = null!, List<double> x = null!, List<double> y = null!)
+	public override void UpdateChart(object parameters)
 	{
+		var cm = (CoordinatesModel) parameters;
+
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
@@ -60,14 +62,14 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if(_chart.Series[i].Points.Any())
 				_chart.Series[i].Points.RemoveAt(0);
-			if (x[i] > _chartAreaModel.AxisXMinimum)
+			if (cm.x[i] > _chartAreaModel.AxisXMinimum)
 			{
-				_chart.Series[i].Points.AddXY(x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				_chart.Series[i].Points.AddXY(cm.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, y[i], x[i]);
-			UpdateLabel(i, showLegend, y[i], x[i]);
+			UpdateLegend(i, showLegend, cm.y[i], cm.x[i]);
+			UpdateLabel(i, showLegend, cm.y[i], cm.x[i]);
 		}
 	}
 

@@ -50,10 +50,10 @@ public class HandlersConfiguration : IInitializable
 	{
 		var parametersSelectionModes = SettingsHelper.Get<Properties.Settings>().AvailableParametersSelectionModes.ToList();
 
-		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistanceChanging))
+		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistanceEstimation))
 		{
-			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningDistanceSelectionEvaluationHandler(),
-				ParametersSelectionMode.InliningDistanceChanging.ToString());
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningDistanceEstimationSelectionEvaluationHandler(),
+				ParametersSelectionMode.InliningDistanceEstimation.ToString());
 		}
 	}
 }

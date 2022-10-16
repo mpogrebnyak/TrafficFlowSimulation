@@ -41,7 +41,7 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters);
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(ParametersSelectionMode.InliningDistanceChanging.ToString()).Execute(
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(ParametersSelectionMode.InliningDistanceEstimation.ToString()).Execute(
 				this,
 				modelParameters,
 				modeSettings);
@@ -51,6 +51,14 @@ namespace TrafficFlowSimulation.Windows
 		{
 			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
+		}
+
+		private void MainWindow_Shown(object sender, EventArgs e)
+		{
+			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+
+			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters);
 		}
 	}
 }

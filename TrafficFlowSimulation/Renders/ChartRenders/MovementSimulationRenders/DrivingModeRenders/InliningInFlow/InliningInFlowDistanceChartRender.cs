@@ -52,22 +52,24 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 		}
 	}
 
-	public override void UpdateChart(List<double> t = null!, List<double> x = null!, List<double> y = null!)
+	public override void UpdateChart(object parameters)
 	{
+		var cm = (CoordinatesModel) parameters;
+
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
-			if (i < x.Count)
+			if (i < cm.x.Count)
 			{
 				var showLegend = false;
-				if (x[i] > CommonChartAreaParameters.BeginOfRoad && x[i] < CommonChartAreaParameters.EndOfRoad)
+				if (cm.x[i] > CommonChartAreaParameters.BeginOfRoad && cm.x[i] < CommonChartAreaParameters.EndOfRoad)
 				{
-					_chart.Series[i].Points.AddXY(t.Single(), x[i]);
+					_chart.Series[i].Points.AddXY(cm.t, cm.x[i]);
 					showLegend = true;
 				}
 
-				UpdateLegend(i, showLegend, x[i]);
+				UpdateLegend(i, showLegend, cm.x[i]);
 			}
 		}
 	}

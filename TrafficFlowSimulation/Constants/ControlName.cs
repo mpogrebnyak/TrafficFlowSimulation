@@ -39,5 +39,7 @@ public static class ControlName
 		public const string ParametersSelectionStripDropDownButton = "ParametersSelectionStripDropDownButton";
 
 		public const string SettingsTableLayoutPanel = "SettingsTableLayoutPanel";
+		
+		public const string ToolStripProgressBar = "ToolStripProgressBar";
 	}
 }
