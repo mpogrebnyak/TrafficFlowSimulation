@@ -131,9 +131,11 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, int index, double[] lambda, double[] Vn)
 	{
 		modelParameters.n++;
+		// задавать из настроек
 		modelParameters.a.Insert(index, 4);
 		modelParameters.q.Insert(index, 3);
-		modelParameters.l.Insert(index, 5);
+		modelParameters.lSafe.Insert(index, 2);
+		modelParameters.lCar.Insert(index, 5);
 		modelParameters.Vmax.Insert(index, 16.7);
 		modelParameters.k.Insert(index, 0.5);
 		modelParameters.s.Insert(index, 20);
@@ -154,7 +156,11 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				continue;
 			inline = i;
 
-			var s = System.Math.Pow(v[i], 2) / (2 * modelParameters.g * modelParameters.mu) + modelParameters.l[i];
+			var l = n == 0
+				? modelParameters.lSafe[n]
+				: modelParameters.lSafe[n] + modelParameters.lCar[n - 1];
+			var s = System.Math.Pow(v[i], 2) / (2 * modelParameters.g * modelParameters.mu) + l;
+
 			s = s + 5;
 
 			if (s + x[i] < 0)

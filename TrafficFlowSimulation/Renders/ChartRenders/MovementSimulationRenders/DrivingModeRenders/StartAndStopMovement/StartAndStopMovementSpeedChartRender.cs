@@ -31,7 +31,8 @@ public class StartAndStopMovementSpeedChartRender : SpeedChartRender
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(0, 0);
+			// Поправить отображение
+			//_chart.Series[i].Points.AddXY(0, 0);
 
 			UpdateLegend(i, true, 0);
 		}

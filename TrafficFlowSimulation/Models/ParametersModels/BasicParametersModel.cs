@@ -106,7 +106,8 @@ public class BasicParametersModel : BaseParametersModel
 					mp.Vmax.Add(Vmax);
 					mp.a.Add(a);
 					mp.q.Add(q);
-					mp.l.Add(l_safe);
+					mp.lSafe.Add(l_safe);
+					mp.lCar.Add(l_car);
 					mp.k.Add(k);
 					mp.s.Add(s);
 				}
@@ -127,6 +128,7 @@ public class BasicParametersModel : BaseParametersModel
 		var aDictionary = ParseMultipleValues(a_multiple);
 		var qDictionary = ParseMultipleValues(q_multiple);
 		var lDictionary = ParseMultipleValues(l_safe_multiple);
+		var lCarDictionary = ParseMultipleValues(l_car_multiple);
 		var kDictionary = ParseMultipleValues(k_multiple);
 		var sDictionary = ParseMultipleValues(s_multiple);
 
@@ -135,7 +137,8 @@ public class BasicParametersModel : BaseParametersModel
 			mp.Vmax.Add(vMaxDictionary.ContainsKey(i) ? vMaxDictionary[i] : Vmax);
 			mp.a.Add(aDictionary.ContainsKey(i) ? aDictionary[i] : a);
 			mp.q.Add(qDictionary.ContainsKey(i) ? qDictionary[i] : q);
-			mp.l.Add(lDictionary.ContainsKey(i) ? lDictionary[i] : l_safe);
+			mp.lSafe.Add(lDictionary.ContainsKey(i) ? lDictionary[i] : l_safe);
+			mp.lCar.Add(lCarDictionary.ContainsKey(i) ? lCarDictionary[i] : l_car);
 			mp.k.Add(kDictionary.ContainsKey(i) ? kDictionary[i] : k);
 			mp.s.Add(sDictionary.ContainsKey(i) ? sDictionary[i] : s);
 		}
@@ -159,8 +162,10 @@ public class BasicParametersModel : BaseParametersModel
 			a_multiple = string.Empty,
 			q = 3,
 			q_multiple = string.Empty,
-			l_safe = 5,
+			l_safe = 2,
 			l_safe_multiple = string.Empty,
+			l_car = 5,
+			l_car_multiple = string.Empty,
 			k = 0.5,
 			k_multiple = string.Empty,
 			s = 20,

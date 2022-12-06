@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
@@ -10,14 +12,11 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 {
 	protected override string _seriesName => "InliningDistanceEstimationSeries";
 
-	private string GreenSeriesName => "Green" + _seriesName;
-
-	private string RedSeriesName => "Red" + _seriesName;
-
 	protected override string _chartAreaName => "InliningDistanceEstimationChartArea";
 
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
 
+	private readonly List<Color> _pointColors = InliningDistanceEstimationColor.GetAllColors();
 	public InliningDistanceEstimationSelectionChartRender(Chart chart) : base(chart)
 	{
 		FullClearChart();
@@ -30,27 +29,20 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		var chartArea = CreateChartArea(modelParameters);
 		_chart.ChartAreas.Add(chartArea);
 
-		_chart.Series.Add(new Series
+		foreach (var color in _pointColors)
 		{
-			Name = GreenSeriesName,
-			ChartType = _seriesChartType,
-			ChartArea = chartArea.Name,
-			BorderWidth = 1,
-			Color = Color.Green,
-			MarkerStyle = MarkerStyle.Circle
-		});
+			_chart.Series.Add(new Series
+			{
+				Name = _seriesName + color.Name,
+				ChartType = _seriesChartType,
+				ChartArea = chartArea.Name,
+				BorderWidth = 1,
+				Color = color,
+				MarkerStyle = MarkerStyle.Circle
+			});
+		}
 
-		_chart.Series.Add(new Series
-		{
-			Name = RedSeriesName,
-			ChartType = _seriesChartType,
-			ChartArea = chartArea.Name,
-			BorderWidth = 1,
-			Color = Color.Red,
-			MarkerStyle = MarkerStyle.Circle
-		});
-
-		_chart.Series[RedSeriesName].Points.AddXY(-1, -1);
+		_chart.Series.Where(series => series.Name.Contains(_pointColors.First().Name));
 	}
 
 	public override void UpdateChart(object parameters)
@@ -59,19 +51,9 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 
 		foreach (var cm in coordinatesModel)
 		{
-			switch (cm.color)
-			{
-				case PointColor.Green:
-				{
-					_chart.Series[GreenSeriesName].Points.AddXY(cm.x, cm.y);
-					break;
-				}
-				case PointColor.Red:
-				{
-					_chart.Series[RedSeriesName].Points.AddXY(cm.x, cm.y);;
-					break;
-				}
-			}
+			_chart.Series.Single(series => series.Name.Contains(cm.Color.Name))
+				.Points
+				.AddXY(cm.X, cm.Y);
 		}
 	}
 
@@ -83,7 +65,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 60,
+				Maximum = 100,
 			},
 			AxisY = new Axis
 			{

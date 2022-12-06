@@ -17,22 +17,23 @@ public class EquationWithStop : Equation
 
 		return (n == 0 || carNumberToStop.Contains(n))
 			? GetFirstCarEquation(n, x_n, carNumberToStop)
-			: GetAllCarEquation(n, x_n, x_n_1, carNumberToStop);
+			: GetAllCarEquation(n, x_n, x_n_1);
 	}
 
 	private double GetFirstCarEquation(int n, Coordinates x_n, List<int> carNumberToStop)
 	{
 		var l = L(n, carNumberToStop);
-		return ReleFunction(n, x_n, l)
+		return RelayFunction(n, x_n, l)
 			? _m.a[n] * (_m.Vmax[n] - x_n.Y)
 			: _m.q[n] * (x_n.Y * (_m.Vmin - x_n.Y) / (l - x_n.X));
 	}
 
-	private double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1, List<int> carsToStop)
+	private double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1)
 	{
-		return ReleFunction(n, x_n, x_n_1.X)
-			? _m.a[n] * ((_m.Vmax[n] - V(x_n_1.Y, _m.Vmax[n])) / (1 + Math.Exp(_m.k[n] * (x_n.X - x_n_1.X + _m.s[n]))) + V(x_n_1.Y, _m.Vmax[n]) - x_n.Y)
-			: _m.q[n] * (x_n.Y * (x_n_1.Y - x_n.Y)) / (x_n_1.X - x_n.X - _m.l[n] + _m.eps);		   
+		var s = S(n, x_n.Y) + 6 / _m.k[n];
+		return RelayFunction(n, x_n, x_n_1.X)
+			? _m.a[n] * ((_m.Vmax[n] - V(x_n_1.Y, _m.Vmax[n])) / (1 + Math.Exp(_m.k[n] * (x_n.X - x_n_1.X + s))) + V(x_n_1.Y, _m.Vmax[n]) - x_n.Y)
+			: _m.q[n] * (x_n.Y * (x_n_1.Y - x_n.Y)) / (x_n_1.X - x_n.X - _m.lSafe[n] - _m.lCar[n - 1] + _m.eps);
 	}
 
 	private double L(int n, List<int> carsToStop)

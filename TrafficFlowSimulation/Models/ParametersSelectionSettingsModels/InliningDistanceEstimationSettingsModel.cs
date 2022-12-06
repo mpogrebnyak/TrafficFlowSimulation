@@ -2,6 +2,8 @@
 using EvaluationKernel.Models;
 using Localization.Localization;
 using TrafficFlowSimulation.Models.Attribute;
+using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels.Constants;
+using TrafficFlowSimulation.Windows.CustomControls;
 
 namespace TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 
@@ -10,14 +12,19 @@ public class InliningDistanceEstimationSettingsModel : BaseSettingsModels
 	[Hidden] 
 	public override double L { get; set; }
 
+	[Translation(Locales.ru, "Выполнить оценку параметров")]
+	[Translation(Locales.en, "Evaluate the parameters")]
+	[CustomDisplay(1, enumType: typeof(EvaluateParameters))]
+	public object IsParametersEvaluated  { get; set; }
+
 	[Translation(Locales.ru, "Скорость первого\nавтомобиля")]
 	[Translation(Locales.en, "First car speed")]
-	[CustomDisplay(1, isReadOnly: true)]
+	[CustomDisplay(2, isReadOnly: true)]
 	public double FirstCarSpeed { get; set; }
-	
+
 	[Translation(Locales.ru, "Максимальное расстояние\nмежду автомобилями")]
 	[Translation(Locales.en, "Maximum distance between cars")]
-	[CustomDisplay(1, isReadOnly: true)]
+	[CustomDisplay(3, isReadOnly: true)]
 	public double MaximumDistanceBetweenCars { get; set; }
 
 	public override void MapTo(ModelParameters mp)
@@ -31,9 +38,15 @@ public class InliningDistanceEstimationSettingsModel : BaseSettingsModels
 	{
 		return new InliningDistanceEstimationSettingsModel
 		{
+			IsParametersEvaluated = new ComboBoxItem
+			{
+				Text = EvaluateParameters.Yes.GetDescription(),
+				Value = EvaluateParameters.Yes
+			},
+
 			L = 1000,
 			FirstCarSpeed = 0,
-			MaximumDistanceBetweenCars = 60
+			MaximumDistanceBetweenCars = 100
 		};
 	}
 }

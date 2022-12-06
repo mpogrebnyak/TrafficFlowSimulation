@@ -67,6 +67,7 @@
     <Compile Include="Constants\ControlName.cs" />
     <Compile Include="Constants\CustomColor.cs" />
     <Compile Include="Constants\DrivingMode.cs" />
+    <Compile Include="Constants\InliningDistanceEstimationColor.cs" />
     <Compile Include="Constants\ParametersSelectionMode.cs" />
     <Compile Include="Handlers\EvaluationHandlers\EvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\IEvaluationHandler.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\MovementThroughOneTrafficLightEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\SpeedLimitChangingEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\InliningDistanceEstimationSelectionEvaluationHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceEstimationSelectionEvaluationHandler.cs" />
     <Compile Include="Handlers\HandlersConfiguration.cs" />
     <Compile Include="Models\Attribute\CustomDisplayAttribute.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Models\ParametersModels\BasicParametersModel.cs" />
     <Compile Include="Models\ParametersModels\Constants\IdenticalCars.cs" />
     <Compile Include="Models\ParametersModels\InitialConditionsParametersModel.cs" />
+    <Compile Include="Models\ParametersSelectionSettingsModels\Constants\EvaluateParameters.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationModelParametersModel.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\Constants\AutoScroll.cs" />
@@ -155,6 +158,8 @@
     <Compile Include="Windows\Helpers\LocalizationWindowHelper.cs" />
     <Compile Include="Windows\Helpers\MainWindowHelper.cs" />
     <Compile Include="Windows\Helpers\ParametersSelectionWindowHelper.cs" />
+    <Compile Include="Windows\Helpers\ProgressBarHelper.cs" />
+    <Compile Include="Windows\Helpers\SpinningLabelHelper.cs" />
     <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,10 +228,23 @@
     <None Include="Properties\DataSources\TrafficFlowSimulation.Сonstants.AutoScroll.datasource" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\images\Спидометр.gif" />
+    <None Include="Properties\images\Песочные часы.gif" />
+    <None Include="Properties\images\Автомобиль.gif" />
+    <None Include="Properties\images\1amw.gif" />
+    <None Include="Properties\images\374.gif" />
+    <None Include="Properties\images\calculator.gif" />
+    <None Include="Properties\images\208.gif" />
     <Content Include="Properties\images\car.ico" />
     <Content Include="Properties\images\continue_icon.png" />
     <Content Include="Properties\images\double_car.png" />
     <Content Include="Properties\images\error.ico" />
+    <None Include="Properties\images\g0R9.gif" />
+    <None Include="Properties\images\loading-23.gif" />
+    <None Include="Properties\images\loading-42.gif" />
+    <None Include="Properties\images\icons8-gear.gif" />
+    <None Include="Properties\images\gear.gif" />
+    <None Include="Properties\images\gear_static.png" />
     <Content Include="Properties\images\ru.png" />
     <Content Include="Properties\images\russia.png" />
     <Content Include="Properties\images\start_icon.png" />
@@ -236,6 +254,7 @@
     <Content Include="Properties\images\white_car.png" />
     <Content Include="Properties\images\white_car2.png" />
     <Content Include="Properties\images\white_car_big.png" />
+    <None Include="Resources\loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

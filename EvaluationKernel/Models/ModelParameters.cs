@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EvaluationKernel.Models
 {
-	public class ModelParameters
+	public class ModelParameters : ICloneable
 	{
 		public int n { get; set; }
 
@@ -22,7 +23,9 @@ namespace EvaluationKernel.Models
 
 		public double g { get; set; }
 
-		public List<double> l { get; set; }
+		public List<double> lSafe { get; set; }
+
+		public List<double> lCar { get; set; }
 
 		public double L { get; set; }
 
@@ -39,11 +42,35 @@ namespace EvaluationKernel.Models
 			Vmax = new List<double>();
 			a = new List<double>();
 			q = new List<double>();
-			l = new List<double>();
+			lSafe = new List<double>();
+			lCar = new List<double>();
 			k = new List<double>();
 			s = new List<double>();
 			Vn = new List<double>();
 			lambda = new List<double>();
+		}
+
+		public object Clone()
+		{
+			return new ModelParameters() 
+			{  
+				n = n, 
+				tau = tau,
+				a = a,
+				q = q,
+				Vmax = Vmax,
+				Vmin = Vmin,
+				k = k,
+				mu = mu,
+				g = g,
+				lSafe = lSafe,
+				lCar = lCar,
+				L = L,
+				s = s,
+				eps = eps,
+				lambda = lambda,
+				Vn = Vn
+			};
 		}
 	}
 }

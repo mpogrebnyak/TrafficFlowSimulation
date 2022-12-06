@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
+using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels.Constants;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
+using TrafficFlowSimulation.Windows.CustomControls;
+using TrafficFlowSimulation.Windows.Helpers;
+using Helper = TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers.InliningDistanceEstimationSelectionEvaluationHelper;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
 
@@ -18,69 +23,130 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 	{
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
-		var settings = (InliningDistanceEstimationSettingsModel) p.ModeSettings;
 
 		if (modelParameters.n != 2)
 			return;
 
-		var progressBar = CreateProgressBar(p);
+		var settings = (InliningDistanceEstimationSettingsModel) p.ModeSettings;
+		var form = p.Form;
+		var progressBarHelper = new ProgressBarHelper(form);
+		progressBarHelper.SetMaximum((int)settings.MaximumDistanceBetweenCars);
+		var spinningLabelHelper = new SpinningLabelHelper(form);
+		spinningLabelHelper.StartSpinning();
 
-		var cm = new List<InliningDistanceEstimationCoordinatesModel>();
-
-		for (double space = 0; space <= settings.MaximumDistanceBetweenCars; space+=0.1)
+		Task.Factory.StartNew(() =>
 		{
-			for (double speed = 0; speed <= modelParameters.Vmax[1]; speed+=0.1)
+			var coordinatesModel = EvaluateInternal((ModelParameters)modelParameters.Clone(), settings, progressBarHelper);
+
+			MethodInvoker action = delegate
 			{
-				modelParameters.Vn[1] = speed;
-				modelParameters.lambda[1] = -space;
+				ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(coordinatesModel);
+			};
 
-				var isDecelerate = IsDecelerate(modelParameters);
+			p.Form.Invoke(action);
+		}, TaskCreationOptions.None);
 
-				cm.Add(new InliningDistanceEstimationCoordinatesModel
+		if (((ComboBoxItem)settings.IsParametersEvaluated).Value.Equals(EvaluateParameters.Yes))
+		{
+			var tasks = new List<TaskModel>();
+			for (var k = 0.1; k < 1; k += 0.1)
+			{
+				var mp = (ModelParameters)modelParameters.Clone();
+				mp.k = new List<double> {k, k};
+
+				var task = new Task<List<InliningDistanceEstimationCoordinatesModel>>(
+						() => EvaluateInternal(mp, settings));
+				tasks.Add(new TaskModel
 				{
-					x = space,
-					y = speed,
-					color = isDecelerate ? PointColor.Red : PointColor.Green
+					ModelParameters = mp,
+					Task = task
 				});
+
+				task.Start();
 			}
 
-			if (progressBar != null)
+			while (tasks.Count != 0)
 			{
-				void ProgressBarAction()
-				{
-					progressBar.Value = (int) space;
-				}
+				spinningLabelHelper.UpdateSpinningToolTip(tasks.Count);
+				var index = Task.WaitAny(tasks.Select(x => x.Task).ToArray());
 
-				p.Form.Invoke((MethodInvoker) ProgressBarAction);
+				Helper.GenerateCharts(tasks[index].ModelParameters, tasks[index].Task.Result);
+				tasks.RemoveAt(index);
+				spinningLabelHelper.UpdateSpinningToolTip(tasks.Count);
 			}
+			spinningLabelHelper.StopSpinning();
 		}
-
-		MethodInvoker action = delegate
-		{
-			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(cm);
-		};
-
-		p.Form.Invoke(action);
 	}
 
-	private bool IsDecelerate(ModelParameters modelParameters)
+	private List<InliningDistanceEstimationCoordinatesModel> EvaluateInternal(ModelParameters modelParameters, InliningDistanceEstimationSettingsModel modeSettings, ProgressBarHelper? progressBarHelper = null)
 	{
-		// Если расстояние меньше расстояния останоки, то заведомо придется тормозить
-		var s = System.Math.Pow(modelParameters.Vn[1], 2) / 
-				(2 * modelParameters.g * modelParameters.mu) + modelParameters.l[1];
-		if (System.Math.Abs(modelParameters.lambda[1]) <= modelParameters.l[0]
-				|| s >= modelParameters.lambda[0] - modelParameters.lambda[1])
+		var cm = new List<InliningDistanceEstimationCoordinatesModel>();
+
+		var min = 0.0;
+		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
+		var step = 2;
+		for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
 		{
-			return true;
+			progressBarHelper?.Update((int) space);
+
+			var intensityChange = false;
+			if (space <= modelParameters.lCar[0] + modelParameters.lSafe[1])
+			{
+				for (var i = min; i <= max; i += step)
+				{
+					Helper.AddCoordinates(modelParameters, cm, space, i, -1);
+					if (i == min)
+					{
+						cm.Last().IsIntensityChange = true;
+					}
+				}
+				continue;
+			}
+
+			var topSolution = IsDecelerate(modelParameters, space, max);
+			if (topSolution.IsDeceleration == false)
+			{
+				for (var i = min; i <= max; i += step)
+				{
+					Helper.AddCoordinates(modelParameters, cm, space, i, 0);
+				}
+				cm.Last().IsIntensityChange = true;
+				continue;
+			}
+
+			var bottomSolution = IsDecelerate(modelParameters, space, min);
+
+			Helper.AddCoordinates(modelParameters, cm, space, max, topSolution.Intensity);
+			Helper.AddCoordinates(modelParameters, cm, space, min, bottomSolution.Intensity);
+
+			for (var i = min + step; i < max; i += step)
+			{
+				var solution = IsDecelerate(modelParameters, space, i);
+
+				if (!intensityChange && solution.IsDeceleration)
+				{
+					cm.Last().IsIntensityChange = true;
+					intensityChange = true;
+				}
+
+				Helper.AddCoordinates(modelParameters, cm, space, i, solution.Intensity);
+			}
 		}
 
+		return cm;
+	}
+
+	private DecelerationEvaluation IsDecelerate(ModelParameters modelParameters, double space, double speed)
+	{
 		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
+		r.SetInitialConditions(
+			new List<double> {modelParameters.Vn[0], speed},
+			new List<double> {modelParameters.lambda[0], -space});
+
 		var n = modelParameters.n;
 
 		var xp = new double[n];
 		var yp = new double[n];
-		var t = r.T.Last();
-		var tp = t;
 		var x = new double[n];
 		var y = new double[n];
 		for (int i = 0; i < n; i++)
@@ -89,7 +155,13 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			y[i] = r.Y(i).Last();
 		}
 
-		var eps = 0.00001;
+		var eps = 0.1;
+
+		var localMax = modelParameters.Vmax[1];
+		double localMin = 0;
+		double diff = 0;
+		var isDeceleration = false;
+
 		while (true)
 		{
 			for (int i = 0; i < n; i++)
@@ -99,51 +171,63 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			}
 
 			r.Solve();
-			t = r.T.Last();
+
+			if (double.IsNaN(x[1]) || double.IsNaN(y[1]))
+			{
+				return new DecelerationEvaluation
+				{
+					IsDeceleration = true,
+					Intensity = -1
+				};
+			}
+
 			for (int i = 0; i < n; i++)
 			{
 				x[i] = r.X(i).Last();
 				y[i] = r.Y(i).Last();
 			}
 
-			if (t - tp > 0.01)
+			if (y[1] > yp[1])
 			{
-				tp = t;
-
-				if (yp[1] - y[1] > eps)
+				if (isDeceleration)
 				{
-					return true;
+					diff = Math.Max(diff, localMax - localMin);
+					isDeceleration = false;
 				}
 
-				if (modelParameters.Vmax[0] - y[0] < eps && modelParameters.Vmax[1] - y[1] < eps)
-				{
-					return false;
-				}
+				localMax = y[1];
 			}
+			else
+			{
+				localMin = y[1];
+				isDeceleration = true;
+			}
+
+			if (modelParameters.Vmax[0] - y[0] < eps && modelParameters.Vmax[1] - y[1] < eps)
+			{
+				return new DecelerationEvaluation
+				{
+					IsDeceleration = diff > eps,
+					Intensity = diff > eps
+						? diff
+						: 0
+				};
+			}
+
 		}
 	}
 
-	private ToolStripProgressBar? CreateProgressBar(Parameters p)
+	private class DecelerationEvaluation
 	{
-		var progressBar = (p.Form.Controls
-				.Find(ControlName.ParametersSelectionWindowControlName.ControlMenuStrip, true)
-				.Single() as ToolStrip
-			)?.Items
-			.Find(ControlName.ParametersSelectionWindowControlName.ToolStripProgressBar, true)
-			.Single() as ToolStripProgressBar;
+		public bool IsDeceleration { get; set; }
 
-		if (progressBar == null)
-			return null;
+		public double Intensity { get; set; }
+	}
 
-		MethodInvoker action = delegate
-		{
-			progressBar.Minimum = 0;
-			progressBar.Maximum = 60;
-			progressBar.Value = 0; 
-		};
+	private class TaskModel
+	{
+		public ModelParameters ModelParameters { get; set; }
 
-		p.Form.Invoke(action);
-
-		return progressBar;
+		public Task<List<InliningDistanceEstimationCoordinatesModel>> Task { get; set; }
 	}
 }

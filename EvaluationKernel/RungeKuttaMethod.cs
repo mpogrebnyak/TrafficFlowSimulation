@@ -50,6 +50,18 @@ namespace EvaluationKernel
 			}
 		}
 
+		public void SetInitialConditions(List<double> Vn, List<double> lambda)
+		{
+			for (int i = 0; i < _N; i++)
+			{
+				for (int j = 0; j < _n; j++)
+				{
+					x[j].Add(lambda[j]);
+					y[j].Add(Vn[j]);
+				}
+			}
+		}
+
 		public Equation Equation
 		{
 			set => _equation = value;
@@ -71,9 +83,9 @@ namespace EvaluationKernel
 			return y[i];
 		}
 
-		public void SetCarNumberToStop(List<int> carsNamber)
+		public void SetCarNumberToStop(List<int> carsNumber)
 		{
-			CarNumberToStop = carsNamber;
+			CarNumberToStop = carsNumber;
 		}
 
 		double f(int i)
