@@ -35,16 +35,16 @@ public class ParametersSelectionModeComponent : IComponent
 					Name = mode.ToString(),
 					Text = mode.GetDescription(),
 					Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular,
-						System.Drawing.GraphicsUnit.Point, ((byte) (204)))
+						System.Drawing.GraphicsUnit.Point, 204)
 				};
 
-				menuItem.Click += new System.EventHandler(MenuItem_Click);
+				menuItem.Click += MenuItem_Click;
 				_modeButton.DropDownItems.Add(menuItem);
 			}
 		}
 
 		_modeButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold,
-			System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+			System.Drawing.GraphicsUnit.Point, 204);
 
 		_modeButton.Text = _modeButton.DropDownItems.Count > 0
 			? _modeButton.DropDownItems[0].Text
@@ -54,14 +54,18 @@ public class ParametersSelectionModeComponent : IComponent
 	private void MenuItem_Click(object sender, EventArgs e)
 	{
 		var selectedModeItem = sender as ToolStripMenuItem;
-		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu).OwnerItem;
+		if (selectedModeItem == null) return;
+
+		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu)?.OwnerItem;
+		if (owner == null) return;
+
 		owner.Text = selectedModeItem.Text;
 
 		var mode = (ParametersSelectionMode) Enum.Parse(typeof(ParametersSelectionMode), selectedModeItem.Name);
 
 		var settings = SettingsHelper.Get<Properties.Settings>();
 		settings.CurrentParametersSelectionMode = mode;
-		SettingsHelper.Set<Properties.Settings>(settings);
+		SettingsHelper.Set(settings);
 
 		ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().InitializeTableLayoutPanelComponent();
 		ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().ChangeParametersSelectionMode(mode);

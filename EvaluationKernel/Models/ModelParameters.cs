@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+// ReSharper disable InconsistentNaming
 
 namespace EvaluationKernel.Models
 {
@@ -29,8 +30,6 @@ namespace EvaluationKernel.Models
 
 		public double L { get; set; }
 
-		public List<double> s { get; set; }
-
 		public double eps { get; set; }
 
 		public List<double> lambda { get; set; }
@@ -45,7 +44,6 @@ namespace EvaluationKernel.Models
 			lSafe = new List<double>();
 			lCar = new List<double>();
 			k = new List<double>();
-			s = new List<double>();
 			Vn = new List<double>();
 			lambda = new List<double>();
 		}
@@ -66,7 +64,6 @@ namespace EvaluationKernel.Models
 				lSafe = lSafe,
 				lCar = lCar,
 				L = L,
-				s = s,
 				eps = eps,
 				lambda = lambda,
 				Vn = Vn

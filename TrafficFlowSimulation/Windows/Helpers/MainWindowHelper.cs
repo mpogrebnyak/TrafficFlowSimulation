@@ -87,7 +87,7 @@ namespace TrafficFlowSimulation.Windows.Helpers
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 			var settingsTableLayoutPanel = _controls.Find(ControlName.MainWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
 
-			TableLayoutPanelComponent settingsTableLayoutPanelComponent = null;
+			TableLayoutPanelComponent? settingsTableLayoutPanelComponent = null;
 
 			switch (currentDrivingMode)
 			{

@@ -32,5 +32,7 @@ namespace TrafficFlowSimulation.Models
 		public GroupBox InitialConditionsGroupBox { get; set; }
 
 		public GroupBox ControlsGroupBox { get; set; }
+
+		public Button SubmitButton { get; set; }
 	}
 }

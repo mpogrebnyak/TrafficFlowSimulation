@@ -138,7 +138,6 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		modelParameters.lCar.Insert(index, 5);
 		modelParameters.Vmax.Insert(index, 16.7);
 		modelParameters.k.Insert(index, 0.5);
-		modelParameters.s.Insert(index, 20);
 
 		modelParameters.lambda = lambda.ToList();
 		modelParameters.Vn = Vn.ToList();

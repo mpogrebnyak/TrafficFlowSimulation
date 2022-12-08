@@ -36,6 +36,7 @@ public class LocalizationWindowHelper
 		_lc.AdditionalParametersGroupBox.Text = LocalizationHelper.Get<MenuResources>().AdditionalParametersGroupBoxText;
 		_lc.InitialConditionsGroupBox.Text = LocalizationHelper.Get<MenuResources>().InitialConditionsGroupBoxText;
 		_lc.ControlsGroupBox.Text = LocalizationHelper.Get<MenuResources>().ControlsGroupBoxText;
+		_lc.SubmitButton.Text = LocalizationHelper.Get<MenuResources>().SubmitButtonText;
 
 		foreach (DrivingMode value in SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes)
 		{
@@ -82,8 +83,10 @@ public class LocalizationWindowHelper
 			chart.ChartAreas[0].AxisY.Title = yAxisText;
 	}
 
-	public void LocalizePanel(Type modelType, TableLayoutPanel tableLayoutPanel)
+	public void LocalizePanel(Type modelType, TableLayoutPanel? tableLayoutPanel)
 	{
+		if (tableLayoutPanel == null) return;
+
 		var locale = SettingsHelper.Get<LocalizationSettings>().CurrentLocale;
 
 		var controls = tableLayoutPanel.Controls;

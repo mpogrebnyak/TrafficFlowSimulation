@@ -155,6 +155,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			y[i] = r.Y(i).Last();
 		}
 
+		// ПОСМОТРЕТЬ ПРИ РАЗНЫХ eps
 		var eps = 0.1;
 
 		var localMax = modelParameters.Vmax[1];

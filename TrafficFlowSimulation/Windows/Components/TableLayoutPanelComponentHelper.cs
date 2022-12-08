@@ -38,7 +38,11 @@ public class TableLayoutPanelComponentHelper
 	private void IdenticalCarsComboBox_SelectedIndexChanged(object sender, EventArgs e)
 	{
 		var comboBox = sender as ComboBox;
+		if (comboBox == null) return;
+
 		var tableLayoutPanel = comboBox.Parent as TableLayoutPanel;
+		if (tableLayoutPanel == null) return;
+
 		var controls = tableLayoutPanel.Controls;
 
 		var multipleControls = controls
@@ -56,6 +60,8 @@ public class TableLayoutPanelComponentHelper
 	public void TableLayoutCellPaintEvent(object sender, TableLayoutCellPaintEventArgs e)
 	{
 		var tableLayoutPanel = sender as TableLayoutPanel;
+		if (tableLayoutPanel == null) return;
+
 		var comboBox = tableLayoutPanel.Controls
 			.OfType<ComboBox>()
 			.SingleOrDefault(x => x.Tag != null && x.Tag.Equals(typeof(IdenticalCars)));
@@ -84,7 +90,7 @@ public class TableLayoutPanelComponentHelper
 				? new SolidBrush(Color.LightGray)
 				: new SolidBrush(SystemColors.Window), e.Bounds);
 
-		if (e.Index != -1)
+		if (e.Index != -1 && comboBox != null)
 			e.Graphics.DrawString(comboBox.Items[e.Index].ToString(),
 				e.Font,
 				new SolidBrush(Color.Black),
@@ -99,7 +105,6 @@ public class TableLayoutPanelComponentHelper
 		((System.ComponentModel.ISupportInitialize)bs).EndInit();
 
 		bs.DataSource = ServiceLocator.Current.GetInstance<IModel>(modelType.ToString()).GetDefault();
-		//bs.DataSource = ServiceLocator.Current.GetInstance<IDefaultParametersValuesService>().GetDefaultEditModelParameters(modelType);
 
 		return bs;
 	}

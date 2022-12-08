@@ -4,6 +4,10 @@ namespace TrafficFlowSimulation.Properties.LocalizationResources
 {
 	public class MenuResources
 	{
+		[Translation(Locales.ru, "Применить")]
+		[Translation(Locales.en, "Submit")]
+		public string SubmitButtonText { get; set; }
+
 		[Translation(Locales.ru, "Русский")]
 		[Translation(Locales.en, "English")]
 		public string LanguagesSwitcheButtomTitle { get; set; }

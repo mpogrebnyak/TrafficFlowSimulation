@@ -11,4 +11,8 @@
 	  <Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<NoWarn>8618</NoWarn>
+	</PropertyGroup>
+
 </Project>

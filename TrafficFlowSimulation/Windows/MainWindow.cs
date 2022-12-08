@@ -59,7 +59,8 @@ namespace TrafficFlowSimulation.Windows
 				InitialConditionsGroupBox = InitialConditionsGroupBox,
 				ModeSettingsGroupBox = ModeSettingsGroupBox,
 				ControlsGroupBox = ControlsGroupBox,
-				DrivingModeStripDropDownButton = DrivingModeStripDropDownButton
+				DrivingModeStripDropDownButton = DrivingModeStripDropDownButton,
+				SubmitButton = SubmitButton
 			};
 
 			var mainWindowConfiguration = new MainWindowConfiguration(localizationComponents,

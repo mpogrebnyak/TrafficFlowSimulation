@@ -27,8 +27,8 @@ public class LanguageComponent : IComponent
 		{
 			var menuItem = new ToolStripMenuItem
 			{
-				Font = new System.Drawing.Font("Segoe UI", 10.2F,
-					System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)))
+				Font = new Font("Segoe UI", 10.2F,
+					FontStyle.Regular, GraphicsUnit.Point, 204)
 			};
 
 			switch (locale)
@@ -58,12 +58,12 @@ public class LanguageComponent : IComponent
 				}
 			}
 
-			menuItem.Click += new System.EventHandler(MenuItem_Click);
+			menuItem.Click += MenuItem_Click;
 			_languageButton.DropDownItems.Add(menuItem);
 		}
 
-		_languageButton.Font = new System.Drawing.Font("Segoe UI", 10.2F,
-			System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+		_languageButton.Font = new Font("Segoe UI", 10.2F,
+			FontStyle.Regular, GraphicsUnit.Point,  204);
 	}
 
 	private void SetCurrentLocaleInLanguageButton(ToolStripDropDownButton languageButton, string text, Bitmap image)
@@ -75,7 +75,11 @@ public class LanguageComponent : IComponent
 	private void MenuItem_Click(object sender, EventArgs e)
 	{
 		var selectedItem = sender as ToolStripMenuItem;
-		var owner = (selectedItem.Owner as ToolStripDropDownMenu).OwnerItem;
+		if (selectedItem == null) return;
+
+		var owner = (selectedItem.Owner as ToolStripDropDownMenu)?.OwnerItem;
+		if (owner == null) return;
+
 		owner.Text = selectedItem.Text;
 
 		var settings = SettingsHelper.Get<LocalizationSettings>();
@@ -96,7 +100,7 @@ public class LanguageComponent : IComponent
 				break;
 			}
 		}
-		SettingsHelper.Set<LocalizationSettings>(settings);
+		SettingsHelper.Set(settings);
 
 		ServiceLocator.Current.GetInstance<MainWindowHelper>().LocalizeComponents();
 	}

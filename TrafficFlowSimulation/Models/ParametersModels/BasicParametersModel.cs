@@ -4,6 +4,7 @@ using Localization.Localization;
 using TrafficFlowSimulation.Models.Attribute;
 using TrafficFlowSimulation.Models.ParametersModels.Constants;
 using TrafficFlowSimulation.Windows.CustomControls;
+// ReSharper disable InconsistentNaming
 
 namespace TrafficFlowSimulation.Models.ParametersModels;
 
@@ -83,15 +84,6 @@ public class BasicParametersModel : BaseParametersModel
 	[CustomDisplay(16, true, true)] 
 	public string k_multiple { get; set; }
 
-	[Translation(Locales.ru, "Расстояние влияния")]
-	[Translation(Locales.en, "Influence distance")]
-	[CustomDisplay(17)]
-	[Required]
-	public double s { get; set; }
-
-	[CustomDisplay(18, true, true)] 
-	public string s_multiple { get; set; }
-
 	public void MapTo(ModelParameters mp)
 	{
 		mp.n = n;
@@ -109,7 +101,6 @@ public class BasicParametersModel : BaseParametersModel
 					mp.lSafe.Add(l_safe);
 					mp.lCar.Add(l_car);
 					mp.k.Add(k);
-					mp.s.Add(s);
 				}
 
 				break;
@@ -130,7 +121,6 @@ public class BasicParametersModel : BaseParametersModel
 		var lDictionary = ParseMultipleValues(l_safe_multiple);
 		var lCarDictionary = ParseMultipleValues(l_car_multiple);
 		var kDictionary = ParseMultipleValues(k_multiple);
-		var sDictionary = ParseMultipleValues(s_multiple);
 
 		for (int i = 0; i < n; i++)
 		{
@@ -140,7 +130,6 @@ public class BasicParametersModel : BaseParametersModel
 			mp.lSafe.Add(lDictionary.ContainsKey(i) ? lDictionary[i] : l_safe);
 			mp.lCar.Add(lCarDictionary.ContainsKey(i) ? lCarDictionary[i] : l_car);
 			mp.k.Add(kDictionary.ContainsKey(i) ? kDictionary[i] : k);
-			mp.s.Add(sDictionary.ContainsKey(i) ? sDictionary[i] : s);
 		}
 	}
 	
@@ -167,9 +156,7 @@ public class BasicParametersModel : BaseParametersModel
 			l_car = 5,
 			l_car_multiple = string.Empty,
 			k = 0.5,
-			k_multiple = string.Empty,
-			s = 20,
-			s_multiple = string.Empty,
+			k_multiple = string.Empty
 		};
 	}
 }

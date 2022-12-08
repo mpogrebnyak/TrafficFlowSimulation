@@ -14,12 +14,6 @@ namespace TrafficFlowSimulation.Windows.Helpers;
 
 public class ParametersSelectionWindowHelper
 {
-	//private LocalizationWindowHelper _localizationWindowHelper;
-
-	//private ChartContextMenuStripComponent _chartContextMenuStripComponent;
-
-	//private AllChartsModel _allCharts;
-
 	private ErrorProvider _errorProvider;
 
 	private Dictionary<Type, BindingSource> _bindingSources;
@@ -27,17 +21,12 @@ public class ParametersSelectionWindowHelper
 	private readonly Control.ControlCollection _controls;
 
 	public ParametersSelectionWindowHelper(
-		//LocalizationComponentsModel localizationComponentsModel,
-		//AllChartsModel allCharts,
 		ErrorProvider errorProvider,
 		Control.ControlCollection controls
 	)
 	{
-		//	_localizationWindowHelper = new LocalizationWindowHelper(localizationComponentsModel);
-		//	_chartContextMenuStripComponent = new ChartContextMenuStripComponent(allCharts);
-		//	_allCharts = allCharts;
-			_errorProvider = errorProvider;
-			_bindingSources = new();
+		_errorProvider = errorProvider;
+		_bindingSources = new();
 		_controls = controls;
 	}
 
@@ -45,25 +34,13 @@ public class ParametersSelectionWindowHelper
 	{
 		InitializeTableLayoutPanelComponent();
 		InitializeParametersSelectionModeComponent();
-		//InitializeLanguageComponent();
-		//_chartContextMenuStripComponent.Initialize();
-
-		//_localizationWindowHelper.LocalizeComponents();
-		//LocalizationWindowHelper.Translate(_localizationComponents);
-		//LocalizationService.Translate(_localizationComponents);
-
-		//var defaultModeSettings = ModeSettingsMapper.GetDefault();
-		//ModeSettingsBinding.DataSource = defaultModeSettings;
-
-		//MainWindowHelper.ShowCurrentModeSettingsFields(Controls.Owner);
 	}
 
 	private void InitializeParametersSelectionModeComponent()
 	{
 		var controlMenuStrip = _controls.Find(ControlName.ParametersSelectionWindowControlName.ControlMenuStrip, true).Single() as ToolStrip;
 		var parametersSelectionStripDropDownButton =
-			controlMenuStrip?.Items.Find(ControlName.ParametersSelectionWindowControlName.ParametersSelectionStripDropDownButton, false).Single() as
-				ToolStripDropDownButton;
+			controlMenuStrip?.Items.Find(ControlName.ParametersSelectionWindowControlName.ParametersSelectionStripDropDownButton, false).Single() as ToolStripDropDownButton;
 
 		if (parametersSelectionStripDropDownButton != null)
 		{
@@ -75,9 +52,6 @@ public class ParametersSelectionWindowHelper
 
 	public void InitializeTableLayoutPanelComponent()
 	{
-		var qq = _controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true)
-			.Single() as TableLayoutPanel;
-
 		var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
 			typeof(InliningDistanceEstimationModelParametersModel),
 			_controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
@@ -88,7 +62,7 @@ public class ParametersSelectionWindowHelper
 		var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
 		var settingsTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel;
 
-		TableLayoutPanelComponent settingsTableLayoutPanelComponent = null;
+		TableLayoutPanelComponent? settingsTableLayoutPanelComponent = null;
 
 		switch (currentParametersSelectionMode)
 		{

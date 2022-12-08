@@ -154,27 +154,39 @@ public class ChartContextMenuStripComponentHelper
 
 		if (menuItem?.Owner is not ContextMenuStrip menu || menu.SourceControl == null)
 			return;
-		
-		var chart = menu.SourceControl as Chart;
 
-		// ReSharper disable warning CS8602 - Dereference of a possibly null reference
+		var chart = menu.SourceControl as Chart;
+		if (chart == null) return;
+
 		var panel = chart.Parent as Panel;
+		if (panel == null) return;
+
 		var splitContainer = panel.Parent as SplitContainer;
-		Control.ControlCollection controls;
+		if (splitContainer == null) return;
+
+		Control.ControlCollection? controls = null;
 		while (true)
 		{
-			if (splitContainer.Parent is Panel p && p.Parent is SplitContainer)
+			if (splitContainer != null && splitContainer.Parent is Panel p && p.Parent is SplitContainer)
 			{
 				panel = splitContainer.Parent as Panel;
-				splitContainer = panel.Parent as SplitContainer;
+
+				if (panel != null)
+					splitContainer = panel.Parent as SplitContainer;
 			}
 			else
 			{
-				var mainWindow = splitContainer.Parent as MainWindow;
-				controls = mainWindow.Controls;
+				if (splitContainer != null)
+				{
+					var mainWindow = splitContainer.Parent as MainWindow;
+					if (mainWindow != null) controls = mainWindow.Controls;
+				}
+
 				break;
 			}
 		}
+
+		if (controls == null) return;
 
 		var chartsSplitContainer = controls
 			.Find(ControlName.MainWindowControlName.ChartsSplitContainer, true)
@@ -182,6 +194,8 @@ public class ChartContextMenuStripComponentHelper
 		var speedAndDistanceSplitContainer = controls
 			.Find(ControlName.MainWindowControlName.SpeedAndDistanceSplitContainer, true)
 			.Single() as SplitContainer;
+
+		if (chartsSplitContainer == null || speedAndDistanceSplitContainer == null) return;
 
 		if (chartsSplitContainer.Panel2Collapsed)
 		{
@@ -198,6 +212,5 @@ public class ChartContextMenuStripComponentHelper
 			chartsSplitContainer.Panel2.Hide();
 			speedAndDistanceSplitContainer.SplitterDistance = speedAndDistanceSplitContainer.Size.Width / 2;
 		}
-		// ReSharper restore warning CS8602
 	}
 }

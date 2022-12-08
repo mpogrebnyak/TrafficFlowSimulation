@@ -3,6 +3,7 @@ using EvaluationKernel.Models;
 using Localization.Localization;
 using TrafficFlowSimulation.Models.Attribute;
 using TrafficFlowSimulation.Models.ParametersModels;
+// ReSharper disable InconsistentNaming
 
 namespace TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 
@@ -25,7 +26,7 @@ public class InliningDistanceEstimationModelParametersModel : BasicParametersMod
 	[CustomDisplay(101)]
 	[Required, Range(0, 1)]
 	public double mu { get; set; }
-	
+
 	public new void MapTo(ModelParameters mp)
 	{
 		base.MapTo(mp);
@@ -38,7 +39,6 @@ public class InliningDistanceEstimationModelParametersModel : BasicParametersMod
 		var defaultValues = (BasicParametersModel)base.GetDefault();
 
 		defaultValues.k = 1;
-		defaultValues.s = -1;
 		defaultValues.l_car = 4;
 		defaultValues.l_safe = 1;
 		defaultValues.a = 0.5;
@@ -61,8 +61,6 @@ public class InliningDistanceEstimationModelParametersModel : BasicParametersMod
 			l_car = defaultValues.l_car,
 			k = defaultValues.k,
 			k_multiple = defaultValues.k_multiple,
-			s = defaultValues.s,
-			s_multiple = defaultValues.s_multiple,
 			g = 9.8,
 			mu = 0.6
 		};

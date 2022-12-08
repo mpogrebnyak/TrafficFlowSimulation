@@ -13,4 +13,8 @@
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
     </ItemGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <NoWarn>8603, 8618, 8625</NoWarn>
+    </PropertyGroup>
+
 </Project>

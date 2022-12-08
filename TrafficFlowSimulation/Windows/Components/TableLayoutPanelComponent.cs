@@ -21,7 +21,7 @@ public class TableLayoutPanelComponent : IComponent
 
 	private Type _modelType;
 
-	private static readonly Font _font = new Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+	private static readonly Font Font = new ("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
 
 	private static readonly string _textBoxPrefix = "textBox_";
 	private static readonly string _labelPrefix = "label_";
@@ -118,7 +118,7 @@ public class TableLayoutPanelComponent : IComponent
 	{
 		var textBox = new TextBox
 		{
-			Font = _font,
+			Font = Font,
 			Name = _textBoxPrefix + name,
 			Size = new Size(width, 27),
 			TabIndex = tabIndex
@@ -131,11 +131,11 @@ public class TableLayoutPanelComponent : IComponent
 		return textBox;
 	}
 
-	private Label CreateLabel(string name, string text, int tabIndex)
+	private Label CreateLabel(string name, string? text, int tabIndex)
 	{
 		var label = new Label
 		{
-			Font = _font,
+			Font = Font,
 			Name = _labelPrefix + name,
 			Text = text,
 			Anchor = AnchorStyles.Left,
@@ -150,7 +150,7 @@ public class TableLayoutPanelComponent : IComponent
 	{
 		var comboBox = new ComboBox
 		{
-			Font = _font,
+			Font = Font,
 			Name = _comboBoxPrefix + name,
 			DrawMode = DrawMode.OwnerDrawVariable,
 			DropDownStyle = ComboBoxStyle.DropDownList,

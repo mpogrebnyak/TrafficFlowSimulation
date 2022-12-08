@@ -36,16 +36,16 @@ public class DrivingModeComponent : IComponent
 					Name = mode.ToString(),
 					Text = mode.GetDescription(),
 					Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular,
-						System.Drawing.GraphicsUnit.Point, ((byte) (204)))
+						System.Drawing.GraphicsUnit.Point, 204)
 				};
 
-				menuItem.Click += new System.EventHandler(MenuItem_Click);
+				menuItem.Click += MenuItem_Click;
 				_modeButton.DropDownItems.Add(menuItem);
 			}
 		}
 
 		_modeButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold,
-			System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+			System.Drawing.GraphicsUnit.Point, 204);
 
 		_modeButton.Text = _modeButton.DropDownItems.Count > 0
 			? _modeButton.DropDownItems[0].Text
@@ -55,8 +55,10 @@ public class DrivingModeComponent : IComponent
 	private void MenuItem_Click(object sender, EventArgs e)
 	{
 		var selectedModeItem = sender as ToolStripMenuItem;
-		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu).OwnerItem;
-		owner.Text = selectedModeItem.Text;
+		if (selectedModeItem == null) return;
+
+		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu)?.OwnerItem;
+		if (owner != null) owner.Text = selectedModeItem.Text;
 
 		var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 		ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
@@ -65,7 +67,7 @@ public class DrivingModeComponent : IComponent
 
 		var settings = SettingsHelper.Get<Properties.Settings>();
 		settings.CurrentDrivingMode = mode;
-		SettingsHelper.Set<Properties.Settings>(settings);
+		SettingsHelper.Set(settings);
 
 		ServiceLocator.Current.GetInstance<MainWindowHelper>().InitializeModeSettingsTableLayoutPanelComponent();
 		ServiceLocator.Current.GetInstance<RenderingHandler>().ChangeDrivingMode(mode);
