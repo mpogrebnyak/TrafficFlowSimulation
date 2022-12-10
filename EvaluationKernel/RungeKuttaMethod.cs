@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
+// ReSharper disable InconsistentNaming
 
 namespace EvaluationKernel
 {
 	public class RungeKuttaMethod
 	{
-		const double _h = 0.001; // 0.001
+		const double _h = 0.001;
 
 		private int _N, _n;
 
@@ -111,10 +112,6 @@ namespace EvaluationKernel
 						Y = i != 0 ? y[i - 1][y[i].Count - _N] : 0
 					}	
 				});
-				// if (i == 0)
-				//	return 16.7 - y[i][y[i].Count - 1];
-				// else
-				//	return y[i - 1][y[i].Count - _N]- y[i][y[i].Count - 1];
 		}
 
 		public void Solve()
@@ -152,12 +149,6 @@ namespace EvaluationKernel
 			}
 
 			t.Add(t[t.Count - 1] + _h);
-
-			//double k1 = h * f(x[x.Count - 1], x[x.Count - N]);
-			//double k2 = h * f(x[x.Count - 1] + k1 / 2, x[x.Count - N] + k1 / 2);
-			//double k3 = h * f(x[x.Count - 1] + k2 / 2, x[x.Count - N] + k2 / 2);
-			//double k4 = h * f(x[x.Count - 1] + k3, x[x.Count - N] + k3);
-			//x.Add(x[x.Count - 1] + (k1 + 2 * k2 + 2 * k3 + k4) / 6);
 		}
 	}
 }

@@ -50,7 +50,7 @@ namespace EvaluationKernel.Models
 
 		public object Clone()
 		{
-			return new ModelParameters() 
+			return new ModelParameters
 			{  
 				n = n, 
 				tau = tau,

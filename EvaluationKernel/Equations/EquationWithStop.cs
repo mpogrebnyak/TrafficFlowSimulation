@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EvaluationKernel.Models;
+// ReSharper disable InconsistentNaming
 
 namespace EvaluationKernel.Equations;
 
@@ -15,7 +16,7 @@ public class EquationWithStop : Equation
 		var x_n = carCoordinatesModel.CurrentCarCoordinates;
 		var x_n_1 = carCoordinatesModel.PreviousСarCoordinates;
 
-		return (n == 0 || carNumberToStop.Contains(n))
+		return n == 0 || carNumberToStop.Contains(n)
 			? GetFirstCarEquation(n, x_n, carNumberToStop)
 			: GetAllCarEquation(n, x_n, x_n_1);
 	}
@@ -30,10 +31,10 @@ public class EquationWithStop : Equation
 
 	private double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1)
 	{
-		var s = S(n, x_n.Y) + 6 / _m.k[n];
+		var s = S(n, x_n.Y) + 2 * Math.Exp(1 / Math.Pow(_m.k[n], 0.5));
 		return RelayFunction(n, x_n, x_n_1.X)
 			? _m.a[n] * ((_m.Vmax[n] - V(x_n_1.Y, _m.Vmax[n])) / (1 + Math.Exp(_m.k[n] * (x_n.X - x_n_1.X + s))) + V(x_n_1.Y, _m.Vmax[n]) - x_n.Y)
-			: _m.q[n] * (x_n.Y * (x_n_1.Y - x_n.Y)) / (x_n_1.X - x_n.X - _m.lSafe[n] - _m.lCar[n - 1] + _m.eps);
+			: _m.q[n] * (x_n.Y * (x_n_1.Y - x_n.Y)) / (x_n_1.X - x_n.X - _m.lSafe[n] - _m.lCar[n - 1] + _m.eps);  
 	}
 
 	private double L(int n, List<int> carsToStop)

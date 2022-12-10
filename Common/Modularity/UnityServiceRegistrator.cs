@@ -6,6 +6,7 @@ namespace Common.Modularity;
 public interface IServiceRegistrator
 {
 	IServiceLocator CreateLocator();
+
 	void RegisterInstance<TInterface>(Type serviceType, string name = null, bool skipIfAlreadyRegistered = true);
 
 	void RegisterInstance(Type interfaceType, Type serviceType, string name = null, bool skipIfAlreadyRegistered = true);
@@ -40,7 +41,7 @@ public class UnityServiceRegistrator : IServiceRegistrator
 	{
 		return new UnityServiceLocator(Container);
 	}
-	
+
 	public void RegisterInstance<TInterface>(Type serviceType, string name = null, bool skipIfAlreadyRegistered = true)
 	{
 		if (skipIfAlreadyRegistered && IsRegistered(typeof(TInterface), name)) return;
@@ -48,8 +49,7 @@ public class UnityServiceRegistrator : IServiceRegistrator
 		Container.RegisterType(typeof(TInterface), serviceType, name, new ContainerControlledLifetimeManager());
 	}
 
-	public void RegisterInstance(Type interfaceType, Type serviceType, string name = null,
-		bool skipIfAlreadyRegistered = true)
+	public void RegisterInstance(Type interfaceType, Type serviceType, string name = null, bool skipIfAlreadyRegistered = true)
 	{
 		if (skipIfAlreadyRegistered && IsRegistered(interfaceType, name)) return;
 
@@ -62,14 +62,12 @@ public class UnityServiceRegistrator : IServiceRegistrator
 		RegisterInstance<TInterface>(typeof(TServiceType), name, skipIfAlreadyRegistered);
 	}
 
-	public TInterface RegisterInstance<TInterface>(Func<TInterface> createInstance, string name = null,
-		bool skipIfAlreadyRegistered = true)
+	public TInterface RegisterInstance<TInterface>(Func<TInterface> createInstance, string name = null, bool skipIfAlreadyRegistered = true)
 	{
 		return (TInterface) RegisterInstance(typeof(TInterface), () => createInstance(), name, skipIfAlreadyRegistered);
 	}
 
-	public object RegisterInstance(Type interfaceType, Func<object> createInstance, string name = null,
-		bool skipIfAlreadyRegistered = true)
+	public object RegisterInstance(Type interfaceType, Func<object> createInstance, string name = null, bool skipIfAlreadyRegistered = true)
 	{
 		if (skipIfAlreadyRegistered && IsRegistered(interfaceType, name))
 		{
@@ -88,8 +86,7 @@ public class UnityServiceRegistrator : IServiceRegistrator
 		RegisterType(typeof(TInterface), typeof(TType), name, skipIfAlreadyRegistered);
 	}
 
-	public void RegisterType(Type interfaceType, Type serviceType, string name = null,
-		bool skipIfAlreadyRegistered = true)
+	public void RegisterType(Type interfaceType, Type serviceType, string name = null, bool skipIfAlreadyRegistered = true)
 	{
 		if (skipIfAlreadyRegistered && IsRegistered(interfaceType, name))
 			return;
@@ -101,7 +98,7 @@ public class UnityServiceRegistrator : IServiceRegistrator
 		return IsRegistered(typeof(TInterface), name);
 	}
 
-	public bool IsRegistered(Type interfaceType, string name = null)
+	public bool IsRegistered(Type interfaceType, string? name = null)
 	{
 		return name == null
 			? Container.IsRegistered(interfaceType)

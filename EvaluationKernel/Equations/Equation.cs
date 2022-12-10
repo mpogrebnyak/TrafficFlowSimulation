@@ -1,4 +1,5 @@
 ﻿using EvaluationKernel.Models;
+// ReSharper disable InconsistentNaming
 
 namespace EvaluationKernel.Equations
 {
@@ -23,7 +24,7 @@ namespace EvaluationKernel.Equations
 			return Vmax >= v ? v : Vmax;
 		}
 
-		public double S(int n, double v)
+		protected double S(int n, double v)
 		{
 			var l = n == 0
 				? _m.lSafe[n]
