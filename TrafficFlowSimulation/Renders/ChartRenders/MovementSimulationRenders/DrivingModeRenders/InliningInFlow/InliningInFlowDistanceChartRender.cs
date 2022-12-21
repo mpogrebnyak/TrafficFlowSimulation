@@ -85,8 +85,8 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
+				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText;
 			}
 		}
 	}
@@ -100,7 +100,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
 				Maximum = _chartAreaModel.AxisXMaximum,
-				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -108,7 +108,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 			{
 				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = _chartAreaModel.AxisYMaximum,
-				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}
@@ -120,7 +120,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().DistanceChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartResources>().DistanceChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F),

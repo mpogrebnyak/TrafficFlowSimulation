@@ -49,7 +49,7 @@ public class DrivingModeComponent : IComponent
 
 		_modeButton.Text = _modeButton.DropDownItems.Count > 0
 			? _modeButton.DropDownItems[0].Text
-			: LocalizationHelper.Get<MenuResources>().EmptyModeLabel;
+			: LocalizationHelper.Get<MainWindowResources>().EmptyModeLabel;
 	}
 
 	private void MenuItem_Click(object sender, EventArgs e)

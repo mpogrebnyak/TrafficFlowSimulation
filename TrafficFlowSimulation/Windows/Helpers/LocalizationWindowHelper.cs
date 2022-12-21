@@ -26,17 +26,18 @@ public class LocalizationWindowHelper
 
 	public void LocalizeComponents()
 	{
-		_lc.StartToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StartButtonTitle;
-		_lc.StopToolStripButton.Text = LocalizationHelper.Get<MenuResources>().StopButtonTitle;
-		_lc.ContinueToolStripButton.Text = LocalizationHelper.Get<MenuResources>().ContinueButtonTitle;
-		_lc.DrivingModeStripLabel.Text = LocalizationHelper.Get<MenuResources>().DrivingModeLabel;
-		_lc.MovementParametersGroupBox.Text = LocalizationHelper.Get<MenuResources>().MovementParametersGroupBoxText;
-		_lc.ModeSettingsGroupBox.Text = LocalizationHelper.Get<MenuResources>().ModeSettingsGroupBoxText;
-		_lc.BasicParametersGroupBox.Text = LocalizationHelper.Get<MenuResources>().BasicParametersGroupBoxText;
-		_lc.AdditionalParametersGroupBox.Text = LocalizationHelper.Get<MenuResources>().AdditionalParametersGroupBoxText;
-		_lc.InitialConditionsGroupBox.Text = LocalizationHelper.Get<MenuResources>().InitialConditionsGroupBoxText;
-		_lc.ControlsGroupBox.Text = LocalizationHelper.Get<MenuResources>().ControlsGroupBoxText;
-		_lc.SubmitButton.Text = LocalizationHelper.Get<MenuResources>().SubmitButtonText;
+		_lc.StartToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().StartButtonTitle;
+		_lc.StopToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().StopButtonTitle;
+		_lc.ContinueToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ContinueButtonTitle;
+		_lc.DrivingModeStripLabel.Text = LocalizationHelper.Get<MainWindowResources>().DrivingModeLabel;
+		_lc.MovementParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().MovementParametersGroupBoxText;
+		_lc.ModeSettingsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().ModeSettingsGroupBoxText;
+		_lc.BasicParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().BasicParametersGroupBoxText;
+		_lc.AdditionalParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().AdditionalParametersGroupBoxText;
+		_lc.InitialConditionsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().InitialConditionsGroupBoxText;
+		_lc.ControlsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().ControlsGroupBoxText;
+		_lc.SubmitButton.Text = LocalizationHelper.Get<MainWindowResources>().SubmitButtonText;
+		_lc.ParametersSelectionToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ParametersSelectionButtonText;
 
 		foreach (DrivingMode value in SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes)
 		{
@@ -56,13 +57,13 @@ public class LocalizationWindowHelper
 		LocalizeChartLegend(_lc.AllCharts.CarsMovementChart);
 
 		LocalizeAxes(_lc.AllCharts.DistanceChart,
-			LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
-			LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText);
+			LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
+			LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText);
 		LocalizeAxes(_lc.AllCharts.SpeedChart,
-			LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
-			LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText);
+			LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
+			LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText);
 		LocalizeAxes(_lc.AllCharts.CarsMovementChart,
-			LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+			LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
 			string.Empty);
 	}
 

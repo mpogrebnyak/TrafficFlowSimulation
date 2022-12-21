@@ -34,5 +34,7 @@ namespace TrafficFlowSimulation.Models
 		public GroupBox ControlsGroupBox { get; set; }
 
 		public Button SubmitButton { get; set; }
+
+		public ToolStripButton ParametersSelectionToolStripButton { get; set; }
 	}
 }

@@ -45,8 +45,17 @@ namespace TrafficFlowSimulation
 		{
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 
-			var menuResourcesProvider = new ResourceProvider(typeof(MenuResources));
-			LocalizationHelper.Register(menuResourcesProvider);
+			var chartResourcesProvider = new ResourceProvider(typeof(ChartResources));
+			LocalizationHelper.Register(chartResourcesProvider);
+
+			var contextMenuResourcesProvider = new ResourceProvider(typeof(ContextMenuResources));
+			LocalizationHelper.Register(contextMenuResourcesProvider);
+
+			var mainWindowMenuResourcesProvider = new ResourceProvider(typeof(MainWindowResources));
+			LocalizationHelper.Register(mainWindowMenuResourcesProvider);
+
+			var parametersSelectionWindowResourcesProvider = new ResourceProvider(typeof(ParametersSelectionWindowResources));
+			LocalizationHelper.Register(parametersSelectionWindowResourcesProvider);
 		}
 
 		private static void SetSettings()

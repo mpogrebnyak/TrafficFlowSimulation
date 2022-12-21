@@ -111,7 +111,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 					ButtonColor = Color.FromArgb(249, 246, 247)
 				},
 				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -172,10 +172,10 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 	{
 		var sb = new StringBuilder();
 
-		sb.Append(LocalizationHelper.Get<MenuResources>().SpeedText + " ");
+		sb.Append(LocalizationHelper.Get<ChartResources>().SpeedText + " ");
 		sb.Append(Math.Round(values[0], 2));
 		sb.Append("\n");
-		sb.Append(LocalizationHelper.Get<MenuResources>().DistanceText + " ");
+		sb.Append(LocalizationHelper.Get<ChartResources>().DistanceText + " ");
 		sb.Append(Math.Round(values[1], 2));
 		return sb.ToString();
 	}

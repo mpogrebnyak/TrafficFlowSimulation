@@ -67,8 +67,8 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText;
+				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText;
 			}
 		}
 	}
@@ -82,7 +82,7 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
 				Maximum = modelParameters.L + 100,
-				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -90,7 +90,7 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			{
 				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
-				Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}
@@ -102,7 +102,7 @@ public class SpeedFromDistanceChartRender : ChartsRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().DistanceChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartResources>().DistanceChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F),

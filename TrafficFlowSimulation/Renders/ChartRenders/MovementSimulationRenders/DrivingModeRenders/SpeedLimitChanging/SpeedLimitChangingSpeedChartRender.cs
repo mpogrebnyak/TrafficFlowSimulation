@@ -59,7 +59,7 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
 				Maximum = _chartAreaModel.AxisXMaximum,
-				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -67,7 +67,7 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 			{
 				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
-				Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}

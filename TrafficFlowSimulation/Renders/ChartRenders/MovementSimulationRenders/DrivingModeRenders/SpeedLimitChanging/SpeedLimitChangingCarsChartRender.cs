@@ -97,7 +97,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 					ButtonColor = Color.FromArgb(249, 246, 247)
 				},
 				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},

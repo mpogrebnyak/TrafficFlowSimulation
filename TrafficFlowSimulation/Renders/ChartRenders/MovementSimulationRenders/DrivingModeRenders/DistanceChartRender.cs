@@ -30,8 +30,8 @@ public abstract class DistanceChartRender : ChartsRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
+				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText;
 			}
 		}
 	}
@@ -41,7 +41,7 @@ public abstract class DistanceChartRender : ChartsRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().DistanceChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartResources>().DistanceChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F),

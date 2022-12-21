@@ -114,7 +114,7 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
 			}
 		}
 	}
@@ -143,7 +143,7 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 					ButtonColor = Color.FromArgb(249, 246, 247)
 				},
 				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -169,7 +169,7 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartResources>().CarsMovementChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F)
@@ -214,10 +214,10 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 	{
 		var sb = new StringBuilder();
 
-		sb.Append(LocalizationHelper.Get<MenuResources>().SpeedText + " ");
+		sb.Append(LocalizationHelper.Get<ChartResources>().SpeedText + " ");
 		sb.Append(Math.Round(values[0], 2));
 		sb.Append("\n");
-		sb.Append(LocalizationHelper.Get<MenuResources>().DistanceText + " ");
+		sb.Append(LocalizationHelper.Get<ChartResources>().DistanceText + " ");
 		sb.Append(Math.Round(values[1], 2));
 		return sb.ToString();
 	}

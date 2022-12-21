@@ -132,7 +132,7 @@ public class ChartContextMenuStripComponentHelper
 			return;
 
 		using SaveFileDialog sfd = new();
-		sfd.Title = LocalizationHelper.Get<MenuResources>().SaveImageText;
+		sfd.Title = LocalizationHelper.Get<ContextMenuResources>().SaveImageText;
 		sfd.Filter = SettingsHelper.Get<Properties.Settings>().AvailableFileTypes;
 		sfd.AddExtension = true;
 		sfd.FileName = "image";

@@ -24,7 +24,7 @@ public abstract class SpeedChartRender : ChartsRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().SpeedChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartResources>().SpeedChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F),
@@ -42,8 +42,8 @@ public abstract class SpeedChartRender : ChartsRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<MenuResources>().SpeedAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
+				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText;
 			}
 		}
 	}

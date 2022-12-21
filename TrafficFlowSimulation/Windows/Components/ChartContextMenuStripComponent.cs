@@ -37,7 +37,7 @@ public class ChartContextMenuStripComponent : IComponent
 		_allChartsModel.CarsMovementChart.ContextMenuStrip = null;
 
 		var helper = new ChartContextMenuStripComponentHelper();
-		var resources = LocalizationHelper.Get<MenuResources>();
+		var resources = LocalizationHelper.Get<ContextMenuResources>();
 
 		var contextMenuStrip = helper.CreateContextMenuStrip(MenuItemName.ChartContextMenuStrip);
 

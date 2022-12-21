@@ -29,7 +29,7 @@ public abstract class CarsChartRender : ChartsRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
 			}
 		}
 	}
@@ -39,7 +39,7 @@ public abstract class CarsChartRender : ChartsRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<MenuResources>().CarsMovementChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartResources>().CarsMovementChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F)

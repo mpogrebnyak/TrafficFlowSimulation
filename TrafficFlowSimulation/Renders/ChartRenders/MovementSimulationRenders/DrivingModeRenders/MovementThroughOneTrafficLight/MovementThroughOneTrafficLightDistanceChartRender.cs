@@ -69,7 +69,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
 				Maximum = _chartAreaModel.AxisXMaximum,
-				Title = LocalizationHelper.Get<MenuResources>().TimeAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -78,7 +78,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = _chartAreaModel.AxisYMaximum,
 				//Maximum = modelParameters.L + 100,
-				Title = LocalizationHelper.Get<MenuResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}
