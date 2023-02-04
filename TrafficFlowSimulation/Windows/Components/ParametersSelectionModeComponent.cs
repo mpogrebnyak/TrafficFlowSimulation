@@ -6,6 +6,7 @@ using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Windows.Helpers;
@@ -70,8 +71,8 @@ public class ParametersSelectionModeComponent : IComponent
 		ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().InitializeTableLayoutPanelComponent();
 		ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().ChangeParametersSelectionMode(mode);
 
-		var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-		ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+		var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectParametersFromBindingSource();
+		ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 		ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters);
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
@@ -11,7 +10,7 @@ using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Mode
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
 
 public static class InliningDistanceEstimationSelectionEvaluationHelper
-{
+{ 
 	public static void AddCoordinates(ModelParameters mp, List<InliningDistanceEstimationCoordinatesModel> cm, double x, double y, double intensity, bool isIntensityChange = false)
 	{
 		cm.Add(new InliningDistanceEstimationCoordinatesModel
@@ -36,7 +35,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 			if (cm.IsIntensityChange)
 			{
-				lineChart.Series.Single(series => series.Name.Contains(InliningDistanceEstimationColor.Black.Name))
+				lineChart.Series.Single(series => series.Name.Contains(CustomColors.Black.Name))
 					.Points
 					.AddXY(cm.X, cm.Y);
 
@@ -46,39 +45,29 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			}
 		}
 
-		var fullFIllChartName = GetFileName("FullFIll", modelParameters.k[1], modelParameters.a[1]);
+		var parameters = new Dictionary<string, double>
+		{
+			{"k", modelParameters.k[1]},
+			{"a", modelParameters.a[1]},
+		};
+
+		var fullFIllChartName = EvaluationCommonHelper.GetFileName("FullFIll", parameters);
 		fullFIllChart.SaveImage(fullFIllChartName, ChartImageFormat.Png);
-		var lineFIllChartName = GetFileName("LineFIll", modelParameters.k[1], modelParameters.a[1]);
+		var lineFIllChartName = EvaluationCommonHelper.GetFileName("LineFIll", parameters);
 		lineChart.SaveImage(lineFIllChartName, ChartImageFormat.Png);;
-	}
-
-	private static string GetFileName(string chartName, double k, double a)
-	{
-		var folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-		folder += @"\Images";
-		var folderExists = Directory.Exists(folder);
-		if (!folderExists)
-			Directory.CreateDirectory(folder);
-
-		var name =
-			@"\" + 
-			chartName +
-			@"_k=" + Math.Round(k, 2) +
-			@"_a=" + Math.Round(a, 2);
-		return folder + name + ".png";
 	}
 
 	private static Chart CreateFullFIllChart(ModelParameters modelParameters)
 	{
-		var chart = CreateBaseChart(modelParameters);
-		foreach (var color in InliningDistanceEstimationColor.GetAllColors())
+		var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters));
+		foreach (var color in CustomColors.GetColorsForInliningDistanceEstimation())
 		{
 			chart.Series.Add(new Series
 			{
 				Name = "InliningDistanceEstimationSeries" + color.Name,
 				ChartType = SeriesChartType.Point,
 			//	ChartArea = chartArea.Name,
-				BorderWidth = 1,
+			//	BorderWidth = 0,
 				Color = color,
 				MarkerStyle = MarkerStyle.Circle
 			});
@@ -89,16 +78,16 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 	private static Chart CreateLineChart(ModelParameters modelParameters)
 	{
-		var chart = CreateBaseChart(modelParameters);
+		var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters));
 		//foreach (var color in InliningDistanceEstimationColor.GetAllColors())
 		//{
 			chart.Series.Add(new Series
 			{
-				Name = "InliningDistanceEstimationSeries" + InliningDistanceEstimationColor.Black.Name,
-				ChartType = SeriesChartType.Line,
+				Name = "InliningDistanceEstimationSeries" + CustomColors.Black.Name,
+				ChartType = SeriesChartType.Spline,
 				//ChartArea = chartArea.Name,
 				BorderWidth = 1,
-				Color = InliningDistanceEstimationColor.Black,
+				Color = CustomColors.Black,
 			//	MarkerStyle = MarkerStyle.Circle
 			});
 		//}
@@ -106,36 +95,21 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		return chart;
 	}
 
-	private static Chart CreateBaseChart(ModelParameters modelParameters)
+	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters)
 	{
-		var chart = new Chart();
-		chart.Size = new Size(800, 600);
-
-		chart.Series.Clear();
-		chart.ChartAreas.Clear();
-		chart.Legends.Clear();
-
-		var chartArea = CreateChartArea(modelParameters);
-		chart.ChartAreas.Add(chartArea);
-
-		return chart;
-	}
-
-	private static ChartArea CreateChartArea(ModelParameters modelParameters)
-	{
-		return new ChartArea
+		return new EvaluationCommonHelper.ChartAreaParameters
 		{
 			Name = "InliningDistanceEstimationChartArea",
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 100,
+				Maximum = 100
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = modelParameters.Vmax[1],
-				Interval = modelParameters.Vmax[1] / 2,
+				Interval = modelParameters.Vmax[1] / 2
 			}
 		};
 	}
@@ -144,12 +118,12 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 	{
 		if (intensity < 0)
 		{
-			return InliningDistanceEstimationColor.Red;
+			return CustomColors.BrightRed;
 		}
 
 		if (intensity == 0)
 		{
-			return InliningDistanceEstimationColor.Green;
+			return CustomColors.Green;
 		}
 
 		// на сколько процентов скорость снижения отличается от максимальной
@@ -158,19 +132,19 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 		if (intensityInPercentage < 5)
 		{
-			return InliningDistanceEstimationColor.LightGreen;
+			return CustomColors.LightGreen;
 		}
 
 		if (intensityInPercentage < 50)
 		{
-			return InliningDistanceEstimationColor.LightOrange;
+			return CustomColors.LightOrange;
 		}
 
 		if (intensityInPercentage < 90)
 		{
-			return InliningDistanceEstimationColor.Orange;
+			return CustomColors.Orange;
 		}
 
-		return InliningDistanceEstimationColor.LightRed;
+		return CustomColors.LightRed;
 	}
 }

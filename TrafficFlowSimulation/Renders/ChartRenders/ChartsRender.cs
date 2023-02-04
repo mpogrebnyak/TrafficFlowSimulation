@@ -55,7 +55,7 @@ public abstract class ChartsRender : IChartRender
 
 	public abstract void UpdateChart(object parameters);
 
-	public virtual void UpdateEnvironment(EnvironmentParametersModel parameters) { }
+	public virtual void UpdateEnvironment(object parameters) { }
 
 	public virtual void AddSeries(int index) { }
 

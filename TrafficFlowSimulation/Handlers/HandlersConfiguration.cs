@@ -3,6 +3,7 @@ using Common;
 using Common.Modularity;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
@@ -54,6 +55,12 @@ public class HandlersConfiguration : IInitializable
 		{
 			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new InliningDistanceEstimationSelectionEvaluationHandler(),
 				ParametersSelectionMode.InliningDistanceEstimation.ToString());
+		}
+
+		if (parametersSelectionModes.Contains(ParametersSelectionMode.AccelerationCoefficientEstimation))
+		{
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new AccelerationCoefficientEstimationSelectionEvaluationHandler(),
+				ParametersSelectionMode.AccelerationCoefficientEstimation.ToString());
 		}
 	}
 }

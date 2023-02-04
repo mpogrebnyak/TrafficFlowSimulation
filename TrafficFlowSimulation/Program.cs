@@ -8,6 +8,7 @@ using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;

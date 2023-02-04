@@ -2,6 +2,7 @@
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 using TrafficFlowSimulation.Windows.Models;
 
@@ -59,7 +60,7 @@ public class RenderingHandler
 		SpeedFromDistanceProvider.UpdateChart(parameters);
 	}
 
-	public void UpdateChartEnvironments(EnvironmentParametersModel parameters)
+	public void UpdateChartEnvironments(object parameters)
 	{
 		SpeedProvider.UpdateEnvironment(parameters);
 		DistanceProvider.UpdateEnvironment(parameters);

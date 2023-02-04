@@ -65,16 +65,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ControlName.cs" />
-    <Compile Include="Constants\CustomColor.cs" />
-    <Compile Include="Constants\DrivingMode.cs" />
-    <Compile Include="Constants\InliningDistanceEstimationColor.cs" />
-    <Compile Include="Constants\ParametersSelectionMode.cs" />
+    <Compile Include="Constants\CustomColors.cs" />
+    <Compile Include="Constants\Modes\DrivingMode.cs" />
+    <Compile Include="Constants\Modes\ParametersSelectionMode.cs" />
     <Compile Include="Handlers\EvaluationHandlers\EvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\IEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\InliningInFlowEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\MovementThroughOneTrafficLightEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\SpeedLimitChangingEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\AccelerationCoefficientEstimationSelectionEvaluationHandler.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\AccelerationCoefficientEstimationSelectionEvaluationHelper.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\EvaluationCommonHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\InliningDistanceEstimationSelectionEvaluationHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceEstimationSelectionEvaluationHandler.cs" />
     <Compile Include="Handlers\HandlersConfiguration.cs" />
@@ -89,6 +91,8 @@
     <Compile Include="Models\ParametersModels\BasicParametersModel.cs" />
     <Compile Include="Models\ParametersModels\Constants\IdenticalCars.cs" />
     <Compile Include="Models\ParametersModels\InitialConditionsParametersModel.cs" />
+    <Compile Include="Models\ParametersSelectionSettingsModels\AccelerationCoefficientEstimationModelParametersModel.cs" />
+    <Compile Include="Models\ParametersSelectionSettingsModels\AccelerationCoefficientEstimationSettingsModel.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\Constants\EvaluateParameters.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationModelParametersModel.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationSettingsModel.cs" />
@@ -130,11 +134,13 @@
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementSpeedChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\ChartAreaModel.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\CoordinatesModel.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\EnvironmentParametersModel.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\MovementSimulationConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHandler.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHelper.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\AccelerationCoefficientEstimationSelectionChartRender.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceEstimationSelectionChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\AccelerationCoefficientEnvironmentModel.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\AccelerationCoefficientEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\InliningDistanceEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionRenderingHandler.cs" />

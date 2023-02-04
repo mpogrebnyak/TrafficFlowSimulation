@@ -6,6 +6,7 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ParametersModels;
 using TrafficFlowSimulation.Models.SettingsModels;
@@ -43,7 +44,7 @@ namespace TrafficFlowSimulation.Windows.Helpers
 			_controls = controls;
 		}
 
-		public void InitializeInterface()
+			public void InitializeInterface()
 		{
 			var slamPanelComponent = new SlamPanelComponent(_controls);
 			slamPanelComponent.Initialize();

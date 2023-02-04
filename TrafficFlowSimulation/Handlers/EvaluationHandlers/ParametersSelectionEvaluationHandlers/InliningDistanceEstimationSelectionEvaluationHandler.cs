@@ -84,8 +84,9 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 		var min = 0.0;
 		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
-		var step = 2;
-		for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
+		var step = 1; //0.05; 
+		//for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
+		for (double space = 0; space <= 10; space+=step)
 		{
 			progressBarHelper?.Update((int) space);
 
@@ -155,7 +156,6 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			y[i] = r.Y(i).Last();
 		}
 
-		// ПОСМОТРЕТЬ ПРИ РАЗНЫХ eps
 		var eps = 0.1;
 
 		var localMax = modelParameters.Vmax[1];
@@ -173,7 +173,13 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 			r.Solve();
 
-			if (double.IsNaN(x[1]) || double.IsNaN(y[1]))
+			for (int i = 0; i < n; i++)
+			{
+				x[i] = r.X(i).Last();
+				y[i] = r.Y(i).Last();
+			}
+
+			if (xp[1] > x[1] || x[0] < x[1])// || double.IsNaN(x[1]) || double.IsNaN(y[1]))
 			{
 				return new DecelerationEvaluation
 				{
@@ -182,10 +188,13 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				};
 			}
 
-			for (int i = 0; i < n; i++)
+			if (double.IsNaN(x[1]) || double.IsNaN(y[1]))
 			{
-				x[i] = r.X(i).Last();
-				y[i] = r.Y(i).Last();
+				return new DecelerationEvaluation
+				{
+					IsDeceleration = true,
+					Intensity = 0
+				};
 			}
 
 			if (y[1] > yp[1])

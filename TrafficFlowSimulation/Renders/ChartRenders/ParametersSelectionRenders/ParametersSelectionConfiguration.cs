@@ -4,6 +4,7 @@ using Common;
 using Common.Modularity;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -24,6 +25,12 @@ public class ParametersSelectionConfiguration : IInitializable
 		{
 			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new InliningDistanceEstimationSelectionChartRender(_chart),
 				_chart.Name + ParametersSelectionMode.InliningDistanceEstimation, false);
+		}
+
+		if (parametersSelectionModes.Contains(ParametersSelectionMode.AccelerationCoefficientEstimation))
+		{
+			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new AccelerationCoefficientEstimationSelectionChartRender(_chart),
+				_chart.Name + ParametersSelectionMode.AccelerationCoefficientEstimation, false);
 		}
 
 		CommonHelper.ServiceRegistrator.RegisterInstance<ParametersSelectionRenderingHandler>(() => new ParametersSelectionRenderingHandler(_chart));

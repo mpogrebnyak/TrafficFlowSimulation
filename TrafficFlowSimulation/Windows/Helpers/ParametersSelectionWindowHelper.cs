@@ -6,6 +6,7 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Windows.Components;
@@ -52,45 +53,45 @@ public class ParametersSelectionWindowHelper
 
 	public void InitializeTableLayoutPanelComponent()
 	{
-		var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
-			typeof(InliningDistanceEstimationModelParametersModel),
-			_controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
-			_bindingSources,
-			_errorProvider);
-		basicParametersTableLayoutPanelComponent.Initialize();
+		GetModelTypes(out var modelType, out var settingsModelType);
 
+		if (modelType != null && settingsModelType != null)
+		{
+			var parametersTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel; 
+			var settingsTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel;
+
+			var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
+				modelType,
+				parametersTableLayoutPanel,
+				_bindingSources,
+				_errorProvider);
+			basicParametersTableLayoutPanelComponent.Initialize();
+
+			var settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
+				settingsModelType,
+				settingsTableLayoutPanel,
+				_bindingSources,
+				_errorProvider);
+			settingsTableLayoutPanelComponent.Initialize();
+		}
+	}
+
+	public BaseSettingsModels CollectModeSettingsFromBindingSource(ModelParameters modelParameters)
+	{
 		var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
-		var settingsTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel;
+		_bindingSources.ForEach(x => x.Value.EndEdit());
 
-		TableLayoutPanelComponent? settingsTableLayoutPanelComponent = null;
-
+		var modeSettings = new BaseSettingsModels();
 		switch (currentParametersSelectionMode)
 		{
 			case ParametersSelectionMode.InliningDistanceEstimation:
 			{
-				settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
-					typeof(InliningDistanceEstimationSettingsModel),
-					settingsTableLayoutPanel,
-					_bindingSources,
-					_errorProvider);
+				modeSettings = (InliningDistanceEstimationSettingsModel) _bindingSources[typeof(InliningDistanceEstimationSettingsModel)].DataSource;
 				break;
 			}
-		}
-
-		settingsTableLayoutPanelComponent?.Initialize();
-	}
-	
-	public BaseSettingsModels CollectModeSettingsFromBindingSource(ModelParameters modelParameters)
-	{
-		var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
-		_bindingSources.ForEach(x => x.Value.EndEdit());
-
-		var modeSettings = new BaseSettingsModels();
-		switch (currentDrivingMode)
-		{
-			case DrivingMode.StartAndStopMovement:
+			case ParametersSelectionMode.AccelerationCoefficientEstimation:
 			{
-				modeSettings = (InliningDistanceEstimationSettingsModel) _bindingSources[typeof(InliningDistanceEstimationSettingsModel)].DataSource;
+				modeSettings = (AccelerationCoefficientEstimationSettingsModel) _bindingSources[typeof(AccelerationCoefficientEstimationSettingsModel)].DataSource;
 				break;
 			}
 		}
@@ -104,8 +105,51 @@ public class ParametersSelectionWindowHelper
 		var modelParameters = new ModelParameters();
 		_bindingSources.ForEach(x => x.Value.EndEdit());
 
-		((InliningDistanceEstimationModelParametersModel)_bindingSources[typeof(InliningDistanceEstimationModelParametersModel)].DataSource).MapTo(modelParameters);
+		var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+
+		switch (currentParametersSelectionMode)
+		{
+			case ParametersSelectionMode.InliningDistanceEstimation:
+			{
+				((InliningDistanceEstimationModelParametersModel) _bindingSources[
+					typeof(InliningDistanceEstimationModelParametersModel)].DataSource).MapTo(modelParameters);
+				break;
+			}
+			case ParametersSelectionMode.AccelerationCoefficientEstimation:
+			{
+				((AccelerationCoefficientEstimationModelParametersModel) _bindingSources[
+					typeof(AccelerationCoefficientEstimationModelParametersModel)].DataSource).MapTo(modelParameters);
+				break;
+			}
+		}
 
 		return modelParameters;
+	}
+
+	private void GetModelTypes(out Type? modelType, out Type? settingsModelType)
+	{
+		var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+
+		switch (currentParametersSelectionMode)
+		{
+			case ParametersSelectionMode.InliningDistanceEstimation:
+			{
+				settingsModelType = typeof(InliningDistanceEstimationSettingsModel);
+				modelType = typeof(InliningDistanceEstimationModelParametersModel);
+				break;
+			}
+			case ParametersSelectionMode.AccelerationCoefficientEstimation:
+			{
+				settingsModelType = typeof(AccelerationCoefficientEstimationSettingsModel);
+				modelType = typeof(AccelerationCoefficientEstimationModelParametersModel);
+				break;
+			}
+			default:
+			{
+				settingsModelType = null;
+				modelType = null;
+				break;
+			}
+		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms.DataVisualization.Charting;
+﻿using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
@@ -11,7 +10,7 @@ public interface IChartRender
 
 	public void UpdateChart(object parameters);
 
-	public void UpdateEnvironment(EnvironmentParametersModel parameters);
+	public void UpdateEnvironment(object parameters);
 
 	public void ShowChartLegend(LegendStyle? legendStyle);
 

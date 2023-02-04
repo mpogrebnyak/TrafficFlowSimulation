@@ -19,70 +19,70 @@ public class BasicParametersModel : BaseParametersModel
 	[Translation(Locales.ru, "Все автомобили одинаковы")]
 	[Translation(Locales.en, "All vehicles are the same")]
 	[CustomDisplay(2, enumType: typeof(IdenticalCars))]
-	public object IsCarsIdentical { get; set; }
+	public virtual object IsCarsIdentical { get; set; }
 
 	[Translation(Locales.ru, "Максимальная скорость")]
 	[Translation(Locales.en, "Maximum speed")]
 	[CustomDisplay(3)]
 	[Required]
-	public double Vmax { get; set; }
+	public virtual double Vmax { get; set; }
 
 	[CustomDisplay(4, true, true)] 
-	public string Vmax_multiple { get; set; }
+	public virtual string Vmax_multiple { get; set; }
 
 	[Translation(Locales.ru, "Время реакции водителя")]
 	[Translation(Locales.en, "Driver's response time")]
 	[CustomDisplay(5)]
 	[Required]
-	public double tau { get; set; }
+	public virtual double tau { get; set; }
 
 	[CustomDisplay(6, true, true)] 
-	public string tau_multiple { get; set; }
+	public virtual string tau_multiple { get; set; }
 
 	[Translation(Locales.ru, "Интенсивность разгона")]
 	[Translation(Locales.en, "Acceleration intensity")]
 	[CustomDisplay(7)]
 	[Required]
-	public double a { get; set; }
+	public virtual double a { get; set; }
 
 	[CustomDisplay(8, true, true)] 
-	public string a_multiple { get; set; }
+	public virtual string a_multiple { get; set; }
 
 	[Translation(Locales.ru, "Интенсивность торможения")]
 	[Translation(Locales.en, "Deceleration intensity")]
 	[CustomDisplay(9)]
 	[Required]
-	public double q { get; set; }
+	public virtual double q { get; set; }
 
 	[CustomDisplay(10, true, true)] 
-	public string q_multiple { get; set; }
+	public virtual string q_multiple { get; set; }
 
 	[Translation(Locales.ru, "Безопасное расстояние")]
 	[Translation(Locales.en, "Safely Distance")]
 	[CustomDisplay(11)]
 	[Required]
-	public double l_safe { get; set; }
+	public virtual double l_safe { get; set; }
 
 	[CustomDisplay(12, true, true)] 
-	public string l_safe_multiple { get; set; }
+	public virtual string l_safe_multiple { get; set; }
 
 	[Translation(Locales.ru, "Длина автомобиля")]
 	[Translation(Locales.en, "Vehicle length")]
 	[CustomDisplay(13)]
 	[Required]
-	public double l_car { get; set; }
+	public virtual double l_car { get; set; }
 
 	[CustomDisplay(14, true, true)] 
-	public string l_car_multiple { get; set; }
+	public virtual string l_car_multiple { get; set; }
 
 	[Translation(Locales.ru, "Коэффициент плавности")]
 	[Translation(Locales.en, "Smoothness coefficient")]
 	[CustomDisplay(15)]
 	[Required]
-	public double k { get; set; }
+	public virtual double k { get; set; }
 
 	[CustomDisplay(16, true, true)] 
-	public string k_multiple { get; set; }
+	public virtual string k_multiple { get; set; }
 
 	public void MapTo(ModelParameters mp)
 	{

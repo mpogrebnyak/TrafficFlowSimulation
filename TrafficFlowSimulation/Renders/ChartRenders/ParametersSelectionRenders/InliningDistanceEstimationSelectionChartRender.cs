@@ -16,7 +16,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
 
-	private readonly List<Color> _pointColors = InliningDistanceEstimationColor.GetAllColors();
+	private readonly List<Color> _pointColors = CustomColors.GetColorsForInliningDistanceEstimation();
 	public InliningDistanceEstimationSelectionChartRender(Chart chart) : base(chart)
 	{
 		FullClearChart();

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Constants.Modes;
 
 namespace TrafficFlowSimulation.Properties
 {
@@ -12,7 +13,7 @@ namespace TrafficFlowSimulation.Properties
 
 		public ParametersSelectionMode CurrentParametersSelectionMode { get; set; }
 
-		[DefaultValue("InliningDistanceEstimation")]
+		[DefaultValue("InliningDistanceEstimation, AccelerationCoefficientEstimation")]
 		public ParametersSelectionMode[] AvailableParametersSelectionModes { get; set; }
 
 		[DefaultValue("ColorCars")]

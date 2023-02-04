@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -93,7 +92,7 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 		}
 	}
 
-	public override void UpdateEnvironment(EnvironmentParametersModel parameters)
+	public override void UpdateEnvironment(object parameters)
 	{
 		//var environmentModel = (EnvironmentModel) parameters;
 		//var trafficLine = _chart.Series.First(series => series.Name.Contains("StartLine"));

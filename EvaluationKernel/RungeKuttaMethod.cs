@@ -16,13 +16,15 @@ namespace EvaluationKernel
 		List<List<double>> x;
 		List<List<double>> y;
 		List<double> t;
-		
+
 		List<int> CarNumberToStop = new List<int>(); 
 
 		public RungeKuttaMethod(ModelParameters modelParameters, Equation equation)
 		{
 			_n = modelParameters.n;
-			_N = (int) (modelParameters.tau / _h);
+			_N = (int) modelParameters.tau != 0
+				? (int) (modelParameters.tau / _h)
+				: 1;
 			_equation = equation;
 
 			t = new List<double>();
@@ -34,16 +36,16 @@ namespace EvaluationKernel
 
 		private void SetInitialConditions(ModelParameters modelParameters)
 		{
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 			{
 				x.Add(new List<double>());
 				y.Add(new List<double>());
 			}
 
-			for (int i = 0; i < _N; i++)
+			for (var i = 0; i < _N; i++)
 			{
 				t.Add((i - _N) * _h);
-				for (int j = 0; j < _n; j++)
+				for (var j = 0; j < _n; j++)
 				{
 					x[j].Add(modelParameters.lambda[j]);
 					y[j].Add(modelParameters.Vn[j]);

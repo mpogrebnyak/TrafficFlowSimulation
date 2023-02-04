@@ -81,7 +81,7 @@ public class TableLayoutPanelComponent : IComponent
 
 			if (attribute.EnumType != null)
 			{
-				var comboBox = CreateComboBox(property.Name, property.Name, attribute.EnumType , counter++);
+				var comboBox = CreateComboBox(property.Name, property.Name, attribute.EnumType, attribute.IsHidden, attribute.IsReadOnly, counter++);
 				if (attribute.IsMultiple)
 				{
 					controls.Add(comboBox, 0, row);
@@ -146,7 +146,7 @@ public class TableLayoutPanelComponent : IComponent
 		return label;
 	}
 
-	private ComboBox CreateComboBox(string name, string dataMember, Type enumType, int tabIndex)
+	private ComboBox CreateComboBox(string name, string dataMember, Type enumType, bool isHidden, bool isReadOnly, int tabIndex)
 	{
 		var comboBox = new ComboBox
 		{
@@ -164,6 +164,9 @@ public class TableLayoutPanelComponent : IComponent
 
 		comboBox.DrawItem += _helper.ComboBoxDrawItemEvent;
 		comboBox.SelectedIndexChanged += _helper.GetComboBoxSelectedIndexChangedEvent(enumType);
+
+		if(isHidden) comboBox.Hide();
+		if(isReadOnly) comboBox.Enabled = false;
 
 		return comboBox;
 	}

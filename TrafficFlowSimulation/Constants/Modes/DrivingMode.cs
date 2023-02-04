@@ -1,6 +1,6 @@
 ﻿using Localization.Localization;
 
-namespace TrafficFlowSimulation.Constants;
+namespace TrafficFlowSimulation.Constants.Modes;
 
 public class DrivingModeResources
 {

@@ -1,8 +1,6 @@
-﻿using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
+﻿namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
-
-public class EnvironmentModel : EnvironmentParametersModel
+public class EnvironmentModel
 {
 	public bool IsGreenLight { get; set; }
 

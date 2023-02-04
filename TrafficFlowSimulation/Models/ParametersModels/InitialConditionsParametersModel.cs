@@ -7,7 +7,7 @@ namespace TrafficFlowSimulation.Models.ParametersModels;
 
 public class InitialConditionsParametersModel : BaseParametersModel
 {
-	[Translation(Locales.ru, "Нчальные скорости")]
+	[Translation(Locales.ru, "Начальные скорости")]
 	[Translation(Locales.en, "Initial speeds")]
 	[CustomDisplay(1)]
 	[Required]

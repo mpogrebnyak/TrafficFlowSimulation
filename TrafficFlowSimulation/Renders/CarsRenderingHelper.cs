@@ -94,8 +94,8 @@ namespace TrafficFlowSimulation.Renders
 					PaletteName = "RedAndBlue",
 					Colors = new List<Color>
 					{
-						CustomColor.Red,
-						CustomColor.Blue
+						CustomColors.Red,
+						CustomColors.Blue
 					}
 				}
 			};

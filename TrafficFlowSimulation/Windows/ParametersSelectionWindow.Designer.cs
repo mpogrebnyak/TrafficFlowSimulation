@@ -281,7 +281,7 @@
             this.Name = "ParametersSelectionWindow";
             this.Text = "Traffic flow simulation";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParametersSelectionWindow_FormClosing);
-            this.Shown += new System.EventHandler(this.MainWindow_Shown);
+            this.Shown += new System.EventHandler(this.ParametersSelectionWindowHelper_Shown);
             this.ControlMenuStrip.ResumeLayout(false);
             this.ControlMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ParametersSelectionChart)).EndInit();

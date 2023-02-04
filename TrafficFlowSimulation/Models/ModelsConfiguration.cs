@@ -30,5 +30,10 @@ public class ModelsConfiguration : IInitializable
 			typeof(InliningDistanceEstimationSettingsModel).ToString());
 		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceEstimationModelParametersModel(),
 			typeof(InliningDistanceEstimationModelParametersModel).ToString());
+
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new AccelerationCoefficientEstimationSettingsModel(),
+			typeof(AccelerationCoefficientEstimationSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new AccelerationCoefficientEstimationModelParametersModel(),
+			typeof(AccelerationCoefficientEstimationModelParametersModel).ToString());
 	}
 }

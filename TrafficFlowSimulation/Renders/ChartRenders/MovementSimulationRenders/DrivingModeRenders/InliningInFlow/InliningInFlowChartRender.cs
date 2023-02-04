@@ -26,7 +26,7 @@ public abstract class InliningInFlowChartRender : ChartsRender
 
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
-			series.Color = CustomColor.Blue;
+			series.Color = CustomColors.Blue;
 		}
 
 		_chart.Series.Add(new Series
@@ -35,7 +35,7 @@ public abstract class InliningInFlowChartRender : ChartsRender
 			ChartType = _seriesChartType,
 			ChartArea = _chartAreaName,
 			BorderWidth = 2,
-			Color = CustomColor.Red,
+			Color = CustomColors.Red,
 			Tag = _inliningTag
 		});
 	}
@@ -59,7 +59,7 @@ public abstract class InliningInFlowChartRender : ChartsRender
 				ChartType = _seriesChartType,
 				ChartArea = _chartAreaName,
 				BorderWidth = 2,
-				Color = CustomColor.Red,
+				Color = CustomColors.Red,
 				Tag = _inliningTag
 			}
 		);
