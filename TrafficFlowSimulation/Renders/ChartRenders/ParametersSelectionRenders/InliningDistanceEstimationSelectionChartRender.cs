@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
@@ -22,7 +23,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		FullClearChart();
 	}
 
-	public override void RenderChart(ModelParameters modelParameters)
+	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		FullClearChart();
 
@@ -76,7 +77,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		};
 	}
 
-	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
+	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		return new Series[] { };
 	}

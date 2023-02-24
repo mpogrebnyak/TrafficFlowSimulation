@@ -5,6 +5,7 @@ using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
+using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -34,9 +35,9 @@ public class ParametersSelectionRenderingHandler
 		_provider.UpdateChart(parameters);
 	}
 
-	public void RenderCharts(ModelParameters modelParameters)
+	public void RenderCharts(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		_provider.RenderChart(modelParameters);
+		_provider.RenderChart(modelParameters, modeSettings);
 	}
 
 	public void UpdateChartEnvironments(object parameters)

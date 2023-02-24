@@ -46,7 +46,8 @@ public static class EvaluationCommonHelper
 		{
 			Name = parameters.Name,
 			AxisX = parameters.AxisX,
-			AxisY = parameters.AxisY
+			AxisY = parameters.AxisY,
+			BackColor = Color.Transparent
 		};
 	}
 

@@ -45,4 +45,13 @@ public static class CustomColors
 			Green
 		};
 	}
+
+	public static List<Color> GetColorsForDecelerationCoefficientEstimation()
+	{
+		return new List<Color>
+		{
+			Black,
+			Green
+		};
+	}
 }

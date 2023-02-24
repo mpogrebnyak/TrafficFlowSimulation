@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
 
-public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
+public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 {
 	public static void GenerateCharts(
 		ModelParameters modelParameters,
-		List<CoefficientEstimationCoordinatesModel> coordinatesModel,
-		AccelerationCoefficientEnvironmentModel environmentModel)
+		List<PointF> points)
 	{
-		var chart = CreateChart(modelParameters, environmentModel);
+		var chart = CreateChart(modelParameters, null);
 
-		foreach (var cm in coordinatesModel)
+		foreach (var cm in points)
 		{
-			chart.Series.Single(series => series.Name.Contains(cm.Color.Name))
+			chart.Series.Single(series => series.Name.Contains(CustomColors.Black.Name))
 				.Points
 				.AddXY(cm.X, cm.Y);
 		}
 
 		var parameters = new Dictionary<string, double>
 		{
-			{"a", modelParameters.a[0]}
+			{"vvvvvv", 1}
 		};
 
 		var chartName = EvaluationCommonHelper.GetFileName("A_Estimation", parameters);
@@ -37,11 +36,11 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 	private static Chart CreateChart(ModelParameters modelParameters, AccelerationCoefficientEnvironmentModel environmentModel)
 	{
 		var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters, environmentModel));
-		foreach (var color in CustomColors.GetColorsForAccelerationCoefficientEstimation())
+		foreach (var color in CustomColors.GetColorsForDecelerationCoefficientEstimation())
 		{
 			chart.Series.Add(new Series
 			{
-				Name = "AccelerationCoefficientEstimationSeries" + color.Name,
+				Name = "DecelerationCoefficientEstimationSeries" + color.Name,
 				ChartType = SeriesChartType.Point,
 				Color = color,
 				MarkerStyle = MarkerStyle.Circle,
@@ -56,11 +55,11 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 	{
 		var chartArea = new EvaluationCommonHelper.ChartAreaParameters
 		{
-			Name = "AccelerationCoefficientEstimationChartArea",
+			Name = "DecelerationCoefficientEstimationChartArea",
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 1,
+				Maximum = 30,
 				LabelAutoFitMinFontSize = 40,
 				LineWidth = 2,
 				MajorGrid = new Grid
@@ -71,7 +70,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = 20,
+				Maximum = 1,
 				LabelAutoFitMinFontSize = 40,
 				LineWidth = 2,
 				MajorGrid = new Grid
@@ -81,24 +80,23 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			}
 		};
 
+	/*	var stepForLabel = 1;
 		chartArea.AxisX.CustomLabels.Add(new CustomLabel
 		{
-			Text = "a",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(1),
-			ToPosition = ChartCommonHelper.CalculateToPosition(1),
+			Text = "1",
+			FromPosition = 1 - stepForLabel,
+			ToPosition = 1 + stepForLabel,
 			GridTicks = GridTickTypes.All,
 		});
 		for (var i = 0; i <= 20; i += 5)
 		{
 			if (i == 10)
 				continue;
-
-			var text = i == 20 ? "t" : i.ToString();
 			chartArea.AxisY.CustomLabels.Add(new CustomLabel
 			{
-				Text = text,
-				FromPosition = ChartCommonHelper.CalculateFromPosition(i),
-				ToPosition = ChartCommonHelper.CalculateToPosition(i),
+				Text = i.ToString(),
+				FromPosition = i - stepForLabel,
+				ToPosition = i + stepForLabel,
 				GridTicks = GridTickTypes.All
 			});
 		}
@@ -107,8 +105,8 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			chartArea.AxisX.CustomLabels.Add(new CustomLabel
 			{
 				Text = Math.Round(environmentModel.MaxAValue.Value, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MaxAValue.Value),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.MaxAValue.Value),
+				FromPosition = environmentModel.MaxAValue.Value - stepForLabel,
+				ToPosition = environmentModel.MaxAValue.Value + stepForLabel,
 				GridTicks = GridTickTypes.All
 			});
 		}
@@ -117,12 +115,12 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			chartArea.AxisX.CustomLabels.Add(new CustomLabel
 			{
 				Text = Math.Round(environmentModel.MinAValue.Value, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MinAValue.Value),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.MinAValue.Value),
+				FromPosition = environmentModel.MinAValue.Value - stepForLabel,
+				ToPosition = environmentModel.MinAValue.Value + stepForLabel,
 				GridTicks = GridTickTypes.All
 			});
 		}
-
+*/
 		return chartArea;
 	}
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Settings;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders;
@@ -26,7 +27,7 @@ public abstract class ChartsRender : IChartRender
 		_chart = chart;
 	}
 
-	public virtual void RenderChart(ModelParameters modelParameters)
+	public virtual void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		FullClearChart();
 
@@ -46,7 +47,7 @@ public abstract class ChartsRender : IChartRender
 			});
 		}
 
-		var environmentSeries = CreateEnvironment(modelParameters);
+		var environmentSeries = CreateEnvironment(modelParameters, modeSettings);
 		foreach (var series in environmentSeries)
 		{
 			_chart.Series.Add(series);
@@ -140,8 +141,8 @@ public abstract class ChartsRender : IChartRender
 
 	protected abstract Legend CreateLegend(LegendStyle legendStyle);
 
-	protected abstract Series[] CreateEnvironment(ModelParameters modelParameters);
-	
+	protected abstract Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings);
+
 
 	protected void FullClearChart()
 	{

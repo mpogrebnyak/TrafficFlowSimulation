@@ -94,6 +94,11 @@ public class ParametersSelectionWindowHelper
 				modeSettings = (AccelerationCoefficientEstimationSettingsModel) _bindingSources[typeof(AccelerationCoefficientEstimationSettingsModel)].DataSource;
 				break;
 			}
+			case ParametersSelectionMode.DecelerationCoefficientEstimation:
+			{
+				modeSettings = (DecelerationCoefficientEstimationSettingsModel) _bindingSources[typeof(DecelerationCoefficientEstimationSettingsModel)].DataSource;
+				break;
+			}
 		}
 		modeSettings.MapTo(modelParameters);
 
@@ -121,6 +126,12 @@ public class ParametersSelectionWindowHelper
 					typeof(AccelerationCoefficientEstimationModelParametersModel)].DataSource).MapTo(modelParameters);
 				break;
 			}
+			case ParametersSelectionMode.DecelerationCoefficientEstimation:
+			{
+				((DecelerationCoefficientEstimationModelParametersModel) _bindingSources[
+					typeof(DecelerationCoefficientEstimationModelParametersModel)].DataSource).MapTo(modelParameters);
+				break;
+			}
 		}
 
 		return modelParameters;
@@ -142,6 +153,12 @@ public class ParametersSelectionWindowHelper
 			{
 				settingsModelType = typeof(AccelerationCoefficientEstimationSettingsModel);
 				modelType = typeof(AccelerationCoefficientEstimationModelParametersModel);
+				break;
+			}
+			case ParametersSelectionMode.DecelerationCoefficientEstimation:
+			{
+				settingsModelType = typeof(DecelerationCoefficientEstimationSettingsModel);
+				modelType = typeof(DecelerationCoefficientEstimationModelParametersModel);
 				break;
 			}
 			default:

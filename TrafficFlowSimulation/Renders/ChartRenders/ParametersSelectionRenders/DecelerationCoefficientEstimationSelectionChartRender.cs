@@ -6,22 +6,21 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
-public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRender
+public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRender
 {
-	protected override string _seriesName => "AccelerationCoefficientEstimationSeries";
+	protected override string _seriesName => "DecelerationCoefficientEstimationSeries";
 
-	protected override string _chartAreaName => "AccelerationCoefficientEstimationChartArea";
+	protected override string _chartAreaName => "DecelerationCoefficientEstimationChartArea";
 
 	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
 
-	private readonly List<Color> _pointColors = CustomColors.GetColorsForAccelerationCoefficientEstimation();
+	private readonly List<Color> _pointColors = CustomColors.GetColorsForDecelerationCoefficientEstimation();
 
-	public AccelerationCoefficientEstimationSelectionChartRender(Chart chart) : base(chart)
+	public DecelerationCoefficientEstimationSelectionChartRender(Chart chart) : base(chart)
 	{
 		FullClearChart();
 	}
@@ -40,9 +39,10 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				Name = _seriesName + color.Name,
 				ChartType = _seriesChartType,
 				ChartArea = chartArea.Name,
-				BorderWidth = 1,
+				BorderWidth = 2,
 				Color = color,
 				MarkerStyle = MarkerStyle.Circle
+				//BorderDashStyle = ChartDashStyle.Dash
 			});
 		}
 
@@ -55,7 +55,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	public override void UpdateChart(object parameters)
 	{
-		var coordinatesModel = (List<CoefficientEstimationCoordinatesModel>) parameters;
+		var coordinatesModel = (List<DecelerationCoefficientEstimationCoordinatesModel>) parameters;
 
 		foreach (var cm in coordinatesModel)
 		{
@@ -79,7 +79,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = 20,
+				Maximum = 8,
 				Interval = 5
 			}
 		};
@@ -87,7 +87,6 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var settings = (AccelerationCoefficientEstimationSettingsModel) modeSettings;
 		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
 			Text = "1",
@@ -96,61 +95,62 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
-		var startLineSeries = new Series
+		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
-			Name = "UpperBound",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 1,
-			Color = Color.Red,
-			IsVisibleInLegend = false
-		};
-		startLineSeries.Points.Add(new DataPoint(0, 5));
-		startLineSeries.Points.Add(new DataPoint(settings.MaxA, 5));
+			Text = "0",
+			FromPosition = ChartCommonHelper.CalculateFromPosition(0),
+			ToPosition = ChartCommonHelper.CalculateToPosition(0),
+			GridTicks = GridTickTypes.All
+		});
 
-		var endLineSeries = new Series
+		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
-			Name = "LowerBound",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 1,
-			Color = Color.Red,
-			IsVisibleInLegend = false
-		};
-		endLineSeries.Points.Add(new DataPoint(0, 15));
-		endLineSeries.Points.Add(new DataPoint(settings.MaxA, 15));
+			Text = "0",
+			FromPosition = ChartCommonHelper.CalculateFromPosition(0),
+			ToPosition = ChartCommonHelper.CalculateToPosition(0),
+			GridTicks = GridTickTypes.All
+		});
 
-		return new[]
+		var tStop = modelParameters.Vn[0] / (modelParameters.g * modelParameters.mu);
+		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 		{
-			startLineSeries,
-			endLineSeries
-		};
+			Text = Math.Round(tStop, 2).ToString(),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(tStop),
+			ToPosition = ChartCommonHelper.CalculateToPosition(tStop),
+			GridTicks = GridTickTypes.All
+		});
+		
+		return new Series[] { };
 	}
 
 	public override void UpdateEnvironment(object parameters)
 	{
-		var environmentModel = (AccelerationCoefficientEnvironmentModel) parameters;
+		var environmentModel = (double) parameters;
 
-		if (environmentModel.MinAValue.HasValue)
+		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
-			_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
-			{
-				Text = Math.Round(environmentModel.MinAValue.Value, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MinAValue.Value),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.MinAValue.Value),
-				GridTicks = GridTickTypes.All
-			});
-		}
+			Text = Math.Round(environmentModel, 2).ToString(),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel),
+			ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel),
+			GridTicks = GridTickTypes.All
+		});
 
-		if (environmentModel.MaxAValue.HasValue)
+		for (var i = -10.0; i <= 10; i+=0.5)
 		{
-			_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+			var ee = new Series
 			{
-				Text = Math.Round(environmentModel.MaxAValue.Value, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MaxAValue.Value),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.MaxAValue.Value),
-				GridTicks = GridTickTypes.All
-			});
+				Name = "ee" + i,
+				ChartType = SeriesChartType.Line,
+				ChartArea = _chartAreaName,
+				BorderWidth = 1,
+				Color = Color.Red,
+				IsVisibleInLegend = false
+			};
+
+			ee.Points.Add(new DataPoint(0, i));
+			ee.Points.Add(new DataPoint(environmentModel, i+10));
+
+			_chart.Series.Add(ee);
 		}
 	}
 

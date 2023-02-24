@@ -35,5 +35,10 @@ public class ModelsConfiguration : IInitializable
 			typeof(AccelerationCoefficientEstimationSettingsModel).ToString());
 		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new AccelerationCoefficientEstimationModelParametersModel(),
 			typeof(AccelerationCoefficientEstimationModelParametersModel).ToString());
+
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new DecelerationCoefficientEstimationSettingsModel(),
+			typeof(DecelerationCoefficientEstimationSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new DecelerationCoefficientEstimationModelParametersModel(),
+			typeof(DecelerationCoefficientEstimationModelParametersModel).ToString());
 	}
 }

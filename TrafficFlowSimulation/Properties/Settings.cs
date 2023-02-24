@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
 
 namespace TrafficFlowSimulation.Properties
@@ -13,7 +12,7 @@ namespace TrafficFlowSimulation.Properties
 
 		public ParametersSelectionMode CurrentParametersSelectionMode { get; set; }
 
-		[DefaultValue("InliningDistanceEstimation, AccelerationCoefficientEstimation")]
+		[DefaultValue("InliningDistanceEstimation, AccelerationCoefficientEstimation, DecelerationCoefficientEstimation")]
 		public ParametersSelectionMode[] AvailableParametersSelectionModes { get; set; }
 
 		[DefaultValue("ColorCars")]
@@ -22,6 +21,7 @@ namespace TrafficFlowSimulation.Properties
 		[DefaultValue("*.bmp|*.bmp;|*.png|*.png;|*.jpg|*.jpg|*.emf|*.emf")]
 		public string AvailableFileTypes { get; set; }
 
+		// Перенесен в параметры, исправить
 		[DefaultValue(4)]
 		public int CarLength { get; set; }
 

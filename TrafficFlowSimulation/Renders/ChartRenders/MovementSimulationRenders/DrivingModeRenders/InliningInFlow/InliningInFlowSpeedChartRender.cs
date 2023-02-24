@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
@@ -30,9 +31,9 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 	{
 	}
 
-	public override void RenderChart(ModelParameters modelParameters)
+	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		base.RenderChart(modelParameters);
+		base.RenderChart(modelParameters, modeSettings);
 
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
@@ -140,7 +141,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 		}
 	}
 
-	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
+	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		return new Series[] { };
 	}

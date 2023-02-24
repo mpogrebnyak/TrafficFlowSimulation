@@ -62,5 +62,11 @@ public class HandlersConfiguration : IInitializable
 			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new AccelerationCoefficientEstimationSelectionEvaluationHandler(),
 				ParametersSelectionMode.AccelerationCoefficientEstimation.ToString());
 		}
+
+		if (parametersSelectionModes.Contains(ParametersSelectionMode.DecelerationCoefficientEstimation))
+		{
+			CommonHelper.ServiceRegistrator.RegisterInstance<IEvaluationHandler>(() => new DecelerationCoefficientEstimationSelectionEvaluationHandler(),
+				ParametersSelectionMode.DecelerationCoefficientEstimation.ToString());
+		}
 	}
 }

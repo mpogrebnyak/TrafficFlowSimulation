@@ -26,11 +26,11 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 
 		var settings = (AccelerationCoefficientEstimationSettingsModel) p.ModeSettings;
 
-		var cm = new List<AccelerationCoefficientEstimationCoordinatesModel>();
+		var cm = new List<CoefficientEstimationCoordinatesModel>();
 		var em = new AccelerationCoefficientEnvironmentModel();
 
 		var step = 0.001;
-		for (var a = step; a <= settings.MaxA; a += step)
+		for (var a = 0.1; a <= settings.MaxA; a += step)
 		{
 			var previousCoordinatesModel = cm.LastOrDefault();
 
@@ -60,7 +60,7 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		p.Form.Invoke(action);
 	}
 
-	private AccelerationCoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters)
+	private CoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters)
 	{
 		var r = new RungeKuttaMethod(modelParameters, new SingleCarAccelerationEquation(modelParameters));
 		var n = modelParameters.n;
@@ -76,7 +76,9 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			y[i] = r.Y(i).Last();
 		}
 
-		while (y[0] <= Math.Floor(modelParameters.Vmax[0]))
+		// погрешность, необходимая для вычисления
+		var eps = 0.5;
+		while (y[0] <= Math.Floor(modelParameters.Vmax[0]) + eps)
 		{
 			for (var i = 0; i < n; i++)
 			{
@@ -93,7 +95,7 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			t = r.T.Last();
 		}
 
-		return new AccelerationCoefficientEstimationCoordinatesModel
+		return new CoefficientEstimationCoordinatesModel
 		{
 			X = modelParameters.a[0],
 			Y = t,

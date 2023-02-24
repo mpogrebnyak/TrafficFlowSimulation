@@ -1,12 +1,12 @@
 ﻿using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
+using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders;
 
 public interface IChartRender
 {
-	public void RenderChart(ModelParameters modelParameters);
+	public void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
 	public void UpdateChart(object parameters);
 

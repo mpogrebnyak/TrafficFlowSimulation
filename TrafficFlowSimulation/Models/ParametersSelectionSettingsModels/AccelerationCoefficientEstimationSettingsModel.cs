@@ -17,12 +17,6 @@ public class AccelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 	[Required]
 	public double MaxA { get; set; }
 
-	public override void MapTo(ModelParameters mp)
-	{
-		base.MapTo(mp);
-		mp.a = new List<double> {MaxA};
-	}
-
 	public override object GetDefault()
 	{
 		return new AccelerationCoefficientEstimationSettingsModel

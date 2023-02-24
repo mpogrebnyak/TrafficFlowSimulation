@@ -72,7 +72,7 @@
             this.ParametersSelectionStripDropDownButton});
             this.ControlMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ControlMenuStrip.Name = "ControlMenuStrip";
-            this.ControlMenuStrip.Size = new System.Drawing.Size(882, 31);
+            this.ControlMenuStrip.Size = new System.Drawing.Size(1023, 31);
             this.ControlMenuStrip.TabIndex = 0;
             this.ControlMenuStrip.Text = "ControlMenuStrip";
             // 
@@ -137,7 +137,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.ParametersSelectionChart.Series.Add(series1);
-            this.ParametersSelectionChart.Size = new System.Drawing.Size(882, 522);
+            this.ParametersSelectionChart.Size = new System.Drawing.Size(1023, 577);
             this.ParametersSelectionChart.TabIndex = 1;
             this.ParametersSelectionChart.Text = "ParametersSelectionChart";
             // 
@@ -148,9 +148,9 @@
             this.ParametersPanel.Controls.Add(this.BasicParametersGroupBox);
             this.ParametersPanel.Controls.Add(this.MovementParametersGroupBox);
             this.ParametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ParametersPanel.Location = new System.Drawing.Point(486, 31);
+            this.ParametersPanel.Location = new System.Drawing.Point(627, 31);
             this.ParametersPanel.Name = "ParametersPanel";
-            this.ParametersPanel.Size = new System.Drawing.Size(396, 522);
+            this.ParametersPanel.Size = new System.Drawing.Size(396, 577);
             this.ParametersPanel.TabIndex = 3;
             // 
             // BasicParametersGroupBox
@@ -257,9 +257,9 @@
             this.SlamPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(151)))), ((int)(((byte)(29)))));
             this.SlamPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SlamPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SlamPanel.Location = new System.Drawing.Point(478, 31);
+            this.SlamPanel.Location = new System.Drawing.Point(619, 31);
             this.SlamPanel.Name = "SlamPanel";
-            this.SlamPanel.Size = new System.Drawing.Size(8, 522);
+            this.SlamPanel.Size = new System.Drawing.Size(8, 577);
             this.SlamPanel.TabIndex = 4;
             // 
             // ParametersErrorProvider
@@ -272,7 +272,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 553);
+            this.ClientSize = new System.Drawing.Size(1023, 608);
             this.Controls.Add(this.SlamPanel);
             this.Controls.Add(this.ParametersPanel);
             this.Controls.Add(this.ParametersSelectionChart);

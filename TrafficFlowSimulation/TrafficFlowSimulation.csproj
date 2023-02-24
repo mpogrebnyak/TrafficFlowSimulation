@@ -75,7 +75,9 @@
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\SpeedLimitChangingEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\AccelerationCoefficientEstimationSelectionEvaluationHandler.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\DecelerationCoefficientEstimationSelectionEvaluationHandler.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\AccelerationCoefficientEstimationSelectionEvaluationHelper.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\DecelerationCoefficientEstimationSelectionEvaluationHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\EvaluationCommonHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\InliningDistanceEstimationSelectionEvaluationHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceEstimationSelectionEvaluationHandler.cs" />
@@ -94,6 +96,8 @@
     <Compile Include="Models\ParametersSelectionSettingsModels\AccelerationCoefficientEstimationModelParametersModel.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\AccelerationCoefficientEstimationSettingsModel.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\Constants\EvaluateParameters.cs" />
+    <Compile Include="Models\ParametersSelectionSettingsModels\DecelerationCoefficientEstimationModelParametersModel.cs" />
+    <Compile Include="Models\ParametersSelectionSettingsModels\DecelerationCoefficientEstimationSettingsModel.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationModelParametersModel.cs" />
     <Compile Include="Models\ParametersSelectionSettingsModels\InliningDistanceEstimationSettingsModel.cs" />
     <Compile Include="Models\SettingsModels\Constants\AutoScroll.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Properties\LocalizationResources\ParametersSelectionWindowResources.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Renders\CarsRenderingHelper.cs" />
+    <Compile Include="Renders\ChartCommonHelper.cs" />
     <Compile Include="Renders\ChartRenders\ChartsRender.cs" />
     <Compile Include="Renders\ChartRenders\IChartRender.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\CarsChartRender.cs" />
@@ -138,9 +143,11 @@
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHandler.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHelper.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\AccelerationCoefficientEstimationSelectionChartRender.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\DecelerationCoefficientEstimationSelectionChartRender.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceEstimationSelectionChartRender.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\AccelerationCoefficientEnvironmentModel.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\AccelerationCoefficientEstimationCoordinatesModel.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\CoefficientEstimationCoordinatesModel.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\DecelerationCoefficientEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\InliningDistanceEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionRenderingHandler.cs" />

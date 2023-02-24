@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
@@ -26,9 +27,9 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 	{
 	}
 	
-	public override void RenderChart(ModelParameters modelParameters)
+	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		base.RenderChart(modelParameters);
+		base.RenderChart(modelParameters, modeSettings);
 
 		_chart.Legends.Clear();
 
@@ -117,7 +118,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 		return chartArea;
 	}
 
-	protected override Series[] CreateEnvironment(ModelParameters modelParameters)
+	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var startLineSeries = new Series
 		{

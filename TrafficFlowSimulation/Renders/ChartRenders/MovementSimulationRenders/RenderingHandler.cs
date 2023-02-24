@@ -3,6 +3,7 @@ using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 using TrafficFlowSimulation.Windows.Models;
 
@@ -42,13 +43,13 @@ public class RenderingHandler
 		CarMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(Charts.CarsMovementChart.Name + drivingMode);
 	}
 
-	public void RenderCharts(ModelParameters modelParameters)
+	public void RenderCharts(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		SpeedProvider.RenderChart(modelParameters);
-		DistanceProvider.RenderChart(modelParameters);
-		CarMovementProvider.RenderChart(modelParameters);
+		SpeedProvider.RenderChart(modelParameters, modeSettings);
+		DistanceProvider.RenderChart(modelParameters, modeSettings);
+		CarMovementProvider.RenderChart(modelParameters, modeSettings);
 
-		SpeedFromDistanceProvider.RenderChart(modelParameters);
+		SpeedFromDistanceProvider.RenderChart(modelParameters, modeSettings);
 	}
 
 	public void UpdateCharts(object parameters)

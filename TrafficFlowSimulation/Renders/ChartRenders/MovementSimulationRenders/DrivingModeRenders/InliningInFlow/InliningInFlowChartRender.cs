@@ -5,6 +5,7 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 
@@ -18,9 +19,9 @@ public abstract class InliningInFlowChartRender : ChartsRender
 	{
 	}
 
-	public override void RenderChart(ModelParameters modelParameters)
+	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		base.RenderChart(modelParameters);
+		base.RenderChart(modelParameters, modeSettings);
 
 		_chart.Palette = ChartColorPalette.None;
 

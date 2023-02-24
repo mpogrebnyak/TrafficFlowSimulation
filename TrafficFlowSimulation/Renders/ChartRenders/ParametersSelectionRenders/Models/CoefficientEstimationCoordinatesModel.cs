@@ -2,7 +2,7 @@
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-public class AccelerationCoefficientEstimationCoordinatesModel
+public class CoefficientEstimationCoordinatesModel
 {
 	public double X { get; set; }
 

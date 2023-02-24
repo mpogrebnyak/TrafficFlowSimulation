@@ -3,7 +3,6 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Common;
 using Common.Modularity;
 using Settings;
-using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
@@ -31,6 +30,12 @@ public class ParametersSelectionConfiguration : IInitializable
 		{
 			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new AccelerationCoefficientEstimationSelectionChartRender(_chart),
 				_chart.Name + ParametersSelectionMode.AccelerationCoefficientEstimation, false);
+		}
+
+		if (parametersSelectionModes.Contains(ParametersSelectionMode.DecelerationCoefficientEstimation))
+		{
+			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new DecelerationCoefficientEstimationSelectionChartRender(_chart),
+				_chart.Name + ParametersSelectionMode.DecelerationCoefficientEstimation, false);
 		}
 
 		CommonHelper.ServiceRegistrator.RegisterInstance<ParametersSelectionRenderingHandler>(() => new ParametersSelectionRenderingHandler(_chart));

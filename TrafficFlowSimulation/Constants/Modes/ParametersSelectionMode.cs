@@ -12,6 +12,10 @@ public class ParametersSelectionModeResources
 	[Translation(Locales.ru, "Оценка коэффициента разгона")]
 	[Translation(Locales.en, "Acceleration coefficient estimation")]
 	public string AccelerationCoefficientEstimation { get; set; }
+
+	[Translation(Locales.ru, "Оценка коэффициента торможения")]
+	[Translation(Locales.en, "Deceleration coefficient estimation")]
+	public string DecelerationCoefficientEstimation { get; set; }
 	// ReSharper restore UnusedMember.Global
 }
 
@@ -22,4 +26,7 @@ public enum ParametersSelectionMode
 
 	[LocalizedDescription("AccelerationCoefficientEstimation", typeof(ParametersSelectionModeResources))]
 	AccelerationCoefficientEstimation = 2,
+
+	[LocalizedDescription("DecelerationCoefficientEstimation", typeof(ParametersSelectionModeResources))]
+	DecelerationCoefficientEstimation = 3,
 }

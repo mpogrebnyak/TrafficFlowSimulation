@@ -81,7 +81,7 @@ namespace TrafficFlowSimulation.Windows
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
 
 			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
@@ -112,9 +112,9 @@ namespace TrafficFlowSimulation.Windows
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-			ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
 		}
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
@@ -126,9 +126,9 @@ namespace TrafficFlowSimulation.Windows
 		private void MainWindow_Shown(object sender, EventArgs e)
 		{
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-			ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters);
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
 		}
 
 		private void ParametersSelectionToolStripButton_Click(object sender, EventArgs e)
