@@ -5,6 +5,8 @@ namespace EvaluationKernel.Equations
 {
 	public abstract class Equation
 	{
+		private const double eps = 0.01;
+
 		protected ModelParameters _m;
 
 		protected Equation(ModelParameters modelParameters)
@@ -17,6 +19,11 @@ namespace EvaluationKernel.Equations
 		protected bool RelayFunction(int n, Coordinates x_n, double L)
 		{
 			return L - x_n.X > S(n, x_n.Y);
+		}
+
+		protected bool H(double v)
+		{
+			return v > eps;
 		}
 
 		protected double V(double v, double Vmax)

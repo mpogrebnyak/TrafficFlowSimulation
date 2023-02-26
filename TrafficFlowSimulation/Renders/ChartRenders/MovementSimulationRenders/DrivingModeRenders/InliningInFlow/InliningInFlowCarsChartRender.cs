@@ -119,7 +119,7 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 		}
 	}
 
-	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
+	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var chartArea = new ChartArea
 		{

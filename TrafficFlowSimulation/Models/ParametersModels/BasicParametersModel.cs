@@ -149,7 +149,7 @@ public class BasicParametersModel : BaseParametersModel
 			tau_multiple = string.Empty,
 			a = 4,
 			a_multiple = string.Empty,
-			q = 3,
+			q = 0.5,
 			q_multiple = string.Empty,
 			l_safe = 2,
 			l_safe_multiple = string.Empty,

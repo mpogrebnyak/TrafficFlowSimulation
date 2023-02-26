@@ -84,9 +84,9 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 		var min = 0.0;
 		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
-		var step = 1; //0.05; 
-		//for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
-		for (double space = 0; space <= 10; space+=step)
+		var step = 0.01; 
+		for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
+		//for (double space = 0; space <= 10; space+=step)
 		{
 			progressBarHelper?.Update((int) space);
 
@@ -139,7 +139,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 	private DecelerationEvaluation IsDecelerate(ModelParameters modelParameters, double space, double speed)
 	{
-		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
+		var r = new RungeKuttaMethod(modelParameters, new MainEquation(modelParameters));
 		r.SetInitialConditions(
 			new List<double> {modelParameters.Vn[0], speed},
 			new List<double> {modelParameters.lambda[0], -space});

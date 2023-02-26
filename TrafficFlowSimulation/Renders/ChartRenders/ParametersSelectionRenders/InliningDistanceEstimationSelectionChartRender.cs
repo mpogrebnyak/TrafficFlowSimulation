@@ -27,7 +27,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 	{
 		FullClearChart();
 
-		var chartArea = CreateChartArea(modelParameters);
+		var chartArea = CreateChartArea(modelParameters, modeSettings);
 		_chart.ChartAreas.Add(chartArea);
 
 		foreach (var color in _pointColors)
@@ -58,7 +58,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		}
 	}
 
-	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
+	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		return new ChartArea
 		{

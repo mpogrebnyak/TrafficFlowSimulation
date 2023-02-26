@@ -6,7 +6,6 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Settings;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders;
 
@@ -31,7 +30,7 @@ public abstract class ChartsRender : IChartRender
 	{
 		FullClearChart();
 
-		var chartArea = CreateChartArea(modelParameters);
+		var chartArea = CreateChartArea(modelParameters, modeSettings);
 		_chart.ChartAreas.Add(chartArea);
 
 		_chart.Legends.Add(CreateLegend(LegendStyle.Column));
@@ -137,7 +136,7 @@ public abstract class ChartsRender : IChartRender
 		return sb.ToString();
 	}
 
-	protected abstract ChartArea CreateChartArea(ModelParameters modelParameters);
+	protected abstract ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
 	protected abstract Legend CreateLegend(LegendStyle legendStyle);
 

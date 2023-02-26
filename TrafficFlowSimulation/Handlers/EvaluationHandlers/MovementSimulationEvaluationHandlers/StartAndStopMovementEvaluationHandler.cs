@@ -16,7 +16,7 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
 
-		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
+		var r = new RungeKuttaMethod(modelParameters, new MainEquation(modelParameters));
 		var n = modelParameters.n;
 
 		var xp = new double[n];

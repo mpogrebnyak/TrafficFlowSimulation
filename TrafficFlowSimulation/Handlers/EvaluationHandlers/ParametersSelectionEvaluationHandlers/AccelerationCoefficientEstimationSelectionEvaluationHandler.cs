@@ -37,7 +37,7 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			var mp = (ModelParameters)modelParameters.Clone();
 			mp.a = new List<double> {a};
 
-			var coordinatesModel = EvaluateInternal(mp);
+			var coordinatesModel = EvaluateInternal(mp, settings);
 			cm.Add(coordinatesModel);
 
 			if (previousCoordinatesModel != null && previousCoordinatesModel.Color != coordinatesModel.Color)
@@ -60,7 +60,7 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		p.Form.Invoke(action);
 	}
 
-	private CoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters)
+	private CoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters, AccelerationCoefficientEstimationSettingsModel modeSettings)
 	{
 		var r = new RungeKuttaMethod(modelParameters, new SingleCarAccelerationEquation(modelParameters));
 		var n = modelParameters.n;
@@ -99,7 +99,7 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		{
 			X = modelParameters.a[0],
 			Y = t,
-			Color = t >= 5 && t <= 15
+			Color = t >= modeSettings.MinTime && t <= modeSettings.MaxTime
 				? CustomColors.Green
 				: CustomColors.BrightRed
 		};

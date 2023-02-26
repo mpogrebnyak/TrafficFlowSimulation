@@ -30,7 +30,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 	{
 		FullClearChart();
 
-		var chartArea = CreateChartArea(modelParameters);
+		var chartArea = CreateChartArea(modelParameters, modeSettings);
 		_chart.ChartAreas.Add(chartArea);
 
 		foreach (var color in _pointColors)
@@ -65,15 +65,16 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		}
 	}
 
-	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
+	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
+		var settings = (AccelerationCoefficientEstimationSettingsModel) modeSettings;
 		return new ChartArea
 		{
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 1,
+				Maximum = settings.MaxA,
 				Interval = 1
 			},
 			AxisY = new Axis
@@ -105,8 +106,8 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			Color = Color.Red,
 			IsVisibleInLegend = false
 		};
-		startLineSeries.Points.Add(new DataPoint(0, 5));
-		startLineSeries.Points.Add(new DataPoint(settings.MaxA, 5));
+		startLineSeries.Points.Add(new DataPoint(0, settings.MinTime));
+		startLineSeries.Points.Add(new DataPoint(settings.MaxA, settings.MinTime));
 
 		var endLineSeries = new Series
 		{
@@ -117,8 +118,8 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			Color = Color.Red,
 			IsVisibleInLegend = false
 		};
-		endLineSeries.Points.Add(new DataPoint(0, 15));
-		endLineSeries.Points.Add(new DataPoint(settings.MaxA, 15));
+		endLineSeries.Points.Add(new DataPoint(0, settings.MaxTime));
+		endLineSeries.Points.Add(new DataPoint(settings.MaxA, settings.MaxTime));
 
 		return new[]
 		{

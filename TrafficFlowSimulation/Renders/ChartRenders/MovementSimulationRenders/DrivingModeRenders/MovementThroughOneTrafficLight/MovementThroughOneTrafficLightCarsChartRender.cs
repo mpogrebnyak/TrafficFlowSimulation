@@ -87,7 +87,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 			: Math.Round(environmentModel.RedTime, 2).ToString();
 	}
 
-	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
+	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var chartArea = new ChartArea
 		{

@@ -17,12 +17,26 @@ public class AccelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 	[Required]
 	public double MaxA { get; set; }
 
+	[Translation(Locales.ru, "Минимальное время разгона")]
+	[Translation(Locales.en, "Minimum acceleration time")]
+	[CustomDisplay(2)]
+	[Required]
+	public double MinTime { get; set; }
+
+	[Translation(Locales.ru, "Максимальное время разгона")]
+	[Translation(Locales.en, "Maximum acceleration time")]
+	[CustomDisplay(3)]
+	[Required]
+	public double MaxTime { get; set; }
+
 	public override object GetDefault()
 	{
 		return new AccelerationCoefficientEstimationSettingsModel
 		{
 			L = 1000,
-			MaxA = 1
+			MaxA = 1,
+			MinTime = 5,
+			MaxTime = 15
 		};
 	}
 }

@@ -18,7 +18,7 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 		var modelParameters = p.ModelParameters;
 		var modeSettings = (SpeedLimitChangingModeSettingsModel) p.ModeSettings;
 
-		var r = new RungeKuttaMethod(modelParameters, new BaseEquation(modelParameters));
+		var r = new RungeKuttaMethod(modelParameters, new MainEquation(modelParameters));
 		var n = modelParameters.n;
 		var initialSpeed = new double[n];
 		modelParameters.Vmax.CopyTo(initialSpeed);
@@ -76,7 +76,7 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 
 			if (isChange)
 			{
-				r.Equation = new BaseEquation(modelParameters);
+				r.Equation = new MainEquation(modelParameters);
 			}
 
 			if (t - tp > 0.1)

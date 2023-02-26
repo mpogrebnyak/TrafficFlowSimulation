@@ -51,7 +51,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		}
 	}
 
-	protected override ChartArea CreateChartArea(ModelParameters modelParameters)
+	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		return new ChartArea
 		{

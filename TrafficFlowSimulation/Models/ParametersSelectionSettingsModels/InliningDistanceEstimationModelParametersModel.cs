@@ -38,12 +38,10 @@ public class InliningDistanceEstimationModelParametersModel : BasicParametersMod
 	{
 		var defaultValues = (BasicParametersModel)base.GetDefault();
 
-		defaultValues.k = 1;
 		defaultValues.l_car = 4;
 		defaultValues.l_safe = 1;
-		defaultValues.a = 0.5;
-		defaultValues.q = 4;
-		defaultValues.k = 0.5;
+		defaultValues.a = 0.46;
+		defaultValues.q = 0.5;
 		return new InliningDistanceEstimationModelParametersModel
 		{
 			IsCarsIdentical = defaultValues.IsCarsIdentical,

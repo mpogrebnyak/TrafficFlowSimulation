@@ -16,6 +16,7 @@ namespace EvaluationKernel.Models
 
 		public List<double> Vmax { get; set; }
 
+		// удалить
 		public double Vmin { get; set; }
 
 		public List<double> k { get; set; }
