@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using TrafficFlowSimulation.Constants;
 
@@ -9,6 +10,7 @@ public class ProgressBarHelper
 	private readonly ToolStripProgressBar? _progressBar;
 	private readonly Control _form;
 
+	private double currentValue = 0;
 	public ProgressBarHelper(Control form)
 	{
 		_form = form;
@@ -47,14 +49,20 @@ public class ProgressBarHelper
 			_form.Invoke(action);
 	}
 
-	public void Update(int value)
+	public void Update(double value)
 	{
 		if (_progressBar == null)
 			return;
 
+		currentValue += value;
+		var newValue = currentValue < _progressBar.Maximum
+			? (int) currentValue
+			: _progressBar.Maximum;
+		var toolTipText = 100 * Math.Round(currentValue / _progressBar.Maximum, 4)  + "%";
 		MethodInvoker action = delegate
 		{
-			_progressBar.Value = value;
+			_progressBar.Value = newValue;
+			_progressBar.ToolTipText = toolTipText;
 		};
 
 		if (_form.InvokeRequired)

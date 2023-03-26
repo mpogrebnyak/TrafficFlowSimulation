@@ -16,7 +16,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	protected override string _chartAreaName => "DecelerationCoefficientEstimationChartArea";
 
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
+	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
 
 	private readonly List<Color> _pointColors = CustomColors.GetColorsForDecelerationCoefficientEstimation();
 
@@ -39,10 +39,10 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				Name = _seriesName + color.Name,
 				ChartType = _seriesChartType,
 				ChartArea = chartArea.Name,
-				BorderWidth = 2,
 				Color = color,
-				MarkerStyle = MarkerStyle.Circle
-				//BorderDashStyle = ChartDashStyle.Dash
+				MarkerStyle = MarkerStyle.Circle,
+				MarkerSize = 5,
+				BorderWidth = 5
 			});
 		}
 
@@ -59,10 +59,15 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		foreach (var cm in coordinatesModel)
 		{
-			_chart.Series.Single(series => series.Name.Contains(cm.Color.Name))
+			_chart.Series.Single(series => series.Name.Contains(CustomColors.Black.Name))
 				.Points
 				.AddXY(cm.X, cm.Y);
 		}
+		
+		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green);
+		_chart.Series.Single(series => series.Name.Contains(CustomColors.Green.Name))
+			.Points
+			.AddXY(optimalValue.X, optimalValue.Y);
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -95,7 +100,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
-		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 		{
 			Text = "0",
 			FromPosition = ChartCommonHelper.CalculateFromPosition(0),
@@ -103,11 +108,11 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
-		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 		{
-			Text = "0",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(0),
-			ToPosition = ChartCommonHelper.CalculateToPosition(0),
+			Text = "8",
+			FromPosition = ChartCommonHelper.CalculateFromPosition(8),
+			ToPosition = ChartCommonHelper.CalculateToPosition(8),
 			GridTicks = GridTickTypes.All
 		});
 
@@ -119,7 +124,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			ToPosition = ChartCommonHelper.CalculateToPosition(tStop),
 			GridTicks = GridTickTypes.All
 		});
-		
+
 		return new Series[] { };
 	}
 
@@ -137,9 +142,9 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		for (var i = -10.0; i <= 10; i+=0.5)
 		{
-			var ee = new Series
+			var redLine = new Series
 			{
-				Name = "ee" + i,
+				Name = "RedLine" + i,
 				ChartType = SeriesChartType.Line,
 				ChartArea = _chartAreaName,
 				BorderWidth = 1,
@@ -147,10 +152,10 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				IsVisibleInLegend = false
 			};
 
-			ee.Points.Add(new DataPoint(0, i));
-			ee.Points.Add(new DataPoint(environmentModel, i+10));
+			redLine.Points.Add(new DataPoint(0, i));
+			redLine.Points.Add(new DataPoint(environmentModel, i+10));
 
-			_chart.Series.Add(ee);
+			_chart.Series.Add(redLine);
 		}
 	}
 

@@ -12,11 +12,6 @@ public class DecelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 	[Hidden] 
 	public override double L { get; set; }
 
-	[Translation(Locales.ru, "Выполнить оценку q при различных скоростях")]
-	[Translation(Locales.en, "Evaluate q at different speeds")]
-	[CustomDisplay(1, enumType: typeof(EvaluateParameters))]
-	public object IsParametersEvaluated  { get; set; }
-
 	[Translation(Locales.ru, "Максимальное значение")]
 	[Translation(Locales.en, "Maximum value")]
 	[CustomDisplay(1)]
@@ -31,11 +26,6 @@ public class DecelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 	{
 		return new DecelerationCoefficientEstimationSettingsModel
 		{
-			IsParametersEvaluated = new ComboBoxItem
-			{
-				Text = EvaluateParameters.No.GetDescription(),
-				Value = EvaluateParameters.No
-			},
 			MaxQ = 1
 		};
 	}

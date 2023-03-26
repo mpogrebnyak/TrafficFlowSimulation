@@ -13,11 +13,11 @@ public static class CustomColors
 
 	public static Color LightRed = Color.FromArgb(255, 102, 102);
 
-	public static Color Orange = Color.FromArgb(255, 153, 102);
+	public static Color Orange = Color.FromArgb(255, 153, 51);
 
-	public static Color LightOrange = Color.FromArgb(255, 204, 153);
+	public static Color Yellow = Color.FromArgb(255, 255, 0);
 
-	public static Color LightGreen = Color.FromArgb(204, 255, 153);
+	public static Color LightGreen = Color.FromArgb(102, 255, 102);
 
 	public static Color Green = Color.FromArgb(0, 255, 0);
 
@@ -30,7 +30,7 @@ public static class CustomColors
 			BrightRed,
 			LightRed,
 			Orange,
-			LightOrange,
+			Yellow,
 			LightGreen,
 			Green,
 			Black

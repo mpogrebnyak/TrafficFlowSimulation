@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
+using Localization;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
@@ -90,26 +92,21 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		var legend = new Legend
 		{
 			Name = "Legend",
-			TitleFont = new Font("Microsoft Sans Serif", 20F),
-			LegendStyle = LegendStyle.Column,
-			Font = new Font("Microsoft Sans Serif", 20F),
+			TitleFont = new Font("Microsoft Sans Serif", 38F),
+			LegendStyle = LegendStyle.Row,
+			Docking = Docking.Top,
+			Font = new Font("Microsoft Sans Serif", 38F),
 			Alignment = StringAlignment.Center,
-			Title = "cнижение скорости %",
+			Title = LocalizationHelper.Get<ParametersSelectionWindowResources>().SpeedReductionTitle,
 			TitleAlignment = StringAlignment.Near,
-			MaximumAutoSize = 11
+			TableStyle = LegendTableStyle.Wide
 		};
 
 		var colorsIntensityDictionary = GetColorIntensityDictionary();
 		foreach (var colorIntensity in colorsIntensityDictionary)
 		{
-			if (colorIntensity.Value == -1)
-			{
-				continue;
-			}
-			legend.CustomItems.Add(colorIntensity.Key, "≈" + colorIntensity.Value);
+			legend.CustomItems.Add(colorIntensity.Key, colorIntensity.Value.DisplayValue);
 		}
-
-		legend.CustomItems.Add(colorsIntensityDictionary.Single(x => x.Value == -1).Key, "Авария");
 
 		return legend;
 	}
@@ -138,13 +135,13 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{
 				Minimum = 0,
 				Maximum = 100,
-				LabelAutoFitMinFontSize = 20
+				LabelAutoFitMinFontSize = 40
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = modelParameters.Vmax[1],
-				LabelAutoFitMinFontSize = 20
+				LabelAutoFitMinFontSize = 40
 			}
 		};
 
@@ -181,28 +178,89 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 		if (intensity <= 0)
 		{
-			return colorIntensity.Single(x => x.Value == (int) intensity).Key;
+			return colorIntensity.Single(x => x.Value.IntValue == (int) intensity).Key;
 		}
 
 		// на сколько процентов скорость снижения отличается от максимальной
 		// 100 минус разница между числами в процентах
 		var intensityInPercentage = 100 - (int) ((Math.Abs(intensity - max)) / max * 100);
 
-		return colorIntensity.First(x => intensityInPercentage <= x.Value).Key;
+		var color = colorIntensity.FirstOrDefault(x => intensityInPercentage <= x.Value.IntValue);
+
+		return color.Key != Color.Empty
+			? color.Key
+			: colorIntensity.Single(x => x.Value.IntValue == -1).Key;
 	}
 
-	private static Dictionary<Color, int> GetColorIntensityDictionary()
+	private static Dictionary<Color, ColorValue> GetColorIntensityDictionary()
 	{
-		return new Dictionary<Color, int>
+		return new Dictionary<Color, ColorValue>
 			{
-				{CustomColors.BrightRed, -1},
-				{CustomColors.Green, 0},
-				{CustomColors.LightGreen, 5},
-				{CustomColors.LightOrange, 50},
-				{CustomColors.Orange, 90},
-				{CustomColors.LightRed, 100}
+				{
+					CustomColors.BrightRed,
+					new ColorValue
+					{
+						IntValue = -1,
+						DisplayOrder = 6,
+						DisplayValue = LocalizationHelper.Get<ParametersSelectionWindowResources>().CrashTitle
+					}
+				},
+				{
+					CustomColors.Green,
+					new ColorValue
+					{
+						IntValue = 0,
+						DisplayOrder = 1,
+						DisplayValue = "0"
+					}
+				},
+				{
+					CustomColors.LightGreen,
+					new ColorValue
+					{
+						IntValue = 25,
+						DisplayOrder = 2,
+						DisplayValue = "≤25"
+					}
+				},
+				{
+					CustomColors.Yellow,
+					new ColorValue
+					{
+						IntValue = 50,
+						DisplayOrder = 3,
+						DisplayValue = "≤50"
+					}
+				},
+				{
+					CustomColors.Orange,
+					new ColorValue
+					{
+						IntValue = 75,
+						DisplayOrder = 4,
+						DisplayValue = "≤75"
+					}
+				},
+				{
+					CustomColors.LightRed,
+					new ColorValue
+					{
+						IntValue = 98,
+						DisplayOrder = 5,
+						DisplayValue = "≤100"
+					}
+				}
 			}
-			.OrderBy(x => x.Value)
+			.OrderBy(x => x.Value.DisplayOrder)
 			.ToDictionary(x => x.Key, x => x.Value);
+	}
+
+	private class ColorValue
+	{
+		public int IntValue;
+
+		public int DisplayOrder;
+
+		public string DisplayValue;
 	}
 }

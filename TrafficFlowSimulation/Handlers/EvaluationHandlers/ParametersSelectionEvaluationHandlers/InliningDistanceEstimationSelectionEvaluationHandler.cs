@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels.Constants;
@@ -30,51 +31,72 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		var settings = (InliningDistanceEstimationSettingsModel) p.ModeSettings;
 		var form = p.Form;
 		var progressBarHelper = new ProgressBarHelper(form);
-		progressBarHelper.SetMaximum((int)settings.MaximumDistanceBetweenCars);
-		var spinningLabelHelper = new SpinningLabelHelper(form);
-		spinningLabelHelper.StartSpinning();
 
-		Task.Factory.StartNew(() =>
+		if (((ComboBoxItem) settings.IsParametersEvaluated).Value.Equals(EvaluateParameters.No))
 		{
-			var coordinatesModel = EvaluateInternal((ModelParameters)modelParameters.Clone(), settings, progressBarHelper);
+			progressBarHelper.SetMaximum((int) settings.MaximumDistanceBetweenCars);
 
-			MethodInvoker action = delegate
+			Task.Factory.StartNew(() =>
 			{
-				ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(coordinatesModel);
-			};
+				var coordinatesModel = EvaluateInternal((ModelParameters) modelParameters.Clone(), settings, progressBarHelper);
 
-			p.Form.Invoke(action);
-		}, TaskCreationOptions.None);
+				MethodInvoker action = delegate
+				{
+					ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(coordinatesModel);
+				};
 
-		if (((ComboBoxItem)settings.IsParametersEvaluated).Value.Equals(EvaluateParameters.Yes))
+				p.Form.Invoke(action);
+			}, TaskCreationOptions.None);
+		}
+		else
 		{
+			var spinningLabelHelper = new SpinningLabelHelper(form);
+			spinningLabelHelper.StartSpinning();
+
 			var tasks = new List<TaskModel>();
-			for (var k = 0.1; k < 1; k += 0.1)
+			//for (var k = 0.1; k < 1; k += 0.1)
+			for (var k = 1.0; k < 1.1; k += 0.1)
 			{
 				var mp = (ModelParameters)modelParameters.Clone();
 				mp.k = new List<double> {k, k};
 
-				var task = new Task<List<InliningDistanceEstimationCoordinatesModel>>(
-						() => EvaluateInternal(mp, settings));
+				var task = new Task<List<InliningDistanceEstimationCoordinatesModel>>(() => EvaluateInternal(mp, settings, progressBarHelper));
 				tasks.Add(new TaskModel
 				{
 					ModelParameters = mp,
 					Task = task
 				});
-
-				task.Start();
 			}
 
+			progressBarHelper.SetMaximum((int) settings.MaximumDistanceBetweenCars * tasks.Count);
+
+			tasks.ForEach(x => x.Task.Start());
+
+			var result = new Dictionary<double, List<InliningDistanceEstimationCoordinatesModel>>();
 			while (tasks.Count != 0)
 			{
 				spinningLabelHelper.UpdateSpinningToolTip(tasks.Count);
 				var index = Task.WaitAny(tasks.Select(x => x.Task).ToArray());
+
+				result.Add(tasks[index].ModelParameters.k.First(), tasks[index].Task.Result);
 
 				Helper.GenerateCharts(tasks[index].ModelParameters, tasks[index].Task.Result);
 				tasks.RemoveAt(index);
 				spinningLabelHelper.UpdateSpinningToolTip(tasks.Count);
 			}
 			spinningLabelHelper.StopSpinning();
+
+			if (result.ContainsKey(modelParameters.k.First()))
+			{
+				var resultCoordinates = result[modelParameters.k.First()];
+
+				MethodInvoker action = delegate
+				{
+					ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(resultCoordinates);
+				};
+
+				p.Form.Invoke(action);
+			}
 		}
 	}
 
@@ -84,11 +106,11 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 		var min = 0.0;
 		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
-		var step = 0.01; 
-		for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
-		//for (double space = 0; space <= 10; space+=step)
+		var step = 0.05; 
+		//for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
+		for (double space = 0; space <= 5; space+=step)
 		{
-			progressBarHelper?.Update((int) space);
+			progressBarHelper?.Update(step);
 
 			var intensityChange = false;
 			if (space <= modelParameters.lCar[0] + modelParameters.lSafe[1])
