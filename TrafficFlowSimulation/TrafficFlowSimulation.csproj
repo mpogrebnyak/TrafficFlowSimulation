@@ -193,6 +193,7 @@
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceEstimationSelectionChartRender.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\AccelerationCoefficientEnvironmentModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\CoefficientEstimationCoordinatesModel.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\DecelerationCoefficientEnvironmentModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\DecelerationCoefficientEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\InliningDistanceEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />

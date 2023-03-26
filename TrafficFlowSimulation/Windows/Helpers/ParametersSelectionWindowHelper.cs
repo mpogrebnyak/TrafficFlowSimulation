@@ -137,6 +137,18 @@ public class ParametersSelectionWindowHelper
 		return modelParameters;
 	}
 
+	public string? GetFileNameFromFileDialog()
+	{
+		var openFileDialog = new OpenFileDialog();
+		var result = openFileDialog.ShowDialog();
+		if (result == DialogResult.OK)
+		{
+			return openFileDialog.FileName;
+		}
+
+		return null;
+	}
+
 	private void GetModelTypes(out Type? modelType, out Type? settingsModelType)
 	{
 		var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;

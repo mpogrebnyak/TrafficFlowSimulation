@@ -1,9 +1,7 @@
-﻿
-using System.Windows.Forms.DataVisualization.Charting;
+﻿using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Models;
 

@@ -7,7 +7,7 @@ namespace TrafficFlowSimulation.Handlers.EvaluationHandlers;
 
 public abstract class EvaluationHandler : IEvaluationHandler
 {
-	protected static Thread _thread;
+	private static Thread? _thread;
 
 	protected static object _lockObject;
 
@@ -33,7 +33,24 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		_thread.Start(parameters);
 	}
 
+	public void ExecutePreCalculated(Form form, object preCalculatedParameters)
+	{
+		var parameters = new Parameters
+		{
+			Form = form,
+			PreCalculatedParameters = preCalculatedParameters
+		};
+
+		_thread = new Thread(EvaluatePreCalculated);
+		_thread.Start(parameters);
+	}
+
 	protected abstract void Evaluate(object parameters);
+
+	protected virtual void EvaluatePreCalculated(object parameters)
+	{
+		throw new System.NotImplementedException();
+	}
 
 	public void StartExecution() 
 	{
@@ -53,8 +70,7 @@ public abstract class EvaluationHandler : IEvaluationHandler
 
 	public void AbortExecution()
 	{
-		if (_thread != null)
-			_thread.Abort();
+		_thread?.Abort();
 	}
 
 	protected class Parameters
@@ -62,6 +78,9 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		public Form Form;
 
 		public ModelParameters ModelParameters;
+
 		public BaseSettingsModels ModeSettings;
+
+		public object PreCalculatedParameters;
 	}
 }

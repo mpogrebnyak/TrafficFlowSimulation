@@ -12,6 +12,7 @@
       <PackageReference Include="Cquential.Microsoft.Practices.ServiceLocation" Version="1.0.0" />
       <PackageReference Include="Cquential.Microsoft.Practices.Unity" Version="2.0.414" />
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
+      <PackageReference Include="System.Text.Json" Version="8.0.0-preview.2.23128.3" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

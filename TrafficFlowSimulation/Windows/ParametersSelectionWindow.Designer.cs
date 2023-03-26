@@ -43,6 +43,9 @@
             this.ParametersSelectionStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ParametersSelectionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ParametersPanel = new System.Windows.Forms.Panel();
+            this.ControlsGroupBox = new System.Windows.Forms.GroupBox();
+            this.ControlsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.ImportPointsButton = new System.Windows.Forms.Button();
             this.BasicParametersGroupBox = new System.Windows.Forms.GroupBox();
             this.BasicParametersTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MovementParametersGroupBox = new System.Windows.Forms.GroupBox();
@@ -53,6 +56,8 @@
             this.ControlMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ParametersSelectionChart)).BeginInit();
             this.ParametersPanel.SuspendLayout();
+            this.ControlsGroupBox.SuspendLayout();
+            this.ControlsTableLayoutPanel.SuspendLayout();
             this.BasicParametersGroupBox.SuspendLayout();
             this.MovementParametersGroupBox.SuspendLayout();
             this.ModeSettingsGroupBox.SuspendLayout();
@@ -145,6 +150,7 @@
             // 
             this.ParametersPanel.AutoScroll = true;
             this.ParametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
+            this.ParametersPanel.Controls.Add(this.ControlsGroupBox);
             this.ParametersPanel.Controls.Add(this.BasicParametersGroupBox);
             this.ParametersPanel.Controls.Add(this.MovementParametersGroupBox);
             this.ParametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
@@ -152,6 +158,52 @@
             this.ParametersPanel.Name = "ParametersPanel";
             this.ParametersPanel.Size = new System.Drawing.Size(396, 577);
             this.ParametersPanel.TabIndex = 3;
+            // 
+            // ControlsGroupBox
+            // 
+            this.ControlsGroupBox.AutoSize = true;
+            this.ControlsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ControlsGroupBox.Controls.Add(this.ControlsTableLayoutPanel);
+            this.ControlsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ControlsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Underline);
+            this.ControlsGroupBox.Location = new System.Drawing.Point(0, 99);
+            this.ControlsGroupBox.Name = "ControlsGroupBox";
+            this.ControlsGroupBox.Size = new System.Drawing.Size(396, 69);
+            this.ControlsGroupBox.TabIndex = 25;
+            this.ControlsGroupBox.TabStop = false;
+            this.ControlsGroupBox.Text = "Элементы управления";
+            // 
+            // ControlsTableLayoutPanel
+            // 
+            this.ControlsTableLayoutPanel.AutoSize = true;
+            this.ControlsTableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ControlsTableLayoutPanel.ColumnCount = 1;
+            this.ControlsTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.ControlsTableLayoutPanel.Controls.Add(this.ImportPointsButton, 0, 1);
+            this.ControlsTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ControlsTableLayoutPanel.Location = new System.Drawing.Point(3, 28);
+            this.ControlsTableLayoutPanel.Name = "ControlsTableLayoutPanel";
+            this.ControlsTableLayoutPanel.RowCount = 3;
+            this.ControlsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.ControlsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.ControlsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.ControlsTableLayoutPanel.Size = new System.Drawing.Size(390, 38);
+            this.ControlsTableLayoutPanel.TabIndex = 0;
+            // 
+            // ImportPointsButton
+            // 
+            this.ImportPointsButton.AutoSize = true;
+            this.ImportPointsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(241)))), ((int)(((byte)(245)))));
+            this.ControlsTableLayoutPanel.SetColumnSpan(this.ImportPointsButton, 2);
+            this.ImportPointsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ImportPointsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ImportPointsButton.Location = new System.Drawing.Point(3, 3);
+            this.ImportPointsButton.Name = "ImportPointsButton";
+            this.ImportPointsButton.Size = new System.Drawing.Size(384, 32);
+            this.ImportPointsButton.TabIndex = 9;
+            this.ImportPointsButton.Text = "Загрузить из файла";
+            this.ImportPointsButton.UseVisualStyleBackColor = false;
+            this.ImportPointsButton.Click += new System.EventHandler(this.ImportPointsButton_Click);
             // 
             // BasicParametersGroupBox
             // 
@@ -287,6 +339,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ParametersSelectionChart)).EndInit();
             this.ParametersPanel.ResumeLayout(false);
             this.ParametersPanel.PerformLayout();
+            this.ControlsGroupBox.ResumeLayout(false);
+            this.ControlsGroupBox.PerformLayout();
+            this.ControlsTableLayoutPanel.ResumeLayout(false);
+            this.ControlsTableLayoutPanel.PerformLayout();
             this.BasicParametersGroupBox.ResumeLayout(false);
             this.BasicParametersGroupBox.PerformLayout();
             this.MovementParametersGroupBox.ResumeLayout(false);
@@ -318,5 +374,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripProgressBar ToolStripProgressBar;
         private System.Windows.Forms.ToolStripLabel ToolStripLoadingLabel;
+        private System.Windows.Forms.GroupBox ControlsGroupBox;
+        private System.Windows.Forms.TableLayoutPanel ControlsTableLayoutPanel;
+        private System.Windows.Forms.Button ImportPointsButton;
     }
 }

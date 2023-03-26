@@ -26,7 +26,7 @@ public class DecelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 	{
 		return new DecelerationCoefficientEstimationSettingsModel
 		{
-			MaxQ = 1
+			MaxQ = 1.5
 		};
 	}
 }

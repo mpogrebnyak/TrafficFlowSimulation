@@ -34,7 +34,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			{"q", 1}
 		};
 
-		var chartName = EvaluationCommonHelper.GetFileName("Q_Estimation", parameters);
+		var chartName = EvaluationCommonHelper.GetFileName("Q_Estimation", parameters, ".png");
 		chart.SaveImage(chartName, ChartImageFormat.Png);
 	}
 

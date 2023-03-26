@@ -30,7 +30,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			{"a", modelParameters.a[0]}
 		};
 
-		var chartName = EvaluationCommonHelper.GetFileName("A_Estimation", parameters);
+		var chartName = EvaluationCommonHelper.GetFileName("A_Estimation", parameters, ".png");
 		chart.SaveImage(chartName, ChartImageFormat.Png);
 	}
 

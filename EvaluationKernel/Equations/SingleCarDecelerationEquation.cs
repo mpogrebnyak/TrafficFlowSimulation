@@ -14,7 +14,7 @@ public class SingleCarDecelerationEquation : Equation
 		var n = carCoordinatesModel.CarNumber;
 		var x_n = carCoordinatesModel.CurrentCarCoordinates;
 //-_m.q[n] *2* _m.mu * _m.g
-
+		var ee = _m.q[n] * (x_n.Y * x_n.Y) / (_m.L - x_n.X - _m.lSafe[n]);
 		if (x_n.Y < 0.01)
 		{
 			return -_m.mu * _m.g * x_n.Y;

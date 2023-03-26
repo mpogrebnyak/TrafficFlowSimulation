@@ -8,6 +8,8 @@ public interface IEvaluationHandler
 {
 	public void Execute(Form form, ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
+	public void ExecutePreCalculated(Form form, object preCalculatedParameters);
+
 	public void StartExecution();
 
 	public void StopExecution();

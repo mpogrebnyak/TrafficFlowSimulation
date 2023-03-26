@@ -26,7 +26,7 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		var settings = (DecelerationCoefficientEstimationSettingsModel) p.ModeSettings;
 
 		var cm = new List<DecelerationCoefficientEstimationCoordinatesModel>();
-		double? optimalQ = null;
+		var em = new DecelerationCoefficientEnvironmentModel();
 		var tStop = modelParameters.Vn[0] / (modelParameters.g * modelParameters.mu);
 
 		var step = 0.01;
@@ -42,10 +42,16 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 
 			cm.Add(coordinatesModel);
 
-			if (coordinatesModel.Y <= tStop && !optimalQ.HasValue)
+			if (coordinatesModel.Y >= tStop && !em.OptimalQ.HasValue)
 			{
-				optimalQ = coordinatesModel.X;
+				em.OptimalQ = coordinatesModel.X;
 				coordinatesModel.Color = CustomColors.Green;
+			}
+
+			if (coordinatesModel.Y >= 2 * tStop && !em.DoubleOptimalQ.HasValue)
+			{
+				em.DoubleOptimalQ = coordinatesModel.X;
+				//coordinatesModel.Color = CustomColors.Green;
 			}
 		}
 
@@ -54,10 +60,7 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		MethodInvoker action = delegate
 		{
 			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(cm);
-			if (optimalQ.HasValue)
-			{
-				ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChartEnvironments(optimalQ);
-			}
+			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChartEnvironments(em);
 		};
 		p.Form.Invoke(action);
 	}
@@ -78,9 +81,9 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			y[i] = r.Y(i).Last();
 		}
 
-		while (y[0] >= 0.01)
+		while (y[0] >= 0.1)
 		{
-			if (modelParameters.L - x[0] < 0.001)
+			if (modelParameters.L - x[0] < 0.0001)
 			{ 
 				return new DecelerationCoefficientEstimationCoordinatesModel
 				{

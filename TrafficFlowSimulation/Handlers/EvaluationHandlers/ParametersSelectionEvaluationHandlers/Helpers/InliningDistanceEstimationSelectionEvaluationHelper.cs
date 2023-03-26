@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
+using Common;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.Constants;
@@ -23,6 +24,27 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			Color = GetColor(intensity, mp.Vmax[1]),
 			IsIntensityChange = isIntensityChange
 		});
+	}
+
+	public static void SavePoints(ModelParameters modelParameters, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel)
+	{
+		var parameters = new Dictionary<string, double>
+		{
+			{"k", modelParameters.k[1]},
+			{"a", modelParameters.a[1]},
+		};
+
+		var pointsFileNameName = EvaluationCommonHelper.GetFileName("points", parameters, ".txt");
+		var points = coordinatesModel
+			.Select(x => new PointsSerializerModel
+			{
+				X = x.X,
+				Y = x.Y,
+				Color = x.Color.Name
+			})
+			.ToList();
+
+		SerializerDataHelper.ExportPoints(pointsFileNameName, points);
 	}
 
 	public static void GenerateCharts(ModelParameters modelParameters, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel)
@@ -54,9 +76,9 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{"a", modelParameters.a[1]},
 		};
 
-		var fullFIllChartName = EvaluationCommonHelper.GetFileName("FullFIll", parameters);
+		var fullFIllChartName = EvaluationCommonHelper.GetFileName("FullFIll", parameters, ".png");
 		fullFIllChart.SaveImage(fullFIllChartName, ChartImageFormat.Png);
-		var lineFIllChartName = EvaluationCommonHelper.GetFileName("LineFIll", parameters);
+		var lineFIllChartName = EvaluationCommonHelper.GetFileName("LineFIll", parameters, ".png");
 		lineChart.SaveImage(lineFIllChartName, ChartImageFormat.Png);;
 	}
 

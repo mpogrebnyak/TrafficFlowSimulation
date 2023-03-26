@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using Common;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Windows.Components;
@@ -37,12 +37,16 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SelectParametersToolStripButton_Click(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectParametersFromBindingSource();
-			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+			var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>()
+				.CollectParametersFromBindingSource();
+			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>()
+				.CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>()
+				.RenderCharts(modelParameters, modeSettings);
 
 			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).Execute(
 				this,
 				modelParameters,
@@ -51,16 +55,37 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
+			var currentParametersSelectionMode =
+				SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString())
+				.AbortExecution();
 		}
 
 		private void ParametersSelectionWindowHelper_Shown(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectParametersFromBindingSource();
-			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+			var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>()
+				.CollectParametersFromBindingSource();
+			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>()
+				.CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>()
+				.RenderCharts(modelParameters, modeSettings);
+		}
+
+		private void ImportPointsButton_Click(object sender, EventArgs e)
+		{
+			var fileName = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>()
+				.GetFileNameFromFileDialog();
+
+			if(fileName == null)
+				return;
+
+			var points = SerializerDataHelper.ImportPoints(fileName);
+
+			var currentParametersSelectionMode =
+				SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).ExecutePreCalculated(this, points);
 		}
 	}
 }

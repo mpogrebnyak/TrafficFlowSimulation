@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Common;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
-using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels.Constants;
@@ -81,6 +82,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				result.Add(tasks[index].ModelParameters.k.First(), tasks[index].Task.Result);
 
 				Helper.GenerateCharts(tasks[index].ModelParameters, tasks[index].Task.Result);
+				Helper.SavePoints(tasks[index].ModelParameters, tasks[index].Task.Result);
 				tasks.RemoveAt(index);
 				spinningLabelHelper.UpdateSpinningToolTip(tasks.Count);
 			}
@@ -98,6 +100,30 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				p.Form.Invoke(action);
 			}
 		}
+	}
+
+	protected override void EvaluatePreCalculated(object parameters)
+	{
+		var p = (Parameters) parameters;
+		var preCalculatedParameters = (List<PointsSerializerModel>) p.PreCalculatedParameters;
+
+		var coordinates = preCalculatedParameters
+			.Select(x =>
+				new InliningDistanceEstimationCoordinatesModel
+				{
+					X = x.X,
+					Y = x.Y,
+					Color = Color.FromName(x.Color)
+				})
+			.ToList();
+		//	Helper.GenerateCharts(tasks[index].ModelParameters, tasks[index].Task.Result);
+
+		MethodInvoker action = delegate
+		{
+			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(coordinates);
+		};
+
+		p.Form.Invoke(action);
 	}
 
 	private List<InliningDistanceEstimationCoordinatesModel> EvaluateInternal(ModelParameters modelParameters, InliningDistanceEstimationSettingsModel modeSettings, ProgressBarHelper? progressBarHelper = null)

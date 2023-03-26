@@ -84,7 +84,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = 8,
+				Maximum = 10,
 				Interval = 5
 			}
 		};
@@ -110,9 +110,9 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 		{
-			Text = "8",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(8),
-			ToPosition = ChartCommonHelper.CalculateToPosition(8),
+			Text = "10",
+			FromPosition = ChartCommonHelper.CalculateFromPosition(10),
+			ToPosition = ChartCommonHelper.CalculateToPosition(10),
 			GridTicks = GridTickTypes.All
 		});
 
@@ -125,20 +125,42 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
+		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+		{
+			Text = Math.Round(2 * tStop, 2).ToString(),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(2 * tStop),
+			ToPosition = ChartCommonHelper.CalculateToPosition(2 * tStop),
+			GridTicks = GridTickTypes.All
+		});
+
 		return new Series[] { };
 	}
 
 	public override void UpdateEnvironment(object parameters)
 	{
-		var environmentModel = (double) parameters;
+		var environmentModel = (DecelerationCoefficientEnvironmentModel) parameters;
+
+		if (!environmentModel.OptimalQ.HasValue)
+		 return;
 
 		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
-			Text = Math.Round(environmentModel, 2).ToString(),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel),
-			ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel),
+			Text = Math.Round(environmentModel.OptimalQ.Value, 2).ToString(),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalQ.Value),
+			ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.OptimalQ.Value),
 			GridTicks = GridTickTypes.All
 		});
+
+		if (environmentModel.DoubleOptimalQ.HasValue)
+		{
+			_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+			{
+				Text = Math.Round(environmentModel.DoubleOptimalQ.Value, 2).ToString(),
+				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalQ.Value),
+				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.DoubleOptimalQ.Value),
+				GridTicks = GridTickTypes.All
+			});
+		}
 
 		for (var i = -10.0; i <= 10; i+=0.5)
 		{
@@ -153,7 +175,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			};
 
 			redLine.Points.Add(new DataPoint(0, i));
-			redLine.Points.Add(new DataPoint(environmentModel, i+10));
+			redLine.Points.Add(new DataPoint(environmentModel.OptimalQ.Value, i + 10));
 
 			_chart.Series.Add(redLine);
 		}
