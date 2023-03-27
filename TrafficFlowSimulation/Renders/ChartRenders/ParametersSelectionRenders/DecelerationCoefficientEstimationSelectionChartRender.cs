@@ -116,23 +116,6 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
-		var tStop = modelParameters.Vn[0] / (modelParameters.g * modelParameters.mu);
-		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
-		{
-			Text = Math.Round(tStop, 2).ToString(),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(tStop),
-			ToPosition = ChartCommonHelper.CalculateToPosition(tStop),
-			GridTicks = GridTickTypes.All
-		});
-
-		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
-		{
-			Text = Math.Round(2 * tStop, 2).ToString(),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(2 * tStop),
-			ToPosition = ChartCommonHelper.CalculateToPosition(2 * tStop),
-			GridTicks = GridTickTypes.All
-		});
-
 		return new Series[] { };
 	}
 
@@ -151,6 +134,14 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
+		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+		{
+			Text = Math.Round(environmentModel.StopTime, 2).ToString(),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalTime),
+			ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.OptimalTime),
+			GridTicks = GridTickTypes.All
+		});
+
 		if (environmentModel.DoubleOptimalQ.HasValue)
 		{
 			_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
@@ -158,6 +149,14 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				Text = Math.Round(environmentModel.DoubleOptimalQ.Value, 2).ToString(),
 				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalQ.Value),
 				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.DoubleOptimalQ.Value),
+				GridTicks = GridTickTypes.All
+			});
+
+			_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+			{
+				Text = Math.Round(2 * environmentModel.StopTime, 2).ToString(),
+				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalTime),
+				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.DoubleOptimalTime),
 				GridTicks = GridTickTypes.All
 			});
 		}

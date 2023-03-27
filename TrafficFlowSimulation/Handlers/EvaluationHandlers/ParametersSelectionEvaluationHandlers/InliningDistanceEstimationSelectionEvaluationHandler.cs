@@ -134,7 +134,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
 		var step = 0.05; 
 		//for (double space = 0; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
-		for (double space = 0; space <= 5; space+=step)
+		for (double space = 0; space <= 10; space+=step)
 		{
 			progressBarHelper?.Update(step);
 

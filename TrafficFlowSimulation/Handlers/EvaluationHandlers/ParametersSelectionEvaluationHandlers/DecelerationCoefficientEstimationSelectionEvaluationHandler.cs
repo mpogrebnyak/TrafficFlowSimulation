@@ -28,8 +28,9 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		var cm = new List<DecelerationCoefficientEstimationCoordinatesModel>();
 		var em = new DecelerationCoefficientEnvironmentModel();
 		var tStop = modelParameters.Vn[0] / (modelParameters.g * modelParameters.mu);
+		em.StopTime = tStop;
 
-		var step = 0.01;
+		var step = 0.02;
 		for (var q = step; q <= settings.MaxQ; q += step)
 		{
 			var mp = (ModelParameters)modelParameters.Clone();
@@ -40,22 +41,26 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			if(coordinatesModel.IsCollapse)
 				continue;
 
-			cm.Add(coordinatesModel);
-
 			if (coordinatesModel.Y >= tStop && !em.OptimalQ.HasValue)
 			{
 				em.OptimalQ = coordinatesModel.X;
+				em.OptimalTime = coordinatesModel.Y;
 				coordinatesModel.Color = CustomColors.Green;
 			}
 
 			if (coordinatesModel.Y >= 2 * tStop && !em.DoubleOptimalQ.HasValue)
 			{
 				em.DoubleOptimalQ = coordinatesModel.X;
-				//coordinatesModel.Color = CustomColors.Green;
+				em.DoubleOptimalTime = coordinatesModel.Y;
+			}
+
+			if (em.OptimalQ.HasValue)
+			{
+				cm.Add(coordinatesModel);
 			}
 		}
 
-		Helper.GenerateCharts(modelParameters, cm); 
+		Helper.GenerateCharts(modelParameters, cm, em); 
 
 		MethodInvoker action = delegate
 		{
@@ -83,7 +88,7 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 
 		while (y[0] >= 0.1)
 		{
-			if (modelParameters.L - x[0] < 0.0001)
+			if (modelParameters.L - x[0] < 0.001)
 			{ 
 				return new DecelerationCoefficientEstimationCoordinatesModel
 				{

@@ -104,7 +104,7 @@ public class DecelerationCoefficientEstimationModelParametersModel : BasicParame
 			Vmax = 100 / 3.6,
 			mu = 0.7,
 			g = 9.8,
-			l_safe = 2,//2
+			l_safe = 0
 		};
 	}
 }

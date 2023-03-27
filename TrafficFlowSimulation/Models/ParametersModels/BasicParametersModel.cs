@@ -147,7 +147,7 @@ public class BasicParametersModel : BaseParametersModel
 			Vmax_multiple = string.Empty,
 			tau = 1,
 			tau_multiple = string.Empty,
-			a = 4,
+			a = 0.5,
 			a_multiple = string.Empty,
 			q = 0.5,
 			q_multiple = string.Empty,

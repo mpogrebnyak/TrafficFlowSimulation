@@ -13,10 +13,11 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 {
 	public static void GenerateCharts(
 		ModelParameters modelParameters,
-		List<DecelerationCoefficientEstimationCoordinatesModel> coordinatesModel)
+		List<DecelerationCoefficientEstimationCoordinatesModel> coordinatesModel,
+		DecelerationCoefficientEnvironmentModel environmentModel)
 	{
 		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green);
-		var chart = CreateChart(modelParameters, optimalValue.X);
+		var chart = CreateChart(modelParameters, environmentModel);
 
 		foreach (var cm in coordinatesModel)
 		{
@@ -38,9 +39,9 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 		chart.SaveImage(chartName, ChartImageFormat.Png);
 	}
 
-	private static Chart CreateChart(ModelParameters modelParameters, double value)
+	private static Chart CreateChart(ModelParameters modelParameters, DecelerationCoefficientEnvironmentModel environmentModel)
 	{
-		var chartArea = GetChartAreaParameters(modelParameters, value);
+		var chartArea = GetChartAreaParameters(modelParameters, environmentModel);
 		var chart = EvaluationCommonHelper.CreateBaseChart(chartArea);
 		foreach (var color in CustomColors.GetColorsForDecelerationCoefficientEstimation())
 		{
@@ -55,28 +56,31 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			});
 		}
 
-		for (var i = -10.0; i <= 10; i+=0.2)
+		if (environmentModel.OptimalQ.HasValue)
 		{
-			var redLine = new Series
+			for (var i = -10.0; i <= 10; i += 0.2)
 			{
-				Name = "RedLine" + i,
-				ChartType = SeriesChartType.Line,
-				ChartArea = chartArea.Name,
-				BorderWidth = 1,
-				Color = CustomColors.BrightRed,
-				IsVisibleInLegend = false
-			};
+				var redLine = new Series
+				{
+					Name = "RedLine" + i,
+					ChartType = SeriesChartType.Line,
+					ChartArea = chartArea.Name,
+					BorderWidth = 1,
+					Color = CustomColors.BrightRed,
+					IsVisibleInLegend = false
+				};
 
-			redLine.Points.Add(new DataPoint(0, i));
-			redLine.Points.Add(new DataPoint(value, i+10));
+				redLine.Points.Add(new DataPoint(0, i));
+				redLine.Points.Add(new DataPoint(environmentModel.OptimalQ.Value, i + 10));
 
-			chart.Series.Add(redLine);
+				chart.Series.Add(redLine);
+			}
 		}
 
 		return chart;
 	}
 
-	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters, double value)
+	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters, DecelerationCoefficientEnvironmentModel environmentModel)
 	{
 		var chartArea = new EvaluationCommonHelper.ChartAreaParameters
 		{
@@ -95,7 +99,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = 8,
+				Maximum = 10,
 				LabelAutoFitMinFontSize = 40,
 				LineWidth = 2,
 				MajorGrid = new Grid
@@ -107,7 +111,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 
 		chartArea.AxisX.CustomLabels.Add(new CustomLabel
 		{
-			Text = "1",
+			Text = "q",
 			FromPosition = ChartCommonHelper.CalculateFromPosition(1),
 			ToPosition = ChartCommonHelper.CalculateToPosition(1),
 			GridTicks = GridTickTypes.All
@@ -123,28 +127,49 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 
 		chartArea.AxisY.CustomLabels.Add(new CustomLabel
 		{
-			Text = "8",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(8),
-			ToPosition = ChartCommonHelper.CalculateToPosition(8),
+			Text = "t",
+			FromPosition = ChartCommonHelper.CalculateFromPosition(10),
+			ToPosition = ChartCommonHelper.CalculateToPosition(10),
 			GridTicks = GridTickTypes.All
 		});
 
-		var tStop = modelParameters.Vn[0] / (modelParameters.g * modelParameters.mu);
-		chartArea.AxisY.CustomLabels.Add(new CustomLabel
+		if (environmentModel.OptimalQ.HasValue)
 		{
-			Text = Math.Round(tStop, 2).ToString(),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(tStop),
-			ToPosition = ChartCommonHelper.CalculateToPosition(tStop),
-			GridTicks = GridTickTypes.All
-		});
+			chartArea.AxisX.CustomLabels.Add(new CustomLabel
+			{
+				Text = Math.Round(environmentModel.OptimalQ.Value, 2).ToString(),
+				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalQ.Value),
+				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.OptimalQ.Value),
+				GridTicks = GridTickTypes.All
+			});
 
-		chartArea.AxisX.CustomLabels.Add(new CustomLabel
+			chartArea.AxisY.CustomLabels.Add(new CustomLabel
+			{
+				Text = Math.Round(environmentModel.StopTime, 2).ToString(),
+				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalTime),
+				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.OptimalTime),
+				GridTicks = GridTickTypes.All
+			});
+		}
+
+		if (environmentModel.DoubleOptimalQ.HasValue)
 		{
-			Text = Math.Round(value, 2).ToString(),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(value),
-			ToPosition = ChartCommonHelper.CalculateToPosition(value),
-			GridTicks = GridTickTypes.All
-		});
+			chartArea.AxisX.CustomLabels.Add(new CustomLabel
+			{
+				Text = Math.Round(environmentModel.DoubleOptimalQ.Value, 2).ToString(),
+				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalQ.Value),
+				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.DoubleOptimalQ.Value),
+				GridTicks = GridTickTypes.All
+			});
+
+			chartArea.AxisY.CustomLabels.Add(new CustomLabel
+			{
+				Text = Math.Round(2 * environmentModel.StopTime, 2).ToString(),
+				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalTime),
+				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.DoubleOptimalTime),
+				GridTicks = GridTickTypes.All
+			});
+		}
 
 		return chartArea;
 	}

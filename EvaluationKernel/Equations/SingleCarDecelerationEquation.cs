@@ -1,5 +1,4 @@
-﻿using System;
-using EvaluationKernel.Models;
+﻿using EvaluationKernel.Models;
 
 namespace EvaluationKernel.Equations;
 
@@ -13,13 +12,8 @@ public class SingleCarDecelerationEquation : Equation
 	{
 		var n = carCoordinatesModel.CarNumber;
 		var x_n = carCoordinatesModel.CurrentCarCoordinates;
-//-_m.q[n] *2* _m.mu * _m.g
-		var ee = _m.q[n] * (x_n.Y * x_n.Y) / (_m.L - x_n.X - _m.lSafe[n]);
-		if (x_n.Y < 0.01)
-		{
-			return -_m.mu * _m.g * x_n.Y;
-		}
+		var x_0 = new Coordinates {X = _m.L, Y = 0};
 
-		return -_m.q[n] * (x_n.Y * x_n.Y) / (_m.L - x_n.X - _m.lSafe[n]); 
+		return H(n, x_n, x_0, 0) * x_n.Y;
 	}
 }
