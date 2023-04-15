@@ -45,7 +45,7 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			{
 				em.OptimalQ = coordinatesModel.X;
 				em.OptimalTime = coordinatesModel.Y;
-				coordinatesModel.Color = CustomColors.Green;
+				coordinatesModel.Color = CustomColors.Green.Name;
 			}
 
 			if (coordinatesModel.Y >= 2 * tStop && !em.DoubleOptimalQ.HasValue)
@@ -123,7 +123,7 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		{
 			X = modelParameters.q[0],
 			Y = t,
-			Color = CustomColors.Black,
+			Color = CustomColors.Black.Name,
 			IsCollapse = false
 		};
 	}

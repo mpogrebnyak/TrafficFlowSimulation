@@ -8,5 +8,5 @@ public class CoefficientEstimationCoordinatesModel
 
 	public double Y { get; set; }
 
-	public Color Color { get; set; }
+	public string Color { get; set; }
 }

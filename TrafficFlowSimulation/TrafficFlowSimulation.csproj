@@ -126,6 +126,7 @@
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\DecelerationCoefficientEstimationSelectionEvaluationHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\EvaluationCommonHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\InliningDistanceEstimationSelectionEvaluationHelper.cs" />
+    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\SerializerPointsHelper.cs" />
     <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceEstimationSelectionEvaluationHandler.cs" />
     <Compile Include="Handlers\HandlersConfiguration.cs" />
     <Compile Include="Models\Attribute\CustomDisplayAttribute.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\DecelerationCoefficientEnvironmentModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\DecelerationCoefficientEstimationCoordinatesModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\InliningDistanceEstimationCoordinatesModel.cs" />
+    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\SerializerPointsModel.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionRenderingHandler.cs" />
     <Compile Include="TrafficFlowSimulationModule.cs" />

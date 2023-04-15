@@ -33,11 +33,12 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		_thread.Start(parameters);
 	}
 
-	public void ExecutePreCalculated(Form form, object preCalculatedParameters)
+	public void ExecutePreCalculated(Form form, ModelParameters modelParameters, BaseSettingsModels modeSettings, object preCalculatedParameters)
 	{
 		var parameters = new Parameters
 		{
-			Form = form,
+			Form = form,ModelParameters = modelParameters,
+			ModeSettings = modeSettings,
 			PreCalculatedParameters = preCalculatedParameters
 		};
 

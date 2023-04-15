@@ -17,7 +17,7 @@ public static class CustomColors
 
 	public static Color Yellow = Color.FromArgb(255, 255, 0);
 
-	public static Color LightGreen = Color.FromArgb(102, 255, 102);
+	public static Color LightGreen = Color.FromArgb(203, 243, 82);
 
 	public static Color Green = Color.FromArgb(0, 255, 0);
 

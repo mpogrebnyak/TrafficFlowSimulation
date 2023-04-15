@@ -100,8 +100,8 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			X = modelParameters.a[0],
 			Y = t,
 			Color = t >= modeSettings.MinTime && t <= modeSettings.MaxTime
-				? CustomColors.Green
-				: CustomColors.BrightRed
+				? CustomColors.Green.Name
+				: CustomColors.BrightRed.Name
 		};
 	}
 }

@@ -4,5 +4,7 @@ namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.
 
 public class InliningDistanceEstimationCoordinatesModel : CoefficientEstimationCoordinatesModel
 {
-	public bool IsIntensityChange { get; set; }
+	public double Intensity { get; set; }
+
+	public bool IsIntensityChangedToZero { get; set; }
 }

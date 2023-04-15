@@ -137,7 +137,7 @@ public class ParametersSelectionWindowHelper
 		return modelParameters;
 	}
 
-	public string? GetFileNameFromFileDialog()
+	public string? GetFilePathFromFileDialog()
 	{
 		var openFileDialog = new OpenFileDialog();
 		var result = openFileDialog.ShowDialog();

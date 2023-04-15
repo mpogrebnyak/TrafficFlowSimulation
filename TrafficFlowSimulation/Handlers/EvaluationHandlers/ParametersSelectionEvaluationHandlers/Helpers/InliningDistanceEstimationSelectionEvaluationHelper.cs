@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
-using Common;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
@@ -15,18 +15,18 @@ namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionE
 
 public static class InliningDistanceEstimationSelectionEvaluationHelper
 { 
-	public static void AddCoordinates(ModelParameters mp, List<InliningDistanceEstimationCoordinatesModel> cm, double x, double y, double intensity, bool isIntensityChange = false)
+	public static void AddCoordinates(ModelParameters mp, List<InliningDistanceEstimationCoordinatesModel> cm, double x, double y, double intensity)
 	{
 		cm.Add(new InliningDistanceEstimationCoordinatesModel
 		{
 			X = x,
 			Y = y,
 			Color = GetColor(intensity, mp.Vmax[1]),
-			IsIntensityChange = isIntensityChange
+			Intensity = intensity
 		});
 	}
 
-	public static void SavePoints(ModelParameters modelParameters, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel)
+	public static void SavePoints(ModelParameters modelParameters, BaseSettingsModels modeSettings, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel)
 	{
 		var parameters = new Dictionary<string, double>
 		{
@@ -34,17 +34,10 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{"a", modelParameters.a[1]},
 		};
 
-		var pointsFileNameName = EvaluationCommonHelper.GetFileName("points", parameters, ".txt");
-		var points = coordinatesModel
-			.Select(x => new PointsSerializerModel
-			{
-				X = x.X,
-				Y = x.Y,
-				Color = x.Color.Name
-			})
-			.ToList();
+		var pointsFileName = EvaluationCommonHelper.CreateFileName("Points", parameters);
+		var pointsFilePath = EvaluationCommonHelper.CreateFile(pointsFileName, ".txt");
 
-		SerializerDataHelper.ExportPoints(pointsFileNameName, points);
+		SerializerPointsHelper.SerializePoints(pointsFileName, pointsFilePath, modelParameters, modeSettings, coordinatesModel);
 	}
 
 	public static void GenerateCharts(ModelParameters modelParameters, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel)
@@ -54,11 +47,11 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 		foreach (var cm in coordinatesModel)
 		{
-			fullFIllChart.Series.Single(series => series.Name.Contains(cm.Color.Name))
+			fullFIllChart.Series.Single(series => series.Name.Contains(cm.Color))
 				.Points
 				.AddXY(cm.X, cm.Y);
 
-			if (cm.IsIntensityChange)
+			if (cm.IsIntensityChangedToZero)
 			{
 				lineChart.Series.Single(series => series.Name.Contains(CustomColors.Black.Name))
 					.Points
@@ -76,10 +69,13 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{"a", modelParameters.a[1]},
 		};
 
-		var fullFIllChartName = EvaluationCommonHelper.GetFileName("FullFIll", parameters, ".png");
-		fullFIllChart.SaveImage(fullFIllChartName, ChartImageFormat.Png);
-		var lineFIllChartName = EvaluationCommonHelper.GetFileName("LineFIll", parameters, ".png");
-		lineChart.SaveImage(lineFIllChartName, ChartImageFormat.Png);;
+		var fullFIllFileName = EvaluationCommonHelper.CreateFileName("FullFIll", parameters);
+		var fullFIllFilePath = EvaluationCommonHelper.CreateFile(fullFIllFileName, ".png");
+		fullFIllChart.SaveImage(fullFIllFilePath, ChartImageFormat.Png);
+
+		var lineFIllFileName = EvaluationCommonHelper.CreateFileName("LineFIll", parameters);
+		var lineFIllFilePath = EvaluationCommonHelper.CreateFile(lineFIllFileName, ".png");
+		lineChart.SaveImage(lineFIllFilePath, ChartImageFormat.Png);
 	}
 
 	private static Chart CreateFullFIllChart(ModelParameters modelParameters)
@@ -119,7 +115,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			Docking = Docking.Top,
 			Font = new Font("Microsoft Sans Serif", 38F),
 			Alignment = StringAlignment.Center,
-			Title = LocalizationHelper.Get<ParametersSelectionWindowResources>().SpeedReductionTitle,
+			Title = LocalizationHelper.Get<ParametersSelectionWindowResources>().SpeedReductionTitle2(1),
 			TitleAlignment = StringAlignment.Near,
 			TableStyle = LegendTableStyle.Wide
 		};
@@ -172,7 +168,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			chartArea.AxisY.CustomLabels.Add(new CustomLabel
 			{
 				Text = i == modelParameters.Vmax[1]
-					? modelParameters.Vmax[1].ToString()
+					? "v"
 					: Math.Round(i, 0).ToString(),
 				FromPosition = ChartCommonHelper.CalculateFromPosition(i, 5),
 				ToPosition = ChartCommonHelper.CalculateToPosition(i, 5),
@@ -184,7 +180,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		{
 			chartArea.AxisX.CustomLabels.Add(new CustomLabel
 			{
-				Text = i.ToString(),
+				Text = i != 100 ? i.ToString() : "λ",
 				FromPosition = ChartCommonHelper.CalculateFromPosition(i, 5),
 				ToPosition = ChartCommonHelper.CalculateToPosition(i, 5),
 				GridTicks = GridTickTypes.All
@@ -194,13 +190,13 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		return chartArea;
 	}
 
-	private static Color GetColor(double intensity, double max)
+	private static string GetColor(double intensity, double max)
 	{
 		var colorIntensity = GetColorIntensityDictionary();
 
 		if (intensity <= 0)
 		{
-			return colorIntensity.Single(x => x.Value.IntValue == (int) intensity).Key;
+			return colorIntensity.Single(x => x.Value.IntValue == (int) intensity).Key.Name;
 		}
 
 		// на сколько процентов скорость снижения отличается от максимальной
@@ -210,8 +206,8 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		var color = colorIntensity.FirstOrDefault(x => intensityInPercentage <= x.Value.IntValue);
 
 		return color.Key != Color.Empty
-			? color.Key
-			: colorIntensity.Single(x => x.Value.IntValue == -1).Key;
+			? color.Key.Name
+			: colorIntensity.Single(x => x.Value.IntValue == -1).Key.Name;
 	}
 
 	private static Dictionary<Color, ColorValue> GetColorIntensityDictionary()

@@ -16,7 +16,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 		List<DecelerationCoefficientEstimationCoordinatesModel> coordinatesModel,
 		DecelerationCoefficientEnvironmentModel environmentModel)
 	{
-		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green);
+		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green.Name);
 		var chart = CreateChart(modelParameters, environmentModel);
 
 		foreach (var cm in coordinatesModel)
@@ -35,8 +35,9 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			{"q", 1}
 		};
 
-		var chartName = EvaluationCommonHelper.GetFileName("Q_Estimation", parameters, ".png");
-		chart.SaveImage(chartName, ChartImageFormat.Png);
+		var fileName = EvaluationCommonHelper.CreateFileName("Q_Estimation", parameters);
+		var chartFilePath = EvaluationCommonHelper.CreateFile(fileName, ".png");
+		chart.SaveImage(chartFilePath, ChartImageFormat.Png);
 	}
 
 	private static Chart CreateChart(ModelParameters modelParameters, DecelerationCoefficientEnvironmentModel environmentModel)

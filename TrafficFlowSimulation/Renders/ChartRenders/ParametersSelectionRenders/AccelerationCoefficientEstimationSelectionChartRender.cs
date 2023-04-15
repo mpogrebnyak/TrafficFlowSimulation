@@ -59,7 +59,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		foreach (var cm in coordinatesModel)
 		{
-			_chart.Series.Single(series => series.Name.Contains(cm.Color.Name))
+			_chart.Series.Single(series => series.Name.Contains(cm.Color))
 				.Points
 				.AddXY(cm.X, cm.Y);
 		}

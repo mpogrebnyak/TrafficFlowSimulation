@@ -4,23 +4,20 @@ namespace Common;
 
 public static class SerializerDataHelper
 {
-	public static void ExportPoints(string fileName, List<PointsSerializerModel> points)
+	public static void Serialize(string fileName, object objectToSerialize, Type objectType)
 	{
-		File.WriteAllText(fileName, JsonSerializer.Serialize(points));
+		var json = JsonSerializer.Serialize(objectToSerialize, objectType);
+		File.WriteAllText(fileName, json);
 	}
 
-	public static List<PointsSerializerModel> ImportPoints(string fileName)
+	public static object Deserialize(string fileName, Type objectType)
 	{
 		var json = File.ReadAllText(fileName);
-		var points = JsonSerializer.Deserialize<List<PointsSerializerModel>>(json);
-
-		return points;
+		return JsonSerializer.Deserialize(json, objectType);
 	}
 }
 
-public class PointsSerializerModel
+public class SerializerData
 {
-	public double X { get; set; }
-	public double Y { get; set; }
-	public string Color { get; set; }
+	public string Name { get; set; }
 }

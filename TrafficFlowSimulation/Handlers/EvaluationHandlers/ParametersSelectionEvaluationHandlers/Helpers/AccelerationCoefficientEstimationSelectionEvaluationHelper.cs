@@ -20,7 +20,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 
 		foreach (var cm in coordinatesModel)
 		{
-			chart.Series.Single(series => series.Name.Contains(cm.Color.Name))
+			chart.Series.Single(series => series.Name.Contains(cm.Color))
 				.Points
 				.AddXY(cm.X, cm.Y);
 		}
@@ -30,8 +30,9 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			{"a", modelParameters.a[0]}
 		};
 
-		var chartName = EvaluationCommonHelper.GetFileName("A_Estimation", parameters, ".png");
-		chart.SaveImage(chartName, ChartImageFormat.Png);
+		var fileName = EvaluationCommonHelper.CreateFileName("A_Estimation", parameters);
+		var chartFilePath = EvaluationCommonHelper.CreateFile(fileName, ".png");
+		chart.SaveImage(chartFilePath, ChartImageFormat.Png);
 	}
 
 	private static Chart CreateChart(ModelParameters modelParameters, AccelerationCoefficientEnvironmentModel environmentModel)

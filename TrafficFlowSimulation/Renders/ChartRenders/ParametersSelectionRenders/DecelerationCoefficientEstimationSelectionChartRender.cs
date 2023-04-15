@@ -64,7 +64,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				.AddXY(cm.X, cm.Y);
 		}
 		
-		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green);
+		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green.Name);
 		_chart.Series.Single(series => series.Name.Contains(CustomColors.Green.Name))
 			.Points
 			.AddXY(optimalValue.X, optimalValue.Y);

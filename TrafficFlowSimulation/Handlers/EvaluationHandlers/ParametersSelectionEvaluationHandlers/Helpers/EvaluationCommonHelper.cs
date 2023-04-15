@@ -8,7 +8,18 @@ namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionE
 
 public static class EvaluationCommonHelper
 {
-	public static string GetFileName(string chartName, Dictionary<string, double> parameters, string extension)
+	public static string CreateFileName(string prefixName, Dictionary<string, double> parameters)
+	{
+		var fileName = prefixName;
+		foreach (var p in parameters)
+		{
+			fileName += @"_" + p.Key + "=" + Math.Round(p.Value, 2);
+		}
+
+		return fileName;
+	}
+
+	public static string CreateFile(string fileName, string extension)
 	{
 		var folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		folder += @"\Images";
@@ -16,13 +27,7 @@ public static class EvaluationCommonHelper
 		if (!folderExists)
 			Directory.CreateDirectory(folder);
 
-		var name = @"\" + chartName;
-		foreach (var p in parameters)
-		{
-			name += @"_" + p.Key + "=" + Math.Round(p.Value, 2);
-		}
-
-		return folder + name + extension;
+		return folder +  @"\" + fileName + extension;
 	}
 
 	public static Chart CreateBaseChart(ChartAreaParameters chartParameters)
