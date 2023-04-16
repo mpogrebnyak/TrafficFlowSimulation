@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 using Fasterflect;
 
@@ -30,17 +27,30 @@ namespace Localization.Localization
 
 		public static object CreateLocalizedObject(IResourceProvider resourceProvider, Type typeOfResources)
 		{
+			var desiredValues = new Dictionary<string, string>();
 			var explicitPropValues = new Dictionary<string, string>();
 
 			var properties = typeOfResources.GetProperties().ToArray();
-			
+
 			foreach (var property in properties)
 			{
 				var value = GetValue(resourceProvider, new LocalizationKeyPath(typeOfResources, property.Name));
 				explicitPropValues[property.Name] = value;
 			}
 
-			var resources = Activator.CreateInstance(typeOfResources);
+			var methods = typeOfResources.GetMethods().ToArray();
+
+			foreach (var method in methods)
+			{
+				if (IsIgnoredMethod(method)) continue;
+
+				var value = GetValue(resourceProvider, new LocalizationKeyPath(typeOfResources, method.Name));
+				desiredValues[method.Name] = value;
+			}
+
+			var resources = typeOfResources.IsAbstract
+				? ResourceProxyBuilder.Build(typeOfResources, desiredValues)
+				: Activator.CreateInstance(typeOfResources);
 
 			foreach (var propValue in explicitPropValues)
 			{
@@ -116,6 +126,8 @@ namespace Localization.Localization
 
 			foreach (var method in methods)
 			{
+				if (IsIgnoredMethod(method)) continue;
+
 				var metadata = new ResourceMetadata
 				{
 					Name = ResourceMetadata.Normalize(method.Name),
@@ -123,9 +135,15 @@ namespace Localization.Localization
 				};
 
 				sectionMetadata.Children.Add(metadata);
+
+				var attributes = (TranslationAttribute[])method.GetCustomAttributes(typeof(TranslationAttribute), false);
+				foreach (var translationAttribute in attributes)
+				{
+					builder.AppendValue(translationAttribute.Locale, metadata.Key, translationAttribute.Value);
+				}
 			}
 		}
-		
+
 		private static string GetValue(IResourceProvider resourceProvider, LocalizationKeyPath path)
 		{
 			var locale = LocalizationSettingManager.GetCurrentLocale();
@@ -136,7 +154,6 @@ namespace Localization.Localization
 				{
 					var value = resourceProvider.GetValue(locale, key);
 					if (value != null) return value;
-					
 				}
 			} while ((path = null) != null);
 
@@ -148,6 +165,15 @@ namespace Localization.Localization
 			var key = typeOfResources.FullName + ResourceMetadata.NameSeparator + memberName;
 
 			yield return key;
+		}
+
+		private static bool IsIgnoredMethod(MethodInfo method)
+		{
+			if (method.IsSpecialName) return true;
+
+			if (method.ReturnType != typeof(string)) return true;
+
+			return false;
 		}
 	}
 }

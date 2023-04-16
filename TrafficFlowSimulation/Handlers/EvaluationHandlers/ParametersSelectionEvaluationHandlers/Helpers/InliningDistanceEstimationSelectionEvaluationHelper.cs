@@ -81,7 +81,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 	private static Chart CreateFullFIllChart(ModelParameters modelParameters)
 	{
 		var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters));
-		chart.Legends.Add(CreateLegend());
+		chart.Legends.Add(CreateLegend(modelParameters));
 		chart.ChartAreas[0].InnerPlotPosition = new ElementPosition
 		{
 			Auto = false,
@@ -105,7 +105,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		return chart;
 	}
 
-	private static Legend CreateLegend()
+	private static Legend CreateLegend(ModelParameters modelParameters)
 	{
 		var legend = new Legend
 		{
@@ -115,7 +115,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			Docking = Docking.Top,
 			Font = new Font("Microsoft Sans Serif", 38F),
 			Alignment = StringAlignment.Center,
-			Title = LocalizationHelper.Get<ParametersSelectionWindowResources>().SpeedReductionTitle2(1),
+			Title = LocalizationHelper.Get<ParametersSelectionWindowResources>().SpeedReductionTitle2(modelParameters.k[1]).Replace(',', '.'),
 			TitleAlignment = StringAlignment.Near,
 			TableStyle = LegendTableStyle.Wide
 		};
