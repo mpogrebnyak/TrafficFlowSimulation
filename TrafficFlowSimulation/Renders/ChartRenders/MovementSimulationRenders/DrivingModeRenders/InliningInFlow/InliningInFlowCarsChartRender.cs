@@ -61,7 +61,7 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 		var inliningCar = _chart.Series.First(series => series.Name.Contains(_seriesName + modelParameters.n));
 		inliningCar.Points.AddXY(0, _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 10);
 
-		SetMarkerImage();
+		SetMarkerImage(modelParameters.lCar);
 	}
 
 	public override void UpdateChart(object parameters)

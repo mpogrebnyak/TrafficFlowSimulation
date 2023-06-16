@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -61,7 +62,7 @@ public abstract class ChartsRender : IChartRender
 
 	public abstract void SetChartAreaAxisTitle(bool isHidden = false);
 
-	public virtual void SetMarkerImage()
+	public virtual void SetMarkerImage(List<double> carsLength)
 	{
 		var path = SettingsHelper.Get<Properties.Settings>().PaintedCarsFolder;
 		_chart.Update();
@@ -75,11 +76,9 @@ public abstract class ChartsRender : IChartRender
 			var lengthOfSingleSegmentYPixels =
 					(float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(1);
 
-			var carLength = SettingsHelper.Get<Properties.Settings>().CarLength;
-
 			var bmp = new Bitmap(path + "\\" + _colorPalette + "\\" + series.Color.Name + ".png");
 			var newBitmap = new Bitmap(bmp, 
-				(int)lengthOfSingleSegmentXPixels * 2 * carLength, 
+				(int)lengthOfSingleSegmentXPixels * 2 * (int)carsLength[i], 
 				(int)lengthOfSingleSegmentYPixels / 5);
 
 			if (_chart.Images.Any(x => x.Name == "MarkerImage" + i))

@@ -1,4 +1,5 @@
-﻿using EvaluationKernel.Models;
+﻿using System.Collections.Generic;
+using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
@@ -68,9 +69,9 @@ public class RenderingHandler
 		CarMovementProvider.UpdateEnvironment(parameters);
 	}
 
-	public void SetMarkerImage()
+	public void SetMarkerImage(List<double> carsLength)
 	{
-		CarMovementProvider.SetMarkerImage();
+		CarMovementProvider.SetMarkerImage(carsLength);
 	}
 
 	public void AddSeries(int index)

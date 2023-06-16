@@ -120,7 +120,10 @@ namespace TrafficFlowSimulation.Windows
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
 		{
 			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<RenderingHandler>())
-				ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
+			{
+				var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
+				ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage(modelParameters.lCar);
+			}
 		}
 
 		private void MainWindow_Shown(object sender, EventArgs e)

@@ -48,7 +48,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 
-		SetMarkerImage();
+		SetMarkerImage(modelParameters.lCar);
 	}
 
 	public override void UpdateChart(object parameters)

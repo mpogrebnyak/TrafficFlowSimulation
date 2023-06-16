@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms.DataVisualization.Charting;
+﻿using System.Collections.Generic;
+using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Models;
 
@@ -16,7 +17,7 @@ public interface IChartRender
 
 	public void SetChartAreaAxisTitle(bool isHidden = false);
 
-	public void SetMarkerImage();
+	public void SetMarkerImage(List<double> carsLength);
 
 	public void AddSeries(int index);
 }

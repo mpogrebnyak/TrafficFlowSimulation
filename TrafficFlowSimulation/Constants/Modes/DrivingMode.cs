@@ -20,6 +20,7 @@ public class DrivingModeResources
 	[Translation(Locales.ru, "Изменение скоростного режима")]
 	[Translation(Locales.en, "Speed limit changing")]
 	public string SpeedLimitChanging { get; set; }
+
 	// ReSharper restore UnusedMember.Global
 }
 

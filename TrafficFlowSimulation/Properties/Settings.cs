@@ -7,7 +7,7 @@ namespace TrafficFlowSimulation.Properties
 	{
 		public DrivingMode CurrentDrivingMode { get; set; }
 
-		[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow")]
+		[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow, SpeedLimitChanging")]
 		public DrivingMode[] AvailableDrivingModes { get; set; }
 
 		public ParametersSelectionMode CurrentParametersSelectionMode { get; set; }
@@ -20,10 +20,6 @@ namespace TrafficFlowSimulation.Properties
 		
 		[DefaultValue("*.bmp|*.bmp;|*.png|*.png;|*.jpg|*.jpg|*.emf|*.emf")]
 		public string AvailableFileTypes { get; set; }
-
-		// Перенесен в параметры, исправить
-		[DefaultValue(4)]
-		public int CarLength { get; set; }
 
 		[DefaultValue("true")]
 		public bool Test1 { get; set; }

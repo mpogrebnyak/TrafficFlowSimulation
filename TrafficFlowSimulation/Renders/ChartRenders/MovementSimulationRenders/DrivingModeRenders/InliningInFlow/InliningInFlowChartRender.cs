@@ -65,7 +65,8 @@ public abstract class InliningInFlowChartRender : ChartsRender
 			}
 		);
 
-		ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
+		// Поправить проставление маркера, возможно добавлять только один маркер по индексу
+		// ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage();
 	}
 
 	protected static class CommonChartAreaParameters
