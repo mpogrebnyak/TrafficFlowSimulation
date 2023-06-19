@@ -1,4 +1,5 @@
-﻿using EvaluationKernel.Models;
+﻿using System;
+using EvaluationKernel.Models;
 // ReSharper disable InconsistentNaming
 
 namespace EvaluationKernel.Equations
@@ -6,6 +7,8 @@ namespace EvaluationKernel.Equations
 	public abstract class Equation
 	{
 		protected ModelParameters _m;
+
+		private const double _eps = 0.01;
 
 		protected Equation(ModelParameters modelParameters)
 		{
@@ -21,14 +24,19 @@ namespace EvaluationKernel.Equations
 
 		protected double H(int n, Coordinates x_n, Coordinates x_n_1, double lCar)
 		{
-			var deceleration = _m.q[n] * (x_n_1.Y - x_n.Y) / (x_n_1.X - x_n.X - _m.lSafe[n] - lCar);
+			var deceleration = _m.q[n] * Math.Pow(x_n_1.Y - x_n.Y, 2) / Math.Pow(x_n_1.X - x_n.X - _m.lSafe[n] - lCar, 2);
 
-			if (deceleration > -_m.mu * _m.g && x_n_1.X - x_n.X - _m.lSafe[n] - lCar > 0.5)
+			if (x_n.Y < _eps && x_n_1.X - x_n.X - _m.lSafe[n] - lCar < _eps)
+			{
+				return 0;
+			}
+
+			if (deceleration <= _m.mu * _m.g)
 			{
 				return deceleration;
 			}
 
-			return -_m.mu * _m.g;
+			return _m.mu * _m.g;
 		}
 
 		protected double V(double v, double Vmax)
@@ -41,7 +49,7 @@ namespace EvaluationKernel.Equations
 			var l = n == 0
 				? _m.lSafe[n]
 				: _m.lSafe[n] + _m.lCar[n - 1];
-			return (1 + 0.3) * v + System.Math.Pow(v, 2) / (2 * _m.g * _m.mu) + l;
+			return (1 + 0.3) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + l;
 		}
 	}
 }

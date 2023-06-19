@@ -14,6 +14,6 @@ public class SingleCarDecelerationEquation : Equation
 		var x_n = carCoordinatesModel.CurrentCarCoordinates;
 		var x_0 = new Coordinates {X = _m.L, Y = 0};
 
-		return H(n, x_n, x_0, 0) * x_n.Y;
+		return -H(n, x_n, x_0, 0) * x_n.Y;
 	}
 }

@@ -259,11 +259,11 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 						DisplayValue = "≤75"
 					}
 				},
-				{
+				{ 
 					CustomColors.LightRed,
 					new ColorValue
 					{
-						IntValue = 98,
+						IntValue = 100,
 						DisplayOrder = 5,
 						DisplayValue = "≤100"
 					}

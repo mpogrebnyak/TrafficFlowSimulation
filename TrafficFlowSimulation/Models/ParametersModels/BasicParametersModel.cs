@@ -153,7 +153,7 @@ public class BasicParametersModel : BaseParametersModel
 			q_multiple = string.Empty,
 			l_safe = 2,
 			l_safe_multiple = string.Empty,
-			l_car = 5,
+			l_car = 4,
 			l_car_multiple = string.Empty,
 			k = 0.5,
 			k_multiple = string.Empty
