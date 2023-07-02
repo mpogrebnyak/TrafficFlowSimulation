@@ -17,9 +17,12 @@ namespace TrafficFlowSimulation.Properties
 
 		[DefaultValue("ColorCars")]
 		public string PaintedCarsFolder { get; set; }
-		
+
 		[DefaultValue("*.bmp|*.bmp;|*.png|*.png;|*.jpg|*.jpg|*.emf|*.emf")]
 		public string AvailableFileTypes { get; set; }
+
+		[DefaultValue(@"\Images")]
+		public string ImageFolderName { get; set; }
 
 		[DefaultValue("true")]
 		public bool Test1 { get; set; }

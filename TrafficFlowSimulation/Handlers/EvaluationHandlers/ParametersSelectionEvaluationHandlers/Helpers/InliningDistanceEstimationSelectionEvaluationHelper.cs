@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
@@ -14,38 +15,91 @@ using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Mode
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
 
 public static class InliningDistanceEstimationSelectionEvaluationHelper
-{ 
-	public static void AddCoordinates(ModelParameters mp, List<InliningDistanceEstimationCoordinatesModel> cm, double x, double y, double intensity)
+{
+	private static readonly Dictionary<Color, ColorValue> ColorIntensity = GetColorIntensityDictionary();
+
+	public static void AddCoordinates(double maxSpeed, List<InliningDistanceEstimationCoordinatesModel> cm, double x, double y, double intensity)
 	{
+		var intensityInPercentage = 0.0;
+		if (maxSpeed != 0)
+		{
+				maxSpeed = maxSpeed > 4
+				? maxSpeed
+				: 4;
+			// на сколько процентов скорость снижения отличается от максимальной
+			// 100 минус разница между числами в процентах
+			intensityInPercentage = intensity <= 0
+				? intensity
+				: 100 - (int) ((Math.Abs(intensity - maxSpeed)) / maxSpeed * 100);
+		}
+
 		cm.Add(new InliningDistanceEstimationCoordinatesModel
 		{
 			X = x,
 			Y = y,
-			Color = GetColor(intensity, mp.Vmax[1]),
-			Intensity = intensity
+			Color = GetColor(intensityInPercentage),
+			Intensity = intensityInPercentage
 		});
 	}
 
-	public static void SavePoints(ModelParameters modelParameters, BaseSettingsModels modeSettings, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel)
+	public static string CreatePointsFile(double k)
 	{
 		var parameters = new Dictionary<string, double>
 		{
-			{"k", modelParameters.k[1]},
-			{"a", modelParameters.a[1]},
+			{"k",k}
 		};
-
 		var pointsFileName = EvaluationCommonHelper.CreateFileName("Points", parameters);
-		var pointsFilePath = EvaluationCommonHelper.CreateFile(pointsFileName, ".txt");
-
-		SerializerPointsHelper.SerializePoints(pointsFileName, pointsFilePath, modelParameters, modeSettings, coordinatesModel);
+		return EvaluationCommonHelper.CreateFile(pointsFileName, ".txt");
 	}
 
-	public static void GenerateCharts(ModelParameters modelParameters, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel)
+	public static void SavePoints(string path, ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
+		var fileName = Path.GetFileName(path);
+		var serializerData = new SerializerPointsModel
+		{
+			Name = fileName,
+			ModelParameters = modelParameters,
+			ModeSettings = modeSettings,
+			CoordinatesModel = new List<InliningDistanceEstimationCoordinatesModel>()
+		};
+
+		TrySavePoints(path, serializerData);
+	}
+
+	public static void SavePoints(string path, List<InliningDistanceEstimationCoordinatesModel> coordinatesModel, double lastValue)
+	{
+		var pointsModel = SerializerPointsHelper.DeserializePoints(path);
+		pointsModel.CoordinatesModel.AddRange(coordinatesModel);
+		pointsModel.LastValue = lastValue;
+
+		TrySavePoints(path, pointsModel);
+	}
+
+	public static bool TryGetLastValue(string path, out double lastValue)
+	{
+		try
+		{
+			var pointsModel = SerializerPointsHelper.DeserializePoints(path);
+			lastValue = pointsModel.LastValue;
+			return true;
+		}
+		catch
+		{
+			lastValue = 0;
+		}
+
+		return false;
+	}
+
+	public static void GenerateCharts(string path)
+	{
+		var pointsModel = SerializerPointsHelper.DeserializePoints(path);
+		var modelParameters = pointsModel.ModelParameters;
+
 		var fullFIllChart = CreateFullFIllChart(modelParameters);
 		var lineChart = CreateLineChart(modelParameters);
 
-		foreach (var cm in coordinatesModel)
+		foreach (var cm in pointsModel.CoordinatesModel)
 		{
 			fullFIllChart.Series.Single(series => series.Name.Contains(cm.Color))
 				.Points
@@ -65,8 +119,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 		var parameters = new Dictionary<string, double>
 		{
-			{"k", modelParameters.k[1]},
-			{"a", modelParameters.a[1]},
+			{"k", modelParameters.k[1]}
 		};
 
 		var fullFIllFileName = EvaluationCommonHelper.CreateFileName("FullFIll", parameters);
@@ -76,6 +129,29 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		var lineFIllFileName = EvaluationCommonHelper.CreateFileName("LineFIll", parameters);
 		var lineFIllFilePath = EvaluationCommonHelper.CreateFile(lineFIllFileName, ".png");
 		lineChart.SaveImage(lineFIllFilePath, ChartImageFormat.Png);
+	}
+
+	private static void TrySavePoints(string path, SerializerPointsModel serializerPointsModel)
+	{
+		var attempt = 5;
+		while (true)
+		{
+			try
+			{
+				attempt--;
+				SerializerPointsHelper.SerializePoints(path, serializerPointsModel);
+				return;
+			}
+			catch (Exception e)
+			{
+				if (attempt == 0)
+				{
+					throw new Exception(e.Message);
+				}
+				GC.Collect();
+				System.Threading.Thread.Sleep(1000);
+			}
+		}
 	}
 
 	private static Chart CreateFullFIllChart(ModelParameters modelParameters)
@@ -190,18 +266,14 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		return chartArea;
 	}
 
-	private static string GetColor(double intensity, double max)
+	private static string GetColor(double intensityInPercentage)
 	{
-		var colorIntensity = GetColorIntensityDictionary();
+		var colorIntensity = ColorIntensity;
 
-		if (intensity <= 0)
+		if (intensityInPercentage <= 0)
 		{
-			return colorIntensity.Single(x => x.Value.IntValue == (int) intensity).Key.Name;
+			return colorIntensity.Single(x => x.Value.IntValue == (int) intensityInPercentage).Key.Name;
 		}
-
-		// на сколько процентов скорость снижения отличается от максимальной
-		// 100 минус разница между числами в процентах
-		var intensityInPercentage = 100 - (int) ((Math.Abs(intensity - max)) / max * 100);
 
 		var color = colorIntensity.FirstOrDefault(x => intensityInPercentage <= x.Value.IntValue);
 
@@ -259,7 +331,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 						DisplayValue = "≤75"
 					}
 				},
-				{ 
+				{
 					CustomColors.LightRed,
 					new ColorValue
 					{

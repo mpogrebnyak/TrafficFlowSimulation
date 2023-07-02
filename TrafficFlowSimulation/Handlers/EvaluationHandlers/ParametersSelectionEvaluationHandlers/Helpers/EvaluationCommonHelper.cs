@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
+using Settings;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
 
@@ -22,7 +24,8 @@ public static class EvaluationCommonHelper
 	public static string CreateFile(string fileName, string extension)
 	{
 		var folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-		folder += @"\Images";
+		var folderName = SettingsHelper.Get<Properties.Settings>().ImageFolderName;
+		folder += folderName;
 		var folderExists = Directory.Exists(folder);
 		if (!folderExists)
 			Directory.CreateDirectory(folder);

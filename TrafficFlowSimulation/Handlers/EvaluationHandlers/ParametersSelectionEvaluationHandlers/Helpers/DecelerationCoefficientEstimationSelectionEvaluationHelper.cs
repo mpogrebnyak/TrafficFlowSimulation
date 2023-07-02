@@ -89,7 +89,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 1,
+				Maximum = 3,
 				LabelAutoFitMinFontSize = 40,
 				LineWidth = 2,
 				MajorGrid = new Grid
@@ -113,8 +113,8 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 		chartArea.AxisX.CustomLabels.Add(new CustomLabel
 		{
 			Text = "q",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(1),
-			ToPosition = ChartCommonHelper.CalculateToPosition(1),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(3),
+			ToPosition = ChartCommonHelper.CalculateToPosition(3),
 			GridTicks = GridTickTypes.All
 		});
 

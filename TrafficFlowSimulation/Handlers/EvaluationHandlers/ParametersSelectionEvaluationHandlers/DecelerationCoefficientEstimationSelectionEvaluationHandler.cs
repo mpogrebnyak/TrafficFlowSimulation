@@ -86,7 +86,7 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			y[i] = r.Y(i).Last();
 		}
 
-		while (y[0] >= 0.1)
+		while (y[0] >= 0.65)
 		{
 			if (modelParameters.L - x[0] < 0.001)
 			{ 

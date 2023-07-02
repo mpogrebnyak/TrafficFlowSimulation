@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
@@ -78,7 +80,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 1,
+				Maximum = ((DecelerationCoefficientEstimationSettingsModel)modeSettings).MaxQ,
 				Interval = 1
 			},
 			AxisY = new Axis
@@ -92,11 +94,12 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
+		var maxQ = ((DecelerationCoefficientEstimationSettingsModel) modeSettings).MaxQ;
 		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
-			Text = "1",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(1),
-			ToPosition = ChartCommonHelper.CalculateToPosition(1),
+			Text = maxQ.ToString(CultureInfo.InvariantCulture),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(maxQ),
+			ToPosition = ChartCommonHelper.CalculateToPosition(maxQ),
 			GridTicks = GridTickTypes.All
 		});
 

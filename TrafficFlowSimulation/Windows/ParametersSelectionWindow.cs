@@ -44,10 +44,12 @@ namespace TrafficFlowSimulation.Windows
 
 			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).Execute(
-				this,
-				modelParameters,
-				modeSettings);
+
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString())
+				.Execute(
+					this,
+					modelParameters,
+					modeSettings);
 		}
 
 		private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -74,9 +76,9 @@ namespace TrafficFlowSimulation.Windows
 			if(filePath == null)
 				return;
 
-			var points = SerializerPointsHelper.DeserializePoints(filePath, out var modelParameters, out var modeSettings);
+			//var points = SerializerPointsHelper.DeserializePoints(filePath, out var modelParameters, out var modeSettings);
 
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).ExecutePreCalculated(this, modelParameters, modeSettings, points);
+			//ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).ExecutePreCalculated(this, modelParameters, modeSettings, points);
 		}
 	}
 }

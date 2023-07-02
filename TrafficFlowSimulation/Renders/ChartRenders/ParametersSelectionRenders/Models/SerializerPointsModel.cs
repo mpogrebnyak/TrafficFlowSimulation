@@ -7,6 +7,7 @@ namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.
 
 public class SerializerPointsModel : SerializerData
 {
+	public double LastValue { get; set; }
 	public ModelParameters ModelParameters { get; set; }
 
 	public BaseSettingsModels ModeSettings { get; set; }

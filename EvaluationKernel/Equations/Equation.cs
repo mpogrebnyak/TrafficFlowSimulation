@@ -8,7 +8,7 @@ namespace EvaluationKernel.Equations
 	{
 		protected ModelParameters _m;
 
-		private const double _eps = 0.01;
+		private const double _eps = 0.0001;
 
 		protected Equation(ModelParameters modelParameters)
 		{
@@ -26,7 +26,7 @@ namespace EvaluationKernel.Equations
 		{
 			var deceleration = _m.q[n] * Math.Pow(x_n_1.Y - x_n.Y, 2) / Math.Pow(x_n_1.X - x_n.X - _m.lSafe[n] - lCar, 2);
 
-			if (x_n.Y < _eps && x_n_1.X - x_n.X - _m.lSafe[n] - lCar < _eps)
+			if (x_n.Y < _eps)// && x_n_1.X - x_n.X - _m.lSafe[n] - lCar < _eps)
 			{
 				return 0;
 			}
@@ -49,7 +49,7 @@ namespace EvaluationKernel.Equations
 			var l = n == 0
 				? _m.lSafe[n]
 				: _m.lSafe[n] + _m.lCar[n - 1];
-			return (1 + 0.3) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + l;
+			return (1 + 0.1) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + l;
 		}
 	}
 }

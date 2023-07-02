@@ -40,7 +40,7 @@ public class InliningDistanceEstimationModelParametersModel : BasicParametersMod
 
 		defaultValues.l_car = 4;
 		defaultValues.l_safe = 1;
-		defaultValues.a = 0.46;
+		defaultValues.a = 0.45;
 		defaultValues.q = 0.5;
 		return new InliningDistanceEstimationModelParametersModel
 		{
