@@ -117,6 +117,9 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			}
 		}
 
+		var lineL = CreateLineL(modelParameters);
+		fullFIllChart.Series.Add(lineL);
+
 		var parameters = new Dictionary<string, double>
 		{
 			{"k", modelParameters.k[1]}
@@ -174,11 +177,31 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 				ChartType = SeriesChartType.Point,
 				Color = color,
 				MarkerStyle = MarkerStyle.Circle,
+				MarkerSize = color != CustomColors.Black
+					? 3
+					: 4,
 				IsVisibleInLegend = false
 			});
 		}
 
 		return chart;
+	}
+
+	private static Series CreateLineL(ModelParameters modelParameters)
+	{
+		var lineL = new Series
+		{
+			Name = "lineL",
+			ChartType = SeriesChartType.Line,
+			BorderWidth = 2,
+			Color = CustomColors.Black,
+			IsVisibleInLegend = false,
+			
+		};
+		lineL.Points.Add(new DataPoint(modelParameters.lCar[0] + modelParameters.lSafe[1], 0));
+		lineL.Points.Add(new DataPoint(modelParameters.lCar[0] + modelParameters.lSafe[1],  modelParameters.Vmax[1] + 1));
+
+		return lineL;
 	}
 
 	private static Legend CreateLegend(ModelParameters modelParameters)
@@ -262,6 +285,14 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 				GridTicks = GridTickTypes.All
 			});
 		}
+
+		chartArea.AxisX.CustomLabels.Add(new CustomLabel
+		{
+			Text = "ℓ",
+			FromPosition = ChartCommonHelper.CalculateFromPosition(modelParameters.lCar[0] + modelParameters.lSafe[1], 5),
+			ToPosition = ChartCommonHelper.CalculateToPosition(modelParameters.lCar[0] + modelParameters.lSafe[1], 5),
+			GridTicks = GridTickTypes.All
+		});
 
 		return chartArea;
 	}

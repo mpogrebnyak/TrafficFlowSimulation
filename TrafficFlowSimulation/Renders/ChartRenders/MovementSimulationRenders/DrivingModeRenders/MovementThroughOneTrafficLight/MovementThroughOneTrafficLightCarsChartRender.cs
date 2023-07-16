@@ -146,7 +146,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		startLineSeries.Points.Add(new DataPoint(0, 1));
 		startLineSeries.Points.Add(new DataPoint(0.00001, 0));
 
-		var timePointSeries = new Series()
+		var timePointSeries = new Series
 		{
 			Name = "TimePoint",
 			ChartType = SeriesChartType.Point,

@@ -76,9 +76,9 @@ namespace TrafficFlowSimulation.Windows
 			if(filePath == null)
 				return;
 
-			//var points = SerializerPointsHelper.DeserializePoints(filePath, out var modelParameters, out var modeSettings);
+			var serializerPointsModel = SerializerPointsHelper.DeserializePoints(filePath);
 
-			//ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).ExecutePreCalculated(this, modelParameters, modeSettings, points);
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).ExecutePreCalculated(this, serializerPointsModel.ModelParameters, serializerPointsModel.ModeSettings, serializerPointsModel.CoordinatesModel);
 		}
 	}
 }

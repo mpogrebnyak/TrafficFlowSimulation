@@ -20,8 +20,6 @@ namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionE
 
 public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHandler
 {
-	//private const double Eps = 0.00001;
-
 	protected override void Evaluate(object parameters)
 	{
 		var p = (Parameters) parameters;
@@ -59,8 +57,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			spinningLabelHelper.StartSpinning();
 
 			var tasks = new List<TaskModel>();
-			//for (var k = 0.11; k < 0.15; k += 0.01)
-			for (var k = 1.0; k < 1.1; k += 0.1)
+			for (var k = 2.0; k < 2.1; k += 0.1)
 			{
 				var mp = (ModelParameters)modelParameters.Clone();
 				mp.k = new List<double> {k, k};
@@ -112,6 +109,9 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		};
 
 		p.Form.Invoke(action);
+
+		var filePath = Helper.CreatePointsFile(modelParameters.k[1]);
+		Helper.GenerateCharts(filePath);
 	}
 
 	private void EvaluateInternal(ModelParameters modelParameters, InliningDistanceEstimationSettingsModel modeSettings, ProgressBarHelper? progressBarHelper = null)
@@ -121,6 +121,9 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		var step = 0.05;
 		if (Helper.TryGetLastValue(filePath, out var initialSpace))
 		{
+			if (step >= modeSettings.MaximumDistanceBetweenCars)
+				return;
+
 			initialSpace -= step;
 			progressBarHelper?.Update(initialSpace);
 		}
@@ -129,34 +132,22 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			Helper.SavePoints(filePath, modelParameters, modeSettings);
 		}
 
-		//var prevCoordinatesModel = new InliningDistanceEstimationCoordinatesModel();
-		//var cm = new List<InliningDistanceEstimationCoordinatesModel>();
-
-		//var min = Math.Floor(modelParameters.Vmax[1]) / 2;
-		//var min = 11.0;
 		var min = 0;
 		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
-		//var max = 5.0;
-		//var step = 0.05;
-		//var step = 0.05;
-		//var step = 0.1;
-		
-		/// если initialSpace null, то 0 не null то +step
+
 		for (double space = initialSpace + step; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
-		//for (var space = initialSpace + step; space <= 100; space+=step)
 		{
 			var cm = new List<InliningDistanceEstimationCoordinatesModel>();
 
 			progressBarHelper?.Update(step);
 
-			if (space <= modelParameters.lCar[0] + modelParameters.lSafe[1] + step)
+			if (space <= modelParameters.lCar[0] + modelParameters.lSafe[1])
 			{
 				for (var i = max; i >= min; i -= step)
 				{
 					Helper.AddCoordinates(i, cm, space, i, -1);
 				}
 
-				cm.Last().IsIntensityChangedToZero = true;
 				Helper.SavePoints(filePath, cm, space);
 				continue;
 			}
@@ -174,29 +165,31 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				continue;
 			}
 
-			var bottomSolution = IsDecelerate(modelParameters, space, min);
-
 			Helper.AddCoordinates(max, cm, space, max, topSolution.Intensity);
-			Helper.AddCoordinates(max, cm, space, min, bottomSolution.Intensity);
+			Helper.AddCoordinates(max, cm, space, min, 0);
 
-			for (var i = max; i >= min; i -= step)
+			for (var i = max-step; i >= min+step; i -= step)
 			{
-				if (i < 0.01)
+				if (i < step)
 					i = 0;
 
 				var solution = IsDecelerate(modelParameters, space, i);
+				Helper.AddCoordinates(i, cm, space, i, solution.Intensity);
 
 				if (!solution.IsDeceleration)
 				{
 					cm.Last().IsIntensityChangedToZero = true;
-					for (var j = i; j >= min; j -= step)
+					for (var j = i-step; j >= min+step; j -= step)
 					{
 						Helper.AddCoordinates(j, cm, space, j, 0);
 					}
 					break;
 				}
+			}
 
-				Helper.AddCoordinates(i, cm, space, i, solution.Intensity);
+			if (!cm.Any(x => x.IsIntensityChangedToZero))
+			{
+				cm.Last().IsIntensityChangedToZero = true;
 			}
 
 			Helper.SavePoints(filePath, cm, space);
@@ -224,7 +217,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			y[i] = r.Y(i).Last();
 		}
 
-		var localMax = speed;//modelParameters.Vmax[1];
+		var localMax = speed;
 		double localMin = 0;
 		double diff = 0;
 		var isDeceleration = false;
@@ -239,13 +232,21 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 			r.Solve();
 			var t = r.T.Last();
+
+			if (t > 0.2)
+			{
+				var q = 0;
+			}
 			for (int i = 0; i < n; i++)
 			{
 				x[i] = r.X(i).Last();
 				y[i] = r.Y(i).Last();
 			}
 
-			if (xp[1] > x[1] || x[0] < x[1])// || double.IsNaN(x[1]) || double.IsNaN(y[1]))
+			if (xp[1] > x[1] || 
+				x[0] - x[1] < modelParameters.lCar[0] + modelParameters.lSafe[1] + 1 ||
+				double.IsNaN(x[1]) ||
+				double.IsNaN(y[1]))
 			{
 				return new DecelerationEvaluation
 				{
@@ -254,15 +255,6 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				};
 			}
 
-			if (double.IsNaN(x[1]) || double.IsNaN(y[1]))
-			{
-				return new DecelerationEvaluation
-				{
-					IsDeceleration = true,
-					Intensity = -1
-				};
-			}
-			
 			if (y[1] > yp[1] && y[1] - yp[1] > 0.0001)
 			{
 				var qq = y[1] - yp[1];
@@ -282,8 +274,6 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				isDeceleration = true;
 			}
 
-			//var eps = 0.1;
-			//const int eps = 1;
 			const double eps = 0.1;
 			if (modelParameters.Vmax[0] - y[0] < eps && modelParameters.Vmax[1] - y[1] < eps)
 			{

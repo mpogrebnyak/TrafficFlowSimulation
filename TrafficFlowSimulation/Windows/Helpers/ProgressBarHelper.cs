@@ -58,7 +58,11 @@ public class ProgressBarHelper
 		var newValue = currentValue < _progressBar.Maximum
 			? (int) currentValue
 			: _progressBar.Maximum;
-		var toolTipText = 100 * Math.Round(currentValue / _progressBar.Maximum, 4)  + "%";
+
+		var percent = 100 * Math.Round(currentValue / _progressBar.Maximum, 4);
+		var toolTipText = percent <= 100
+			? percent + "%"
+			: "100%";
 		MethodInvoker action = delegate
 		{
 			_progressBar.Value = newValue;
