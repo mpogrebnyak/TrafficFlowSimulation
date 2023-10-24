@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
@@ -72,6 +73,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 			UpdateLegend(i, showLegend, cm.y[i], cm.x[i]);
 			UpdateLabel(i, showLegend, cm.y[i], cm.x[i]);
 		}
+		UpdateChartEnvironment(cm.x, cm.t);
 	}
 
 	public override void UpdateEnvironment(object parameters)

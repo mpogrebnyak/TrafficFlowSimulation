@@ -31,7 +31,8 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+			if (i == 0)
+				_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
 
 			UpdateLegend(i, true, modelParameters.lambda[i]);
 		}
@@ -44,9 +45,15 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(cm.t, cm.x[i]);
 
-			UpdateLegend(i, true, cm.x[i]);
+			var showLegend = false;
+			if (cm.x[i] > _chartAreaModel.AxisYMinimum)
+			{
+				_chart.Series[i].Points.AddXY(cm.t, cm.x[i]);
+				showLegend = true;
+			}
+
+			UpdateLegend(i, showLegend, cm.x[i]);
 		}
 	}
 

@@ -66,6 +66,9 @@ namespace TrafficFlowSimulation.Windows
             this.DistanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.SpeedFromDistanceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ParametersPanel = new System.Windows.Forms.Panel();
+            this.TrafficCapacityGroupBox = new System.Windows.Forms.GroupBox();
+            this.TrafficCapacityTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.EstimateTrafficCapacityCheckBox = new System.Windows.Forms.CheckBox();
             this.MovementParametersGroupBox = new System.Windows.Forms.GroupBox();
             this.ControlsGroupBox = new System.Windows.Forms.GroupBox();
             this.ControlsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -102,6 +105,8 @@ namespace TrafficFlowSimulation.Windows
             ((System.ComponentModel.ISupportInitialize)(this.DistanceChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedFromDistanceChart)).BeginInit();
             this.ParametersPanel.SuspendLayout();
+            this.TrafficCapacityGroupBox.SuspendLayout();
+            this.TrafficCapacityTableLayoutPanel.SuspendLayout();
             this.MovementParametersGroupBox.SuspendLayout();
             this.ControlsGroupBox.SuspendLayout();
             this.ControlsTableLayoutPanel.SuspendLayout();
@@ -240,7 +245,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             this.CarsMovementSplitContainer.Panel2.Controls.Add(this.ChartsSplitContainer);
             this.CarsMovementSplitContainer.Size = new System.Drawing.Size(1539, 654);
-            this.CarsMovementSplitContainer.SplitterDistance = 372;
+            this.CarsMovementSplitContainer.SplitterDistance = 371;
             this.CarsMovementSplitContainer.TabIndex = 1;
             // 
             // CarsMovementChart
@@ -257,7 +262,7 @@ namespace TrafficFlowSimulation.Windows
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.CarsMovementChart.Series.Add(series1);
-            this.CarsMovementChart.Size = new System.Drawing.Size(1539, 372);
+            this.CarsMovementChart.Size = new System.Drawing.Size(1539, 371);
             this.CarsMovementChart.TabIndex = 0;
             // 
             // ChartsSplitContainer
@@ -273,7 +278,7 @@ namespace TrafficFlowSimulation.Windows
             // ChartsSplitContainer.Panel2
             // 
             this.ChartsSplitContainer.Panel2.Controls.Add(this.SpeedFromDistanceChart);
-            this.ChartsSplitContainer.Size = new System.Drawing.Size(1539, 278);
+            this.ChartsSplitContainer.Size = new System.Drawing.Size(1539, 279);
             this.ChartsSplitContainer.SplitterDistance = 718;
             this.ChartsSplitContainer.TabIndex = 0;
             // 
@@ -290,7 +295,7 @@ namespace TrafficFlowSimulation.Windows
             // SpeedAndDistanceSplitContainer.Panel2
             // 
             this.SpeedAndDistanceSplitContainer.Panel2.Controls.Add(this.DistanceChart);
-            this.SpeedAndDistanceSplitContainer.Size = new System.Drawing.Size(718, 278);
+            this.SpeedAndDistanceSplitContainer.Size = new System.Drawing.Size(718, 279);
             this.SpeedAndDistanceSplitContainer.SplitterDistance = 349;
             this.SpeedAndDistanceSplitContainer.TabIndex = 0;
             // 
@@ -308,7 +313,7 @@ namespace TrafficFlowSimulation.Windows
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.SpeedChart.Series.Add(series2);
-            this.SpeedChart.Size = new System.Drawing.Size(349, 278);
+            this.SpeedChart.Size = new System.Drawing.Size(349, 279);
             this.SpeedChart.TabIndex = 0;
             // 
             // DistanceChart
@@ -325,7 +330,7 @@ namespace TrafficFlowSimulation.Windows
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             this.DistanceChart.Series.Add(series3);
-            this.DistanceChart.Size = new System.Drawing.Size(365, 278);
+            this.DistanceChart.Size = new System.Drawing.Size(365, 279);
             this.DistanceChart.TabIndex = 0;
             // 
             // SpeedFromDistanceChart
@@ -342,19 +347,61 @@ namespace TrafficFlowSimulation.Windows
             series4.Legend = "Legend1";
             series4.Name = "Series1";
             this.SpeedFromDistanceChart.Series.Add(series4);
-            this.SpeedFromDistanceChart.Size = new System.Drawing.Size(817, 278);
+            this.SpeedFromDistanceChart.Size = new System.Drawing.Size(817, 279);
             this.SpeedFromDistanceChart.TabIndex = 1;
             // 
             // ParametersPanel
             // 
             this.ParametersPanel.AutoScroll = true;
             this.ParametersPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(246)))), ((int)(((byte)(247)))));
+            this.ParametersPanel.Controls.Add(this.TrafficCapacityGroupBox);
             this.ParametersPanel.Controls.Add(this.MovementParametersGroupBox);
             this.ParametersPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.ParametersPanel.Location = new System.Drawing.Point(1143, 30);
             this.ParametersPanel.Name = "ParametersPanel";
             this.ParametersPanel.Size = new System.Drawing.Size(396, 654);
             this.ParametersPanel.TabIndex = 2;
+            // 
+            // TrafficCapacityGroupBox
+            // 
+            this.TrafficCapacityGroupBox.AutoSize = true;
+            this.TrafficCapacityGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.TrafficCapacityGroupBox.Controls.Add(this.TrafficCapacityTableLayoutPanel);
+            this.TrafficCapacityGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TrafficCapacityGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.TrafficCapacityGroupBox.Location = new System.Drawing.Point(0, 310);
+            this.TrafficCapacityGroupBox.Name = "TrafficCapacityGroupBox";
+            this.TrafficCapacityGroupBox.Size = new System.Drawing.Size(396, 68);
+            this.TrafficCapacityGroupBox.TabIndex = 25;
+            this.TrafficCapacityGroupBox.TabStop = false;
+            this.TrafficCapacityGroupBox.Text = "Пропускная способность";
+            // 
+            // TrafficCapacityTableLayoutPanel
+            // 
+            this.TrafficCapacityTableLayoutPanel.AutoSize = true;
+            this.TrafficCapacityTableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.TrafficCapacityTableLayoutPanel.ColumnCount = 1;
+            this.TrafficCapacityTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.TrafficCapacityTableLayoutPanel.Controls.Add(this.EstimateTrafficCapacityCheckBox, 0, 0);
+            this.TrafficCapacityTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TrafficCapacityTableLayoutPanel.Location = new System.Drawing.Point(3, 30);
+            this.TrafficCapacityTableLayoutPanel.Name = "TrafficCapacityTableLayoutPanel";
+            this.TrafficCapacityTableLayoutPanel.RowCount = 1;
+            this.TrafficCapacityTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.TrafficCapacityTableLayoutPanel.Size = new System.Drawing.Size(390, 35);
+            this.TrafficCapacityTableLayoutPanel.TabIndex = 0;
+            // 
+            // EstimateTrafficCapacityCheckBox
+            // 
+            this.EstimateTrafficCapacityCheckBox.AutoSize = true;
+            this.EstimateTrafficCapacityCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EstimateTrafficCapacityCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.EstimateTrafficCapacityCheckBox.Name = "EstimateTrafficCapacityCheckBox";
+            this.EstimateTrafficCapacityCheckBox.Size = new System.Drawing.Size(352, 29);
+            this.EstimateTrafficCapacityCheckBox.TabIndex = 0;
+            this.EstimateTrafficCapacityCheckBox.Text = "Оценить пропускную способность";
+            this.EstimateTrafficCapacityCheckBox.UseVisualStyleBackColor = true;
+            this.EstimateTrafficCapacityCheckBox.CheckedChanged += new System.EventHandler(this.EstimateTrafficCapacityCheckBox_CheckedChanged);
             // 
             // MovementParametersGroupBox
             // 
@@ -662,6 +709,10 @@ namespace TrafficFlowSimulation.Windows
             ((System.ComponentModel.ISupportInitialize)(this.SpeedFromDistanceChart)).EndInit();
             this.ParametersPanel.ResumeLayout(false);
             this.ParametersPanel.PerformLayout();
+            this.TrafficCapacityGroupBox.ResumeLayout(false);
+            this.TrafficCapacityGroupBox.PerformLayout();
+            this.TrafficCapacityTableLayoutPanel.ResumeLayout(false);
+            this.TrafficCapacityTableLayoutPanel.PerformLayout();
             this.MovementParametersGroupBox.ResumeLayout(false);
             this.MovementParametersGroupBox.PerformLayout();
             this.ControlsGroupBox.ResumeLayout(false);
@@ -723,5 +774,8 @@ namespace TrafficFlowSimulation.Windows
 		private System.Windows.Forms.ToolStripButton ParametersSelectionToolStripButton;
         private System.Windows.Forms.DataVisualization.Charting.Chart SpeedFromDistanceChart;
         private System.Windows.Forms.SplitContainer SpeedAndDistanceSplitContainer;
+        private System.Windows.Forms.GroupBox TrafficCapacityGroupBox;
+        private System.Windows.Forms.TableLayoutPanel TrafficCapacityTableLayoutPanel;
+        private System.Windows.Forms.CheckBox EstimateTrafficCapacityCheckBox;
     }
 }

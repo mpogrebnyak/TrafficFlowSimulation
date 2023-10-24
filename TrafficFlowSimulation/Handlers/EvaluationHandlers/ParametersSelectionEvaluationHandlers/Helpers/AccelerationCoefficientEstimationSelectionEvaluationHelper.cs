@@ -94,7 +94,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			if (i == 10)
 				continue;
 
-			var text = i == 20 ? "t" : i.ToString();
+			var text = i == 20 ? "t₀" : i.ToString();
 			chartArea.AxisY.CustomLabels.Add(new CustomLabel
 			{
 				Text = text,

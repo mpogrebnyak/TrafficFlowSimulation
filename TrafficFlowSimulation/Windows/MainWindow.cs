@@ -111,10 +111,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
-
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			RenderCharts();
 		}
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
@@ -128,16 +125,30 @@ namespace TrafficFlowSimulation.Windows
 
 		private void MainWindow_Shown(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
-
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			RenderCharts();
 		}
 
 		private void ParametersSelectionToolStripButton_Click(object sender, EventArgs e)
 		{
 			var parametersSelectionWindow = new ParametersSelectionWindow();
 			parametersSelectionWindow.ShowDialog();
+		}
+
+		private void EstimateTrafficCapacityCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			var settings = SettingsHelper.Get<Properties.Settings>();
+			settings.IsTrafficCapacityAvailable = EstimateTrafficCapacityCheckBox.Checked;
+			SettingsHelper.Set(settings);
+
+			RenderCharts();
+		}
+
+		private static void RenderCharts()
+		{
+			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
+			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+
+			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
 		}
 	}
 }

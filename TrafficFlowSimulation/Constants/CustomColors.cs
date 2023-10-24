@@ -23,6 +23,11 @@ public static class CustomColors
 
 	public static Color Black = Color.FromArgb(0, 0, 0);
 
+	public static Color SystemOrange = Color.FromArgb(255, 151,29);
+
+	public static Color SystemBeige = Color.FromArgb(249,246,247);
+
+
 	public static List<Color> GetColorsForInliningDistanceEstimation()
 	{
 		return new List<Color>

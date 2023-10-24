@@ -24,6 +24,9 @@ namespace TrafficFlowSimulation.Properties
 		[DefaultValue(@"\Images")]
 		public string ImageFolderName { get; set; }
 
+		[DefaultValue("false")]
+		public bool IsTrafficCapacityAvailable { get; set; }
+
 		[DefaultValue("true")]
 		public bool Test1 { get; set; }
 		

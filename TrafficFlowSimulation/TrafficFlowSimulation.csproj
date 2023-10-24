@@ -189,6 +189,7 @@
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\MovementSimulationConfiguration.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHandler.cs" />
     <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHelper.cs" />
+    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\TrafficCapacityHelper.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\AccelerationCoefficientEstimationSelectionChartRender.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\DecelerationCoefficientEstimationSelectionChartRender.cs" />
     <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceEstimationSelectionChartRender.cs" />

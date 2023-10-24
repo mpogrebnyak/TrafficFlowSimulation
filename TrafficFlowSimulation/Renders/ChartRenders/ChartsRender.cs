@@ -22,6 +22,8 @@ public abstract class ChartsRender : IChartRender
 
 	protected Chart _chart;
 
+	public static string EnvironmentSeriesTag => "EnvironmentSeries";
+
 	public ChartsRender(Chart chart)
 	{
 		_chart = chart;
@@ -47,16 +49,12 @@ public abstract class ChartsRender : IChartRender
 			});
 		}
 
-		var environmentSeries = CreateEnvironment(modelParameters, modeSettings);
-		foreach (var series in environmentSeries)
-		{
-			_chart.Series.Add(series);
-		}
+		RenderChartEnvironment(modelParameters, modeSettings);
 	}
 
 	public abstract void UpdateChart(object parameters);
 
-	public virtual void UpdateEnvironment(object parameters) { }
+	public virtual void UpdateEnvironment(object parameters) { } 
 
 	public virtual void AddSeries(int index) { }
 
@@ -135,12 +133,21 @@ public abstract class ChartsRender : IChartRender
 		return sb.ToString();
 	}
 
+	protected virtual void RenderChartEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
+	{
+		var environmentSeries = CreateEnvironment(modelParameters, modeSettings);
+		foreach (var series in environmentSeries)
+		{
+			series.Tag = EnvironmentSeriesTag;
+			_chart.Series.Add(series);
+		}
+	}
+
 	protected abstract ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
 	protected abstract Legend CreateLegend(LegendStyle legendStyle);
 
 	protected abstract Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings);
-
 
 	protected void FullClearChart()
 	{

@@ -3,9 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using Localization;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.StartAndStopMovement;
@@ -38,7 +36,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
 			var showLegend = false;
-			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
+			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum + + modelParameters.L)
 			{
 				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
@@ -71,6 +69,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			UpdateLegend(i, showLegend, cm.y[i], cm.x[i]);
 			UpdateLabel(i, showLegend, cm.y[i], cm.x[i]);
 		}
+		UpdateChartEnvironment(cm.x, cm.t);
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -94,12 +93,13 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
 					IsPositionedInside = true,
 					BackColor = Color.White,
-					ButtonColor = Color.FromArgb(249, 246, 247)
+					ButtonColor = Color.FromArgb(249, 246, 247),
+					
 				},
 				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				TitleAlignment = StringAlignment.Far
+				//Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
+				//TitleFont = new Font("Microsoft Sans Serif", 10F),
+				//TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
@@ -112,7 +112,6 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 				}
 			}
 		};
-
 		chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
 
 		return chartArea;
@@ -143,7 +142,6 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 		};
 		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 0));
 		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 1));
-
 		return new[]
 		{
 			startLineSeries,

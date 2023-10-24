@@ -1,7 +1,12 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
+using EvaluationKernel.Models;
 using Localization;
+using Microsoft.Practices.ObjectBuilder2;
+using Settings;
+using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
@@ -44,5 +49,17 @@ public abstract class CarsChartRender : ChartsRender
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F)
 		};
+	}
+
+	protected override void RenderChartEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
+	{
+		base.RenderChartEnvironment(modelParameters, modeSettings);
+
+		TrafficCapacityHelper.RenderTrafficCapacity(_chart.Series, _chartAreaName);
+	}
+
+	protected void UpdateChartEnvironment(List<double> values, double t)
+	{
+		TrafficCapacityHelper.UpdateTrafficCapacity(_chart.Series, values, t);
 	}
 }
