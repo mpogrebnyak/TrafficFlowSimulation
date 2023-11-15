@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using EvaluationKernel.Models;
 using Localization.Localization;
 using TrafficFlowSimulation.Models.Attribute;
 
@@ -32,5 +34,24 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 			SegmentEnding = 200,
 			SpeedInSegment = 5
 		};
+	}
+
+	public new void MapTo(SortedDictionary<int, SegmentModel> segmentSpeeds)
+	{
+		segmentSpeeds.Add(1, new SegmentModel
+		{
+			SegmentBeginning = SegmentBeginning,
+			Speed = SpeedInSegment
+		});
+		segmentSpeeds.Add(2, new SegmentModel
+		{
+			SegmentBeginning = SegmentEnding,
+			Speed = 10
+		});
+		segmentSpeeds.Add(3, new SegmentModel
+		{
+			SegmentBeginning = L,
+			Speed = 0
+		});
 	}
 }

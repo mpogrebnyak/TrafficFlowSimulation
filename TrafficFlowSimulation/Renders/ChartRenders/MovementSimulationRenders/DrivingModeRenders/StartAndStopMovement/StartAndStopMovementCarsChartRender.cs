@@ -36,7 +36,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
 			var showLegend = false;
-			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum + + modelParameters.L)
+			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
 			{
 				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;

@@ -1,6 +1,7 @@
 ﻿using EvaluationKernel.Models;
+// ReSharper disable InconsistentNaming
 
-namespace EvaluationKernel.Equations;
+namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class SingleCarAccelerationEquation : Equation
 {
@@ -13,6 +14,6 @@ public class SingleCarAccelerationEquation : Equation
 		var n = carCoordinatesModel.CarNumber;
 		var x_n = carCoordinatesModel.CurrentCarCoordinates;
 
-		return _m.a[n] * (_m.Vmax[n] - x_n.Y);
+		return _m.a[n] * (_m.Vmax[n] - x_n.DotX);
 	}
 }

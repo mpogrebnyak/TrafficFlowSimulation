@@ -3,9 +3,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
-using Localization;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
@@ -15,17 +14,6 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 	public SpeedLimitChangingCarsChartRender(Chart chart) : base(chart)
 	{
 	}
-
-	private readonly ChartAreaModel _chartAreaModel = new()
-	{
-		AxisXMinimum = -30,
-		AxisXMaximum = 10,
-		AxisXInterval = 10,
-		AxisYMinimum = 0,
-		AxisYMaximum = 1,
-		AxisYInterval = 1,
-		ZoomShift = 48
-	};
 
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
@@ -38,7 +26,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
 			var showLegend = false;
-			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
+			if (modelParameters.lambda[i] > ChartAreaModel.AxisXMinimum && modelParameters.lambda[i] < ChartAreaModel.AxisXMaximum)
 			{
 				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
@@ -62,7 +50,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if(_chart.Series[i].Points.Any())
 				_chart.Series[i].Points.RemoveAt(0);
-			if (cm.x[i] > _chartAreaModel.AxisXMinimum)
+			if (cm.x[i] > ChartAreaModel.AxisXMinimum)
 			{
 				_chart.Series[i].Points.AddXY(cm.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
@@ -71,6 +59,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			UpdateLegend(i, showLegend, cm.y[i], cm.x[i]);
 			UpdateLabel(i, showLegend, cm.y[i], cm.x[i]);
 		}
+		UpdateChartEnvironment(cm.x, cm.t);
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -80,15 +69,15 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = _chartAreaModel.AxisXMinimum,
-				Maximum = _chartAreaModel.AxisXMaximum + modelParameters.L,
+				Minimum = ChartAreaModel.AxisXMinimum,
+				Maximum = ChartAreaModel.AxisXMaximum + modelParameters.L,
 				ScaleView = new AxisScaleView
 				{
 					Zoomable = true,
 					SizeType = DateTimeIntervalType.Number,
 					MinSize = 30
 				},
-				Interval = _chartAreaModel.AxisXInterval,
+				Interval = ChartAreaModel.AxisXInterval,
 				ScrollBar = new AxisScrollBar
 				{
 					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
@@ -97,15 +86,15 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 					ButtonColor = Color.FromArgb(249, 246, 247)
 				},
 				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				TitleAlignment = StringAlignment.Far
+				//Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
+				//TitleFont = new Font("Microsoft Sans Serif", 10F),
+				//TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
-				Minimum = _chartAreaModel.AxisYMinimum,
-				Maximum = _chartAreaModel.AxisYMaximum,
-				Interval = _chartAreaModel.AxisYInterval,
+				Minimum = ChartAreaModel.AxisYMinimum,
+				Maximum = ChartAreaModel.AxisYMaximum,
+				Interval = ChartAreaModel.AxisYInterval,
 				LabelStyle = new LabelStyle
 				{
 					Enabled = false
@@ -113,13 +102,69 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			}
 		};
 
-		chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
+		chartArea.AxisX.ScaleView.Zoom(ChartAreaModel.AxisXMinimum,ChartAreaModel.AxisXMinimum + ChartAreaModel.ZoomShift);
 
 		return chartArea;
 	}
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		return new Series[] { };
+		var settings = (SpeedLimitChangingModeSettingsModel)modeSettings;
+
+		var startLineSeries = new Series
+		{
+			Name = "StartLine",
+			ChartType = SeriesChartType.Line,
+			ChartArea = _chartAreaName,
+			BorderWidth = 2,
+			Color = Color.Red,
+			IsVisibleInLegend = false
+		};
+		startLineSeries.Points.Add(new DataPoint(0, 0));
+		startLineSeries.Points.Add(new DataPoint(0, 1));
+
+		var endLineSeries = new Series
+		{
+			Name = "EndLine",
+			ChartType = SeriesChartType.Line,
+			ChartArea = _chartAreaName,
+			BorderWidth = 2,
+			Color = Color.Red,
+			IsVisibleInLegend = false
+		};
+		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 0));
+		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 1));
+		
+		var segmentBeginSeries = new Series
+		{
+			Name = "SegmentBegin",
+			ChartType = SeriesChartType.Line,
+			ChartArea = _chartAreaName,
+			BorderWidth = 2,
+			Color = Color.Blue,
+			IsVisibleInLegend = false
+		};
+		segmentBeginSeries.Points.Add(new DataPoint(settings.SegmentBeginning, 0));
+		segmentBeginSeries.Points.Add(new DataPoint(settings.SegmentBeginning, 1));
+
+		var segmentEndSeries = new Series
+		{
+			Name = "SegmentEnd",
+			ChartType = SeriesChartType.Line,
+			ChartArea = _chartAreaName,
+			BorderWidth = 2,
+			Color = Color.Blue,
+			IsVisibleInLegend = false
+		};
+		segmentEndSeries.Points.Add(new DataPoint(settings.SegmentEnding, 0));
+		segmentEndSeries.Points.Add(new DataPoint(settings.SegmentEnding, 1));
+
+		return new[]
+		{
+			startLineSeries,
+			endLineSeries,
+			segmentBeginSeries,
+			segmentEndSeries
+		};
 	}
 }

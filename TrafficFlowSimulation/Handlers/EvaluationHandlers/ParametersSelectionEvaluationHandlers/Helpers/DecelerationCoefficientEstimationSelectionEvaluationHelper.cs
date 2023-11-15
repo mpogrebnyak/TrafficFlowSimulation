@@ -90,7 +90,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			{
 				Minimum = 0,
 				Maximum = 3,
-				LabelAutoFitMinFontSize = 40,
+				LabelAutoFitMinFontSize = 60,
 				LineWidth = 2,
 				MajorGrid = new Grid
 				{
@@ -101,7 +101,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			{
 				Minimum = 0,
 				Maximum = 10,
-				LabelAutoFitMinFontSize = 40,
+				LabelAutoFitMinFontSize = 60,
 				LineWidth = 2,
 				MajorGrid = new Grid
 				{

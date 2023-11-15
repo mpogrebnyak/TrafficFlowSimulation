@@ -166,7 +166,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			Auto = false,
 			X = 7,
 			Width = 93,
-			Height = 95
+			Height = 93
 		};
 
 		foreach (var color in CustomColors.GetColorsForInliningDistanceEstimation())
@@ -214,7 +214,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			Docking = Docking.Top,
 			Font = new Font("Microsoft Sans Serif", 38F),
 			Alignment = StringAlignment.Center,
-			Title = LocalizationHelper.Get<ParametersSelectionWindowResources>().SpeedReductionTitle2(modelParameters.k[1]).Replace(',', '.'),
+			Title = LocalizationHelper.Get<ParametersSelectionWindowResources>().SpeedReductionTitle(modelParameters.k[1]).Replace(',', '.'),
 			TitleAlignment = StringAlignment.Near,
 			TableStyle = LegendTableStyle.Wide
 		};
@@ -252,13 +252,13 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{
 				Minimum = 0,
 				Maximum = 100,
-				LabelAutoFitMinFontSize = 40
+				LabelAutoFitMinFontSize = 50
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = modelParameters.Vmax[1],
-				LabelAutoFitMinFontSize = 40
+				LabelAutoFitMinFontSize = 50
 			}
 		};
 
@@ -280,8 +280,8 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			chartArea.AxisX.CustomLabels.Add(new CustomLabel
 			{
 				Text = i != 100 ? i.ToString() : "λ",
-				FromPosition = ChartCommonHelper.CalculateFromPosition(i, 5),
-				ToPosition = ChartCommonHelper.CalculateToPosition(i, 5),
+				FromPosition = ChartCommonHelper.CalculateFromPosition(i, 50),
+				ToPosition = ChartCommonHelper.CalculateToPosition(i, 50),
 				GridTicks = GridTickTypes.All
 			});
 		}
@@ -289,8 +289,8 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		chartArea.AxisX.CustomLabels.Add(new CustomLabel
 		{
 			Text = "ℓ",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(modelParameters.lCar[0] + modelParameters.lSafe[1], 5),
-			ToPosition = ChartCommonHelper.CalculateToPosition(modelParameters.lCar[0] + modelParameters.lSafe[1], 5),
+			FromPosition = ChartCommonHelper.CalculateFromPosition(modelParameters.lCar[0] + modelParameters.lSafe[1], 50),
+			ToPosition = ChartCommonHelper.CalculateToPosition(modelParameters.lCar[0] + modelParameters.lSafe[1], 50),
 			GridTicks = GridTickTypes.All
 		});
 

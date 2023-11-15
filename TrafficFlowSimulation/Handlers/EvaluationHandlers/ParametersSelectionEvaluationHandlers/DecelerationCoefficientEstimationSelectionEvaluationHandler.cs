@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
+using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;

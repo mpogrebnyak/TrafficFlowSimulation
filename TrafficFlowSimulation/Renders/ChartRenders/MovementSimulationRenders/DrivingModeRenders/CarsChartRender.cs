@@ -4,10 +4,9 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
-using Microsoft.Practices.ObjectBuilder2;
-using Settings;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
@@ -18,6 +17,17 @@ public abstract class CarsChartRender : ChartsRender
 	protected override string _seriesName => "CarsMovementSeries";
 
 	protected override string _chartAreaName => "CarsMovementChartArea";
+
+	protected readonly ChartAreaModel ChartAreaModel = new()
+	{
+		AxisXMinimum = -30,
+		AxisXMaximum = 10,
+		AxisXInterval = 10,
+		AxisYMinimum = 0,
+		AxisYMaximum = 1,
+		AxisYInterval = 1,
+		ZoomShift = 48
+	};
 
 	protected CarsChartRender(Chart chart) : base(chart)
 	{

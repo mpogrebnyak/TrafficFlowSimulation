@@ -88,6 +88,7 @@ public class BasicParametersModel : BaseParametersModel
 	{
 		mp.n = n;
 		mp.tau = tau;
+		mp.tau_b = 0.1;
 
 		switch (((ComboBoxItem) IsCarsIdentical).Value)
 		{

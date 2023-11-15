@@ -4,9 +4,9 @@ using EvaluationKernel.Models;
 
 namespace EvaluationKernel.Equations
 {
-	public abstract class Equation
+	public abstract class Equation : IEquation
 	{
-		protected ModelParameters _m;
+		protected readonly ModelParameters _m;
 
 		private const double _eps = 0.0001;
 
@@ -15,18 +15,50 @@ namespace EvaluationKernel.Equations
 			_m = modelParameters;
 		}
 
-		public abstract double GetEquation(CarCoordinatesModel carCoordinatesModel);
-
-		protected bool RelayFunction(int n, Coordinates x_n, double L)
+		public virtual double GetEquation(CarCoordinatesModel carCoordinatesModel)
 		{
-			return L - x_n.X > S(n, x_n.Y);
+			var n = carCoordinatesModel.CarNumber;
+			var x_0 = new Coordinates {X = _m.L, DotX = 0};
+			var x_n = carCoordinatesModel.CurrentCarCoordinates;
+			var x_n_1 = carCoordinatesModel.PreviousСarCoordinates;
+
+			return n == 0
+				? GetFirstCarEquation(n, x_n, x_0)
+				: GetAllCarEquation(n, x_n, x_n_1);
 		}
 
-		protected double H(int n, Coordinates x_n, Coordinates x_n_1, double lCar)
+		protected double GetFirstCarEquation(int n, Coordinates x_n, Coordinates x_0)
 		{
-			var deceleration = _m.q[n] * Math.Pow(x_n_1.Y - x_n.Y, 2) / Math.Pow(x_n_1.X - x_n.X - _m.lSafe[n] - lCar, 2);
+			return RelayFunction(n, x_n, x_0)
+				? _m.a[n] * (Vmax(n) - x_n.DotX)
+				: -H(n, x_n, x_0);
+		}
 
-			if (x_n.Y < _eps)// && x_n_1.X - x_n.X - _m.lSafe[n] - lCar < _eps)
+		protected double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1)
+		{
+			return RelayFunction(n, x_n, x_n_1)
+				? _m.a[n] * (P(n, x_n, x_n_1) - x_n.DotX)
+				: -H(n, x_n, x_n_1);
+		}
+
+		protected bool RelayFunction(int n, Coordinates x_n, Coordinates x_n_1)
+		{
+			return DeltaX(x_n, x_n_1) > S(n, x_n.DotX);
+		}
+
+		protected double P(int n, Coordinates x_n, Coordinates x_n_1)
+		{
+			// x_n.DotX-x_n_1.DotX или наоборот
+			var s = S(n, x_n.DotX) + _m.tau * DeltaDotX(x_n, x_n_1);
+
+			return (_m.Vmax[n] - V(n, x_n_1.DotX)) / (1 + Math.Exp(_m.k[n] * (-DeltaX(x_n, x_n_1) + s))) + V(n, x_n_1.DotX);
+		}
+
+		protected double H(int n, Coordinates x_n, Coordinates x_n_1)
+		{
+			var deceleration = _m.q[n] * x_n.DotX * Math.Pow(DeltaDotX(x_n, x_n_1), 2) / Math.Pow(DeltaX(x_n, x_n_1) - L_safe(n), 2);
+
+			if (deceleration < _eps)
 			{
 				return 0;
 			}
@@ -39,17 +71,36 @@ namespace EvaluationKernel.Equations
 			return _m.mu * _m.g;
 		}
 
-		protected double V(double v, double Vmax)
-		{
-			return Vmax >= v ? v : Vmax;
-		}
-
 		protected double S(int n, double v)
 		{
-			var l = n == 0
+			return (1 + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
+		}
+		
+		protected double V(int n, double v)
+		{
+			return Math.Min(_m.Vmax[n], v);
+		}
+
+		protected virtual double Vmax(int n)
+		{
+			return _m.Vmax[n];
+		}
+
+		protected virtual double L_safe(int n)
+		{
+			return n == 0
 				? _m.lSafe[n]
 				: _m.lSafe[n] + _m.lCar[n - 1];
-			return (1 + 0.1) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + l;
+		}
+		
+		protected virtual double DeltaX(Coordinates x_n, Coordinates x_n_1)
+		{
+			return x_n_1.X - x_n.X;
+		}
+
+		protected virtual double DeltaDotX(Coordinates x_n, Coordinates x_n_1)
+		{
+			return x_n_1.DotX - x_n.DotX;
 		}
 	}
 }

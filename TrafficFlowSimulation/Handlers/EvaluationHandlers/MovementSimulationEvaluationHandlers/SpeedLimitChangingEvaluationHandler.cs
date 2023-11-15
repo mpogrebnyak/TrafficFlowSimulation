@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
+using EvaluationKernel.Equations.SpecializedEquations;
+using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
@@ -17,8 +20,17 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
 		var modeSettings = (SpeedLimitChangingModeSettingsModel) p.ModeSettings;
-
-		var r = new RungeKuttaMethod(modelParameters, new MainEquation(modelParameters));
+		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
+		segmentSpeeds.Add(0, new SegmentModel
+			{
+				SegmentBeginning = modelParameters.lambda.Last(),
+				Speed = 16
+			}
+		);
+		
+		modeSettings.MapTo(segmentSpeeds);
+		
+		var r = new RungeKuttaMethod(modelParameters, new EquationWithSpeedLimitChanging(modelParameters, segmentSpeeds));
 		var n = modelParameters.n;
 		var initialSpeed = new double[n];
 		modelParameters.Vmax.CopyTo(initialSpeed);

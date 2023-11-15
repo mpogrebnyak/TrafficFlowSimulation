@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
+using EvaluationKernel.Equations.SpecializedEquations;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;

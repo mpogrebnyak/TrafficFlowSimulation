@@ -10,6 +10,8 @@ namespace EvaluationKernel.Models
 
 		public double tau { get; set; }
 
+		public double tau_b { get; set; }
+
 		public List<double> a { get; set; }
 
 		public List<double> q { get; set; }

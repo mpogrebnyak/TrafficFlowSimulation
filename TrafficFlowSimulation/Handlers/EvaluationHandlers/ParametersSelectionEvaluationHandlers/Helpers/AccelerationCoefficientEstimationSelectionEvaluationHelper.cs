@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
@@ -62,7 +63,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			{
 				Minimum = 0,
 				Maximum = 1,
-				LabelAutoFitMinFontSize = 40,
+				LabelAutoFitMinFontSize = 50,
 				LineWidth = 2,
 				MajorGrid = new Grid
 				{
@@ -73,7 +74,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			{
 				Minimum = 0,
 				Maximum = 20,
-				LabelAutoFitMinFontSize = 40,
+				LabelAutoFitMinFontSize = 50,
 				LineWidth = 2,
 				MajorGrid = new Grid
 				{
@@ -87,7 +88,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			Text = "a",
 			FromPosition = ChartCommonHelper.CalculateFromPosition(1),
 			ToPosition = ChartCommonHelper.CalculateToPosition(1),
-			GridTicks = GridTickTypes.All,
+			GridTicks = GridTickTypes.All
 		});
 		for (var i = 0; i <= 20; i += 5)
 		{
