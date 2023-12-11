@@ -7,6 +7,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Settings;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.ChartRenderModels;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders;
 

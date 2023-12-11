@@ -6,6 +6,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.ChartRenderModels;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 

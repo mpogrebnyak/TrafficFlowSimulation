@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
+using Common.Errors;
 using Common.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
@@ -61,7 +63,8 @@ namespace TrafficFlowSimulation.Windows
 				ControlsGroupBox = ControlsGroupBox,
 				DrivingModeStripDropDownButton = DrivingModeStripDropDownButton,
 				SubmitButton = SubmitButton,
-				ParametersSelectionToolStripButton = ParametersSelectionToolStripButton
+				ParametersSelectionToolStripButton = ParametersSelectionToolStripButton,
+				EstimateTrafficCapacityCheckBox = EstimateTrafficCapacityCheckBox
 			};
 
 			var mainWindowConfiguration = new MainWindowConfiguration(localizationComponents,
@@ -72,12 +75,12 @@ namespace TrafficFlowSimulation.Windows
 			mainWindowConfiguration.Initialize();
 
 			ServiceLocator.Current.GetInstance<MainWindowHelper>().InitializeInterface();
+			ServiceLocator.Current.GetInstance<IErrorManager>().ErrorEventHandler += HandleError;
 		}
 
 		private void StartToolStripButton_Click(object sender, EventArgs e)
 		{
 			ParametersPanel.Hide();
-
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
@@ -149,6 +152,11 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
+		}
+
+		private void HandleError(object sender, ErrorEventArgs errorEventArgs)
+		{
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().ShowError(sender.ToString(),errorEventArgs.GetException());
 		}
 	}
 }

@@ -7,8 +7,8 @@ using Microsoft.Practices.ObjectBuilder2;
 using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Windows.Components;
 
 namespace TrafficFlowSimulation.Windows.Helpers;

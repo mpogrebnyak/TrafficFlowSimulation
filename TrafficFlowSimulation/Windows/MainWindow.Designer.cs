@@ -1,5 +1,5 @@
 ﻿
-using TrafficFlowSimulation.Models.SettingsModels.Constants;
+using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels.Constants;
 using TrafficFlowSimulation.Properties;
 
 namespace TrafficFlowSimulation.Windows
@@ -394,7 +394,7 @@ namespace TrafficFlowSimulation.Windows
             // EstimateTrafficCapacityCheckBox
             // 
             this.EstimateTrafficCapacityCheckBox.AutoSize = true;
-            this.EstimateTrafficCapacityCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EstimateTrafficCapacityCheckBox.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EstimateTrafficCapacityCheckBox.Location = new System.Drawing.Point(3, 3);
             this.EstimateTrafficCapacityCheckBox.Name = "EstimateTrafficCapacityCheckBox";
             this.EstimateTrafficCapacityCheckBox.Size = new System.Drawing.Size(352, 29);
@@ -668,7 +668,7 @@ namespace TrafficFlowSimulation.Windows
             // 
             // autoScrollBindingSource
             // 
-            this.autoScrollBindingSource.DataSource = typeof(TrafficFlowSimulation.Models.SettingsModels.Constants.AutoScroll);
+            this.autoScrollBindingSource.DataSource = typeof(AutoScroll);
             // 
             // MainWindow
             // 

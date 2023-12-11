@@ -1,0 +1,58 @@
+﻿using Common;
+using Common.Modularity;
+using Settings;
+using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.ParametersModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
+
+namespace TrafficFlowSimulation.Configurations;
+
+public class ModelsConfiguration : IInitializable
+{
+	public void Initialize()
+	{
+		var availableDrivingModes = SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes;
+
+		foreach (var modes in availableDrivingModes)
+		{
+			
+		}
+		
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new BasicParametersModel(),
+			typeof(BasicParametersModel).ToString());
+		
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new AdditionalParametersModel(),
+			typeof(AdditionalParametersModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InitialConditionsParametersModel(),
+			typeof(InitialConditionsParametersModel).ToString());
+
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new StartAndStopMovementModeSettingsModel(),
+			typeof(StartAndStopMovementModeSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new MovementThroughOneTrafficLightModeSettingsModel(),
+			typeof(MovementThroughOneTrafficLightModeSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningInFlowModeSettingsModel(),
+			typeof(InliningInFlowModeSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new SpeedLimitChangingModeSettingsModel(),
+			typeof(SpeedLimitChangingModeSettingsModel).ToString());
+		
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new SpeedLimitChangingModeParametersModel(),
+			typeof(SpeedLimitChangingModeSettingsModel).ToString());
+		
+
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceEstimationSettingsModel(),
+			typeof(InliningDistanceEstimationSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new InliningDistanceEstimationModelParametersModel(),
+			typeof(InliningDistanceEstimationModelParametersModel).ToString());
+
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new AccelerationCoefficientEstimationSettingsModel(),
+			typeof(AccelerationCoefficientEstimationSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new AccelerationCoefficientEstimationModelParametersModel(),
+			typeof(AccelerationCoefficientEstimationModelParametersModel).ToString());
+
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new DecelerationCoefficientEstimationSettingsModel(),
+			typeof(DecelerationCoefficientEstimationSettingsModel).ToString());
+		CommonHelper.ServiceRegistrator.RegisterInstance<IModel>(() => new DecelerationCoefficientEstimationModelParametersModel(),
+			typeof(DecelerationCoefficientEstimationModelParametersModel).ToString());
+	}
+}

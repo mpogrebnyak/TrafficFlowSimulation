@@ -5,7 +5,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using Localization;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.SettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
@@ -72,7 +73,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 	{
 		var settings = (SpeedLimitChangingModeSettingsModel)modeSettings;
 
-		var segmentBeginSeries = new Series
+/*		var segmentBeginSeries = new Series
 		{
 			Name = "SegmentBegin",
 			ChartType = SeriesChartType.Line,
@@ -100,6 +101,10 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		{
 			segmentBeginSeries,
 			segmentEndSeries
-		};
+		};*/
+		return new Series[]
+		{
+			
+		} ;
 	}
 }

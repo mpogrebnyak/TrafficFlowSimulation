@@ -55,4 +55,8 @@ public class MainWindowResources
 	[Translation(Locales.ru, "Элементы управления:")]
 	[Translation(Locales.en, "Controls:")]
 	public string ControlsGroupBoxText { get; set; }
+
+	[Translation(Locales.ru, "Оценить пропускную способность")]
+	[Translation(Locales.en, "Estimate traffic capacity ")]
+	public string EstimateTrafficCapacityCheckBoxText { get; set; }
 }

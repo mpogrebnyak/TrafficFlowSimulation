@@ -4,7 +4,8 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.SettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
@@ -111,7 +112,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 	{
 		var settings = (SpeedLimitChangingModeSettingsModel)modeSettings;
 
-		var startLineSeries = new Series
+/*		var startLineSeries = new Series
 		{
 			Name = "StartLine",
 			ChartType = SeriesChartType.Line,
@@ -165,6 +166,10 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			endLineSeries,
 			segmentBeginSeries,
 			segmentEndSeries
-		};
+		};*/
+		return new Series[]
+		{
+			
+		} ;
 	}
 }

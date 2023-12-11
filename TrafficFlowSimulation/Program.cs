@@ -3,14 +3,11 @@ using System;
 using System.Globalization;
 using System.Windows.Forms;
 using Common;
+using Common.Errors;
 using Common.Modularity;
 using Localization.Localization;
-using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
-using TrafficFlowSimulation.Handlers;
-using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Windows;
@@ -44,6 +41,8 @@ namespace TrafficFlowSimulation
 
 		private static void Registration()
 		{
+			CommonHelper.ServiceRegistrator.RegisterInstance<IErrorManager>(() => new ErrorManager());
+
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 
 			var chartResourcesProvider = new ResourceProvider(typeof(ChartResources));

@@ -2,6 +2,7 @@
 using Common;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.ChartRenderModels;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 

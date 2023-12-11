@@ -5,6 +5,7 @@ using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Models;
+using TrafficFlowSimulation.Models.ChartRenderModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 using TrafficFlowSimulation.Windows.Models;
 

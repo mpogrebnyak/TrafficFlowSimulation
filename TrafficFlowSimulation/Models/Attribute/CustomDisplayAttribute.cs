@@ -15,12 +15,15 @@ public class CustomDisplayAttribute : System.Attribute
 
 	public Type? EnumType { get; }
 
-	public CustomDisplayAttribute(int order, bool isMultiple = false, bool isHidden = false, bool isReadOnly = false,Type? enumType = null)
+	public string? PlaceHolder { get; }
+
+	public CustomDisplayAttribute(int order, bool isMultiple = false, bool isHidden = false, bool isReadOnly = false,Type? enumType = null, string placeHolder = null)
 	{
 		Order = order;
 		IsMultiple = isMultiple;
 		IsHidden = isHidden;
 		IsReadOnly = isReadOnly;
 		EnumType = enumType;
+		PlaceHolder = placeHolder;
 	}
 }

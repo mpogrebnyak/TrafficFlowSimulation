@@ -1,6 +1,5 @@
-﻿using Common;
-using Common.Modularity;
-using Microsoft.Practices.ServiceLocation;
+﻿using Common.Modularity;
+using TrafficFlowSimulation.Configurations;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Models;
 

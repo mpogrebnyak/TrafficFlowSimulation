@@ -6,8 +6,8 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ParametersSelectionSettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;

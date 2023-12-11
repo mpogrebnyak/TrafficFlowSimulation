@@ -8,8 +8,9 @@ using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ParametersModels;
-using TrafficFlowSimulation.Models.SettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.ParametersModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
 using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Models;
 
@@ -234,6 +235,32 @@ namespace TrafficFlowSimulation.Windows.Helpers
 					break;
 				}
 			}
+		}
+
+		public void ShowError(string controlName, Exception error)
+		{
+			var control = _controls.Find(controlName, true).SingleOrDefault();
+
+			if (control == null)
+			{
+				foreach (var prefix in Prefixes.All())
+				{
+					control = _controls.Find(prefix + controlName, true).SingleOrDefault();
+
+					if (control != null)
+					{
+						break;
+					}
+				}
+			}
+
+			if (control == null)
+			{
+				MessageBox.Show($"Произошла ошибка: {error.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
+			_errorProvider.SetError(control, error.Message);
 		}
 	}
 }

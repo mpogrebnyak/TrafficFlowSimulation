@@ -39,6 +39,7 @@ public class LocalizationWindowHelper
 		_lc.ControlsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().ControlsGroupBoxText;
 		_lc.SubmitButton.Text = LocalizationHelper.Get<MainWindowResources>().SubmitButtonText;
 		_lc.ParametersSelectionToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ParametersSelectionButtonText;
+		_lc.EstimateTrafficCapacityCheckBox.Text = LocalizationHelper.Get<MainWindowResources>().EstimateTrafficCapacityCheckBoxText;
 
 		foreach (DrivingMode value in SettingsHelper.Get<Properties.Settings>().AvailableDrivingModes)
 		{

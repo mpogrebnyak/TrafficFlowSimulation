@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Microsoft.Practices.ServiceLocation;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ParametersModels.Constants;
+using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.ParametersModels.Constants;
+using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Windows.CustomControls;
 using TrafficFlowSimulation.Windows.Helpers;
 
@@ -107,5 +110,29 @@ public class TableLayoutPanelComponentHelper
 		bs.DataSource = ServiceLocator.Current.GetInstance<IModel>(modelType.ToString()).GetDefault();
 
 		return bs;
+	}
+
+	public void TextBoxEnter(object sender, EventArgs e, string placeholderText)
+	{
+		var textBox = sender as TextBox;
+		if (textBox == null) return;
+
+		if (textBox.Text == placeholderText)
+		{
+			textBox.Text = "";
+			textBox.ForeColor = SystemColors.WindowText;
+		}
+	}
+
+	public void TextBoxLeave(object sender, EventArgs e, string placeholderText)
+	{
+		var textBox = sender as TextBox;
+		if (textBox == null) return;
+
+		if (string.IsNullOrWhiteSpace(textBox.Text))
+		{
+			textBox.Text = placeholderText;
+			textBox.ForeColor = SystemColors.GrayText;
+		}
 	}
 }

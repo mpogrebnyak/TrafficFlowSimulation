@@ -1,7 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.IO;
+using System.Threading;
 using System.Windows.Forms;
+using Common;
+using Common.Errors;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Models;
+using Microsoft.Practices.ServiceLocation;
+using TrafficFlowSimulation.Models.ChartRenderModels;
 
 namespace TrafficFlowSimulation.Handlers.EvaluationHandlers;
 
@@ -29,7 +34,7 @@ public abstract class EvaluationHandler : IEvaluationHandler
 			ModeSettings = modeSettings
 		};
 
-		_thread = new Thread(Evaluate);
+		_thread = new Thread(RunEvaluation);
 		_thread.Start(parameters);
 	}
 
@@ -46,6 +51,17 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		_thread.Start(parameters);
 	}
 
+	private void RunEvaluation(object parameters)
+	{
+		try
+		{
+			Evaluate(parameters);
+		}
+		catch (ParametersException e)
+		{
+			ServiceLocator.Current.GetInstance<IErrorManager>().Send(e.ParameterSender, new ErrorEventArgs(e));
+		}
+	}
 	protected abstract void Evaluate(object parameters);
 
 	protected virtual void EvaluatePreCalculated(object parameters)

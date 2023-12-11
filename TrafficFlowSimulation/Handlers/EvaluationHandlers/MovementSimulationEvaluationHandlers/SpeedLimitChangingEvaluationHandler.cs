@@ -3,11 +3,10 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvaluationKernel;
-using EvaluationKernel.Equations;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Models.SettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
@@ -68,7 +67,14 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 			r.Solve();
 			t = r.T.Last();
 
-			var isChange = false;
+			for (int i = 0; i < n; i++)
+			{
+				x[i] = r.X(i).Last();
+				y[i] = r.Y(i).Last();
+			}
+
+
+			/*var isChange = false;
 			for (int i = 0; i < n; i++)
 			{
 				x[i] = r.X(i).Last();
@@ -88,9 +94,9 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 
 			if (isChange)
 			{
-				r.Equation = new MainEquation(modelParameters);
+				r.Equation = new EquationWithSpeedLimitChanging(modelParameters, segmentSpeeds);
 			}
-
+*/
 			if (t - tp > 0.1)
 			{
 				tp = t;

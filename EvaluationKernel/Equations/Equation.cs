@@ -8,7 +8,7 @@ namespace EvaluationKernel.Equations
 	{
 		protected readonly ModelParameters _m;
 
-		private const double _eps = 0.0001;
+		private const double _eps = 0.01;
 
 		protected Equation(ModelParameters modelParameters)
 		{
@@ -48,19 +48,18 @@ namespace EvaluationKernel.Equations
 
 		protected double P(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			// x_n.DotX-x_n_1.DotX или наоборот
 			var s = S(n, x_n.DotX) + _m.tau * DeltaDotX(x_n, x_n_1);
 
-			return (_m.Vmax[n] - V(n, x_n_1.DotX)) / (1 + Math.Exp(_m.k[n] * (-DeltaX(x_n, x_n_1) + s))) + V(n, x_n_1.DotX);
+			return (Vmax(n) - V(n, x_n_1.DotX)) / (1 + Math.Exp(_m.k[n] * (-DeltaX(x_n, x_n_1) + s))) + V(n, x_n_1.DotX);
 		}
 
 		protected double H(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			var deceleration = _m.q[n] * x_n.DotX * Math.Pow(DeltaDotX(x_n, x_n_1), 2) / Math.Pow(DeltaX(x_n, x_n_1) - L_safe(n), 2);
+			var deceleration = _m.q[n] * Math.Pow(x_n.DotX * DeltaDotX(x_n, x_n_1), 2) / Math.Pow(DeltaX(x_n, x_n_1) - L_safe(n), 2);
 
-			if (deceleration < _eps)
+			if (x_n.DotX < _eps && x_n.DotX > 0)
 			{
-				return 0;
+				return _m.mu * _m.g;
 			}
 
 			if (deceleration <= _m.mu * _m.g)
@@ -76,7 +75,7 @@ namespace EvaluationKernel.Equations
 			return (1 + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
 		}
 		
-		protected double V(int n, double v)
+		protected virtual double V(int n, double v)
 		{
 			return Math.Min(_m.Vmax[n], v);
 		}

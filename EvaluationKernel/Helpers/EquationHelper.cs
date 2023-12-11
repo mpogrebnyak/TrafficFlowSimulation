@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using EvaluationKernel.Models;
 
@@ -9,7 +8,6 @@ public static class EquationHelper
 {
 	public static int BinarySearchInDictionary(SortedDictionary<int, SegmentModel> dictionary, double x)
 	{
-		//var keys = dictionary.Keys.ToList();
 		var left = 0;
 		var right = dictionary.Keys.ToList().Count - 1;
 
@@ -20,7 +18,7 @@ public static class EquationHelper
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (dictionary[mid].SegmentBeginning == x)
 			{
-				return mid; // Найдено значение с заданным SegmentBeginning
+				return mid;
 			}
 
 			if (dictionary[mid].SegmentBeginning < x)
@@ -33,9 +31,8 @@ public static class EquationHelper
 			}
 		}
 
-		//return -1; // Значение не найдено
-
-		// Ключ не найден, возвращаем индекс, куда его следует вставить
-		return left;
+		return dictionary[left].SegmentBeginning > x
+			? left - 1
+			: left;
 	}
 }

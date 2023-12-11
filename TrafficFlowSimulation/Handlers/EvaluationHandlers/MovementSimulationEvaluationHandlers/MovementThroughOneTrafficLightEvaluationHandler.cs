@@ -6,7 +6,7 @@ using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Equations.SpecializedEquations;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Models.SettingsModels;
+using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;

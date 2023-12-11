@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization.Localization;
 using Settings;
+using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models.Attribute;
 
 namespace TrafficFlowSimulation.Windows.Components;
@@ -22,10 +23,6 @@ public class TableLayoutPanelComponent : IComponent
 	private Type _modelType;
 
 	private static readonly Font Font = new ("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-
-	private static readonly string _textBoxPrefix = "textBox_";
-	private static readonly string _labelPrefix = "label_";
-	private static readonly string _comboBoxPrefix = "comboBox_";
 
 	protected static readonly string _multipleTag = "multiple";
 
@@ -97,9 +94,14 @@ public class TableLayoutPanelComponent : IComponent
 				continue;
 			}
 
-			var textBox = CreateTextBox(property.Name, property.Name, _tableLayoutPanel.Size.Width, attribute.IsHidden, attribute.IsReadOnly, counter++);
+			var textBox = CreateTextBox(property.Name, property.Name, _tableLayoutPanel.Size.Width, attribute.IsHidden, attribute.IsReadOnly, attribute.PlaceHolder, counter++);
 			if (attribute.IsMultiple)
 			{
+				if (text != null)
+				{
+					var label = CreateLabel(property.Name, text, counter);
+					controls.Add(label, 0, row++);
+				}
 				textBox.Tag = _multipleTag;
 				controls.Add(textBox, 0, row);
 				_tableLayoutPanel.SetColumnSpan(textBox, 2);
@@ -110,21 +112,34 @@ public class TableLayoutPanelComponent : IComponent
 				controls.Add(label, 0, row);
 				controls.Add(textBox, 1, row);
 			}
+
 			_errorProvider.SetIconAlignment(textBox, ErrorIconAlignment.MiddleLeft);
 		}
 	}
 
-	private TextBox CreateTextBox(string name, string dataMember, int width, bool isHidden, bool isReadOnly, int tabIndex)
+	private TextBox CreateTextBox(string name, string dataMember, int width, bool isHidden, bool isReadOnly, string? placeholderText, int tabIndex)
 	{
 		var textBox = new TextBox
 		{
 			Font = Font,
-			Name = _textBoxPrefix + name,
+			Name = Prefixes.TextBoxPrefix + name,
 			Size = new Size(width, 27),
 			TabIndex = tabIndex
 		};
 
-		textBox.DataBindings.Add(new Binding("Text", _bindingSource, dataMember, true));
+		if (placeholderText != null)
+		{
+			textBox.Enter += (sender, e) => _helper.TextBoxEnter(sender, e, placeholderText);
+			textBox.Leave += (sender, e) => _helper.TextBoxLeave(sender, e, placeholderText);
+			textBox.ForeColor = SystemColors.GrayText;
+
+			textBox.DataBindings.Add(new Binding("Text", _bindingSource, dataMember, true, DataSourceUpdateMode.OnPropertyChanged, placeholderText));
+		}
+		else
+		{
+			textBox.DataBindings.Add(new Binding("Text", _bindingSource, dataMember, true));
+		}
+
 		if(isHidden) textBox.Hide();
 		if(isReadOnly) textBox.Enabled = false;
 
@@ -136,7 +151,7 @@ public class TableLayoutPanelComponent : IComponent
 		var label = new Label
 		{
 			Font = Font,
-			Name = _labelPrefix + name,
+			Name = Prefixes.LabelPrefix + name,
 			Text = text,
 			Anchor = AnchorStyles.Left,
 			AutoSize = true,
@@ -151,7 +166,7 @@ public class TableLayoutPanelComponent : IComponent
 		var comboBox = new ComboBox
 		{
 			Font = Font,
-			Name = _comboBoxPrefix + name,
+			Name = Prefixes.ComboBoxPrefix + name,
 			DrawMode = DrawMode.OwnerDrawVariable,
 			DropDownStyle = ComboBoxStyle.DropDownList,
 			FormattingEnabled = true,

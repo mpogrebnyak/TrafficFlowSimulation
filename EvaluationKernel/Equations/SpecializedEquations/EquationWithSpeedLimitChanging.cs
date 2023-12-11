@@ -7,13 +7,19 @@ namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationWithSpeedLimitChanging : Equation
 {
-	private SortedDictionary<int, SegmentModel> _segmentSpeeds;
+	private readonly SortedDictionary<int, int> _position = new();
+
+	private readonly SortedDictionary<int, SegmentModel> _segmentSpeeds;
 
 	private int _currentSegment;
 
 	public EquationWithSpeedLimitChanging(ModelParameters modelParameters, SortedDictionary<int, SegmentModel> segmentSpeeds) : base(modelParameters)
 	{
 		_segmentSpeeds = segmentSpeeds;
+		for (int i = 0; i < modelParameters.n; i++)
+		{
+			_position.Add(i, 0);
+		}
 	}
 
 	public override double GetEquation(CarCoordinatesModel carCoordinatesModel)
@@ -24,6 +30,7 @@ public class EquationWithSpeedLimitChanging : Equation
 		var x_n_1 = carCoordinatesModel.PreviousСarCoordinates;
 
 		_currentSegment = GetSegmentNumber(x_n.X);
+		_position[n] = _currentSegment;
 
 		return n == 0
 			? GetFirstCarEquation(n, x_n, x_0)
@@ -34,20 +41,34 @@ public class EquationWithSpeedLimitChanging : Equation
 	{
 		return _segmentSpeeds[_currentSegment].Speed;
 	}
-	
+
+	protected override double V(int n, double v)
+	{
+		return Math.Min(_segmentSpeeds[_currentSegment].Speed, v);
+	}
+
 	protected override double DeltaX(Coordinates x_n, Coordinates x_n_1)
 	{
-		return Math.Min(Phi(), x_n_1.X) - x_n.X;
+			return Math.Min(Phi(), x_n_1.X) - x_n.X;
 	}
 
 	protected override double DeltaDotX(Coordinates x_n, Coordinates x_n_1)
 	{
-		return Vmin(x_n_1.DotX) - x_n.DotX;
+		return Vmin(x_n.DotX, x_n_1.DotX) - x_n.DotX;
+	}
+	
+	protected override double L_safe(int n)
+	{
+		if (n == 0)
+			return _m.lSafe[n];
+
+		return _m.lSafe[n] + _m.lCar[n - 1];
 	}
 
-	private double Vmin(double v)
+	private double Vmin(double v1, double v)
 	{
-		return Math.Min(_segmentSpeeds[_currentSegment + 1].Speed, v);
+		var min = Math.Min(v, v1);
+		return Math.Min(_segmentSpeeds[_currentSegment + 1].Speed, min);
 	}
 
 	private double Phi()
