@@ -2,6 +2,9 @@
 using System;
 using System.Globalization;
 using System.Windows.Forms;
+using ChartRendering;
+using ChartRendering.Constants.Modes;
+using ChartRendering.Renders;
 using Common;
 using Common.Errors;
 using Common.Modularity;
@@ -9,7 +12,6 @@ using Localization.Localization;
 using Settings;
 using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation
@@ -29,8 +31,8 @@ namespace TrafficFlowSimulation
 			SetSettings();
 			Registration();
 
-			var trafficFlowSimulationModule = new TrafficFlowSimulationModule(); 
-			trafficFlowSimulationModule.Initialize();
+			var chartRenderingModule = new ChartRenderingModule(); 
+			chartRenderingModule.Initialize();
 
 			CarsRenderingHelper.CreatePaintedCars();
 
@@ -62,7 +64,7 @@ namespace TrafficFlowSimulation
 		{
 			SettingsHelper.InitializeSettings();
 
-			var settings = SettingsHelper.Get<Properties.Settings>();
+			var settings = SettingsHelper.Get<ChartRendering.Properties.Settings>();
 			settings.CurrentDrivingMode = DrivingMode.StartAndStopMovement;
 			settings.CurrentParametersSelectionMode = ParametersSelectionMode.InliningDistanceEstimation;
 			settings.AvailableDrivingModes = 
@@ -73,7 +75,7 @@ namespace TrafficFlowSimulation
 					DrivingMode.InliningInFlow,
 					DrivingMode.SpeedLimitChanging
 				};
-			SettingsHelper.Set<Properties.Settings>(settings);
+			SettingsHelper.Set<ChartRendering.Properties.Settings>(settings);
 		}
 	}
 }

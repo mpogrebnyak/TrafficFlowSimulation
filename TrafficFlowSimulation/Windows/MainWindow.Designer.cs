@@ -1,5 +1,5 @@
 ﻿
-using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels.Constants;
+using ChartRendering.ChartRenderModels.SettingsModels.Constants;
 using TrafficFlowSimulation.Properties;
 
 namespace TrafficFlowSimulation.Windows

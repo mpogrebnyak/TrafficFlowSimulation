@@ -110,124 +110,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configurations\HandlersConfiguration.cs" />
-    <Compile Include="Configurations\ModelsConfiguration.cs" />
+    <Compile Include="Components\ChartContextMenuStripComponent.cs" />
+    <Compile Include="Components\ChartContextMenuStripComponentHelper.cs" />
+    <Compile Include="Components\DrivingModeComponent.cs" />
+    <Compile Include="Components\IComponent.cs" />
+    <Compile Include="Components\LanguageComponent.cs" />
+    <Compile Include="Components\ParametersSelectionModeComponent.cs" />
+    <Compile Include="Components\SlamPanelComponent.cs" />
+    <Compile Include="Components\TableLayoutPanelComponent.cs" />
+    <Compile Include="Components\TableLayoutPanelComponentHelper.cs" />
+    <Compile Include="Configurations\MovementSimulationConfiguration.cs" />
     <Compile Include="Constants\ControlName.cs" />
-    <Compile Include="Constants\CustomColors.cs" />
-    <Compile Include="Constants\Modes\DrivingMode.cs" />
-    <Compile Include="Constants\Modes\ParametersSelectionMode.cs" />
     <Compile Include="Constants\Prefixes.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\EvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\IEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\InliningInFlowEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\MovementThroughOneTrafficLightEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\SpeedLimitChangingEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\MovementSimulationEvaluationHandlers\StartAndStopMovementEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\AccelerationCoefficientEstimationSelectionEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\DecelerationCoefficientEstimationSelectionEvaluationHandler.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\AccelerationCoefficientEstimationSelectionEvaluationHelper.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\DecelerationCoefficientEstimationSelectionEvaluationHelper.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\EvaluationCommonHelper.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\InliningDistanceEstimationSelectionEvaluationHelper.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\Helpers\SerializerPointsHelper.cs" />
-    <Compile Include="Handlers\EvaluationHandlers\ParametersSelectionEvaluationHandlers\InliningDistanceEstimationSelectionEvaluationHandler.cs" />
-    <Compile Include="Models\Attribute\CustomDisplayAttribute.cs" />
-    <Compile Include="Models\Attribute\HiddenAttribute.cs" />
-    <Compile Include="Models\ChartRenderModels\BaseChartRenderModel.cs" />
-    <Compile Include="Models\ChartRenderModels\BaseSettingsModels.cs" />
-    <Compile Include="Models\ChartRenderModels\IModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersModels\AdditionalParametersModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersModels\BasicParametersModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersModels\Constants\IdenticalCars.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersModels\InitialConditionsParametersModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersModels\SpeedLimitChangingModeParametersModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersSelectionSettingsModels\AccelerationCoefficientEstimationModelParametersModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersSelectionSettingsModels\AccelerationCoefficientEstimationSettingsModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersSelectionSettingsModels\Constants\EvaluateParameters.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersSelectionSettingsModels\DecelerationCoefficientEstimationModelParametersModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersSelectionSettingsModels\DecelerationCoefficientEstimationSettingsModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersSelectionSettingsModels\InliningDistanceEstimationModelParametersModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ParametersSelectionSettingsModels\InliningDistanceEstimationSettingsModel.cs" />
-    <Compile Include="Models\ChartRenderModels\SettingsModels\Constants\AutoScroll.cs" />
-    <Compile Include="Models\ChartRenderModels\SettingsModels\Constants\FirstTrafficLightColor.cs" />
-    <Compile Include="Models\ChartRenderModels\SettingsModels\InliningInFlowModeSettingsModel.cs" />
-    <Compile Include="Models\ChartRenderModels\SettingsModels\MovementThroughOneTrafficLightModeSettingsModel.cs" />
-    <Compile Include="Models\ChartRenderModels\SettingsModels\SpeedLimitChangingModeSettingsModel.cs" />
-    <Compile Include="Models\ChartRenderModels\SettingsModels\StartAndStopMovementModeSettingsModel.cs" />
-    <Compile Include="Models\ChartRenderModels\ValidationModel.cs" />
-    <Compile Include="Models\LocalizationModels\LocalizationComponentsModel.cs" />
+    <Compile Include="CustomControls\ControlToolStripCustomRender.cs" />
+    <Compile Include="CustomControls\CustomComboBox.cs" />
+    <Compile Include="CustomControls\CustomComboBox.Designer.cs">
+      <DependentUpon>CustomComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\SubMenuCustomColorTable.cs" />
+    <Compile Include="Helpers\EnumComboBoxHelper.cs" />
+    <Compile Include="Helpers\LocalizationWindowHelper.cs" />
+    <Compile Include="Helpers\MainWindowHelper.cs" />
+    <Compile Include="Helpers\ParametersSelectionWindowHelper.cs" />
+    <Compile Include="Helpers\ProgressBarHelper.cs" />
+    <Compile Include="Helpers\SpinningLabelHelper.cs" />
+    <Compile Include="Models\LocalizationComponentsModel.cs" />
+    <Compile Include="Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\LocalizationResources\ChartResources.cs" />
     <Compile Include="Properties\LocalizationResources\ContextMenuResources.cs" />
     <Compile Include="Properties\LocalizationResources\MainWindowResources.cs" />
     <Compile Include="Properties\LocalizationResources\ParametersSelectionWindowResources.cs" />
-    <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Renders\CarsRenderingHelper.cs" />
-    <Compile Include="Renders\ChartCommonHelper.cs" />
-    <Compile Include="Renders\ChartRenders\ChartsRender.cs" />
-    <Compile Include="Renders\ChartRenders\IChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\CarsChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\DistanceChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\InliningInFlow\InliningInFlowCarsChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\InliningInFlow\InliningInFlowChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\InliningInFlow\InliningInFlowDistanceChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\InliningInFlow\InliningInFlowSpeedChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\CommonChartAreaParameters.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\EnvironmentModel.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightCarsChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightDistanceChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\MovementThroughOneTrafficLight\MovementThroughOneTrafficLightSpeedChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedFromDistanceChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingCarsChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingDistanceChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\SpeedLimitChanging\SpeedLimitChangingSpeedChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementCarsChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementDistanceChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\DrivingModeRenders\StartAndStopMovement\StartAndStopMovementSpeedChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\ChartAreaModel.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\Models\CoordinatesModel.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\MovementSimulationConfiguration.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHandler.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\RenderingHelper.cs" />
-    <Compile Include="Renders\ChartRenders\MovementSimulationRenders\TrafficCapacityHelper.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\AccelerationCoefficientEstimationSelectionChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\DecelerationCoefficientEstimationSelectionChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\InliningDistanceEstimationSelectionChartRender.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\AccelerationCoefficientEnvironmentModel.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\CoefficientEstimationCoordinatesModel.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\DecelerationCoefficientEnvironmentModel.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\DecelerationCoefficientEstimationCoordinatesModel.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\InliningDistanceEstimationCoordinatesModel.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\Models\SerializerPointsModel.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionConfiguration.cs" />
-    <Compile Include="Renders\ChartRenders\ParametersSelectionRenders\ParametersSelectionRenderingHandler.cs" />
-    <Compile Include="TrafficFlowSimulationModule.cs" />
-    <Compile Include="Windows\Components\ChartContextMenuStripComponent.cs" />
-    <Compile Include="Windows\Components\ChartContextMenuStripComponentHelper.cs" />
-    <Compile Include="Windows\Components\DrivingModeComponent.cs" />
-    <Compile Include="Windows\Components\IComponent.cs" />
-    <Compile Include="Windows\Components\LanguageComponent.cs" />
-    <Compile Include="Windows\Components\ParametersSelectionModeComponent.cs" />
-    <Compile Include="Windows\Components\SlamPanelComponent.cs" />
-    <Compile Include="Windows\Components\TableLayoutPanelComponent.cs" />
-    <Compile Include="Windows\Components\TableLayoutPanelComponentHelper.cs" />
-    <Compile Include="Windows\CustomControls\ComboBoxItem.cs" />
-    <Compile Include="Windows\CustomControls\ControlToolStripCustomRender.cs" />
-    <Compile Include="Windows\CustomControls\CustomComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Windows\CustomControls\CustomComboBox.Designer.cs">
-      <DependentUpon>CustomComboBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\CustomControls\SubMenuCustomColorTable.cs" />
-    <Compile Include="Windows\Helpers\EnumComboBoxHelper.cs" />
-    <Compile Include="Windows\Helpers\LocalizationWindowHelper.cs" />
-    <Compile Include="Windows\Helpers\MainWindowHelper.cs" />
-    <Compile Include="Windows\Helpers\ParametersSelectionWindowHelper.cs" />
-    <Compile Include="Windows\Helpers\ProgressBarHelper.cs" />
-    <Compile Include="Windows\Helpers\SpinningLabelHelper.cs" />
     <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,8 +148,6 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindowConfiguration.cs" />
-    <Compile Include="Windows\Models\AllChartsModel.cs" />
-    <Compile Include="Windows\Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Windows\ParametersSelectionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -275,6 +186,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ChartRendering\ChartRendering.csproj">
+      <Project>{aa8ba6c8-cad6-4d8f-b4e3-b9359781c77c}</Project>
+      <Name>ChartRendering</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{dabe3a8d-47ac-44f6-89f9-cad6d20a2f2f}</Project>
       <Name>Common</Name>
@@ -306,9 +221,11 @@
     <Content Include="Properties\images\stop_icon.png" />
     <Content Include="Properties\images\uk.png" />
     <Content Include="Properties\images\united-kingdom.png" />
-    <Content Include="Properties\images\white_car.png" />
     <Content Include="Properties\images\white_car2.png" />
     <Content Include="Properties\images\white_car_big.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Handlers" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using ChartRendering.EvaluationHandlers;
+using ChartRendering.Handlers;
+using ChartRendering.Models;
 using Common.Errors;
 using Common.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
+using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Windows.Helpers;
@@ -86,7 +90,7 @@ namespace TrafficFlowSimulation.Windows
 
 			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
 
-			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).Execute(
 				this,
@@ -96,19 +100,19 @@ namespace TrafficFlowSimulation.Windows
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 		}
 
 		private void StopToolStripButton_Click(object sender, EventArgs e)
 		{
-			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).StopExecution();
 		}
 
 		private void ContinueToolStripButton_Click(object sender, EventArgs e)
 		{
-			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).StartExecution();
 		}
 
@@ -139,7 +143,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void EstimateTrafficCapacityCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			var settings = SettingsHelper.Get<Properties.Settings>();
+			var settings = SettingsHelper.Get<ChartRendering.Properties.Settings>();
 			settings.IsTrafficCapacityAvailable = EstimateTrafficCapacityCheckBox.Checked;
 			SettingsHelper.Set(settings);
 

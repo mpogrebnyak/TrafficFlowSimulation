@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ChartRendering.Models;
 using Common;
 using Common.Modularity;
+using TrafficFlowSimulation.Configurations;
+using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Windows.Helpers;
@@ -33,6 +36,7 @@ public class MainWindowConfiguration : IInitializable
 		_errorProvider = errorProvider;
 		_bindingSources = new();
 		_controls = controls;
+
 	}
 
 	public void Initialize()

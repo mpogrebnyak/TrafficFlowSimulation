@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using ChartRendering.EvaluationHandlers;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Handlers.EvaluationHandlers;
@@ -42,7 +43,7 @@ namespace TrafficFlowSimulation.Windows
 
 			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters, modeSettings);
 
-			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString())
@@ -54,7 +55,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 		}
 
@@ -68,7 +69,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ImportPointsButton_Click(object sender, EventArgs e)
 		{
-			var currentParametersSelectionMode = SettingsHelper.Get<Properties.Settings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 
 			var filePath = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().GetFilePathFromFileDialog();
