@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
 using ChartRendering.Constants;
+using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
-using Helper = TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers.DecelerationCoefficientEstimationSelectionEvaluationHelper;
+using Helper = ChartRendering.Helpers.DecelerationCoefficientEstimationSelectionEvaluationHelper;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
+namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
 
 public class DecelerationCoefficientEstimationSelectionEvaluationHandler : EvaluationHandler
 {

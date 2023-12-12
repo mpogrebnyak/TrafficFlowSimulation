@@ -3,10 +3,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
+using ChartRendering.Properties;
 using Localization;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
-using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
@@ -137,11 +137,11 @@ public static class TrafficCapacityHelper
 
 	private static string GetTrafficCapacityLabel()
 	{
-		return LocalizationHelper.Get<ChartResources>().TrafficCapacity(_trafficCapacity[60],_trafficCapacity[120],_trafficCapacity[180],_trafficCapacity[240]);
+		return LocalizationHelper.Get<ChartRenderingResources>().TrafficCapacity(_trafficCapacity[60],_trafficCapacity[120],_trafficCapacity[180],_trafficCapacity[240]);
 	}
 
 	private static bool IsTrafficCapacityAvailable()
 	{
-		return SettingsHelper.Get<ChartRendering.Properties.Settings>().IsTrafficCapacityAvailable;
+		return SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().IsTrafficCapacityAvailable;
 	}
 }

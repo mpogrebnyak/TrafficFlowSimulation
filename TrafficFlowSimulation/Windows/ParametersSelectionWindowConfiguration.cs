@@ -1,7 +1,9 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using Common;
 using Common.Modularity;
+using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Windows.Helpers;
 
@@ -26,7 +28,7 @@ public class ParametersSelectionWindowConfiguration : IInitializable
 	}
 	public void Initialize()
 	{
-		CommonHelper.ServiceRegistrator.RegisterInstance<ParametersSelectionWindowHelper>(() => new ParametersSelectionWindowHelper(
+		CommonHelper.ServiceRegistration.RegisterInstance<ParametersSelectionWindowHelper>(() => new ParametersSelectionWindowHelper(
 		//	_localizationComponents,
 		//	_allCharts,
 			_errorProvider,

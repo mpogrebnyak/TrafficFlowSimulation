@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
-using ChartRendering.ChartRenderModels.SettingsModels.Constants;
+using ChartRendering.Constants;
 using Localization.Localization;
-using TrafficFlowSimulation.Models.Attribute;
 
-//using TrafficFlowSimulation.Windows.CustomControls;
+// ReSharper disable InconsistentNaming
 
 namespace ChartRendering.ChartRenderModels.SettingsModels;
 

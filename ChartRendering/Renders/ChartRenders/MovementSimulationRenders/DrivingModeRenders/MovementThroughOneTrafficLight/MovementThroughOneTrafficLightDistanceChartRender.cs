@@ -3,15 +3,15 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
-using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 
 public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRender
 {
@@ -72,7 +72,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
 				Maximum = _chartAreaModel.AxisXMaximum,
-				Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -81,7 +81,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = _chartAreaModel.AxisYMaximum,
 				//Maximum = modelParameters.L + 100,
-				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}

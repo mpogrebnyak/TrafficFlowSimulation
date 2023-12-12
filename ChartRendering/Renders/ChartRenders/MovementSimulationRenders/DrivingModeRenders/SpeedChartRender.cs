@@ -2,13 +2,12 @@
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
-using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders.ChartRenders;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
 public abstract class SpeedChartRender : ChartsRender
 {
@@ -27,7 +26,7 @@ public abstract class SpeedChartRender : ChartsRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<ChartResources>().SpeedChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F),
@@ -45,8 +44,8 @@ public abstract class SpeedChartRender : ChartsRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText;
+				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
 			}
 		}
 	}

@@ -5,12 +5,9 @@ using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Renders.ChartRenders;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 
 public abstract class InliningInFlowChartRender : ChartsRender
 {

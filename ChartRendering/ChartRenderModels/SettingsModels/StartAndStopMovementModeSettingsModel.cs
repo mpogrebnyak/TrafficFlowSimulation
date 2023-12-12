@@ -1,6 +1,6 @@
-﻿using ChartRendering.ChartRenderModels;
+﻿namespace ChartRendering.ChartRenderModels.SettingsModels;
 
-namespace TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
+// ReSharper disable InconsistentNaming
 
 public class StartAndStopMovementModeSettingsModel : BaseSettingsModels
 {

@@ -5,11 +5,10 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.StartAndStopMovement;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.StartAndStopMovement;
 
 public class StartAndStopMovementCarsChartRender : CarsChartRender
 {

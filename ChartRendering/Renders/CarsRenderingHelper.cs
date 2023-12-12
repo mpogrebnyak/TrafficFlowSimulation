@@ -12,7 +12,7 @@ namespace ChartRendering.Renders
 {
 	public static class CarsRenderingHelper
 	{
-		private static readonly string CarsFolder = SettingsHelper.Get<ChartRendering.Properties.Settings>().PaintedCarsFolder;
+		private static readonly string CarsFolder = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().PaintedCarsFolder;
 
 		public static void CreatePaintedCars()
 		{

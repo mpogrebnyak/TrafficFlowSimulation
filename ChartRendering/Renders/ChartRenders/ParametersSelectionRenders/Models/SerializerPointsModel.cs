@@ -2,10 +2,9 @@
 using ChartRendering.ChartRenderModels;
 using Common;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
+namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 public class SerializerPointsModel : SerializerData
 {

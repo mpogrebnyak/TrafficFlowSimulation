@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
-using ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
+namespace ChartRendering.Helpers;
 
 public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 {

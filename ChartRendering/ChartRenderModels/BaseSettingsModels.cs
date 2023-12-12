@@ -3,6 +3,8 @@ using EvaluationKernel.Models;
 using Localization.Localization;
 using Microsoft.Build.Framework;
 
+// ReSharper disable InconsistentNaming
+
 namespace ChartRendering.ChartRenderModels;
 
 public abstract class BaseSettingsModels : ISettingsModel

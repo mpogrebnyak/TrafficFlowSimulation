@@ -41,7 +41,7 @@ public class MainWindowConfiguration : IInitializable
 
 	public void Initialize()
 	{
-		CommonHelper.ServiceRegistrator.RegisterInstance<MainWindowHelper>(() => new MainWindowHelper(
+		CommonHelper.ServiceRegistration.RegisterInstance<MainWindowHelper>(() => new MainWindowHelper(
 			_localizationComponents,
 			_allCharts,
 			_errorProvider,

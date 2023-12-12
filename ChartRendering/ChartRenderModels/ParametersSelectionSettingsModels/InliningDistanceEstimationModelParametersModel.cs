@@ -3,12 +3,10 @@ using ChartRendering.Attribute;
 using ChartRendering.ChartRenderModels.ParametersModels;
 using EvaluationKernel.Models;
 using Localization.Localization;
-using TrafficFlowSimulation.Models.Attribute;
-//using TrafficFlowSimulation.Models.ChartRenderModels.ParametersModels;
 
 // ReSharper disable InconsistentNaming
 
-namespace TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
+namespace ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
 
 public class InliningDistanceEstimationModelParametersModel : BasicParametersModel
 {

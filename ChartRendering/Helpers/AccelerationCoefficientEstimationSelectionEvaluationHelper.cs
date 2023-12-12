@@ -4,12 +4,10 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
+namespace ChartRendering.Helpers;
 
 public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 {

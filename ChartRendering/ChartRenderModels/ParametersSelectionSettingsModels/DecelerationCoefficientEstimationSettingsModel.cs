@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
-using ChartRendering.ChartRenderModels;
 using EvaluationKernel.Models;
 using Localization.Localization;
-using TrafficFlowSimulation.Models.Attribute;
 
-namespace TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
+// ReSharper disable InconsistentNaming
+
+namespace ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
 
 public class DecelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 {

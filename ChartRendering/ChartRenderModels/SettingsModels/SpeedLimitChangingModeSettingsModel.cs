@@ -5,7 +5,8 @@ using ChartRendering.Helpers;
 using Common.Errors;
 using EvaluationKernel.Models;
 using Localization.Localization;
-using TrafficFlowSimulation.Models.Attribute;
+
+// ReSharper disable InconsistentNaming
 
 namespace ChartRendering.ChartRenderModels.SettingsModels;
 

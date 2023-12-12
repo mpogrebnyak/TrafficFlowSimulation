@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Attribute;
 using ChartRendering.Constants.Modes;
+using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using Localization;
 using Localization.Localization;
@@ -14,7 +15,6 @@ using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.Attribute;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 
@@ -45,11 +45,11 @@ public class LocalizationWindowHelper
 		_lc.ParametersSelectionToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ParametersSelectionButtonText;
 		_lc.EstimateTrafficCapacityCheckBox.Text = LocalizationHelper.Get<MainWindowResources>().EstimateTrafficCapacityCheckBoxText;
 
-		foreach (DrivingMode value in SettingsHelper.Get<ChartRendering.Properties.Settings>().AvailableDrivingModes)
+		foreach (DrivingMode value in SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().AvailableDrivingModes)
 		{
 			_lc.DrivingModeStripDropDownButton.DropDownItems.Cast<ToolStripMenuItem>().Single(x => x.Name == value.ToString()).Text = value.GetDescription();
 
-			if (value == SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode)
+			if (value == SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode)
 				_lc.DrivingModeStripDropDownButton.Text = value.GetDescription();
 		}
 
@@ -62,7 +62,7 @@ public class LocalizationWindowHelper
 		LocalizeChartLegend(_lc.AllCharts.SpeedChart);
 		LocalizeChartLegend(_lc.AllCharts.CarsMovementChart);
 
-		LocalizeAxes(_lc.AllCharts.DistanceChart,
+		/*LocalizeAxes(_lc.AllCharts.DistanceChart,
 			LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
 			LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText);
 		LocalizeAxes(_lc.AllCharts.SpeedChart,
@@ -70,7 +70,7 @@ public class LocalizationWindowHelper
 			LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText);
 		LocalizeAxes(_lc.AllCharts.CarsMovementChart,
 			LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
-			string.Empty);
+			string.Empty);*/
 	}
 
 	private void LocalizeChartLegend(Chart chart)

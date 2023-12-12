@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
 using ChartRendering.Constants;
-using ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
+using ChartRendering.Helpers;
+using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
-using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
+namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
 
 public class AccelerationCoefficientEstimationSelectionEvaluationHandler : EvaluationHandler
 {

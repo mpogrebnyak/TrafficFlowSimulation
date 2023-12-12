@@ -4,8 +4,10 @@ using Common;
 using Common.Modularity;
 using Settings;
 using TrafficFlowSimulation.Constants.Modes;
+using TrafficFlowSimulation.Renders.ChartRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
+namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class ParametersSelectionConfiguration : IInitializable
 {
@@ -18,26 +20,26 @@ public class ParametersSelectionConfiguration : IInitializable
 
 	public void Initialize()
 	{
-		var parametersSelectionModes = SettingsHelper.Get<ChartRendering.Properties.Settings>().AvailableParametersSelectionModes.ToList();
+		var parametersSelectionModes = SettingsHelper.Get<Properties.ChartRenderingSettings>().AvailableParametersSelectionModes.ToList();
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistanceEstimation))
 		{
-			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new InliningDistanceEstimationSelectionChartRender(_chart),
+			CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningDistanceEstimationSelectionChartRender(_chart),
 				_chart.Name + ParametersSelectionMode.InliningDistanceEstimation, false);
 		}
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.AccelerationCoefficientEstimation))
 		{
-			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new AccelerationCoefficientEstimationSelectionChartRender(_chart),
+			CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new AccelerationCoefficientEstimationSelectionChartRender(_chart),
 				_chart.Name + ParametersSelectionMode.AccelerationCoefficientEstimation, false);
 		}
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.DecelerationCoefficientEstimation))
 		{
-			CommonHelper.ServiceRegistrator.RegisterInstance<IChartRender>(() => new DecelerationCoefficientEstimationSelectionChartRender(_chart),
+			CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new DecelerationCoefficientEstimationSelectionChartRender(_chart),
 				_chart.Name + ParametersSelectionMode.DecelerationCoefficientEstimation, false);
 		}
 
-		CommonHelper.ServiceRegistrator.RegisterInstance<ParametersSelectionRenderingHandler>(() => new ParametersSelectionRenderingHandler(_chart));
+		CommonHelper.ServiceRegistration.RegisterInstance<ParametersSelectionRenderingHandler>(() => new ParametersSelectionRenderingHandler(_chart));
 	}
 }

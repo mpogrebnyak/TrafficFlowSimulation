@@ -3,11 +3,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
@@ -78,7 +77,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 			{
 				Minimum = _chartAreaModel.AxisXMinimum,
 				Maximum = _chartAreaModel.AxisXMaximum,
-				Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far,
 				/*
@@ -102,7 +101,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 			{
 				Minimum = _chartAreaModel.AxisYMinimum,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
-				Title = LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}
@@ -118,7 +117,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 		return new Legend
 		{
 			Name = "Legend",
-			Title = LocalizationHelper.Get<ChartResources>().SpeedChartLegendTitleText,
+			Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedChartLegendTitleText,
 			TitleFont = new Font("Microsoft Sans Serif", 10F),
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F),
@@ -136,8 +135,8 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText;
+				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText;
+				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
 			}
 		}
 	}

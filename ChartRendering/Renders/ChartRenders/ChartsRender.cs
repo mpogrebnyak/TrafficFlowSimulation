@@ -7,10 +7,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using EvaluationKernel.Models;
 using Settings;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders;
+namespace ChartRendering.Renders.ChartRenders;
 
 public abstract class ChartsRender : IChartRender
 {
@@ -64,7 +62,7 @@ public abstract class ChartsRender : IChartRender
 
 	public virtual void SetMarkerImage(List<double> carsLength)
 	{
-		var path = SettingsHelper.Get<ChartRendering.Properties.Settings>().PaintedCarsFolder;
+		var path = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().PaintedCarsFolder;
 		_chart.Update();
 		_chart.ApplyPaletteColors();
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))

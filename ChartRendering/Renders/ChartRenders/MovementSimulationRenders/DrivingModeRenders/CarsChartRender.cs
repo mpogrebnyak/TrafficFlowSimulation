@@ -3,15 +3,11 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using EvaluationKernel.Models;
-using Localization;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
-//using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders.ChartRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
 public abstract class CarsChartRender : ChartsRender
 {

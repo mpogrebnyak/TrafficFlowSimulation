@@ -6,17 +6,12 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
-using ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
+using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders.Models;
 using EvaluationKernel.Models;
-using Localization;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
-//using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
+namespace ChartRendering.Helpers;
 
 public static class InliningDistanceEstimationSelectionEvaluationHelper
 {

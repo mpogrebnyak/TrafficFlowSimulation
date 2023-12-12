@@ -9,7 +9,6 @@ using ChartRendering.ChartRenderModels.ParametersModels;
 using Localization.Localization;
 using Settings;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models.Attribute;
 using TrafficFlowSimulation.Windows.Components;
 
 namespace TrafficFlowSimulation.Components;

@@ -9,11 +9,8 @@ using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;
+namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
 public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 {

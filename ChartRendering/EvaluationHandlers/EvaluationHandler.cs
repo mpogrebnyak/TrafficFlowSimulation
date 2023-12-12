@@ -1,16 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using ChartRendering.ChartRenderModels;
-using ChartRendering.EvaluationHandlers;
-using Common;
 using Common.Errors;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Models.ChartRenderModels;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers;
+namespace ChartRendering.EvaluationHandlers;
 
 public abstract class EvaluationHandler : IEvaluationHandler
 {

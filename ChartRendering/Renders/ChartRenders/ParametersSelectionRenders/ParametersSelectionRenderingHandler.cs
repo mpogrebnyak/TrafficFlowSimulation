@@ -4,10 +4,8 @@ using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants.Modes;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
+namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class ParametersSelectionRenderingHandler
 {
@@ -20,7 +18,7 @@ public class ParametersSelectionRenderingHandler
 	public ParametersSelectionRenderingHandler(Chart chart)
 	{
 		_chart = chart;
-		_parametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentParametersSelectionMode;
+		_parametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
 		_provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + _parametersSelectionMode);
 	}
 

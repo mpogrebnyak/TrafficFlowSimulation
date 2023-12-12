@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TrafficFlowSimulation.Windows.CustomControls;
+namespace TrafficFlowSimulation.CustomControls;
 
 partial class CustomComboBox
 {

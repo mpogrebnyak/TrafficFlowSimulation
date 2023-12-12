@@ -5,7 +5,7 @@ namespace Common;
 
 public static class CommonHelper
 {
-	public static IServiceRegistrator ServiceRegistrator
+	public static IServiceRegistrator ServiceRegistration
 	{
 		get { return ServiceLocator.Current.GetInstance<IServiceRegistrator>(); }
 	}

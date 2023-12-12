@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
 using ChartRendering.EvaluationHandlers;
+using ChartRendering.Helpers;
+using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
-using TrafficFlowSimulation.Handlers.EvaluationHandlers;
-using TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
+using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Windows.Components;
-using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows
 {
@@ -43,7 +42,7 @@ namespace TrafficFlowSimulation.Windows
 
 			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters, modeSettings);
 
-			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString())
@@ -55,7 +54,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 		}
 
@@ -69,7 +68,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ImportPointsButton_Click(object sender, EventArgs e)
 		{
-			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 
 			var filePath = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().GetFilePathFromFileDialog();

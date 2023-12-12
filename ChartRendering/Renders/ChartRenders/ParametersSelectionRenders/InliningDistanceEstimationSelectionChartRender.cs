@@ -5,12 +5,10 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
+using TrafficFlowSimulation.Renders.ChartRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
+namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 {

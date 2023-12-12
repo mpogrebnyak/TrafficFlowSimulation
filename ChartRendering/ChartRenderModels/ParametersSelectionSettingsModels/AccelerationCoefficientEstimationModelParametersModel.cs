@@ -5,12 +5,10 @@ using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.Constants;
 using EvaluationKernel.Models;
 using Localization.Localization;
-using TrafficFlowSimulation.Models.Attribute;
-//using TrafficFlowSimulation.Models.ChartRenderModels.ParametersModels;
 
-//using TrafficFlowSimulation.Windows.CustomControls;
+// ReSharper disable InconsistentNaming
 
-namespace TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
+namespace ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
 
 public class AccelerationCoefficientEstimationModelParametersModel : BasicParametersModel
 {

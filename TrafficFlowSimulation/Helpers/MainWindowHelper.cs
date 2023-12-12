@@ -7,6 +7,7 @@ using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants.Modes;
 using ChartRendering.Models;
+using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
@@ -14,7 +15,6 @@ using Settings;
 using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
 using TrafficFlowSimulation.Windows.Components;
 using TrafficFlowSimulation.Windows.Helpers;
 using TrafficFlowSimulation.Windows.Models;
@@ -63,7 +63,7 @@ namespace TrafficFlowSimulation.Helpers
 
 		public void InitializeTableLayoutPanelComponent()
 		{
-			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode;
 
 			var basicParametersModel = ServiceLocator.Current.GetInstance<IBasicParametersModel>(currentDrivingMode.ToString());
 			var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
@@ -94,7 +94,7 @@ namespace TrafficFlowSimulation.Helpers
 
 		private void InitializeModeSettingsTableLayoutPanelComponent()
 		{
-			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode;
 			var settingsTableLayoutPanel = _controls.Find(ControlName.MainWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
 
 			var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentDrivingMode.ToString());
@@ -134,7 +134,7 @@ namespace TrafficFlowSimulation.Helpers
 
 		public BaseSettingsModels CollectModeSettingsFromBindingSource(ModelParameters modelParameters)
 		{
-			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode;
 			_bindingSources.ForEach(x => x.Value.EndEdit());
 
 			var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentDrivingMode.ToString());
@@ -149,7 +149,7 @@ namespace TrafficFlowSimulation.Helpers
 		{
 			var modelParameters = new ModelParameters();
 
-			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode;
 			_bindingSources.ForEach(x => x.Value.EndEdit());
 
 			var basicParametersModel = ServiceLocator.Current.GetInstance<IBasicParametersModel>(currentDrivingMode.ToString());
@@ -176,7 +176,7 @@ namespace TrafficFlowSimulation.Helpers
 			_localizationWindowHelper.LocalizePanel(typeof(InitialConditionsParametersModel),
 				_controls.Find(ControlName.MainWindowControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel);
 
-			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<ChartRenderingSettings>().CurrentDrivingMode;
 			var settingsTableLayoutPanel = _controls.Find(ControlName.MainWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
 
 			switch (currentDrivingMode)

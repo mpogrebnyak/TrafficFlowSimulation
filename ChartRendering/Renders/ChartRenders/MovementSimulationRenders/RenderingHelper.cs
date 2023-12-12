@@ -18,7 +18,7 @@ namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders
 
 		public static void DisplayChartLegend(Chart chart, LegendStyle? legendStyle)
 		{
-			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<Properties.ChartRenderingSettings>().CurrentDrivingMode;
 			var provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + currentDrivingMode);
 
 			provider.ShowChartLegend(legendStyle);
@@ -26,7 +26,7 @@ namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders
 
 		public static void DisplayChartAxes(Chart chart, bool isHidden = false)
 		{
-			var currentDrivingMode = SettingsHelper.Get<Properties.Settings>().CurrentDrivingMode;
+			var currentDrivingMode = SettingsHelper.Get<Properties.ChartRenderingSettings>().CurrentDrivingMode;
 			var provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + currentDrivingMode);
 
 			provider.SetChartAreaAxisTitle(isHidden);

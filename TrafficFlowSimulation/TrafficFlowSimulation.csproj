@@ -141,6 +141,7 @@
     <Compile Include="Properties\LocalizationResources\ContextMenuResources.cs" />
     <Compile Include="Properties\LocalizationResources\MainWindowResources.cs" />
     <Compile Include="Properties\LocalizationResources\ParametersSelectionWindowResources.cs" />
+    <Compile Include="Properties\TrafficFlowSimulationSettings.cs" />
     <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

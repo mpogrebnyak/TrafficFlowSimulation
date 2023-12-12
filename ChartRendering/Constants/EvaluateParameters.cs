@@ -1,6 +1,8 @@
 ﻿using Localization.Localization;
 
-namespace TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels.Constants;
+// ReSharper disable UnusedMember.Global
+
+namespace ChartRendering.Constants;
 
 public class EvaluateParametersResources
 {

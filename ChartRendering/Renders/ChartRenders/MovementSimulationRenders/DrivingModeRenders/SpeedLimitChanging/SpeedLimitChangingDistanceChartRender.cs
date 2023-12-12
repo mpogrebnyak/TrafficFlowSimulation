@@ -4,16 +4,13 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
-using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
-using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
 
 public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 {
@@ -57,7 +54,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 				Minimum = ChartAreaModel.AxisXMinimum,
 				Maximum = ChartAreaModel.AxisXMaximum,
 				Interval = ChartAreaModel.AxisXInterval,
-				Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -65,7 +62,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 			{
 				Minimum = ChartAreaModel.AxisYMinimum,
 				Maximum = ChartAreaModel.AxisYMaximum + modelParameters.L + 100,
-				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}

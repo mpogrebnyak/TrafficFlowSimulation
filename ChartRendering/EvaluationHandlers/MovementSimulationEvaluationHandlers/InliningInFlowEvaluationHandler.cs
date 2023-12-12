@@ -7,10 +7,8 @@ using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.MovementSimulationEvaluationHandlers;
+namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
 public class InliningInFlowEvaluationHandler : EvaluationHandler
 {

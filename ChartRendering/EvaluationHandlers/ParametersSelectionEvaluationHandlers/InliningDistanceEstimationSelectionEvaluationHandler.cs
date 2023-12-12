@@ -4,20 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
+using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
-using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
-using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels.Constants;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
-//using TrafficFlowSimulation.Windows.CustomControls;
-//using TrafficFlowSimulation.Windows.Helpers;
-using Helper = TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers.InliningDistanceEstimationSelectionEvaluationHelper;
+using Helper = ChartRendering.Helpers.InliningDistanceEstimationSelectionEvaluationHelper;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
+namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
 
 public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHandler
 {

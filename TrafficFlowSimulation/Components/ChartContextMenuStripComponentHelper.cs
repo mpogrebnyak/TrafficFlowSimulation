@@ -7,8 +7,8 @@ using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using Localization;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Properties;
 using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation.Components;
@@ -135,7 +135,7 @@ public class ChartContextMenuStripComponentHelper
 
 		using SaveFileDialog sfd = new();
 		sfd.Title = LocalizationHelper.Get<ContextMenuResources>().SaveImageText;
-		sfd.Filter = SettingsHelper.Get<ChartRendering.Properties.Settings>().AvailableFileTypes;
+		sfd.Filter = SettingsHelper.Get<TrafficFlowSimulationSettings>().AvailableFileTypes;
 		sfd.AddExtension = true;
 		sfd.FileName = "image";
 		if (sfd.ShowDialog() == DialogResult.OK)

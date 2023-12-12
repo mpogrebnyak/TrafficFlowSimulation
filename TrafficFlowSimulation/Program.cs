@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using ChartRendering;
 using ChartRendering.Constants.Modes;
+using ChartRendering.Properties;
 using ChartRendering.Renders;
 using Common;
 using Common.Errors;
@@ -43,12 +44,9 @@ namespace TrafficFlowSimulation
 
 		private static void Registration()
 		{
-			CommonHelper.ServiceRegistrator.RegisterInstance<IErrorManager>(() => new ErrorManager());
+			CommonHelper.ServiceRegistration.RegisterInstance<IErrorManager>(() => new ErrorManager());
 
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
-
-			var chartResourcesProvider = new ResourceProvider(typeof(ChartResources));
-			LocalizationHelper.Register(chartResourcesProvider);
 
 			var contextMenuResourcesProvider = new ResourceProvider(typeof(ContextMenuResources));
 			LocalizationHelper.Register(contextMenuResourcesProvider);
@@ -64,7 +62,7 @@ namespace TrafficFlowSimulation
 		{
 			SettingsHelper.InitializeSettings();
 
-			var settings = SettingsHelper.Get<ChartRendering.Properties.Settings>();
+			var settings = SettingsHelper.Get<ChartRenderingSettings>();
 			settings.CurrentDrivingMode = DrivingMode.StartAndStopMovement;
 			settings.CurrentParametersSelectionMode = ParametersSelectionMode.InliningDistanceEstimation;
 			settings.AvailableDrivingModes = 
@@ -75,7 +73,7 @@ namespace TrafficFlowSimulation
 					DrivingMode.InliningInFlow,
 					DrivingMode.SpeedLimitChanging
 				};
-			SettingsHelper.Set<ChartRendering.Properties.Settings>(settings);
+			SettingsHelper.Set<ChartRendering.Properties.ChartRenderingSettings>(settings);
 		}
 	}
 }

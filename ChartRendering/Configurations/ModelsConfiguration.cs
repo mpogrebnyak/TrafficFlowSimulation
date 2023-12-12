@@ -7,9 +7,6 @@ using Common;
 using Common.Modularity;
 using Settings;
 using TrafficFlowSimulation.Constants.Modes;
-//using TrafficFlowSimulation.Models.ChartRenderModels.ParametersModels;
-using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
-using TrafficFlowSimulation.Models.ChartRenderModels.SettingsModels;
 
 namespace ChartRendering.Configurations;
 
@@ -17,8 +14,8 @@ public class ModelsConfiguration : IInitializable
 {
 	public void Initialize()
 	{
-		var availableDrivingModes = SettingsHelper.Get<ChartRendering.Properties.Settings>().AvailableDrivingModes;
-		var availableParametersSelectionModes = SettingsHelper.Get<ChartRendering.Properties.Settings>().AvailableParametersSelectionModes;
+		var availableDrivingModes = SettingsHelper.Get<Properties.ChartRenderingSettings>().AvailableDrivingModes;
+		var availableParametersSelectionModes = SettingsHelper.Get<Properties.ChartRenderingSettings>().AvailableParametersSelectionModes;
 
 		foreach (var mode in availableDrivingModes)
 		{
@@ -27,44 +24,44 @@ public class ModelsConfiguration : IInitializable
 				case DrivingMode.StartAndStopMovement:
 				{
 					var m = DrivingMode.StartAndStopMovement.ToString();
-					CommonHelper.ServiceRegistrator.RegisterInstance<IBasicParametersModel>(() => new BasicParametersModel(), m );
-					CommonHelper.ServiceRegistrator.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IBasicParametersModel>(() => new BasicParametersModel(), m );
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
 
-					CommonHelper.ServiceRegistrator.RegisterInstance<ISettingsModel>(() => new StartAndStopMovementModeSettingsModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new StartAndStopMovementModeSettingsModel(), m);
 
 					break;
 				}
 				case DrivingMode.TrafficThroughOneTrafficLight:
 				{
 					var m = DrivingMode.TrafficThroughOneTrafficLight.ToString();
-					CommonHelper.ServiceRegistrator.RegisterInstance<IBasicParametersModel>(() => new BasicParametersModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IBasicParametersModel>(() => new BasicParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
 
-					CommonHelper.ServiceRegistrator.RegisterInstance<ISettingsModel>(() => new MovementThroughOneTrafficLightModeSettingsModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new MovementThroughOneTrafficLightModeSettingsModel(), m);
 
 					break;
 				}
 				case DrivingMode.InliningInFlow:
 				{
 					var m = DrivingMode.InliningInFlow.ToString();
-					CommonHelper.ServiceRegistrator.RegisterInstance<IBasicParametersModel>(() => new BasicParametersModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IBasicParametersModel>(() => new BasicParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
 
-					CommonHelper.ServiceRegistrator.RegisterInstance<ISettingsModel>(() => new InliningInFlowModeSettingsModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new InliningInFlowModeSettingsModel(), m);
 
 					break;
 				}
 				case DrivingMode.SpeedLimitChanging:
 				{
 					var m = DrivingMode.SpeedLimitChanging.ToString();
-					CommonHelper.ServiceRegistrator.RegisterInstance<IBasicParametersModel>(() => new SpeedLimitChangingModeParametersModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IBasicParametersModel>(() => new SpeedLimitChangingModeParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
 
-					CommonHelper.ServiceRegistrator.RegisterInstance<ISettingsModel>(() => new SpeedLimitChangingModeSettingsModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new SpeedLimitChangingModeSettingsModel(), m);
 
 					break;
 				}
@@ -78,8 +75,8 @@ public class ModelsConfiguration : IInitializable
 				case ParametersSelectionMode.AccelerationCoefficientEstimation:
 				{
 					var m = ParametersSelectionMode.AccelerationCoefficientEstimation.ToString();
-					CommonHelper.ServiceRegistrator.RegisterInstance<ISettingsModel>(() => new AccelerationCoefficientEstimationSettingsModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IParametersModel>(() => new AccelerationCoefficientEstimationModelParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new AccelerationCoefficientEstimationSettingsModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IParametersModel>(() => new AccelerationCoefficientEstimationModelParametersModel(), m);
 
 					break;
 				}
@@ -87,8 +84,8 @@ public class ModelsConfiguration : IInitializable
 				case ParametersSelectionMode.DecelerationCoefficientEstimation:
 				{
 					var m = ParametersSelectionMode.DecelerationCoefficientEstimation.ToString();
-					CommonHelper.ServiceRegistrator.RegisterInstance<ISettingsModel>(() => new DecelerationCoefficientEstimationSettingsModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IParametersModel>(() => new DecelerationCoefficientEstimationModelParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new DecelerationCoefficientEstimationSettingsModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IParametersModel>(() => new DecelerationCoefficientEstimationModelParametersModel(), m);
 
 					break;
 			}
@@ -96,8 +93,8 @@ public class ModelsConfiguration : IInitializable
 				case ParametersSelectionMode.InliningDistanceEstimation:
 				{
 					var m = ParametersSelectionMode.InliningDistanceEstimation.ToString();
-					CommonHelper.ServiceRegistrator.RegisterInstance<ISettingsModel>(() => new InliningDistanceEstimationSettingsModel(), m);
-					CommonHelper.ServiceRegistrator.RegisterInstance<IParametersModel>(() => new InliningDistanceEstimationModelParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new InliningDistanceEstimationSettingsModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IParametersModel>(() => new InliningDistanceEstimationModelParametersModel(), m);
 
 					break;
 				}

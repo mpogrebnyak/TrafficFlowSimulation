@@ -27,7 +27,7 @@ public class DrivingModeComponent : IComponent
 	public void Initialize()
 	{
 		_modeButton.DropDownItems.Clear();
-		var availableModes = SettingsHelper.Get<ChartRendering.Properties.Settings>().AvailableDrivingModes.ToList();
+		var availableModes = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().AvailableDrivingModes.ToList();
 
 		foreach (DrivingMode mode in Enum.GetValues(typeof(DrivingMode)))
 		{
@@ -62,12 +62,12 @@ public class DrivingModeComponent : IComponent
 		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu)?.OwnerItem;
 		if (owner != null) owner.Text = selectedModeItem.Text;
 
-		var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
+		var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode;
 		ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 
 		var mode = (DrivingMode) Enum.Parse(typeof(DrivingMode), selectedModeItem.Name);
 
-		var settings = SettingsHelper.Get<ChartRendering.Properties.Settings>();
+		var settings = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>();
 		settings.CurrentDrivingMode = mode;
 		SettingsHelper.Set(settings);
 

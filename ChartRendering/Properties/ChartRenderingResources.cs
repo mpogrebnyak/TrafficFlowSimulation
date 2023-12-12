@@ -1,8 +1,10 @@
 ﻿using Localization.Localization;
 
-namespace TrafficFlowSimulation.Properties.LocalizationResources;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
-public abstract class ChartResources
+namespace ChartRendering.Properties;
+
+public abstract class ChartRenderingResources
 {
 	[Translation(Locales.ru, "Скорости и положения:")]
 	[Translation(Locales.en, "Speeds and positions:")]

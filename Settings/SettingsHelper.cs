@@ -10,7 +10,7 @@ namespace Settings
 		{
 			var settingsMetadataManager = new SettingsMetadataManager();
 			var memorySettingsStorage = new MemorySettingsStorage();
-			_manager =  new SettingsManager(settingsMetadataManager, memorySettingsStorage);
+			_manager = new SettingsManager(settingsMetadataManager, memorySettingsStorage);
 		}
 
 		public static TSettings Get<TSettings>() where TSettings : new()

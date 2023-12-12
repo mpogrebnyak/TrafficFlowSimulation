@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using Localization;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Constants.Modes;
+using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
 using TrafficFlowSimulation.Windows.Helpers;
@@ -25,7 +27,7 @@ public class ParametersSelectionModeComponent : IComponent
 	public void Initialize()
 	{
 		_modeButton.DropDownItems.Clear();
-		var availableModes = SettingsHelper.Get<ChartRendering.Properties.Settings>().AvailableParametersSelectionModes.ToList();
+		var availableModes = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().AvailableParametersSelectionModes.ToList();
 
 		foreach (ParametersSelectionMode mode in Enum.GetValues(typeof(ParametersSelectionMode)))
 		{
@@ -64,7 +66,7 @@ public class ParametersSelectionModeComponent : IComponent
 
 		var mode = (ParametersSelectionMode) Enum.Parse(typeof(ParametersSelectionMode), selectedModeItem.Name);
 
-		var settings = SettingsHelper.Get<ChartRendering.Properties.Settings>();
+		var settings = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>();
 		settings.CurrentParametersSelectionMode = mode;
 		SettingsHelper.Set(settings);
 

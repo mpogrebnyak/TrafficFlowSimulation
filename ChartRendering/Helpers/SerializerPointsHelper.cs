@@ -1,7 +1,8 @@
-﻿using Common;
+﻿using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders.Models;
+using Common;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace TrafficFlowSimulation.Handlers.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
+namespace ChartRendering.Helpers;
 
 public static class SerializerPointsHelper
 {

@@ -1,6 +1,8 @@
 ﻿using Localization.Localization;
 
-namespace ChartRendering.ChartRenderModels.SettingsModels.Constants
+// ReSharper disable UnusedMember.Global
+
+namespace ChartRendering.Constants
 {
 	public class AutoScrollResources
 	{

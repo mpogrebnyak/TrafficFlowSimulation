@@ -1,6 +1,8 @@
-﻿using TrafficFlowSimulation.Models.Attribute;
+﻿using ChartRendering.Attribute;
 
 namespace ChartRendering.ChartRenderModels.SettingsModels;
+
+// ReSharper disable InconsistentNaming
 
 public class InliningInFlowModeSettingsModel : BaseSettingsModels
 {

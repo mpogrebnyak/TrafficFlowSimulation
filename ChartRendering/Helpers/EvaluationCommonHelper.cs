@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
 using Settings;
 
-namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers.Helpers;
+namespace ChartRendering.Helpers;
 
 public static class EvaluationCommonHelper
 {
@@ -23,7 +23,7 @@ public static class EvaluationCommonHelper
 	public static string CreateFile(string fileName, string extension)
 	{
 		var folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-		var folderName = SettingsHelper.Get<ChartRendering.Properties.Settings>().ImageFolderName;
+		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
 		folder += folderName;
 		var folderExists = Directory.Exists(folder);
 		if (!folderExists)

@@ -1,4 +1,6 @@
-﻿using TrafficFlowSimulation.Models.Attribute;
+﻿using ChartRendering.Attribute;
+
+// ReSharper disable InconsistentNaming
 
 namespace ChartRendering.ChartRenderModels.ParametersModels;
 

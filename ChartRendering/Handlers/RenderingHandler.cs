@@ -2,6 +2,7 @@
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants.Modes;
 using ChartRendering.Models;
+using ChartRendering.Renders.ChartRenders;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
@@ -26,7 +27,7 @@ public class RenderingHandler
 	public RenderingHandler(AllChartsModel charts)
 	{
 		Charts = charts;
-		DrivingMode = SettingsHelper.Get<ChartRendering.Properties.Settings>().CurrentDrivingMode;
+		DrivingMode = SettingsHelper.Get<Properties.ChartRenderingSettings>().CurrentDrivingMode;
 		SpeedProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.SpeedChart.Name + DrivingMode);
 		DistanceProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.DistanceChart.Name + DrivingMode);
 		CarMovementProvider = ServiceLocator.Current.GetInstance<IChartRender>(charts.CarsMovementChart.Name + DrivingMode);

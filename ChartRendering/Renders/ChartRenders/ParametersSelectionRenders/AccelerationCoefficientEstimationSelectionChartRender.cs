@@ -4,14 +4,14 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
 using ChartRendering.Constants;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models.ChartRenderModels;
-using TrafficFlowSimulation.Models.ChartRenderModels.ParametersSelectionSettingsModels;
+using TrafficFlowSimulation.Renders;
+using TrafficFlowSimulation.Renders.ChartRenders;
 using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
+namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRender
 {

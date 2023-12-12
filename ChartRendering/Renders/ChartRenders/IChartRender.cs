@@ -2,10 +2,8 @@
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders;
+namespace ChartRendering.Renders.ChartRenders;
 
 public interface IChartRender
 {

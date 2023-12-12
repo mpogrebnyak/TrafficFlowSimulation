@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Models;
-using TrafficFlowSimulation.Models.ChartRenderModels;
-using TrafficFlowSimulation.Properties.LocalizationResources;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
+using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
-namespace TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 
 public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 {
@@ -116,7 +115,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 					ButtonColor = Color.FromArgb(249, 246, 247)
 				},
 				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
@@ -177,10 +176,10 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 	{
 		var sb = new StringBuilder();
 
-		sb.Append(LocalizationHelper.Get<ChartResources>().SpeedText + " ");
+		sb.Append(LocalizationHelper.Get<ChartRenderingResources>().SpeedText + " ");
 		sb.Append(Math.Round(values[0], 2));
 		sb.Append("\n");
-		sb.Append(LocalizationHelper.Get<ChartResources>().DistanceText + " ");
+		sb.Append(LocalizationHelper.Get<ChartRenderingResources>().DistanceText + " ");
 		sb.Append(Math.Round(values[1], 2));
 		return sb.ToString();
 	}
