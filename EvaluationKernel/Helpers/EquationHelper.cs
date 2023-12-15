@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EvaluationKernel.Models;
 
@@ -34,5 +35,10 @@ public static class EquationHelper
 		return dictionary[left].SegmentBeginning > x
 			? left - 1
 			: left;
+	}
+
+	public static double S(ModelParameters m, double v)
+	{
+		return (m.tau + m.tau_b) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + m.lSafe[0] + m.lCar[0];;
 	}
 }

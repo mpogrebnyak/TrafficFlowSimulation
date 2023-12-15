@@ -59,7 +59,7 @@ public class ModelsConfiguration : IInitializable
 					var m = DrivingMode.SpeedLimitChanging.ToString();
 					CommonHelper.ServiceRegistration.RegisterInstance<IBasicParametersModel>(() => new SpeedLimitChangingModeParametersModel(), m);
 					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
-					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new SpeedLimitChangingInitialConditionsParametersModel(), m);
 
 					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new SpeedLimitChangingModeSettingsModel(), m);
 

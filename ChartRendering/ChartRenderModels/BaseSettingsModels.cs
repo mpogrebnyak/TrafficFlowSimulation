@@ -9,6 +9,8 @@ namespace ChartRendering.ChartRenderModels;
 
 public abstract class BaseSettingsModels : ISettingsModel
 {
+	protected const double MaxL = (double) (decimal.MaxValue / 2);
+
 	[Translation(Locales.ru, "Расстояние до остановки")]
 	[Translation(Locales.en, "Distance to the stop")]
 	[CustomDisplay(1)]

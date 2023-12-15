@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Forms;
 using ChartRendering.Attribute;
 using ChartRendering.ChartRenderModels;
-using ChartRendering.ChartRenderModels.ParametersModels;
 using Localization.Localization;
 using Settings;
 using TrafficFlowSimulation.Constants;
@@ -69,6 +68,11 @@ public class TableLayoutPanelComponent : IComponent
 				.GetCustomAttributes(typeof(CustomDisplayAttribute), false)
 				.Single()).Order
 			select property;
+
+		if (!properties.Any())
+		{
+			_tableLayoutPanel.Parent.Hide();
+		}
 
 		foreach (var property in properties)
 		{
@@ -134,7 +138,6 @@ public class TableLayoutPanelComponent : IComponent
 		{
 			textBox.Enter += (sender, e) => _helper.TextBoxEnter(sender, e, placeholderText);
 			textBox.Leave += (sender, e) => _helper.TextBoxLeave(sender, e, placeholderText);
-			textBox.ForeColor = SystemColors.GrayText;
 
 			textBox.DataBindings.Add(new Binding("Text", _bindingSource, dataMember, true, DataSourceUpdateMode.OnPropertyChanged, placeholderText));
 		}

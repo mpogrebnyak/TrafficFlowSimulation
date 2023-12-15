@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Helpers;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
 
@@ -22,12 +23,14 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 
 		_chart.Legends.Clear();
 
+		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
+
 		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
 			var showLegend = false;
-			if (modelParameters.lambda[i] > ChartAreaModel.AxisXMinimum && modelParameters.lambda[i] < ChartAreaModel.AxisXMaximum)
+			if (modelParameters.lambda[i] > segment.First() - 100 && modelParameters.lambda[i] < segment.Last() + 100)
 			{
 				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
@@ -65,45 +68,20 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var chartArea = new ChartArea
+		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
+
+		var model = new ChartAreaCreationModel
 		{
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = ChartAreaModel.AxisXMinimum,
-				Maximum = ChartAreaModel.AxisXMaximum + modelParameters.L,
-				ScaleView = new AxisScaleView
-				{
-					Zoomable = true,
-					SizeType = DateTimeIntervalType.Number,
-					MinSize = 30
-				},
-				Interval = ChartAreaModel.AxisXInterval,
-				ScrollBar = new AxisScrollBar
-				{
-					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
-					IsPositionedInside = true,
-					BackColor = Color.White,
-					ButtonColor = Color.FromArgb(249, 246, 247)
-				},
-				IsStartedFromZero = true,
-				//Title = LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
-				//TitleFont = new Font("Microsoft Sans Serif", 10F),
-				//TitleAlignment = StringAlignment.Far
-			},
-			AxisY = new Axis
-			{
-				Minimum = ChartAreaModel.AxisYMinimum,
-				Maximum = ChartAreaModel.AxisYMaximum,
-				Interval = ChartAreaModel.AxisYInterval,
-				LabelStyle = new LabelStyle
-				{
-					Enabled = false
-				}
+				Minimum = segment.First() - 100,
+				Maximum = segment.Last() + 100,
+				ScaleView = ChartAreaRendersHelper.GetScaleView,
+				ScrollBar = ChartAreaRendersHelper.GetScrollBar
 			}
 		};
-
-		chartArea.AxisX.ScaleView.Zoom(ChartAreaModel.AxisXMinimum,ChartAreaModel.AxisXMinimum + ChartAreaModel.ZoomShift);
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
 	}
@@ -112,64 +90,38 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 	{
 		var settings = (SpeedLimitChangingModeSettingsModel)modeSettings;
 
-/*		var startLineSeries = new Series
-		{
-			Name = "StartLine",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 2,
-			Color = Color.Red,
-			IsVisibleInLegend = false
-		};
-		startLineSeries.Points.Add(new DataPoint(0, 0));
-		startLineSeries.Points.Add(new DataPoint(0, 1));
+		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
+		settings.MapTo(segmentSpeeds);
 
-		var endLineSeries = new Series
+		var series = new List<Series>();
+		foreach (var segment in segmentSpeeds)
 		{
-			Name = "EndLine",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 2,
-			Color = Color.Red,
-			IsVisibleInLegend = false
-		};
-		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 0));
-		endLineSeries.Points.Add(new DataPoint(modelParameters.L, 1));
-		
-		var segmentBeginSeries = new Series
-		{
-			Name = "SegmentBegin",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 2,
-			Color = Color.Blue,
-			IsVisibleInLegend = false
-		};
-		segmentBeginSeries.Points.Add(new DataPoint(settings.SegmentBeginning, 0));
-		segmentBeginSeries.Points.Add(new DataPoint(settings.SegmentBeginning, 1));
+			var segmentSeries = new Series
+			{
+				Name = "SegmentBegin" + segment.Key,
+				ChartType = SeriesChartType.Line,
+				ChartArea = _chartAreaName,
+				BorderWidth = 2,
+				Color = Color.Blue,
+				IsVisibleInLegend = false
+			};
+			segmentSeries.Points.Add(new DataPoint(segment.Value.SegmentBeginning, 0));
+			segmentSeries.Points.Add(new DataPoint(segment.Value.SegmentBeginning, 1));
 
-		var segmentEndSeries = new Series
-		{
-			Name = "SegmentEnd",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 2,
-			Color = Color.Blue,
-			IsVisibleInLegend = false
-		};
-		segmentEndSeries.Points.Add(new DataPoint(settings.SegmentEnding, 0));
-		segmentEndSeries.Points.Add(new DataPoint(settings.SegmentEnding, 1));
+			series.Add(segmentSeries);
+		}
 
-		return new[]
-		{
-			startLineSeries,
-			endLineSeries,
-			segmentBeginSeries,
-			segmentEndSeries
-		};*/
-		return new Series[]
-		{
-			
-		} ;
+		return series.ToArray();
+	}
+
+	private List<double> GetSegmentList(SpeedLimitChangingModeSettingsModel settings)
+	{
+		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
+		settings.MapTo(segmentSpeeds);
+
+		return segmentSpeeds
+			.Where(x => x.Key != 0 && x.Key != settings.SegmentsNumber + 1)
+			.Select(x=> x.Value.SegmentBeginning)
+			.ToList();;
 	}
 }

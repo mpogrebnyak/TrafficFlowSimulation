@@ -20,15 +20,9 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 		var modelParameters = p.ModelParameters;
 		var modeSettings = (SpeedLimitChangingModeSettingsModel) p.ModeSettings;
 		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
-		segmentSpeeds.Add(0, new SegmentModel
-			{
-				SegmentBeginning = modelParameters.lambda.Last(),
-				Speed = 16
-			}
-		);
-		
+
 		modeSettings.MapTo(segmentSpeeds);
-		
+
 		var r = new RungeKuttaMethod(modelParameters, new EquationWithSpeedLimitChanging(modelParameters, segmentSpeeds));
 		var n = modelParameters.n;
 		var initialSpeed = new double[n];
