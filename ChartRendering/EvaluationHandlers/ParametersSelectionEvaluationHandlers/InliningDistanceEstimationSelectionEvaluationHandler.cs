@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
-using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
+using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
-using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 using Helper = ChartRendering.Helpers.InliningDistanceEstimationSelectionEvaluationHelper;
 
 namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
@@ -26,7 +23,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			return;
 
 		var settings = (InliningDistanceEstimationSettingsModel) p.ModeSettings;
-		var form = p.Form;
+		//var form = p.Form;
 		/*var progressBarHelper = new ProgressBarHelper(form);
 
 		if (((ComboBoxItem) settings.IsParametersEvaluated).Value.Equals(EvaluateParameters.No))
@@ -102,11 +99,11 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		var preCalculatedParameters = (List<InliningDistanceEstimationCoordinatesModel>) p.PreCalculatedParameters;
 
 		MethodInvoker action = delegate
-		{
-			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(preCalculatedParameters);
+		{ 
+			//ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(preCalculatedParameters);
 		};
 
-		p.Form.Invoke(action);
+		//p.Form.Invoke(action);
 
 		var filePath = Helper.CreatePointsFile(modelParameters.k[1]);
 		Helper.GenerateCharts(filePath);

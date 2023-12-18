@@ -5,12 +5,11 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
-using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
+using ChartRendering.Models;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Renders;
-using TrafficFlowSimulation.Renders.ChartRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -57,9 +56,9 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		}
 	}
 
-	public override void UpdateChart(object parameters)
+	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var coordinatesModel = (List<DecelerationCoefficientEstimationCoordinatesModel>) parameters;
+	/*	var coordinatesModel = (List<DecelerationCoefficientEstimationCoordinatesModel>) parameters;
 
 		foreach (var cm in coordinatesModel)
 		{
@@ -71,7 +70,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green.Name);
 		_chart.Series.Single(series => series.Name.Contains(CustomColors.Green.Name))
 			.Points
-			.AddXY(optimalValue.X, optimalValue.Y);
+			.AddXY(optimalValue.X, optimalValue.Y);*/
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)

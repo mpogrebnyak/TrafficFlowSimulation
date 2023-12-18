@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Practices.ServiceLocation;
-using Settings;
-using TrafficFlowSimulation.Renders.ChartRenders;
+using Modes;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders
 {
@@ -18,7 +17,7 @@ namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders
 
 		public static void DisplayChartLegend(Chart chart, LegendStyle? legendStyle)
 		{
-			var currentDrivingMode = SettingsHelper.Get<Properties.ChartRenderingSettings>().CurrentDrivingMode;
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			var provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + currentDrivingMode);
 
 			provider.ShowChartLegend(legendStyle);
@@ -26,7 +25,7 @@ namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders
 
 		public static void DisplayChartAxes(Chart chart, bool isHidden = false)
 		{
-			var currentDrivingMode = SettingsHelper.Get<Properties.ChartRenderingSettings>().CurrentDrivingMode;
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			var provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + currentDrivingMode);
 
 			provider.SetChartAreaAxisTitle(isHidden);

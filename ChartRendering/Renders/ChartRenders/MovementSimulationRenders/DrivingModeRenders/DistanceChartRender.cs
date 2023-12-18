@@ -5,8 +5,6 @@ using ChartRendering.ChartRenderModels;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Renders.ChartRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
@@ -17,15 +15,6 @@ public abstract class DistanceChartRender : ChartsRender
 	protected override string _seriesName => "DistanceSeries";
 
 	protected override string _chartAreaName => "DistanceChartArea";
-
-	protected readonly ChartAreaModel ChartAreaModel = new()
-	{
-		AxisXMinimum = 0,
-		AxisXMaximum = 60,
-		AxisXInterval = 20,
-		AxisYMinimum = 0,
-		AxisYMaximum = 0,
-	};
 
 	protected DistanceChartRender(Chart chart) : base(chart)
 	{

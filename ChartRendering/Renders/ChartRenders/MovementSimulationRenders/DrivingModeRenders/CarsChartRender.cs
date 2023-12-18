@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Renders.ChartRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
+using Settings;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
@@ -16,17 +17,8 @@ public abstract class CarsChartRender : ChartsRender
 	protected override string _seriesName => "CarsMovementSeries";
 
 	protected override string _chartAreaName => "CarsMovementChartArea";
-
-	protected readonly ChartAreaModel ChartAreaModel = new()
-	{
-		AxisXMinimum = -30,
-		AxisXMaximum = 10,
-		AxisXInterval = 10,
-		AxisYMinimum = 0,
-		AxisYMaximum = 1,
-		AxisYInterval = 1,
-		ZoomShift = 48
-	};
+	
+	private readonly MemoryCache _cache = MemoryCache.Default;
 
 	protected CarsChartRender(Chart chart) : base(chart)
 	{
@@ -43,7 +35,7 @@ public abstract class CarsChartRender : ChartsRender
 			}
 			else
 			{
-			//	_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
+				//_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartResources>().TimeAxisTitleText;
 			}
 		}
 	}
@@ -71,4 +63,39 @@ public abstract class CarsChartRender : ChartsRender
 	{
 		TrafficCapacityHelper.UpdateTrafficCapacity(_chart.Series, values, t);
 	}
+
+	public override void SetMarkerImage(object? parameters = null)
+	{
+		if (parameters != null)
+			_cache.Add(new CacheItem("length",parameters), new CacheItemPolicy());
+
+		if(_cache.Get("length") is not List<double> length)
+			return;
+
+		var path = SettingsHelper.Get<Properties.ChartRenderingSettings>().PaintedCarsFolder;
+		_chart.Update();
+		_chart.ApplyPaletteColors();
+		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		{
+			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+
+			var lengthOfSingleSegmentXPixels =
+				(float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(1) - (float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(0);
+			var lengthOfSingleSegmentYPixels =
+				(float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(1);
+
+			var bmp = new Bitmap(path + "\\" + _colorPalette + "\\" + series.Color.Name + ".png");
+			var newBitmap = new Bitmap(bmp, 
+				(int)lengthOfSingleSegmentXPixels * 2 * (int)length[i], 
+				(int)lengthOfSingleSegmentYPixels / 5);
+
+			if (_chart.Images.Any(x => x.Name == "MarkerImage" + i))
+				_chart.Images["MarkerImage" + i] = new NamedImage("MarkerImage" + i, newBitmap);
+			else
+				_chart.Images.Add(new NamedImage("MarkerImage" + i, newBitmap));
+
+			series.MarkerImage = "MarkerImage" + i;
+		}
+	}
+	
 }

@@ -5,7 +5,6 @@ using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
-using TrafficFlowSimulation.Renders.ChartRenders;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
 

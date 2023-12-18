@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
-using ChartRendering.Handlers;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
+using ChartRendering.Constants;
+using ChartRendering.Events;
+using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
-using Microsoft.Practices.ServiceLocation;
 
 namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
@@ -25,7 +25,7 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 		var tp = t;
 		var x = new double[n];
 		var y = new double[n];
-		for (int i = 0; i < n; i++)
+		for (var i = 0; i < n; i++)
 		{
 			x[i] = r.X(i).Last();
 			y[i] = r.Y(i).Last();
@@ -43,7 +43,7 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 				}
 			}
 
-			for (int i = 0; i < n; i++)
+			for (var i = 0; i < n; i++)
 			{
 				xp[i] = x[i];
 				yp[i] = y[i];
@@ -51,7 +51,7 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 
 			r.Solve();
 			t = r.T.Last();
-			for (int i = 0; i < n; i++)
+			for (var i = 0; i < n; i++)
 			{
 				x[i] = r.X(i).Last();
 				y[i] = r.Y(i).Last();
@@ -60,27 +60,18 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 			if (t - tp > 0.1)
 			{
 				tp = t;
-				MethodInvoker action = delegate
-				{
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
-						new CoordinatesModel
-						{
-							t = t,
-							x = x.ToList(),
-							y = y.ToList()
-						});
 
-					/*if (p.ModeSettings.AutoScroll == AutoScroll.Yes)
+				p.ChartEventHandler.Invoke(
+					new List<ChartEventActions>
 					{
-						var scaleView = carsMovementChart.ChartAreas[0].AxisX.ScaleView;
-						scaleView.Scroll(Math.Round(x[p.ModeSettings.ScrollFor]) - 25);
-					}*/
-
-					Thread.Sleep(20);
-					Application.DoEvents();
-				};
-
-				p.Form.Invoke(action);
+						ChartEventActions.UpdateCharts
+					},
+					new ChartEventHandlerArgs(new CoordinatesArgs
+					{
+						t = t,
+						x = x.ToList(),
+						y = y.ToList()
+					}));
 			}
 		}
 	}

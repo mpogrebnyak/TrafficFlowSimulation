@@ -1,12 +1,9 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using ChartRendering.Handlers;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
-using Microsoft.Practices.ServiceLocation;
 
 namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
@@ -92,18 +89,18 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 				MethodInvoker action = delegate
 				{
-					ServiceLocator.Current.GetInstance<RenderingHandler>().AddSeries(index);
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
-						new CoordinatesModel
-						{
-							t = t,
-							x = x.ToList(),
-							y = y.ToList()
-						});
-					Application.DoEvents();
+			//		ServiceLocator.Current.GetInstance<RenderingHandler>().AddSeries(index);
+			//		ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
+			//			new CoordinatesModel
+			//			{
+			//				t = t,
+			//				x = x.ToList(),
+			//				y = y.ToList()
+			//			});
+			//		Application.DoEvents();
 				};
 
-				p.Form.Invoke(action);
+		//		p.Form.Invoke(action);
 			}
 
 			if (t - tp > 0.01)
@@ -111,19 +108,19 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				tp = t;
 				MethodInvoker action = delegate
 				{
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
-						new CoordinatesModel
-						{
-							t = t,
-							x = x.ToList(),
-							y = y.ToList()
-						});
+	//				ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
+	//					new CoordinatesModel
+	//					{
+	//						t = t,
+	//						x = x.ToList(),
+	//						y = y.ToList()
+	//					});
 
 					Thread.Sleep(20);
 					Application.DoEvents();
 				};
 
-				p.Form.Invoke(action);
+		//		p.Form.Invoke(action);
 			}
 		}
 	}

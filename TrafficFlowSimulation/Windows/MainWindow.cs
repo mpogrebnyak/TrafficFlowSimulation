@@ -2,15 +2,14 @@
 using System.IO;
 using System.Windows.Forms;
 using ChartRendering.EvaluationHandlers;
-using ChartRendering.Handlers;
-using ChartRendering.Models;
 using ChartRendering.Properties;
 using Common.Errors;
 using Common.Modularity;
 using Microsoft.Practices.ServiceLocation;
+using Modes;
 using Settings;
+using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
-using TrafficFlowSimulation.Models;
 
 namespace TrafficFlowSimulation.Windows
 {
@@ -39,39 +38,7 @@ namespace TrafficFlowSimulation.Windows
 
 			ControlMenuStrip.Renderer = new ControlToolStripCustomRender();
 
-			var allCharts = new AllChartsModel
-			{
-				SpeedChart = SpeedChart,
-				DistanceChart = DistanceChart,
-				SpeedFromDistanceChart = SpeedFromDistanceChart,
-				CarsMovementChart = CarsMovementChart
-			};
-
-			var localizationComponents = new LocalizationComponentsModel
-			{
-				AllCharts = allCharts,
-				ParametersErrorProvider = ParametersErrorProvider,
-				LanguagesSwitcherButton = LanguagesSwitcherButton,
-				StartToolStripButton = StartToolStripButton,
-				StopToolStripButton = StopToolStripButton,
-				ContinueToolStripButton = ContinueToolStripButton,
-				DrivingModeStripLabel = DrivingModeStripLabel,
-				MovementParametersGroupBox = MovementParametersGroupBox,
-				BasicParametersGroupBox = BasicParametersGroupBox,
-				AdditionalParametersGroupBox = AdditionalParametersGroupBox,
-				InitialConditionsGroupBox = InitialConditionsGroupBox,
-				ModeSettingsGroupBox = ModeSettingsGroupBox,
-				ControlsGroupBox = ControlsGroupBox,
-				DrivingModeStripDropDownButton = DrivingModeStripDropDownButton,
-				SubmitButton = SubmitButton,
-				ParametersSelectionToolStripButton = ParametersSelectionToolStripButton,
-				EstimateTrafficCapacityCheckBox = EstimateTrafficCapacityCheckBox
-			};
-
-			var mainWindowConfiguration = new MainWindowConfiguration(localizationComponents,
-				allCharts,
-				ParametersErrorProvider,
-				Controls);
+			var mainWindowConfiguration = new MainWindowConfiguration(this);
 
 			mainWindowConfiguration.Initialize();
 
@@ -85,31 +52,31 @@ namespace TrafficFlowSimulation.Windows
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ChartRenderingHandler>().RenderCharts(modelParameters, modeSettings);
 
-			var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode;
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).Execute(
-				this,
 				modelParameters,
-				modeSettings);
+				modeSettings,
+				FormUpdateHandler.GetEvent());
 		}
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var currentDrivingMode = SettingsHelper.Get<ChartRenderingSettings>().CurrentDrivingMode;
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 		}
 
 		private void StopToolStripButton_Click(object sender, EventArgs e)
 		{
-			var currentDrivingMode = SettingsHelper.Get<ChartRenderingSettings>().CurrentDrivingMode;
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).StopExecution();
 		}
 
 		private void ContinueToolStripButton_Click(object sender, EventArgs e)
 		{
-			var currentDrivingMode = SettingsHelper.Get<ChartRenderingSettings>().CurrentDrivingMode;
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).StartExecution();
 		}
 
@@ -120,10 +87,9 @@ namespace TrafficFlowSimulation.Windows
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
 		{
-			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<RenderingHandler>())
+			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<ChartRenderingHandler>())
 			{
-				var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-				ServiceLocator.Current.GetInstance<RenderingHandler>().SetMarkerImage(modelParameters.lCar);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>().SetMarkerImage();
 			}
 		}
 
@@ -140,7 +106,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void EstimateTrafficCapacityCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			var settings = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>();
+			var settings = SettingsHelper.Get<ChartRenderingSettings>();
 			settings.IsTrafficCapacityAvailable = EstimateTrafficCapacityCheckBox.Checked;
 			SettingsHelper.Set(settings);
 
@@ -152,7 +118,7 @@ namespace TrafficFlowSimulation.Windows
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ChartRenderingHandler>().RenderCharts(modelParameters, modeSettings);
 		}
 
 		private void HandleError(object sender, ErrorEventArgs errorEventArgs)

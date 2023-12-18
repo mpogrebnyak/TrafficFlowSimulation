@@ -5,52 +5,48 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Attribute;
-using ChartRendering.Constants.Modes;
-using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using Localization;
 using Localization.Localization;
+using Modes;
+using Modes.Constants;
 using Settings;
-using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Constants.Modes;
-using TrafficFlowSimulation.Helpers;
-using TrafficFlowSimulation.Models;
 using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
+using TrafficFlowSimulation.Windows;
 
-namespace TrafficFlowSimulation.Windows.Helpers;
+namespace TrafficFlowSimulation.Helpers;
 
 public class LocalizationWindowHelper
 {
-	public LocalizationComponentsModel _lc;
+	private readonly MainWindow _form;
 
-	public LocalizationWindowHelper(LocalizationComponentsModel localizationComponentsModel)
+	public LocalizationWindowHelper(MainWindow form)
 	{
-		_lc = localizationComponentsModel;
+		_form = form;
 	}
 
 	public void LocalizeComponents()
 	{
-		_lc.StartToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().StartButtonTitle;
-		_lc.StopToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().StopButtonTitle;
-		_lc.ContinueToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ContinueButtonTitle;
-		_lc.DrivingModeStripLabel.Text = LocalizationHelper.Get<MainWindowResources>().DrivingModeLabel;
-		_lc.MovementParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().MovementParametersGroupBoxText;
-		_lc.ModeSettingsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().ModeSettingsGroupBoxText;
-		_lc.BasicParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().BasicParametersGroupBoxText;
-		_lc.AdditionalParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().AdditionalParametersGroupBoxText;
-		_lc.InitialConditionsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().InitialConditionsGroupBoxText;
-		_lc.ControlsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().ControlsGroupBoxText;
-		_lc.SubmitButton.Text = LocalizationHelper.Get<MainWindowResources>().SubmitButtonText;
-		_lc.ParametersSelectionToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ParametersSelectionButtonText;
-		_lc.EstimateTrafficCapacityCheckBox.Text = LocalizationHelper.Get<MainWindowResources>().EstimateTrafficCapacityCheckBoxText;
+		_form.StartToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().StartButtonTitle;
+		_form.StopToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().StopButtonTitle;
+		_form.ContinueToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ContinueButtonTitle;
+		_form.DrivingModeStripLabel.Text = LocalizationHelper.Get<MainWindowResources>().DrivingModeLabel;
+		_form.MovementParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().MovementParametersGroupBoxText;
+		_form.ModeSettingsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().ModeSettingsGroupBoxText;
+		_form.BasicParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().BasicParametersGroupBoxText;
+		_form.AdditionalParametersGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().AdditionalParametersGroupBoxText;
+		_form.InitialConditionsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().InitialConditionsGroupBoxText;
+		_form.ControlsGroupBox.Text = LocalizationHelper.Get<MainWindowResources>().ControlsGroupBoxText;
+		_form.SubmitButton.Text = LocalizationHelper.Get<MainWindowResources>().SubmitButtonText;
+		_form.ParametersSelectionToolStripButton.Text = LocalizationHelper.Get<MainWindowResources>().ParametersSelectionButtonText;
+		_form.EstimateTrafficCapacityCheckBox.Text = LocalizationHelper.Get<MainWindowResources>().EstimateTrafficCapacityCheckBoxText;
 
-		foreach (DrivingMode value in SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().AvailableDrivingModes)
+		foreach (var value in ModesHelper.GetAvailableDrivingModes())
 		{
-			_lc.DrivingModeStripDropDownButton.DropDownItems.Cast<ToolStripMenuItem>().Single(x => x.Name == value.ToString()).Text = value.GetDescription();
+			_form.DrivingModeStripDropDownButton.DropDownItems.Cast<ToolStripMenuItem>().Single(x => x.Name == value.ToString()).Text = value.GetDescription();
 
-			if (value == SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode)
-				_lc.DrivingModeStripDropDownButton.Text = value.GetDescription();
+			if (value == ModesHelper.GetCurrentDrivingMode())
+				_form.DrivingModeStripDropDownButton.Text = value.GetDescription();
 		}
 
 		LocalizeCharts();
@@ -58,9 +54,10 @@ public class LocalizationWindowHelper
 
 	private void LocalizeCharts()
 	{
-		LocalizeChartLegend(_lc.AllCharts.DistanceChart);
-		LocalizeChartLegend(_lc.AllCharts.SpeedChart);
-		LocalizeChartLegend(_lc.AllCharts.CarsMovementChart);
+		LocalizeChartLegend(_form.DistanceChart);
+		LocalizeChartLegend(_form.SpeedChart);
+		LocalizeChartLegend(_form.CarsMovementChart);
+		//LocalizeChartLegend(_form.SpeedFromDistanceChart);
 
 		/*LocalizeAxes(_lc.AllCharts.DistanceChart,
 			LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,

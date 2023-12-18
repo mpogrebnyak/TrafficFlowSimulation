@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using ChartRendering.Constants.Modes;
-using ChartRendering.EvaluationHandlers;
+﻿using ChartRendering.EvaluationHandlers;
 using ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 using ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
 using Common;
 using Common.Modularity;
-using Settings;
-using TrafficFlowSimulation.Constants.Modes;
+using Modes;
+using Modes.Constants;
 
 namespace ChartRendering.Configurations;
 
@@ -20,7 +18,7 @@ public class HandlersConfiguration : IInitializable
 
 	private void InitializeMovementSimulationEvaluationHandlers()
 	{
-		var availableModes = SettingsHelper.Get<Properties.ChartRenderingSettings>().AvailableDrivingModes.ToList();
+		var availableModes = ModesHelper.GetAvailableDrivingModes();
 
 		if (availableModes.Contains(DrivingMode.StartAndStopMovement))
 		{
@@ -49,7 +47,7 @@ public class HandlersConfiguration : IInitializable
 
 	private void InitializeParametersSelectionEvaluationHandlers()
 	{
-		var parametersSelectionModes = SettingsHelper.Get<Properties.ChartRenderingSettings>().AvailableParametersSelectionModes.ToList();
+		var parametersSelectionModes = ModesHelper.GetAvailableParametersSelectionMode();;
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistanceEstimation))
 		{

@@ -7,13 +7,21 @@ using Microsoft.Build.Framework;
 
 namespace ChartRendering.ChartRenderModels;
 
-public abstract class BaseSettingsModels : ISettingsModel
+public abstract class BaseSettingsModels : ValidationModel, ISettingsModel
 {
 	protected const double MaxL = (double) (decimal.MaxValue / 2);
 
+	/*[Translation(Locales.ru, "Следовать за автомобилем")]
+	[CustomDisplay(1, enumType: typeof(AutoScroll))]
+	public virtual EnumItem AutoScroll { get; set; }
+
+	[Translation(Locales.ru, "Следовать за автомобилем №")]
+	[CustomDisplay(2)]
+	public virtual int ScrollFor { get; set; }*/
+
 	[Translation(Locales.ru, "Расстояние до остановки")]
 	[Translation(Locales.en, "Distance to the stop")]
-	[CustomDisplay(1)]
+	[CustomDisplay(3)]
 	[Required]
 	public virtual double L { get; set; }
 

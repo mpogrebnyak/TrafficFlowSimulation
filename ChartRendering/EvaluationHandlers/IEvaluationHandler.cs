@@ -1,14 +1,14 @@
-﻿using System.Windows.Forms;
-using ChartRendering.ChartRenderModels;
+﻿using ChartRendering.ChartRenderModels;
+using ChartRendering.Events;
 using EvaluationKernel.Models;
 
 namespace ChartRendering.EvaluationHandlers;
 
 public interface IEvaluationHandler
 {
-	public void Execute(Form form, ModelParameters modelParameters, BaseSettingsModels modeSettings);
+	public void Execute(ModelParameters modelParameters, BaseSettingsModels modeSettings, ChartEventHandler chartEventHandler);
 
-	public void ExecutePreCalculated(Form form, ModelParameters modelParameters, BaseSettingsModels modeSettings, object preCalculatedParameters);
+	public void ExecutePreCalculated(ModelParameters modelParameters, BaseSettingsModels modeSettings, object preCalculatedParameters);
 
 	public void StartExecution();
 

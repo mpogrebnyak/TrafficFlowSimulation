@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using Settings;
-using TrafficFlowSimulation.Constants;
 
 namespace ChartRendering.Renders
 {

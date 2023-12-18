@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using ChartRendering.ChartRenderModels;
-using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
-using ChartRendering.Properties;
+using ChartRendering.ChartRenderModels.ParametersModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
-using Settings;
+using Modes;
+using Modes.Constants;
+using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Constants;
-using TrafficFlowSimulation.Constants.Modes;
-using TrafficFlowSimulation.Windows.Components;
 
 namespace TrafficFlowSimulation.Helpers;
 
@@ -80,7 +80,7 @@ public class ParametersSelectionWindowHelper
 
 	public BaseSettingsModels CollectModeSettingsFromBindingSource(ModelParameters modelParameters)
 	{
-		var currentParametersSelectionMode = SettingsHelper.Get<ChartRenderingSettings>().CurrentParametersSelectionMode;
+		var currentParametersSelectionMode =  ModesHelper.GetCurrentParametersSelectionMode();
 		_bindingSources.ForEach(x => x.Value.EndEdit());
 
 		var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentParametersSelectionMode.ToString());
@@ -96,7 +96,7 @@ public class ParametersSelectionWindowHelper
 		var modelParameters = new ModelParameters();
 		_bindingSources.ForEach(x => x.Value.EndEdit());
 
-		var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
+		var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 
 		switch (currentParametersSelectionMode)
 		{
@@ -137,7 +137,7 @@ public class ParametersSelectionWindowHelper
 
 	private void GetModelTypes(out Type? modelType, out Type? settingsModelType)
 	{
-		var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
+		var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 
 		switch (currentParametersSelectionMode)
 		{

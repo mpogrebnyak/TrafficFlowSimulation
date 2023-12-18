@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 using ChartRendering.ChartRenderModels.SettingsModels;
-using ChartRendering.Handlers;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
+using ChartRendering.Constants;
+using ChartRendering.Events;
+using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
-using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 
 namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
@@ -59,7 +57,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 			r.Solve();
 			t = r.T.Last();
 
-			for (int i = 0; i < n; i++)
+			for (var i = 0; i < n; i++)
 			{
 				x[i] = r.X(i).Last();
 				y[i] = r.Y(i).Last();
@@ -88,28 +86,25 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 			if (t - tp > 0.1)
 			{
 				tp = t;
-				MethodInvoker action = delegate
-				{
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
-						new CoordinatesModel
-						{
-							t = t,
-							x = x.ToList(),
-							y = y.ToList()
-						});
-					ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateChartEnvironments(
-						new EnvironmentModel
-						{
-							IsGreenLight = isGreenLight,
-							GreenTime = modeSettings.SingleLightGreenTime - t % circleTime,
-							RedTime = circleTime - t % circleTime
-						});
 
-					Thread.Sleep(20);
-					Application.DoEvents();
-				};
-
-				p.Form.Invoke(action);
+				p.ChartEventHandler.Invoke(
+					new List<ChartEventActions>
+					{
+						ChartEventActions.UpdateCharts,
+						ChartEventActions.UpdateChartEnvironments
+					},
+					new ChartEventHandlerArgs(new CoordinatesArgs
+					{
+						t = t,
+						x = x.ToList(),
+						y = y.ToList()
+					},
+					new EnvironmentArgs
+					{
+						IsGreenLight = isGreenLight,
+						GreenTime = modeSettings.SingleLightGreenTime - t % circleTime,
+						RedTime = circleTime - t % circleTime
+					}));
 			}
 		}
 	}

@@ -1,11 +1,10 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
+using ChartRendering.Configurations;
 using Common;
 using Common.Modularity;
+using TrafficFlowSimulation.Configurations;
 using TrafficFlowSimulation.Helpers;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
-using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows;
 

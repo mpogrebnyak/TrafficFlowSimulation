@@ -7,13 +7,12 @@ using ChartRendering.Properties;
 using Localization;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
-using TrafficFlowSimulation.Renders.ChartRenders;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 
 public static class TrafficCapacityHelper
 {
-	private static Dictionary<int, int> _trafficCapacity = new Dictionary<int, int>()
+	private static Dictionary<int, int> _trafficCapacity = new()
 	{
 		{60, 0},
 		{120, 0},

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
+using ChartRendering.Models;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Renders.ChartRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -47,16 +46,16 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		_chart.Series.Where(series => series.Name.Contains(_pointColors.First().Name));
 	}
 
-	public override void UpdateChart(object parameters)
+	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var coordinatesModel = (List<InliningDistanceEstimationCoordinatesModel>) parameters;
+	/*	var coordinatesModel = (List<InliningDistanceEstimationCoordinatesModel>) parameters;
 
 		foreach (var cm in coordinatesModel)
 		{
 			_chart.Series.Single(series => series.Name.Contains(cm.Color))
 				.Points
 				.AddXY(cm.X, cm.Y);
-		}
+		}*/
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)

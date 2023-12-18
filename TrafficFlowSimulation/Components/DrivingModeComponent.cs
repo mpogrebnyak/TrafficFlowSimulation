@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
-using ChartRendering.Constants.Modes;
 using ChartRendering.EvaluationHandlers;
-using ChartRendering.Handlers;
 using Localization;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
-using Settings;
+using Modes;
+using Modes.Constants;
+using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders;
 using TrafficFlowSimulation.Windows.Components;
 
 namespace TrafficFlowSimulation.Components;
@@ -27,7 +25,7 @@ public class DrivingModeComponent : IComponent
 	public void Initialize()
 	{
 		_modeButton.DropDownItems.Clear();
-		var availableModes = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().AvailableDrivingModes.ToList();
+		var availableModes = ModesHelper.GetAvailableDrivingModes();
 
 		foreach (DrivingMode mode in Enum.GetValues(typeof(DrivingMode)))
 		{
@@ -62,20 +60,17 @@ public class DrivingModeComponent : IComponent
 		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu)?.OwnerItem;
 		if (owner != null) owner.Text = selectedModeItem.Text;
 
-		var currentDrivingMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentDrivingMode;
+		var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 		ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
 
 		var mode = (DrivingMode) Enum.Parse(typeof(DrivingMode), selectedModeItem.Name);
+		ModesHelper.SetCurrentDrivingMode(mode);
 
-		var settings = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>();
-		settings.CurrentDrivingMode = mode;
-		SettingsHelper.Set(settings);
-
-		ServiceLocator.Current.GetInstance<RenderingHandler>().ChangeDrivingMode(mode);
+		ServiceLocator.Current.GetInstance<ChartRenderingHandler>().InitializeChartProviders(mode);
 		ServiceLocator.Current.GetInstance<MainWindowHelper>().InitializeTableLayoutPanelComponent();
 
 		var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 		var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
-		ServiceLocator.Current.GetInstance<RenderingHandler>().RenderCharts(modelParameters, modeSettings);
+		ServiceLocator.Current.GetInstance<ChartRenderingHandler>().RenderCharts(modelParameters, modeSettings);
 	}
 }

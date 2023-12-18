@@ -4,12 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
-using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
+using ChartRendering.Models;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Renders;
-using TrafficFlowSimulation.Renders.ChartRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -55,16 +54,16 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		}
 	}
 
-	public override void UpdateChart(object parameters)
+	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var coordinatesModel = (List<CoefficientEstimationCoordinatesModel>) parameters;
+		//var coordinatesModel = (List<CoefficientEstimationCoordinatesModel>) parameters;
 
-		foreach (var cm in coordinatesModel)
-		{
-			_chart.Series.Single(series => series.Name.Contains(cm.Color))
-				.Points
-				.AddXY(cm.X, cm.Y);
-		}
+	//	foreach (var cm in coordinatesModel)
+	//	{
+	//		_chart.Series.Single(series => series.Name.Contains(cm.Color))
+	//			.Points
+	//			.AddXY(cm.X, cm.Y);
+	//	}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)

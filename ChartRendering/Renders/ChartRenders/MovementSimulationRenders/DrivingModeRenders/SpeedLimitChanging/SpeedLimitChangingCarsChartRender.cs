@@ -6,7 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Helpers;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
+using ChartRendering.Models;
 using EvaluationKernel.Models;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
@@ -43,10 +43,8 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 		SetMarkerImage(modelParameters.lCar);
 	}
 
-	public override void UpdateChart(object parameters)
+	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var cm = (CoordinatesModel) parameters;
-
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
@@ -54,16 +52,17 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if(_chart.Series[i].Points.Any())
 				_chart.Series[i].Points.RemoveAt(0);
-			if (cm.x[i] > ChartAreaModel.AxisXMinimum)
+			
+			if (coordinates.x[i] > GetChartArea(_chartAreaName).AxisX.Minimum)
 			{
-				_chart.Series[i].Points.AddXY(cm.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				_chart.Series[i].Points.AddXY(coordinates.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, cm.y[i], cm.x[i]);
-			UpdateLabel(i, showLegend, cm.y[i], cm.x[i]);
+			UpdateLegend(i, showLegend, coordinates.y[i], coordinates.x[i]);
+			UpdateLabel(i, showLegend, coordinates.y[i], coordinates.x[i]);
 		}
-		UpdateChartEnvironment(cm.x, cm.t);
+		UpdateChartEnvironment(coordinates.x, coordinates.t);
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)

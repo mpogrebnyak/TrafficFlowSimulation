@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using ChartRendering.ChartRenderModels.ParametersSelectionSettingsModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
+using ChartRendering.Models;
 using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 using Helper = ChartRendering.Helpers.DecelerationCoefficientEstimationSelectionEvaluationHelper;
 
 namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
@@ -65,10 +64,10 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 
 		MethodInvoker action = delegate
 		{
-			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(cm);
-			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChartEnvironments(em);
+			//ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(cm);
+		//	ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChartEnvironments(em);
 		};
-		p.Form.Invoke(action);
+	//	p.Form.Invoke(action);
 	}
 
 	private DecelerationCoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters)

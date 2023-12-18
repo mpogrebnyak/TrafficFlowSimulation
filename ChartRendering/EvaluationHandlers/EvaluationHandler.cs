@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Events;
 using Common.Errors;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
@@ -23,24 +24,24 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		_thread = null;
 	}
 
-	public void Execute(Form form, ModelParameters modelParameters, BaseSettingsModels modeSettings)
+	public void Execute(ModelParameters modelParameters, BaseSettingsModels modeSettings, ChartEventHandler chartEventHandler)
 	{
 		var parameters = new Parameters
 		{
-			Form = form,
 			ModelParameters = modelParameters,
-			ModeSettings = modeSettings
+			ModeSettings = modeSettings,
+			ChartEventHandler = chartEventHandler
 		};
 
 		_thread = new Thread(RunEvaluation);
 		_thread.Start(parameters);
 	}
 
-	public void ExecutePreCalculated(Form form, ModelParameters modelParameters, BaseSettingsModels modeSettings, object preCalculatedParameters)
+	public void ExecutePreCalculated(ModelParameters modelParameters, BaseSettingsModels modeSettings, object preCalculatedParameters)
 	{
 		var parameters = new Parameters
 		{
-			Form = form,ModelParameters = modelParameters,
+			ModelParameters = modelParameters,
 			ModeSettings = modeSettings,
 			PreCalculatedParameters = preCalculatedParameters
 		};
@@ -90,12 +91,12 @@ public abstract class EvaluationHandler : IEvaluationHandler
 
 	protected class Parameters
 	{
-		public Form Form;
-
 		public ModelParameters ModelParameters;
 
 		public BaseSettingsModels ModeSettings;
 
 		public object PreCalculatedParameters;
+
+		public ChartEventHandler ChartEventHandler;
 	}
 }

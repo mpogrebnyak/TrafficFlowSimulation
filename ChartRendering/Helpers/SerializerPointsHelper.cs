@@ -1,6 +1,5 @@
-﻿using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders.Models;
+﻿using ChartRendering.Models;
 using Common;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace ChartRendering.Helpers;
 

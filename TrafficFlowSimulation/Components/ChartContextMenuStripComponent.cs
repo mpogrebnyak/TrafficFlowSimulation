@@ -1,20 +1,19 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using ChartRendering.Models;
 using Localization;
-using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Properties.LocalizationResources;
-using TrafficFlowSimulation.Windows.Models;
+using TrafficFlowSimulation.Windows;
+using TrafficFlowSimulation.Windows.Components;
 
-namespace TrafficFlowSimulation.Windows.Components;
+namespace TrafficFlowSimulation.Components;
 
 public class ChartContextMenuStripComponent : IComponent
 {
-	private AllChartsModel _allChartsModel;
+	private readonly MainWindow _form;
 
-	public ChartContextMenuStripComponent(AllChartsModel allChartsModel)
+	public ChartContextMenuStripComponent(MainWindow form)
 	{
-		_allChartsModel = allChartsModel;
+		_form = form;
 	}
 
 	private static class MenuItemName
@@ -34,9 +33,10 @@ public class ChartContextMenuStripComponent : IComponent
 
 	public void Initialize()
 	{
-		_allChartsModel.DistanceChart.ContextMenuStrip = null;
-		_allChartsModel.SpeedChart.ContextMenuStrip = null;
-		_allChartsModel.CarsMovementChart.ContextMenuStrip = null;
+		_form.DistanceChart.ContextMenuStrip = null;
+		_form.SpeedChart.ContextMenuStrip = null;
+		_form.CarsMovementChart.ContextMenuStrip = null;
+		_form.SpeedFromDistanceChart.ContextMenuStrip = null;
 
 		var helper = new ChartContextMenuStripComponentHelper();
 		var resources = LocalizationHelper.Get<ContextMenuResources>();
@@ -70,8 +70,9 @@ public class ChartContextMenuStripComponent : IComponent
 
 		contextMenuStrip.Renderer = new ToolStripProfessionalRenderer(new SubMenuCustomColorTable());
 
-		_allChartsModel.DistanceChart.ContextMenuStrip = contextMenuStrip;
-		_allChartsModel.SpeedChart.ContextMenuStrip = contextMenuStrip;
-		_allChartsModel.CarsMovementChart.ContextMenuStrip = contextMenuStrip;
+		_form.DistanceChart.ContextMenuStrip = contextMenuStrip;
+		_form.SpeedChart.ContextMenuStrip = contextMenuStrip;
+		_form.CarsMovementChart.ContextMenuStrip = contextMenuStrip;
+		_form.SpeedFromDistanceChart.ContextMenuStrip = contextMenuStrip;
 	}
 }

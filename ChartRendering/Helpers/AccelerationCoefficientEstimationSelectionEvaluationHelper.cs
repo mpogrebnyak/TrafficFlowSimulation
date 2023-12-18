@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
+using ChartRendering.Models;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Renders;
-using TrafficFlowSimulation.Renders.ChartRenders.ParametersSelectionRenders.Models;
 
 namespace ChartRendering.Helpers;
 

@@ -4,7 +4,8 @@ using ChartRendering.EvaluationHandlers;
 using ChartRendering.Helpers;
 using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using Microsoft.Practices.ServiceLocation;
-using Settings;
+using Modes;
+using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Windows.Components;
 
@@ -42,19 +43,19 @@ namespace TrafficFlowSimulation.Windows
 
 			ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().RenderCharts(modelParameters, modeSettings);
 
-			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString())
 				.Execute(
-					this,
 					modelParameters,
-					modeSettings);
+					modeSettings,
+					null);
 		}
 
 		private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 		}
 
@@ -68,7 +69,7 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ImportPointsButton_Click(object sender, EventArgs e)
 		{
-			var currentParametersSelectionMode = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().CurrentParametersSelectionMode;
+			var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).AbortExecution();
 
 			var filePath = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().GetFilePathFromFileDialog();
@@ -78,7 +79,7 @@ namespace TrafficFlowSimulation.Windows
 
 			var serializerPointsModel = SerializerPointsHelper.DeserializePoints(filePath);
 
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).ExecutePreCalculated(this, serializerPointsModel.ModelParameters, serializerPointsModel.ModeSettings, serializerPointsModel.CoordinatesModel);
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode.ToString()).ExecutePreCalculated(serializerPointsModel.ModelParameters, serializerPointsModel.ModeSettings, serializerPointsModel.CoordinatesModel);
 		}
 	}
 }

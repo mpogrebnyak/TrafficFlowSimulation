@@ -4,11 +4,11 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Helpers;
+using ChartRendering.Models;
 using ChartRendering.Properties;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
 
@@ -31,42 +31,41 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		}
 	}
 
-	public override void UpdateChart(object parameters)
+	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var cm = (CoordinatesModel) parameters;
-
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(cm.t, cm.x[i]);
+			_chart.Series[i].Points.AddXY(coordinates.t, coordinates.x[i]);
 
-			UpdateLegend(i, true, cm.x[i]);
+			UpdateLegend(i, true, coordinates.x[i]);
 		}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		return new ChartArea
+		var model = new ChartAreaCreationModel
 		{
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = ChartAreaModel.AxisXMinimum,
-				Maximum = ChartAreaModel.AxisXMaximum,
-				Interval = ChartAreaModel.AxisXInterval,
+				Minimum = 0,
+				Maximum = 60,
+				Interval = 10,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
-				Minimum = ChartAreaModel.AxisYMinimum,
-				Maximum = ChartAreaModel.AxisYMaximum + modelParameters.L + 100,
+				Minimum = 0,
+				Maximum = modelParameters.L + 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}
 		};
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
+
+		return chartArea;
 	}
 	
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)

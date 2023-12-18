@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Models;
 using EvaluationKernel.Models;
-using Settings;
 
 namespace ChartRendering.Renders.ChartRenders;
 
@@ -52,7 +50,7 @@ public abstract class ChartsRender : IChartRender
 		RenderChartEnvironment(modelParameters, modeSettings);
 	}
 
-	public abstract void UpdateChart(object parameters);
+	public abstract void UpdateChart(CoordinatesArgs coordinates);
 
 	public virtual void UpdateEnvironment(object parameters) { } 
 
@@ -60,32 +58,8 @@ public abstract class ChartsRender : IChartRender
 
 	public abstract void SetChartAreaAxisTitle(bool isHidden = false);
 
-	public virtual void SetMarkerImage(List<double> carsLength)
+	public virtual void SetMarkerImage(object? parameters = null)
 	{
-		var path = SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().PaintedCarsFolder;
-		_chart.Update();
-		_chart.ApplyPaletteColors();
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
-		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-
-			var lengthOfSingleSegmentXPixels =
-					(float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(1) - (float) _chart.ChartAreas[0].AxisX.ValueToPixelPosition(0);
-			var lengthOfSingleSegmentYPixels =
-					(float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (float) _chart.ChartAreas[0].AxisY.ValueToPixelPosition(1);
-
-			var bmp = new Bitmap(path + "\\" + _colorPalette + "\\" + series.Color.Name + ".png");
-			var newBitmap = new Bitmap(bmp, 
-				(int)lengthOfSingleSegmentXPixels * 2 * (int)carsLength[i], 
-				(int)lengthOfSingleSegmentYPixels / 5);
-
-			if (_chart.Images.Any(x => x.Name == "MarkerImage" + i))
-				_chart.Images["MarkerImage" + i] = new NamedImage("MarkerImage" + i, newBitmap);
-			else
-				_chart.Images.Add(new NamedImage("MarkerImage" + i, newBitmap));
-
-			series.MarkerImage = "MarkerImage" + i;
-		}
 	}
 
 	public virtual void ShowChartLegend(LegendStyle? legendStyle)
@@ -154,5 +128,10 @@ public abstract class ChartsRender : IChartRender
 		_chart.Series.Clear();
 		_chart.ChartAreas.Clear();
 		_chart.Legends.Clear();
+	}
+
+	protected ChartArea GetChartArea(string name)
+	{
+		return _chart.ChartAreas.Single(x => x.Name == _chartAreaName);
 	}
 }

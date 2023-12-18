@@ -5,7 +5,6 @@ using ChartRendering.ChartRenderModels;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Renders.ChartRenders;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
 

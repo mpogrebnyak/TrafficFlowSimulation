@@ -3,25 +3,16 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Helpers;
+using ChartRendering.Models;
 using ChartRendering.Properties;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
 
 public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 {
-	private readonly ChartAreaModel _chartAreaModel = new()
-	{
-		AxisXMinimum = 0,
-		AxisXMaximum = 60,
-		AxisYMinimum = 0,
-		AxisYMaximum = 0,
-	};
-
 	public SpeedLimitChangingSpeedChartRender(Chart chart) : base(chart)
 	{
 	}
@@ -39,40 +30,40 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 		}
 	}
 
-	public override void UpdateChart(object parameters)
+	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var cm = (CoordinatesModel) parameters;
-
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(cm.t, cm.y[i]);
+			_chart.Series[i].Points.AddXY(coordinates.t, coordinates.y[i]);
 
-			UpdateLegend(i, true, cm.y[i]);
+			UpdateLegend(i, true, coordinates.y[i]);
 		}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		return new ChartArea
+		
+		var model = new ChartAreaCreationModel
 		{
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = _chartAreaModel.AxisXMinimum,
-				Maximum = _chartAreaModel.AxisXMaximum,
+				Minimum = 0,
+				Maximum = 60,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
-				Minimum = _chartAreaModel.AxisYMinimum,
+				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
 				TitleAlignment = StringAlignment.Far
 			}
 		};
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
+
+		return chartArea;
 	}
 }

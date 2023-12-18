@@ -120,6 +120,7 @@
     <Compile Include="Components\TableLayoutPanelComponent.cs" />
     <Compile Include="Components\TableLayoutPanelComponentHelper.cs" />
     <Compile Include="Configurations\MovementSimulationConfiguration.cs" />
+    <Compile Include="Configurations\ParametersSelectionConfiguration.cs" />
     <Compile Include="Constants\ControlName.cs" />
     <Compile Include="Constants\Prefixes.cs" />
     <Compile Include="CustomControls\ControlToolStripCustomRender.cs" />
@@ -128,13 +129,15 @@
       <DependentUpon>CustomComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\SubMenuCustomColorTable.cs" />
+    <Compile Include="Handlers\ChartRenderingHandler.cs" />
+    <Compile Include="Handlers\FormUpdateHandler.cs" />
+    <Compile Include="Handlers\ParametersSelectionRenderingHandler.cs" />
     <Compile Include="Helpers\EnumComboBoxHelper.cs" />
     <Compile Include="Helpers\LocalizationWindowHelper.cs" />
     <Compile Include="Helpers\MainWindowHelper.cs" />
     <Compile Include="Helpers\ParametersSelectionWindowHelper.cs" />
     <Compile Include="Helpers\ProgressBarHelper.cs" />
     <Compile Include="Helpers\SpinningLabelHelper.cs" />
-    <Compile Include="Models\LocalizationComponentsModel.cs" />
     <Compile Include="Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,6 +206,10 @@
       <Project>{e4565d12-2180-4750-aab7-b07caf33a303}</Project>
       <Name>Localization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modes\Modes.csproj">
+      <Project>{53eac118-b528-4b91-a9a9-f156ee182431}</Project>
+      <Name>Modes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{d87c8cfb-4f67-4ea5-a8d5-8958ffcacb7e}</Project>
       <Name>Settings</Name>
@@ -224,9 +231,6 @@
     <Content Include="Properties\images\united-kingdom.png" />
     <Content Include="Properties\images\white_car2.png" />
     <Content Include="Properties\images\white_car_big.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handlers" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -8,7 +8,7 @@ namespace ChartRendering.Helpers;
 public static class ChartAreaRendersHelper
 {
 	private static readonly double ZoomShift = 48;
-	private static readonly ChartAreaCreationModel ChartAreaBaseModel = new ChartAreaCreationModel
+	public static readonly ChartAreaCreationModel ChartAreaBaseModel = new()
 	{
 		Name = string.Empty,
 		AxisX = new Axis
@@ -49,15 +49,21 @@ public static class ChartAreaRendersHelper
 			{
 				Maximum  = model.AxisX?.Maximum ?? ChartAreaBaseModel.AxisX.Maximum,
 				Minimum = model.AxisX?.Minimum ?? ChartAreaBaseModel.AxisX.Minimum,
-				ScaleView = model.AxisX?.ScaleView ?? ChartAreaBaseModel.AxisX.ScaleView,
 				Interval = model.AxisX?.Interval ?? ChartAreaBaseModel.AxisX.Interval,
+				ScaleView = model.AxisX?.ScaleView ?? ChartAreaBaseModel.AxisX.ScaleView,
 				ScrollBar = model.AxisX?.ScrollBar ?? ChartAreaBaseModel.AxisX.ScrollBar,
+				Title = model.AxisX?.Title ?? ChartAreaBaseModel.AxisX.Title,
+				TitleAlignment = model.AxisX?.TitleAlignment ?? ChartAreaBaseModel.AxisX.TitleAlignment,
+				TitleFont = new Font("Microsoft Sans Serif", 10F)
 			},
 			AxisY = new Axis
 			{
 				Maximum = model.AxisY?.Maximum ?? ChartAreaBaseModel.AxisY.Maximum,
 				Minimum = model.AxisY?.Minimum ?? ChartAreaBaseModel.AxisY.Minimum,
 				Interval = model.AxisY?.Interval ?? ChartAreaBaseModel.AxisY.Interval,
+				Title = model.AxisY?.Title ?? ChartAreaBaseModel.AxisY.Title,
+				TitleAlignment = model.AxisY?.TitleAlignment ?? ChartAreaBaseModel.AxisY.TitleAlignment,
+				TitleFont = new Font("Microsoft Sans Serif", 10F),
 			}
 		};
 		chartArea.AxisX.ScaleView.Zoom(-30, -30 + ZoomShift);

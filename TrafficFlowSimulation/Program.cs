@@ -3,15 +3,14 @@ using System;
 using System.Globalization;
 using System.Windows.Forms;
 using ChartRendering;
-using ChartRendering.Constants.Modes;
 using ChartRendering.Properties;
 using ChartRendering.Renders;
 using Common;
 using Common.Errors;
 using Common.Modularity;
 using Localization.Localization;
+using Modes.Constants;
 using Settings;
-using TrafficFlowSimulation.Constants.Modes;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Windows;
 
@@ -62,7 +61,7 @@ namespace TrafficFlowSimulation
 		{
 			SettingsHelper.InitializeSettings();
 
-			var settings = SettingsHelper.Get<ChartRenderingSettings>();
+		/*	var settings = SettingsHelper.Get<ChartRenderingSettings>();
 			settings.CurrentDrivingMode = DrivingMode.StartAndStopMovement;
 			settings.CurrentParametersSelectionMode = ParametersSelectionMode.InliningDistanceEstimation;
 			settings.AvailableDrivingModes = 
@@ -73,7 +72,7 @@ namespace TrafficFlowSimulation
 					DrivingMode.InliningInFlow,
 					DrivingMode.SpeedLimitChanging
 				};
-			SettingsHelper.Set<ChartRendering.Properties.ChartRenderingSettings>(settings);
+			SettingsHelper.Set<ChartRendering.Properties.ChartRenderingSettings>(settings);*/
 		}
 	}
 }

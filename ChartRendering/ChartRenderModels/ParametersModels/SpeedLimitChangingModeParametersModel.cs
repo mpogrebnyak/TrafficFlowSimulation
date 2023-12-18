@@ -4,7 +4,7 @@
 
 namespace ChartRendering.ChartRenderModels.ParametersModels;
 
-public class SpeedLimitChangingModeParametersModel : BasicParametersModel
+public class SpeedLimitChangingModeParametersModel : BaseParametersModel
 {
 	[Hidden]
 	public override double Vmax { get; set; }

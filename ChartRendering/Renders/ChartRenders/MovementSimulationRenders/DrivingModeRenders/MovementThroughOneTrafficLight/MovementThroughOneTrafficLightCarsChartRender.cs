@@ -4,29 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Helpers;
+using ChartRendering.Models;
 using ChartRendering.Properties;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.Models;
 using EvaluationKernel.Models;
 using Localization;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
-using TrafficFlowSimulation.Renders.ChartRenders.MovementSimulationRenders.Models;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
 
 public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 {
-	private readonly ChartAreaModel _chartAreaModel = new()
-	{
-		AxisXMinimum = CommonChartAreaParameters.BeginOfRoad,
-		AxisXMaximum = CommonChartAreaParameters.EndOfRoad,
-		AxisXInterval = 10,
-		AxisYMinimum = 0,
-		AxisYMaximum = 1,
-		AxisYInterval = 1,
-		ZoomShift = 48
-	};
-
 	public MovementThroughOneTrafficLightCarsChartRender(Chart chart) : base(chart)
 	{
 	}
@@ -42,7 +29,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
 
 			var showLegend = false;
-			if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
+			if (modelParameters.lambda[i] > GetChartArea(_chartAreaName).AxisX.Minimum && modelParameters.lambda[i] < GetChartArea(_chartAreaName).AxisX.Maximum)
 			{
 				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
@@ -55,10 +42,8 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		SetMarkerImage(modelParameters.lCar);
 	}
 
-	public override void UpdateChart(object parameters)
+	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var cm = (CoordinatesModel) parameters;
-
 		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
@@ -66,16 +51,16 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if(_chart.Series[i].Points.Any())
 				_chart.Series[i].Points.RemoveAt(0);
-			if (cm.x[i] > _chartAreaModel.AxisXMinimum && cm.x[i] < _chartAreaModel.AxisXMaximum)
+			if (coordinates.x[i] > GetChartArea(_chartAreaName).AxisX.Minimum && coordinates.x[i] < GetChartArea(_chartAreaName).AxisX.Maximum)
 			{
-				_chart.Series[i].Points.AddXY(cm.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				_chart.Series[i].Points.AddXY(coordinates.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, cm.y[i], cm.x[i]);
-			UpdateLabel(i, showLegend, cm.y[i], cm.x[i]);
+			UpdateLegend(i, showLegend, coordinates.y[i], coordinates.x[i]);
+			UpdateLabel(i, showLegend, coordinates.y[i], coordinates.x[i]);
 		}
-		UpdateChartEnvironment(cm.x, cm.t);
+		UpdateChartEnvironment(coordinates.x, coordinates.t);
 	}
 
 	public override void UpdateEnvironment(object parameters)
@@ -93,45 +78,18 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var chartArea = new ChartArea
+		
+		var model = new ChartAreaCreationModel
 		{
 			Name = _chartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = _chartAreaModel.AxisXMinimum,
-				Maximum = _chartAreaModel.AxisXMaximum,
-				ScaleView = new AxisScaleView
-				{
-					//Zoomable = true,
-					SizeType = DateTimeIntervalType.Number,
-					MinSize = 30
-				},
-				Interval = _chartAreaModel.AxisXInterval,
-				ScrollBar = new AxisScrollBar
-				{
-					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
-					IsPositionedInside = true,
-					BackColor = Color.White,
-					ButtonColor = Color.FromArgb(249, 246, 247)
-				},
-				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				TitleAlignment = StringAlignment.Far
-			},
-			AxisY = new Axis
-			{
-				Minimum = _chartAreaModel.AxisYMinimum,
-				Maximum = _chartAreaModel.AxisYMaximum,
-				Interval = _chartAreaModel.AxisYInterval,
-				LabelStyle = new LabelStyle
-				{
-					Enabled = false
-				}
+				Minimum = -30,
+				Maximum = 20,
+				Interval = 10
 			}
 		};
-
-		//chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
 	}
