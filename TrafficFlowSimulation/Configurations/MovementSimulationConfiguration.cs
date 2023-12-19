@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Renders.ChartRenders;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.StartAndStopMovement;
+using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
+using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
+using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughOneTrafficLight;
+using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
+using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.StartAndStopMovement;
 using Common;
 using Common.Modularity;
 using Modes;
@@ -90,7 +90,7 @@ namespace TrafficFlowSimulation.Configurations
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingCarsChartRender(_carsMovementChart),
 					_carsMovementChart.Name + DrivingMode.SpeedLimitChanging);
 
-				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingCarsChartRender(_speedFromDistanceChart),
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
 					_speedFromDistanceChart.Name + DrivingMode.SpeedLimitChanging);
 			}
 

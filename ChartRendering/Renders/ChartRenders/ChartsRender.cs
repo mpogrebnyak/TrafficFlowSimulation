@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Constants;
 using ChartRendering.Models;
 using EvaluationKernel.Models;
 
@@ -10,21 +11,21 @@ namespace ChartRendering.Renders.ChartRenders;
 
 public abstract class ChartsRender : IChartRender
 {
-	protected virtual SeriesChartType _seriesChartType => SeriesChartType.Spline;
+	protected virtual SeriesChartType SeriesChartType => SeriesChartType.Spline;
 
-	protected virtual string _seriesName => "Series";
+	protected virtual string SeriesName => "Series";
 
-	protected virtual string _chartAreaName => "ChartArea";
+	protected virtual string ChartAreaName => "ChartArea";
 
-	protected virtual string _colorPalette => ChartColorPalette.BrightPastel.ToString();
+	protected virtual string ColorPalette => ChartColorPalette.BrightPastel.ToString();
 
-	protected Chart _chart;
+	protected readonly Chart Chart;
 
 	public static string EnvironmentSeriesTag => "EnvironmentSeries";
 
-	public ChartsRender(Chart chart)
+	protected ChartsRender(Chart chart)
 	{
-		_chart = chart;
+		Chart = chart;
 	}
 
 	public virtual void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -32,16 +33,16 @@ public abstract class ChartsRender : IChartRender
 		FullClearChart();
 
 		var chartArea = CreateChartArea(modelParameters, modeSettings);
-		_chart.ChartAreas.Add(chartArea);
+		Chart.ChartAreas.Add(chartArea);
 
-		_chart.Legends.Add(CreateLegend(LegendStyle.Column));
+		Chart.Legends.Add(CreateLegend(LegendStyle.Column));
 
 		for (int i = 0; i < modelParameters.n; i++)
 		{
-			_chart.Series.Add(new Series
+			Chart.Series.Add(new Series
 			{
-				Name = _seriesName + i,
-				ChartType = _seriesChartType,
+				Name = SeriesName + i,
+				ChartType = SeriesChartType,
 				ChartArea = chartArea.Name,
 				BorderWidth = 2
 			});
@@ -56,6 +57,8 @@ public abstract class ChartsRender : IChartRender
 
 	public virtual void AddSeries(int index) { }
 
+	public virtual void UpdateScale(CoordinatesArgs? coordinates = null, AutoScroll? scroll = null, int? scrollFor = null) { }
+
 	public abstract void SetChartAreaAxisTitle(bool isHidden = false);
 
 	public virtual void SetMarkerImage(object? parameters = null)
@@ -64,11 +67,11 @@ public abstract class ChartsRender : IChartRender
 
 	public virtual void ShowChartLegend(LegendStyle? legendStyle)
 	{
-		_chart.Legends.Clear();
+		Chart.Legends.Clear();
 
 		if (legendStyle.HasValue)
 		{
-			_chart.Legends.Add(CreateLegend(legendStyle.Value));
+			Chart.Legends.Add(CreateLegend(legendStyle.Value));
 		}
 	}
 
@@ -76,12 +79,12 @@ public abstract class ChartsRender : IChartRender
 	{
 		if (showLegend)
 		{
-			_chart.Series[i].LegendText = GetLegendText(values);
-			_chart.Series[i].IsVisibleInLegend = true;
+			Chart.Series[i].LegendText = GetLegendText(values);
+			Chart.Series[i].IsVisibleInLegend = true;
 		}
 		else
 		{
-			_chart.Series[i].IsVisibleInLegend = false;
+			Chart.Series[i].IsVisibleInLegend = false;
 		}
 	}
 
@@ -89,11 +92,11 @@ public abstract class ChartsRender : IChartRender
 	{
 		if (showLabel)
 		{
-			_chart.Series[i].Label = GetLegendText(values);
+			Chart.Series[i].Label = GetLegendText(values);
 		}
 		else
 		{
-			_chart.Series[i].Label = string.Empty;
+			Chart.Series[i].Label = string.Empty;
 		}
 	}
 
@@ -113,7 +116,7 @@ public abstract class ChartsRender : IChartRender
 		foreach (var series in environmentSeries)
 		{
 			series.Tag = EnvironmentSeriesTag;
-			_chart.Series.Add(series);
+			Chart.Series.Add(series);
 		}
 	}
 
@@ -125,13 +128,13 @@ public abstract class ChartsRender : IChartRender
 
 	protected void FullClearChart()
 	{
-		_chart.Series.Clear();
-		_chart.ChartAreas.Clear();
-		_chart.Legends.Clear();
+		Chart.Series.Clear();
+		Chart.ChartAreas.Clear();
+		Chart.Legends.Clear();
 	}
 
 	protected ChartArea GetChartArea(string name)
 	{
-		return _chart.ChartAreas.Single(x => x.Name == _chartAreaName);
+		return Chart.ChartAreas.Single(x => x.Name == ChartAreaName);
 	}
 }

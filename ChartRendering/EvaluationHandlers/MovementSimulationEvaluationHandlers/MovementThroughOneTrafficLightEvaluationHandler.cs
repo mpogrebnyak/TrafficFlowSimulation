@@ -95,9 +95,9 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 					},
 					new ChartEventHandlerArgs(new CoordinatesArgs
 					{
-						t = t,
-						x = x.ToList(),
-						y = y.ToList()
+						T = t,
+						X = x.ToList(),
+						Y = y.ToList()
 					},
 					new EnvironmentArgs
 					{

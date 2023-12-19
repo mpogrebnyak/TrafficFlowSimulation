@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Constants;
 using ChartRendering.Models;
 using EvaluationKernel.Models;
 
@@ -20,4 +21,6 @@ public interface IChartRender
 	public void SetMarkerImage(object? parameters = null);
 
 	public void AddSeries(int index);
+
+	public void UpdateScale(CoordinatesArgs? coordinates = null, AutoScroll? scroll = null, int? scrollFor = null);
 }

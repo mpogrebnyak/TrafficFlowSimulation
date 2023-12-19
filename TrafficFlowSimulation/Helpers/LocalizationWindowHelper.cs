@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Attribute;
+using ChartRendering.Helpers;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using Localization;
 using Localization.Localization;

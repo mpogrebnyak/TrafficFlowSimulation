@@ -68,9 +68,9 @@ public class StartAndStopMovementEvaluationHandler : EvaluationHandler
 					},
 					new ChartEventHandlerArgs(new CoordinatesArgs
 					{
-						t = t,
-						x = x.ToList(),
-						y = y.ToList()
+						T = t,
+						X = x.ToList(),
+						Y = y.ToList()
 					}));
 			}
 		}

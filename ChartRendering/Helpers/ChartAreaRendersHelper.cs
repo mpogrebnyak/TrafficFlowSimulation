@@ -8,7 +8,7 @@ namespace ChartRendering.Helpers;
 public static class ChartAreaRendersHelper
 {
 	private static readonly double ZoomShift = 48;
-	public static readonly ChartAreaCreationModel ChartAreaBaseModel = new()
+	private static readonly ChartAreaCreationModel ChartAreaBaseModel = new()
 	{
 		Name = string.Empty,
 		AxisX = new Axis
@@ -22,18 +22,20 @@ public static class ChartAreaRendersHelper
 			Minimum = 0,
 			Maximum = 1,
 			Interval = 1,
+			
 		},
 	};
 
-	public static readonly AxisScaleView GetScaleView = new()
+	private static readonly AxisScaleView GetScaleView = new()
 	{
 		Zoomable = true,
 		SizeType = DateTimeIntervalType.Number,
 		MinSize = 30
 	};
 
-	public static readonly AxisScrollBar GetScrollBar = new()
+	private static readonly AxisScrollBar GetScrollBar = new()
 	{
+		Enabled = true,
 		ButtonStyle = ScrollBarButtonStyles.SmallScroll,
 		IsPositionedInside = true,
 		BackColor = Color.White,
@@ -50,10 +52,8 @@ public static class ChartAreaRendersHelper
 				Maximum  = model.AxisX?.Maximum ?? ChartAreaBaseModel.AxisX.Maximum,
 				Minimum = model.AxisX?.Minimum ?? ChartAreaBaseModel.AxisX.Minimum,
 				Interval = model.AxisX?.Interval ?? ChartAreaBaseModel.AxisX.Interval,
-				ScaleView = model.AxisX?.ScaleView ?? ChartAreaBaseModel.AxisX.ScaleView,
-				ScrollBar = model.AxisX?.ScrollBar ?? ChartAreaBaseModel.AxisX.ScrollBar,
 				Title = model.AxisX?.Title ?? ChartAreaBaseModel.AxisX.Title,
-				TitleAlignment = model.AxisX?.TitleAlignment ?? ChartAreaBaseModel.AxisX.TitleAlignment,
+				TitleAlignment = StringAlignment.Far,
 				TitleFont = new Font("Microsoft Sans Serif", 10F)
 			},
 			AxisY = new Axis
@@ -62,11 +62,17 @@ public static class ChartAreaRendersHelper
 				Minimum = model.AxisY?.Minimum ?? ChartAreaBaseModel.AxisY.Minimum,
 				Interval = model.AxisY?.Interval ?? ChartAreaBaseModel.AxisY.Interval,
 				Title = model.AxisY?.Title ?? ChartAreaBaseModel.AxisY.Title,
-				TitleAlignment = model.AxisY?.TitleAlignment ?? ChartAreaBaseModel.AxisY.TitleAlignment,
+				TitleAlignment = StringAlignment.Far,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 			}
 		};
-		chartArea.AxisX.ScaleView.Zoom(-30, -30 + ZoomShift);
+
+		if (model.IsZoomAvailable)
+		{
+			chartArea.AxisX.ScaleView = GetScaleView;
+			chartArea.AxisX.ScrollBar = GetScrollBar;
+			chartArea.AxisX.ScaleView.Zoom(-30, -30 + ZoomShift);
+		}
 
 		return chartArea;
 	}
@@ -79,4 +85,6 @@ public class ChartAreaCreationModel
 	public Axis AxisX { get; set; }
 
 	public Axis AxisY { get; set; }
+
+	public bool IsZoomAvailable { get; set; }
 }

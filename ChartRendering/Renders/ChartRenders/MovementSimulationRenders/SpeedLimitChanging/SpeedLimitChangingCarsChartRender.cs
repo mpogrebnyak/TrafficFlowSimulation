@@ -9,7 +9,7 @@ using ChartRendering.Helpers;
 using ChartRendering.Models;
 using EvaluationKernel.Models;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
 
 public class SpeedLimitChangingCarsChartRender : CarsChartRender
 {
@@ -21,18 +21,18 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
-		_chart.Legends.Clear();
+		Chart.Legends.Clear();
 
 		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
 
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
 			if (modelParameters.lambda[i] > segment.First() - 100 && modelParameters.lambda[i] < segment.Last() + 100)
 			{
-				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				Chart.Series[i].Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
@@ -45,40 +45,40 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if(_chart.Series[i].Points.Any())
-				_chart.Series[i].Points.RemoveAt(0);
+			if(Chart.Series[i].Points.Any())
+				Chart.Series[i].Points.RemoveAt(0);
 			
-			if (coordinates.x[i] > GetChartArea(_chartAreaName).AxisX.Minimum)
+			if (coordinates.X[i] > GetChartArea(ChartAreaName).AxisX.Minimum)
 			{
-				_chart.Series[i].Points.AddXY(coordinates.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				Chart.Series[i].Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, coordinates.y[i], coordinates.x[i]);
-			UpdateLabel(i, showLegend, coordinates.y[i], coordinates.x[i]);
+			UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+			UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
 		}
-		UpdateChartEnvironment(coordinates.x, coordinates.t);
+		UpdateChartEnvironment(coordinates.X, coordinates.T);
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
 
+		
 		var model = new ChartAreaCreationModel
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = segment.First() - 100,
-				Maximum = segment.Last() + 100,
-				ScaleView = ChartAreaRendersHelper.GetScaleView,
-				ScrollBar = ChartAreaRendersHelper.GetScrollBar
-			}
+				Maximum = segment.Last() + 100
+			},
+			IsZoomAvailable = true
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
@@ -99,7 +99,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			{
 				Name = "SegmentBegin" + segment.Key,
 				ChartType = SeriesChartType.Line,
-				ChartArea = _chartAreaName,
+				ChartArea = ChartAreaName,
 				BorderWidth = 2,
 				Color = Color.Blue,
 				IsVisibleInLegend = false

@@ -6,15 +6,15 @@ using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 
 public abstract class SpeedChartRender : ChartsRender
 {
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
+	protected override SeriesChartType SeriesChartType => SeriesChartType.Spline;
 
-	protected override string _seriesName => "SpeedSeries";
+	protected override string SeriesName => "SpeedSeries";
 
-	protected override string _chartAreaName => "SpeedChartArea";
+	protected override string ChartAreaName => "SpeedChartArea";
 
 	protected SpeedChartRender(Chart chart) : base(chart)
 	{
@@ -34,17 +34,17 @@ public abstract class SpeedChartRender : ChartsRender
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)
 	{
-		if (_chart.ChartAreas.Any())
+		if (Chart.ChartAreas.Any())
 		{
 			if (isHidden)
 			{
-				_chart.ChartAreas[0].AxisX.Title = string.Empty;
-				_chart.ChartAreas[0].AxisY.Title = string.Empty;
+				Chart.ChartAreas[0].AxisX.Title = string.Empty;
+				Chart.ChartAreas[0].AxisY.Title = string.Empty;
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
+				Chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText;
+				Chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
 			}
 		}
 	}

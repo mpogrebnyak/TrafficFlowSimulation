@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
@@ -9,11 +8,11 @@ using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.StartAndStopMovement;
 
-public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
+public class StartAndStopMovementSpeedChartRender : SpeedChartRender
 {
-	public SpeedLimitChangingSpeedChartRender(Chart chart) : base(chart)
+	public StartAndStopMovementSpeedChartRender(Chart chart) : base(chart)
 	{
 	}
 
@@ -21,10 +20,11 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(0, 0);
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			if (i == 0)
+				Chart.Series[i].Points.AddXY(0, modelParameters.Vn[i]);
 
 			UpdateLegend(i, true, 0);
 		}
@@ -32,34 +32,37 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(coordinates.t, coordinates.y[i]);
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
-			UpdateLegend(i, true, coordinates.y[i]);
+			var showLegend = false;
+			if (coordinates.X[i] > -30)
+			{
+				Chart.Series[i].Points.AddXY(coordinates.T, coordinates.Y[i]);
+				showLegend = true;
+			}
+
+			UpdateLegend(i, showLegend, coordinates.Y[i]);
 		}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		
 		var model = new ChartAreaCreationModel
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
 				Maximum = 60,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
-				TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
-				TitleAlignment = StringAlignment.Far
 			}
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);

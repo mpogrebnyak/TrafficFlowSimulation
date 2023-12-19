@@ -1,4 +1,5 @@
 ﻿using ChartRendering.Attribute;
+using ChartRendering.Constants;
 using EvaluationKernel.Models;
 using Localization.Localization;
 using Microsoft.Build.Framework;
@@ -11,13 +12,13 @@ public abstract class BaseSettingsModels : ValidationModel, ISettingsModel
 {
 	protected const double MaxL = (double) (decimal.MaxValue / 2);
 
-	/*[Translation(Locales.ru, "Следовать за автомобилем")]
+	[Translation(Locales.ru, "Следовать за автомобилем")]
 	[CustomDisplay(1, enumType: typeof(AutoScroll))]
-	public virtual EnumItem AutoScroll { get; set; }
+	public virtual EnumItem Scroll { get; set; }
 
-	[Translation(Locales.ru, "Следовать за автомобилем №")]
+	[Translation(Locales.ru, "Номер автомобиля")]
 	[CustomDisplay(2)]
-	public virtual int ScrollFor { get; set; }*/
+	public virtual int ScrollFor { get; set; }
 
 	[Translation(Locales.ru, "Расстояние до остановки")]
 	[Translation(Locales.en, "Distance to the stop")]

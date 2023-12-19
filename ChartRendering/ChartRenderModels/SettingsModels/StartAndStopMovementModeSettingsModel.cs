@@ -1,4 +1,7 @@
-﻿namespace ChartRendering.ChartRenderModels.SettingsModels;
+﻿using ChartRendering.Constants;
+using Localization.Localization;
+
+namespace ChartRendering.ChartRenderModels.SettingsModels;
 
 // ReSharper disable InconsistentNaming
 
@@ -8,6 +11,8 @@ public class StartAndStopMovementModeSettingsModel : BaseSettingsModels
 	{
 		return new StartAndStopMovementModeSettingsModel
 		{
+			Scroll = new EnumItem(AutoScroll.No),
+			ScrollFor = 0,
 			L = 200
 		};
 	}

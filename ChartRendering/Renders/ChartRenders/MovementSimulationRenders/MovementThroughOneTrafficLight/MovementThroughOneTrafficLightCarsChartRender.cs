@@ -10,7 +10,7 @@ using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.MovementThroughOneTrafficLight;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughOneTrafficLight;
 
 public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 {
@@ -22,16 +22,16 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
-		_chart.Legends.Clear();
+		Chart.Legends.Clear();
 
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (modelParameters.lambda[i] > GetChartArea(_chartAreaName).AxisX.Minimum && modelParameters.lambda[i] < GetChartArea(_chartAreaName).AxisX.Maximum)
+			if (modelParameters.lambda[i] > GetChartArea(ChartAreaName).AxisX.Minimum && modelParameters.lambda[i] < GetChartArea(ChartAreaName).AxisX.Maximum)
 			{
-				_chart.Series[i].Points.AddXY(modelParameters.lambda[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				Chart.Series[i].Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 			
@@ -44,32 +44,32 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if(_chart.Series[i].Points.Any())
-				_chart.Series[i].Points.RemoveAt(0);
-			if (coordinates.x[i] > GetChartArea(_chartAreaName).AxisX.Minimum && coordinates.x[i] < GetChartArea(_chartAreaName).AxisX.Maximum)
+			if(Chart.Series[i].Points.Any())
+				Chart.Series[i].Points.RemoveAt(0);
+			if (coordinates.X[i] > GetChartArea(ChartAreaName).AxisX.Minimum && coordinates.X[i] < GetChartArea(ChartAreaName).AxisX.Maximum)
 			{
-				_chart.Series[i].Points.AddXY(coordinates.x[i], _chart.ChartAreas[_chartAreaName].AxisY.Maximum / 2);
+				Chart.Series[i].Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, coordinates.y[i], coordinates.x[i]);
-			UpdateLabel(i, showLegend, coordinates.y[i], coordinates.x[i]);
+			UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+			UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
 		}
-		UpdateChartEnvironment(coordinates.x, coordinates.t);
+		UpdateChartEnvironment(coordinates.X, coordinates.T);
 	}
 
 	public override void UpdateEnvironment(object parameters)
 	{
 		var environmentModel = (EnvironmentModel) parameters;
-		var trafficLine = _chart.Series.First(series => series.Name.Contains("StartLine"));
+		var trafficLine = Chart.Series.First(series => series.Name.Contains("StartLine"));
 		trafficLine.Color = environmentModel.IsGreenLight ? Color.Green : Color.Red;
 
-		var timePoint = _chart.Series.First(series => series.Name.Contains("TimePoint"));
+		var timePoint = Chart.Series.First(series => series.Name.Contains("TimePoint"));
 		timePoint.LabelForeColor = environmentModel.IsGreenLight ? Color.Green : Color.Red;
 		timePoint.Label = environmentModel.IsGreenLight 
 			? Math.Round(environmentModel.GreenTime, 2).ToString()
@@ -81,7 +81,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		
 		var model = new ChartAreaCreationModel
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = -30,
@@ -100,7 +100,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		{
 			Name = "StartLine",
 			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
+			ChartArea = ChartAreaName,
 			BorderWidth = 2,
 			Color = Color.Red,
 			IsVisibleInLegend = false
@@ -112,7 +112,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		{
 			Name = "TimePoint",
 			ChartType = SeriesChartType.Point,
-			ChartArea = _chartAreaName,
+			ChartArea = ChartAreaName,
 			BorderWidth = 2,
 			Color = Color.Transparent,
 			IsVisibleInLegend = false,

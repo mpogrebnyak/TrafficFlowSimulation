@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
+using ChartRendering.Constants;
 using ChartRendering.Helpers;
 using Common.Errors;
 using EvaluationKernel.Helpers;
@@ -104,6 +105,8 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 		}
 		return new SpeedLimitChangingModeSettingsModel
 		{
+			Scroll = new EnumItem(AutoScroll.No),
+			ScrollFor = 0,
 			L = MaxL,
 			InitialSpeed = 16.7,
 			SegmentsNumber = n,

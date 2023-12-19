@@ -4,11 +4,12 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using ChartRendering.Properties;
+using ChartRendering.Renders.ChartRenders;
 using Localization;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
+namespace ChartRendering.Helpers;
 
 public static class TrafficCapacityHelper
 {

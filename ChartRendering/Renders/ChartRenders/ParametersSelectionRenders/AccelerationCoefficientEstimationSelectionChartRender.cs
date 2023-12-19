@@ -14,11 +14,11 @@ namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRender
 {
-	protected override string _seriesName => "AccelerationCoefficientEstimationSeries";
+	protected override string SeriesName => "AccelerationCoefficientEstimationSeries";
 
-	protected override string _chartAreaName => "AccelerationCoefficientEstimationChartArea";
+	protected override string ChartAreaName => "AccelerationCoefficientEstimationChartArea";
 
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
+	protected override SeriesChartType SeriesChartType => SeriesChartType.Point;
 
 	private readonly List<Color> _pointColors = CustomColors.GetColorsForAccelerationCoefficientEstimation();
 
@@ -32,14 +32,14 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		FullClearChart();
 
 		var chartArea = CreateChartArea(modelParameters, modeSettings);
-		_chart.ChartAreas.Add(chartArea);
+		Chart.ChartAreas.Add(chartArea);
 
 		foreach (var color in _pointColors)
 		{
-			_chart.Series.Add(new Series
+			Chart.Series.Add(new Series
 			{
-				Name = _seriesName + color.Name,
-				ChartType = _seriesChartType,
+				Name = SeriesName + color.Name,
+				ChartType = SeriesChartType,
 				ChartArea = chartArea.Name,
 				BorderWidth = 1,
 				Color = color,
@@ -50,7 +50,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		var environmentSeries = CreateEnvironment(modelParameters, modeSettings);
 		foreach (var series in environmentSeries)
 		{
-			_chart.Series.Add(series);
+			Chart.Series.Add(series);
 		}
 	}
 
@@ -71,7 +71,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		var settings = (AccelerationCoefficientEstimationSettingsModel) modeSettings;
 		return new ChartArea
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
@@ -90,7 +90,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var settings = (AccelerationCoefficientEstimationSettingsModel) modeSettings;
-		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+		Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
 			Text = "1",
 			FromPosition = ChartCommonHelper.CalculateFromPosition(1),
@@ -102,7 +102,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		{
 			Name = "UpperBound",
 			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
+			ChartArea = ChartAreaName,
 			BorderWidth = 1,
 			Color = Color.Red,
 			IsVisibleInLegend = false
@@ -114,7 +114,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		{
 			Name = "LowerBound",
 			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
+			ChartArea = ChartAreaName,
 			BorderWidth = 1,
 			Color = Color.Red,
 			IsVisibleInLegend = false
@@ -135,7 +135,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		if (environmentModel.MinAValue.HasValue)
 		{
-			_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+			Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 			{
 				Text = Math.Round(environmentModel.MinAValue.Value, 2).ToString(),
 				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MinAValue.Value),
@@ -146,7 +146,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		if (environmentModel.MaxAValue.HasValue)
 		{
-			_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+			Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 			{
 				Text = Math.Round(environmentModel.MaxAValue.Value, 2).ToString(),
 				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MaxAValue.Value),

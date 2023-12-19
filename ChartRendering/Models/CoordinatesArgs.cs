@@ -4,9 +4,9 @@ namespace ChartRendering.Models;
 
 public class CoordinatesArgs
 {
-	public double t { get; set; }
+	public double T { get; set; }
 
-	public List<double> x { get; set; }
+	public List<double> X { get; set; }
 
-	public List<double> y { get; set; }
+	public List<double> Y { get; set; }
 }

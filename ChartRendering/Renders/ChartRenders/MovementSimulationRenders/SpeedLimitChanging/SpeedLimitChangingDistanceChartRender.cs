@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
@@ -10,7 +9,7 @@ using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.SpeedLimitChanging;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
 
 public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 {
@@ -22,10 +21,10 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			Chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
 
 			UpdateLegend(i, true, modelParameters.lambda[i]);
 		}
@@ -33,12 +32,12 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(coordinates.t, coordinates.x[i]);
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			Chart.Series[i].Points.AddXY(coordinates.T, coordinates.X[i]);
 
-			UpdateLegend(i, true, coordinates.x[i]);
+			UpdateLegend(i, true, coordinates.X[i]);
 		}
 	}
 
@@ -46,21 +45,18 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 	{
 		var model = new ChartAreaCreationModel
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
 				Maximum = 60,
-				Interval = 10,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
-				TitleAlignment = StringAlignment.Far
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = modelParameters.L + 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
-				TitleAlignment = StringAlignment.Far
 			}
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);

@@ -11,11 +11,11 @@ namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 {
-	protected override string _seriesName => "InliningDistanceEstimationSeries";
+	protected override string SeriesName => "InliningDistanceEstimationSeries";
 
-	protected override string _chartAreaName => "InliningDistanceEstimationChartArea";
+	protected override string ChartAreaName => "InliningDistanceEstimationChartArea";
 
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Point;
+	protected override SeriesChartType SeriesChartType => SeriesChartType.Point;
 
 	private readonly List<Color> _pointColors = CustomColors.GetColorsForInliningDistanceEstimation();
 	public InliningDistanceEstimationSelectionChartRender(Chart chart) : base(chart)
@@ -28,14 +28,14 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		FullClearChart();
 
 		var chartArea = CreateChartArea(modelParameters, modeSettings);
-		_chart.ChartAreas.Add(chartArea);
+		Chart.ChartAreas.Add(chartArea);
 
 		foreach (var color in _pointColors)
 		{
-			_chart.Series.Add(new Series
+			Chart.Series.Add(new Series
 			{
-				Name = _seriesName + color.Name,
-				ChartType = _seriesChartType,
+				Name = SeriesName + color.Name,
+				ChartType = SeriesChartType,
 				ChartArea = chartArea.Name,
 				BorderWidth = 1,
 				Color = color,
@@ -43,7 +43,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 			});
 		}
 
-		_chart.Series.Where(series => series.Name.Contains(_pointColors.First().Name));
+		Chart.Series.Where(series => series.Name.Contains(_pointColors.First().Name));
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
@@ -62,7 +62,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 	{
 		return new ChartArea
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,

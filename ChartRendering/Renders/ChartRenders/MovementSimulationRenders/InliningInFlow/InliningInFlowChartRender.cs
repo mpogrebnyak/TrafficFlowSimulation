@@ -6,13 +6,13 @@ using ChartRendering.Constants;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
 public abstract class InliningInFlowChartRender : ChartsRender
 {
 	protected readonly string _inliningTag = "InliningCar";
 
-	protected override string _colorPalette => "RedAndBlue";
+	protected override string ColorPalette => "RedAndBlue";
 
 	protected InliningInFlowChartRender(Chart chart) : base(chart)
 	{
@@ -22,18 +22,18 @@ public abstract class InliningInFlowChartRender : ChartsRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
-		_chart.Palette = ChartColorPalette.None;
+		Chart.Palette = ChartColorPalette.None;
 
-		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			series.Color = CustomColors.Blue;
 		}
 
-		_chart.Series.Add(new Series
+		Chart.Series.Add(new Series
 		{
-			Name = _seriesName + modelParameters.n,
-			ChartType = _seriesChartType,
-			ChartArea = _chartAreaName,
+			Name = SeriesName + modelParameters.n,
+			ChartType = SeriesChartType,
+			ChartArea = ChartAreaName,
 			BorderWidth = 2,
 			Color = CustomColors.Red,
 			Tag = _inliningTag
@@ -42,22 +42,22 @@ public abstract class InliningInFlowChartRender : ChartsRender
 
 	public override void AddSeries(int index)
 	{
-		var seriesToRemove = _chart.Series.Single(x => x.Tag != null && x.Tag.ToString() == _inliningTag);
-		_chart.Series.Remove(seriesToRemove);
+		var seriesToRemove = Chart.Series.Single(x => x.Tag != null && x.Tag.ToString() == _inliningTag);
+		Chart.Series.Remove(seriesToRemove);
 
-		var i = _chart.Series.Count(x => x.Name.Contains(_seriesName));
-		_chart.Series
-			.Where(x => x.Name.Contains(_seriesName))
-			.Where(x => Convert.ToInt32(x.Name.Replace(_seriesName, "")) >= index)
+		var i = Chart.Series.Count(x => x.Name.Contains(SeriesName));
+		Chart.Series
+			.Where(x => x.Name.Contains(SeriesName))
+			.Where(x => Convert.ToInt32(x.Name.Replace(SeriesName, "")) >= index)
 			.Reverse()
-			.ForEach(x => x.Name = _seriesName + i--);
+			.ForEach(x => x.Name = SeriesName + i--);
 
-		_chart.Series.Insert(index,
+		Chart.Series.Insert(index,
 			new Series
 			{
-				Name = _seriesName + index,
-				ChartType = _seriesChartType,
-				ChartArea = _chartAreaName,
+				Name = SeriesName + index,
+				ChartType = SeriesChartType,
+				ChartArea = ChartAreaName,
 				BorderWidth = 2,
 				Color = CustomColors.Red,
 				Tag = _inliningTag

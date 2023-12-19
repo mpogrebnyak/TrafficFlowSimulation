@@ -72,4 +72,12 @@ public class ChartRenderingHandler
 			provider.AddSeries(index);
 		}
 	}
+
+	public void UpdateScale(CoordinatesArgs coordinates)
+	{
+		foreach (var provider in _providers)
+		{
+			provider.UpdateScale(coordinates);
+		}
+	}
 }

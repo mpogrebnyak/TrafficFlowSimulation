@@ -9,15 +9,15 @@ using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 
 public class SpeedFromDistanceChartRender : ChartsRender
 {
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
+	protected override SeriesChartType SeriesChartType => SeriesChartType.Spline;
 
-	protected override string _seriesName => "SpeedFromDistance";
+	protected override string SeriesName => "SpeedFromDistance";
 
-	protected override string _chartAreaName => "SpeedFromDistance";
+	protected override string ChartAreaName => "SpeedFromDistance";
 
 	public SpeedFromDistanceChartRender(Chart chart) : base(chart)
 	{
@@ -27,10 +27,10 @@ public class SpeedFromDistanceChartRender : ChartsRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(0, 0);
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			Chart.Series[i].Points.AddXY(0, 0);
 
 			UpdateLegend(i, true, 0);
 		}
@@ -38,28 +38,28 @@ public class SpeedFromDistanceChartRender : ChartsRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
-			_chart.Series[i].Points.AddXY(coordinates.x[i], coordinates.y[i]);
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			Chart.Series[i].Points.AddXY(coordinates.X[i], coordinates.Y[i]);
 
-			UpdateLegend(i, true, coordinates.y[i]);
+			UpdateLegend(i, true, coordinates.Y[i]);
 		}
 	}
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)
 	{
-		if (_chart.ChartAreas.Any())
+		if (Chart.ChartAreas.Any())
 		{
 			if (isHidden)
 			{
-				_chart.ChartAreas[0].AxisX.Title = string.Empty;
-				_chart.ChartAreas[0].AxisY.Title = string.Empty;
+				Chart.ChartAreas[0].AxisX.Title = string.Empty;
+				Chart.ChartAreas[0].AxisY.Title = string.Empty;
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
+				Chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText;
+				Chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
 			}
 		}
 	}
@@ -68,7 +68,7 @@ public class SpeedFromDistanceChartRender : ChartsRender
 	{
 		var model = new ChartAreaCreationModel
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
@@ -79,7 +79,6 @@ public class SpeedFromDistanceChartRender : ChartsRender
 				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
-				TitleAlignment = StringAlignment.Far
 			}
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);

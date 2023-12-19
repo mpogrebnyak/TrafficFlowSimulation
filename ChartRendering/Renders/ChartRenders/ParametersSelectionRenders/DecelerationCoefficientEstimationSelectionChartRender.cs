@@ -15,11 +15,11 @@ namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
 public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRender
 {
-	protected override string _seriesName => "DecelerationCoefficientEstimationSeries";
+	protected override string SeriesName => "DecelerationCoefficientEstimationSeries";
 
-	protected override string _chartAreaName => "DecelerationCoefficientEstimationChartArea";
+	protected override string ChartAreaName => "DecelerationCoefficientEstimationChartArea";
 
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
+	protected override SeriesChartType SeriesChartType => SeriesChartType.Spline;
 
 	private readonly List<Color> _pointColors = CustomColors.GetColorsForDecelerationCoefficientEstimation();
 
@@ -33,14 +33,14 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		FullClearChart();
 
 		var chartArea = CreateChartArea(modelParameters, modeSettings);
-		_chart.ChartAreas.Add(chartArea);
+		Chart.ChartAreas.Add(chartArea);
 
 		foreach (var color in _pointColors)
 		{
-			_chart.Series.Add(new Series
+			Chart.Series.Add(new Series
 			{
-				Name = _seriesName + color.Name,
-				ChartType = _seriesChartType,
+				Name = SeriesName + color.Name,
+				ChartType = SeriesChartType,
 				ChartArea = chartArea.Name,
 				Color = color,
 				MarkerStyle = MarkerStyle.Circle,
@@ -52,7 +52,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		var environmentSeries = CreateEnvironment(modelParameters, modeSettings);
 		foreach (var series in environmentSeries)
 		{
-			_chart.Series.Add(series);
+			Chart.Series.Add(series);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 	{
 		return new ChartArea
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
@@ -96,7 +96,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var maxQ = ((DecelerationCoefficientEstimationSettingsModel) modeSettings).MaxQ;
-		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+		Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
 			Text = maxQ.ToString(CultureInfo.InvariantCulture),
 			FromPosition = ChartCommonHelper.CalculateFromPosition(maxQ),
@@ -104,7 +104,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
-		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+		Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 		{
 			Text = "0",
 			FromPosition = ChartCommonHelper.CalculateFromPosition(0),
@@ -112,7 +112,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
-		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+		Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 		{
 			Text = "10",
 			FromPosition = ChartCommonHelper.CalculateFromPosition(10),
@@ -130,7 +130,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		if (!environmentModel.OptimalQ.HasValue)
 		 return;
 
-		_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+		Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 		{
 			Text = Math.Round(environmentModel.OptimalQ.Value, 2).ToString(),
 			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalQ.Value),
@@ -138,7 +138,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			GridTicks = GridTickTypes.All
 		});
 
-		_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+		Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 		{
 			Text = Math.Round(environmentModel.StopTime, 2).ToString(),
 			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalTime),
@@ -148,7 +148,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		if (environmentModel.DoubleOptimalQ.HasValue)
 		{
-			_chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+			Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
 			{
 				Text = Math.Round(environmentModel.DoubleOptimalQ.Value, 2).ToString(),
 				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalQ.Value),
@@ -156,7 +156,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				GridTicks = GridTickTypes.All
 			});
 
-			_chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+			Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
 			{
 				Text = Math.Round(2 * environmentModel.StopTime, 2).ToString(),
 				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalTime),
@@ -171,7 +171,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			{
 				Name = "RedLine" + i,
 				ChartType = SeriesChartType.Line,
-				ChartArea = _chartAreaName,
+				ChartArea = ChartAreaName,
 				BorderWidth = 1,
 				Color = Color.Red,
 				IsVisibleInLegend = false
@@ -180,7 +180,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			redLine.Points.Add(new DataPoint(0, i));
 			redLine.Points.Add(new DataPoint(environmentModel.OptimalQ.Value, i + 10));
 
-			_chart.Series.Add(redLine);
+			Chart.Series.Add(redLine);
 		}
 	}
 

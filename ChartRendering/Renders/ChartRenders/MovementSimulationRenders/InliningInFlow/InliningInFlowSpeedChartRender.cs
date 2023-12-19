@@ -3,20 +3,21 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.DrivingModeRenders.InliningInFlow;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
 public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 {
-	protected override SeriesChartType _seriesChartType => SeriesChartType.Spline;
+	protected override SeriesChartType SeriesChartType => SeriesChartType.Spline;
 
-	protected override string _seriesName => "SpeedSeries";
+	protected override string SeriesName => "SpeedSeries";
 
-	protected override string _chartAreaName => "SpeedChartArea";
+	protected override string ChartAreaName => "SpeedChartArea";
 
 	/*private readonly ChartAreaModel _chartAreaModel = new()
 	{
@@ -34,12 +35,12 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
-		foreach (var series in _chart.Series.Where(x => x.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			if (i == 0) 
-				_chart.Series[i].Points.AddXY(0, 0);
+				Chart.Series[i].Points.AddXY(0, 0);
 
 			UpdateLegend(i, true, 0);
 		}
@@ -47,20 +48,20 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		foreach (var series in _chart.Series.Where(series => series.Name.Contains(_seriesName)))
+		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
-			var i = Convert.ToInt32(series.Name.Replace(_seriesName, ""));
+			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
-			if (i < coordinates.x.Count)
+			if (i < coordinates.X.Count)
 			{
 				var showLegend = false;
-				if (coordinates.x[i] > CommonChartAreaParameters.BeginOfRoad && coordinates.x[i] < CommonChartAreaParameters.EndOfRoad)
+				if (coordinates.X[i] > CommonChartAreaParameters.BeginOfRoad && coordinates.X[i] < CommonChartAreaParameters.EndOfRoad)
 				{
-					_chart.Series[i].Points.AddXY(coordinates.t, coordinates.y[i]);
+					Chart.Series[i].Points.AddXY(coordinates.T, coordinates.Y[i]);
 					showLegend = true;
 				}
 
-				UpdateLegend(i, showLegend, coordinates.y[i]);
+				UpdateLegend(i, showLegend, coordinates.Y[i]);
 			}
 		}
 	}
@@ -69,14 +70,13 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 	{
 		var chartArea = new ChartArea
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 			//	Minimum = _chartAreaModel.AxisXMinimum,
 			//	Maximum = _chartAreaModel.AxisXMaximum,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				TitleAlignment = StringAlignment.Far,
 				/*
 				ScaleView = new AxisScaleView
 				{
@@ -100,7 +100,6 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				TitleAlignment = StringAlignment.Far
 			}
 		};
 
@@ -123,17 +122,17 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)
 	{
-		if (_chart.ChartAreas.Any())
+		if (Chart.ChartAreas.Any())
 		{
 			if (isHidden)
 			{
-				_chart.ChartAreas[0].AxisX.Title = string.Empty;
-				_chart.ChartAreas[0].AxisY.Title = string.Empty;
+				Chart.ChartAreas[0].AxisX.Title = string.Empty;
+				Chart.ChartAreas[0].AxisY.Title = string.Empty;
 			}
 			else
 			{
-				_chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText;
-				_chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
+				Chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText;
+				Chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText;
 			}
 		}
 	}

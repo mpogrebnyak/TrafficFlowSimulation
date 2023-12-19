@@ -48,6 +48,7 @@ public static class FormUpdateHandler
 			case ChartEventActions.UpdateCharts:
 			{
 				ServiceLocator.Current.GetInstance<ChartRenderingHandler>().UpdateCharts(e.Coordinates);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>().UpdateScale(e.Coordinates);
 				return;
 			}
 

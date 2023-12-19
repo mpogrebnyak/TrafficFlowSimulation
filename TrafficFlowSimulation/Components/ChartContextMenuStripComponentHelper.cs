@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ChartRendering.Helpers;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using Localization;
 using Settings;
