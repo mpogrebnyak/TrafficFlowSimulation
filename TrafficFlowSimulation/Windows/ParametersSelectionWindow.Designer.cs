@@ -359,7 +359,7 @@
 
 		private System.Windows.Forms.ToolStrip ControlMenuStrip;
 		private System.Windows.Forms.ToolStripButton SelectParametersToolStripButton;
-		private System.Windows.Forms.DataVisualization.Charting.Chart ParametersSelectionChart;
+		public System.Windows.Forms.DataVisualization.Charting.Chart ParametersSelectionChart;
 		private System.Windows.Forms.Panel ParametersPanel;
 		private System.Windows.Forms.GroupBox MovementParametersGroupBox;
 		private System.Windows.Forms.GroupBox ModeSettingsGroupBox;
@@ -368,7 +368,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripLabel ParametersSelectionModeStripLabel;
 		private System.Windows.Forms.ToolStripDropDownButton ParametersSelectionStripDropDownButton;
-		private System.Windows.Forms.ErrorProvider ParametersErrorProvider;
+		public System.Windows.Forms.ErrorProvider ParametersErrorProvider;
         private System.Windows.Forms.GroupBox BasicParametersGroupBox;
         private System.Windows.Forms.TableLayoutPanel BasicParametersTableLayoutPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;

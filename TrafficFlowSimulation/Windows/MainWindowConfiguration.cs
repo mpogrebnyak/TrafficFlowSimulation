@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.Modularity;
+using Modes;
 using TrafficFlowSimulation.Configurations;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
@@ -22,6 +23,6 @@ public class MainWindowConfiguration : IInitializable
 		var movementSimulationConfiguration = new MovementSimulationConfiguration(_form);
 		movementSimulationConfiguration.Initialize();
 
-		FormUpdateHandler.Initialize(_form);
+		FormUpdateHandler.Initialize(_form, ModesHelper.DrivingModeType);
 	}
 }

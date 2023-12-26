@@ -52,11 +52,11 @@ namespace TrafficFlowSimulation.Windows
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<ChartRenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
 
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).Execute(
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).Execute(
 				modelParameters,
 				modeSettings,
 				FormUpdateHandler.GetEvent());
@@ -65,19 +65,19 @@ namespace TrafficFlowSimulation.Windows
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
 		}
 
 		private void StopToolStripButton_Click(object sender, EventArgs e)
 		{
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).StopExecution();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).StopExecution();
 		}
 
 		private void ContinueToolStripButton_Click(object sender, EventArgs e)
 		{
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).StartExecution();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).StartExecution();
 		}
 
 		private void SubmitButton_Click(object sender, EventArgs e)
@@ -87,9 +87,9 @@ namespace TrafficFlowSimulation.Windows
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
 		{
-			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<ChartRenderingHandler>())
+			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<ChartRenderingHandler>(ModesHelper.DrivingModeType))
 			{
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>().SetMarkerImage();
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).SetMarkerImage();
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace TrafficFlowSimulation.Windows
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
-			ServiceLocator.Current.GetInstance<ChartRenderingHandler>().RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
 		}
 
 		private void HandleError(object sender, ErrorEventArgs errorEventArgs)

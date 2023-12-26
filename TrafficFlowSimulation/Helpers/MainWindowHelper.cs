@@ -166,7 +166,7 @@ namespace TrafficFlowSimulation.Helpers
 			_localizationWindowHelper.LocalizePanel(typeof(InitialConditionsParametersModel),
 				_controls.Find(ControlName.MainWindowControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel);
 
-			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
+			var currentDrivingMode = (DrivingMode)Enum.Parse(typeof(DrivingMode), ModesHelper.GetCurrentDrivingMode());
 			var settingsTableLayoutPanel = _controls.Find(ControlName.MainWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
 
 			switch (currentDrivingMode)

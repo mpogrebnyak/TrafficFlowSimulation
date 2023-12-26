@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using ChartRendering.Attribute;
 using ChartRendering.Constants;
 using ChartRendering.Helpers;
@@ -16,6 +17,14 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 {
 	[Hidden] 
 	public override double L { get; set; }
+
+	[Translation(Locales.ru, "Следовать за автомобилем")]
+	[CustomDisplay(1, enumType: typeof(AutoScroll))]
+	public override EnumItem Scroll { get; set; }
+
+	[Translation(Locales.ru, "Номер автомобиля")]
+	[CustomDisplay(2)]
+	public override int ScrollFor { get; set; }
 
 	[Translation(Locales.ru, "Количество отрезков")]
 	[Translation(Locales.en, "")]
@@ -47,7 +56,7 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 		for (int i = 0; i < mp.n; i++)
 		{
 			mp.Vn[i] = InitialSpeed;
-			mp.lambda[i] = -EquationHelper.S(mp, 16) * (i);
+			mp.lambda[i] = -EquationHelper.S(mp, InitialSpeed) * (i);
 		}
 	}
 
@@ -113,5 +122,13 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 			SegmentBeginning = segmentBeginning,
 			SpeedInSegment = speedInSegment
 		};
+	}
+
+	public List<double> GetSegmentList(SortedDictionary<int, SegmentModel> segmentSpeeds)
+	{
+		return segmentSpeeds
+			.Where(x => x.Key != 0 && x.Key != SegmentsNumber + 1)
+			.Select(x=> x.Value.SegmentBeginning)
+			.ToList();;
 	}
 }

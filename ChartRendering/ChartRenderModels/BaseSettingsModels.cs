@@ -12,12 +12,10 @@ public abstract class BaseSettingsModels : ValidationModel, ISettingsModel
 {
 	protected const double MaxL = (double) (decimal.MaxValue / 2);
 
-	[Translation(Locales.ru, "Следовать за автомобилем")]
-	[CustomDisplay(1, enumType: typeof(AutoScroll))]
+	[Hidden]
 	public virtual EnumItem Scroll { get; set; }
 
-	[Translation(Locales.ru, "Номер автомобиля")]
-	[CustomDisplay(2)]
+	[Hidden]
 	public virtual int ScrollFor { get; set; }
 
 	[Translation(Locales.ru, "Расстояние до остановки")]

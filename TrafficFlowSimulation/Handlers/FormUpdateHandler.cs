@@ -4,20 +4,22 @@ using System.Windows.Forms;
 using ChartRendering.Constants;
 using ChartRendering.Events;
 using Microsoft.Practices.ServiceLocation;
-using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation.Handlers;
 
 public static class FormUpdateHandler
 {
-	private static MainWindow _form;
+	private static Form _form;
+
+	private static string _key;
 
 	public static event ChartEventHandler ChartEventHandler;
 
-	public static void Initialize(MainWindow form)
+	public static void Initialize(Form form, string key)
 	{
 		_form = form;
-		ChartEventHandler += MainForm_ChartEventHandler;
+		_key = key;
+		ChartEventHandler += Form_ChartEventHandler;
 	}
 
 	public static ChartEventHandler GetEvent()
@@ -25,7 +27,7 @@ public static class FormUpdateHandler
 		return ChartEventHandler;
 	}
 
-	private static void MainForm_ChartEventHandler(List<ChartEventActions> actions, ChartEventHandlerArgs e)
+	private static void Form_ChartEventHandler(List<ChartEventActions> actions, ChartEventHandlerArgs e)
 	{
 		void Method()
 		{
@@ -47,14 +49,14 @@ public static class FormUpdateHandler
 		{
 			case ChartEventActions.UpdateCharts:
 			{
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>().UpdateCharts(e.Coordinates);
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>().UpdateScale(e.Coordinates);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateCharts(e.Coordinates);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateScale(e.Coordinates);
 				return;
 			}
 
 			case ChartEventActions.UpdateChartEnvironments:
 			{
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>().UpdateChartEnvironments(e.EnvironmentArgs);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateChartEnvironments(e.EnvironmentArgs);
 				return;
 			}
 

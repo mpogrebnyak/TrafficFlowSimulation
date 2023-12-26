@@ -11,7 +11,6 @@ using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
-using Localization.Localization;
 using Settings;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
@@ -33,7 +32,9 @@ public abstract class CarsChartRender : ChartsRender
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		base.RenderChart(modelParameters, modeSettings);
-		UpdateScale(null, (AutoScroll) modeSettings.Scroll.Value, modeSettings.ScrollFor);
+
+		// ReSharper disable once ConstantConditionalAccessQualifier
+		UpdateScale(null, (AutoScroll?) modeSettings.Scroll?.Value, modeSettings.ScrollFor);
 	}
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)

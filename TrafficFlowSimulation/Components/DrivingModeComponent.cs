@@ -61,16 +61,16 @@ public class DrivingModeComponent : IComponent
 		if (owner != null) owner.Text = selectedModeItem.Text;
 
 		var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
-		ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode.ToString()).AbortExecution();
+		ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
 
 		var mode = (DrivingMode) Enum.Parse(typeof(DrivingMode), selectedModeItem.Name);
 		ModesHelper.SetCurrentDrivingMode(mode);
 
-		ServiceLocator.Current.GetInstance<ChartRenderingHandler>().InitializeChartProviders(mode);
+		ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).InitializeChartProviders(mode.ToString());
 		ServiceLocator.Current.GetInstance<MainWindowHelper>().InitializeTableLayoutPanelComponent();
 
 		var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 		var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
-		ServiceLocator.Current.GetInstance<ChartRenderingHandler>().RenderCharts(modelParameters, modeSettings);
+		ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
 	}
 }

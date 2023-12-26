@@ -90,7 +90,7 @@ namespace TrafficFlowSimulation.Configurations
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingCarsChartRender(_carsMovementChart),
 					_carsMovementChart.Name + DrivingMode.SpeedLimitChanging);
 
-				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingSpeedFromDistanceChartRender(_speedFromDistanceChart),
 					_speedFromDistanceChart.Name + DrivingMode.SpeedLimitChanging);
 			}
 
@@ -101,7 +101,8 @@ namespace TrafficFlowSimulation.Configurations
 					_distanceChart.Name,
 					_carsMovementChart.Name,
 					_speedFromDistanceChart.Name
-				}));
+				},
+				ModesHelper.GetCurrentDrivingMode()), ModesHelper.DrivingModeType);
 		}
 	}
 }

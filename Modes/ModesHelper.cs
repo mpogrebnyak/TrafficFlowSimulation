@@ -6,9 +6,13 @@ namespace Modes;
 
 public static class ModesHelper
 {
-	public static DrivingMode GetCurrentDrivingMode()
+	public static readonly string DrivingModeType = typeof(DrivingMode).ToString();
+
+	public static readonly string ParametersSelectionModeType = typeof(ParametersSelectionMode).ToString();
+
+	public static string GetCurrentDrivingMode()
 	{
-		return SettingsHelper.Get<ModesSettings>().CurrentDrivingMode;
+		return SettingsHelper.Get<ModesSettings>().CurrentDrivingMode.ToString();
 	}
 
 	public static void SetCurrentDrivingMode(DrivingMode mode)
@@ -23,9 +27,9 @@ public static class ModesHelper
 		return SettingsHelper.Get<ModesSettings>().AvailableDrivingModes.ToList();
 	}
 
-	public static ParametersSelectionMode GetCurrentParametersSelectionMode()
+	public static string GetCurrentParametersSelectionMode()
 	{
-		return SettingsHelper.Get<ModesSettings>().CurrentParametersSelectionMode;
+		return SettingsHelper.Get<ModesSettings>().CurrentParametersSelectionMode.ToString();
 	}
 
 	public static void SetCurrentParametersSelectionMode(ParametersSelectionMode mode)

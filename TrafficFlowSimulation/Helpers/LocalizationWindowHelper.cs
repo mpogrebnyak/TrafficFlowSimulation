@@ -46,7 +46,7 @@ public class LocalizationWindowHelper
 		{
 			_form.DrivingModeStripDropDownButton.DropDownItems.Cast<ToolStripMenuItem>().Single(x => x.Name == value.ToString()).Text = value.GetDescription();
 
-			if (value == ModesHelper.GetCurrentDrivingMode())
+			if (value.ToString() == ModesHelper.GetCurrentDrivingMode())
 				_form.DrivingModeStripDropDownButton.Text = value.GetDescription();
 		}
 

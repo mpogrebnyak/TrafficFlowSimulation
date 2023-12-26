@@ -69,7 +69,6 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 	{
 		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
 
-		
 		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
@@ -118,9 +117,6 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
 		settings.MapTo(segmentSpeeds);
 
-		return segmentSpeeds
-			.Where(x => x.Key != 0 && x.Key != settings.SegmentsNumber + 1)
-			.Select(x=> x.Value.SegmentBeginning)
-			.ToList();;
+		return settings.GetSegmentList(segmentSpeeds);
 	}
 }

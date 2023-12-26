@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
@@ -43,6 +44,8 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
+		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
+
 		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
@@ -55,7 +58,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = modelParameters.L + 100,
+				Maximum = segment.Last() + 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};
@@ -101,5 +104,13 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		{
 			
 		} ;
+	}
+
+	private List<double> GetSegmentList(SpeedLimitChangingModeSettingsModel settings)
+	{
+		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
+		settings.MapTo(segmentSpeeds);
+
+		return settings.GetSegmentList(segmentSpeeds);
 	}
 }

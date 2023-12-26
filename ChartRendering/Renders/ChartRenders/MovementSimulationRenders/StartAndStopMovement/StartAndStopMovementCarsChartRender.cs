@@ -59,11 +59,6 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
 		}
 		UpdateChartEnvironment(coordinates.X, coordinates.T);
-
-		//var x = cm.x;
-		//var scaleView = _chart.ChartAreas[0].AxisX.ScaleView;
-		//scaleView.Scroll(Math.Round(x[modeSettings.ScrollFor]) - 25);
-
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)

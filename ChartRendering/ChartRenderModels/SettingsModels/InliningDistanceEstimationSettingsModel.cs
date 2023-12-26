@@ -39,12 +39,7 @@ public class InliningDistanceEstimationSettingsModel : BaseSettingsModels
 	{
 		return new InliningDistanceEstimationSettingsModel
 		{
-		//	IsParametersEvaluated = new ComboBoxItem
-		//	{
-		//		Text = EvaluateParameters.Yes.GetDescription(),
-		//		Value = EvaluateParameters.Yes
-		//	},
-
+			IsParametersEvaluated = new EnumItem(EvaluateParameters.Yes),
 			L = 1000,
 			FirstCarSpeed = 0,
 			MaximumDistanceBetweenCars = 100

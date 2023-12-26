@@ -10,12 +10,6 @@ namespace ChartRendering.ChartRenderModels.SettingsModels;
 public class MovementThroughOneTrafficLightModeSettingsModel : BaseSettingsModels
 {
 	[Hidden]
-	public override EnumItem Scroll { get; set; }
-
-	[Hidden]
-	public override int ScrollFor { get; set; }
-
-	[Hidden]
 	public override double L { get; set; } 
 
 	[Translation(Locales.ru, "Цвет первого сигнала")]

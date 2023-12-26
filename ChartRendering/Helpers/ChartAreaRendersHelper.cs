@@ -22,7 +22,6 @@ public static class ChartAreaRendersHelper
 			Minimum = 0,
 			Maximum = 1,
 			Interval = 1,
-			
 		},
 	};
 

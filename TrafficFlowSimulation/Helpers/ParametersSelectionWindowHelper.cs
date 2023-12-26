@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.ParametersModels;
-using ChartRendering.ChartRenderModels.SettingsModels;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
@@ -12,25 +11,23 @@ using Modes;
 using Modes.Constants;
 using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation.Helpers;
 
 public class ParametersSelectionWindowHelper
 {
-	private ErrorProvider _errorProvider;
+	private readonly ErrorProvider _errorProvider;
 
-	private Dictionary<Type, BindingSource> _bindingSources;
+	private readonly Dictionary<Type, BindingSource> _bindingSources;
 
 	private readonly Control.ControlCollection _controls;
 
-	public ParametersSelectionWindowHelper(
-		ErrorProvider errorProvider,
-		Control.ControlCollection controls
-	)
+	public ParametersSelectionWindowHelper(ParametersSelectionWindow form)
 	{
-		_errorProvider = errorProvider;
+		_errorProvider = form.ParametersErrorProvider;
 		_bindingSources = new();
-		_controls = controls;
+		_controls = form.Controls;
 	}
 
 	public void InitializeInterface()
@@ -55,27 +52,23 @@ public class ParametersSelectionWindowHelper
 
 	public void InitializeTableLayoutPanelComponent()
 	{
-		GetModelTypes(out var modelType, out var settingsModelType);
+		var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 
-		if (modelType != null && settingsModelType != null)
-		{
-			var parametersTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel; 
-			var settingsTableLayoutPanel = _controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel;
+		var baseParametersModel = ServiceLocator.Current.GetInstance<IParametersModel>(currentParametersSelectionMode);
+		var baseParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
+			baseParametersModel,
+			_controls.Find(ControlName.ParametersSelectionWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel,
+			_bindingSources,
+			_errorProvider);
+		baseParametersTableLayoutPanelComponent.Initialize();
 
-		/*	var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
-				modelType,
-				parametersTableLayoutPanel,
-				_bindingSources,
-				_errorProvider);
-			basicParametersTableLayoutPanelComponent.Initialize();
-
-			var settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
-				settingsModelType,
-				settingsTableLayoutPanel,
-				_bindingSources,
-				_errorProvider);
-			settingsTableLayoutPanelComponent.Initialize();*/
-		}
+		var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentParametersSelectionMode.ToString());
+		var settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
+			settingsModel,
+			_controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel,
+			_bindingSources,
+			_errorProvider);
+		settingsTableLayoutPanelComponent.Initialize();
 	}
 
 	public BaseSettingsModels CollectModeSettingsFromBindingSource(ModelParameters modelParameters)
@@ -83,7 +76,7 @@ public class ParametersSelectionWindowHelper
 		var currentParametersSelectionMode =  ModesHelper.GetCurrentParametersSelectionMode();
 		_bindingSources.ForEach(x => x.Value.EndEdit());
 
-		var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentParametersSelectionMode.ToString());
+		var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentParametersSelectionMode);
 
 		var modeSettings = (BaseSettingsModels)_bindingSources[settingsModel.GetType()].DataSource;
 		modeSettings.MapTo(modelParameters);
@@ -96,7 +89,7 @@ public class ParametersSelectionWindowHelper
 		var modelParameters = new ModelParameters();
 		_bindingSources.ForEach(x => x.Value.EndEdit());
 
-		var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
+		var currentParametersSelectionMode = (ParametersSelectionMode)Enum.Parse(typeof(ParametersSelectionMode), ModesHelper.GetCurrentParametersSelectionMode());
 
 		switch (currentParametersSelectionMode)
 		{
@@ -133,38 +126,5 @@ public class ParametersSelectionWindowHelper
 		}
 
 		return null;
-	}
-
-	private void GetModelTypes(out Type? modelType, out Type? settingsModelType)
-	{
-		var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
-
-		switch (currentParametersSelectionMode)
-		{
-			case ParametersSelectionMode.InliningDistanceEstimation:
-			{
-				settingsModelType = typeof(InliningDistanceEstimationSettingsModel);
-				modelType = typeof(InliningDistanceEstimationModelParametersModel);
-				break;
-			}
-			case ParametersSelectionMode.AccelerationCoefficientEstimation:
-			{
-				settingsModelType = typeof(AccelerationCoefficientEstimationSettingsModel);
-				modelType = typeof(AccelerationCoefficientEstimationModelParametersModel);
-				break;
-			}
-			case ParametersSelectionMode.DecelerationCoefficientEstimation:
-			{
-				settingsModelType = typeof(DecelerationCoefficientEstimationSettingsModel);
-				modelType = typeof(DecelerationCoefficientEstimationModelParametersModel);
-				break;
-			}
-			default:
-			{
-				settingsModelType = null;
-				modelType = null;
-				break;
-			}
-		}
 	}
 }

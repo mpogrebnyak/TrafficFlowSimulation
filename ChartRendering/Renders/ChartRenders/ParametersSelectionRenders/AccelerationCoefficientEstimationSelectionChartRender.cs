@@ -6,6 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using EvaluationKernel.Models;
 using TrafficFlowSimulation.Renders;
@@ -56,20 +57,21 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		//var coordinatesModel = (List<CoefficientEstimationCoordinatesModel>) parameters;
+		var coordinatesModel = (CoefficientEstimationCoordinatesArgs) coordinates;
 
-	//	foreach (var cm in coordinatesModel)
-	//	{
-	//		_chart.Series.Single(series => series.Name.Contains(cm.Color))
-	//			.Points
-	//			.AddXY(cm.X, cm.Y);
-	//	}
+		for (var i = 0; i < coordinatesModel.Color.Count; i++)
+		{
+			Chart.Series.Single(series => series.Name.Contains(coordinatesModel.Color[i]))
+				.Points
+				.AddXY(coordinatesModel.X[i], coordinatesModel.Y[i]);
+		}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var settings = (AccelerationCoefficientEstimationSettingsModel) modeSettings;
-		return new ChartArea
+
+		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
 			AxisX = new Axis
@@ -85,6 +87,9 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				Interval = 5
 			}
 		};
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
+
+		return chartArea;
 	}
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -131,7 +136,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	public override void UpdateEnvironment(object parameters)
 	{
-		var environmentModel = (AccelerationCoefficientEnvironmentModel) parameters;
+		var environmentModel = (AccelerationCoefficientEnvironmentArgs) parameters;
 
 		if (environmentModel.MinAValue.HasValue)
 		{

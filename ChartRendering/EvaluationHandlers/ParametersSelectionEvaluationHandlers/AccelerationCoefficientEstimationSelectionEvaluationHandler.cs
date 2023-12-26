@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
-using ChartRendering.Helpers;
+using ChartRendering.Events;
 using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
@@ -25,7 +24,9 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		var settings = (AccelerationCoefficientEstimationSettingsModel) p.ModeSettings;
 
 		var cm = new List<CoefficientEstimationCoordinatesModel>();
-		var em = new AccelerationCoefficientEnvironmentModel();
+
+		double? maxAValue = null;
+		double? minAValue = null;
 
 		var step = 0.001;
 		for (var a = 0.1; a <= settings.MaxA; a += step)
@@ -40,22 +41,32 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 
 			if (previousCoordinatesModel != null && previousCoordinatesModel.Color != coordinatesModel.Color)
 			{
-				em.MaxAValue = em.MinAValue.HasValue && !em.MaxAValue.HasValue
+				maxAValue = minAValue.HasValue && !maxAValue.HasValue
 					? coordinatesModel.X
 					: null;
-				em.MinAValue ??= coordinatesModel.X;
+				minAValue ??= coordinatesModel.X;
 			}
 		}
 
-		AccelerationCoefficientEstimationSelectionEvaluationHelper.GenerateCharts(modelParameters, cm, em); 
+		//AccelerationCoefficientEstimationSelectionEvaluationHelper.GenerateCharts(modelParameters, cm, em); 
 
-		MethodInvoker action = delegate
-		{
-		//	ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(cm);
-		//	ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChartEnvironments(em);
-		};
-
-	//	p.Form.Invoke(action);
+		p.ChartEventHandler.Invoke(
+			new List<ChartEventActions>
+			{
+				ChartEventActions.UpdateCharts,
+				ChartEventActions.UpdateChartEnvironments
+			},
+			new ChartEventHandlerArgs(new CoefficientEstimationCoordinatesArgs
+				{
+					X = cm.Select(x => x.X).ToList(),
+					Y = cm.Select(x => x.Y).ToList(),
+					Color = cm.Select(x => x.Color).ToList(),
+				},
+				new AccelerationCoefficientEnvironmentArgs
+				{
+					MaxAValue = maxAValue,
+					MinAValue = minAValue
+				}));
 	}
 
 	private CoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters, AccelerationCoefficientEstimationSettingsModel modeSettings)
@@ -101,5 +112,14 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 				? CustomColors.Green.Name
 				: CustomColors.BrightRed.Name
 		};
+	}
+
+	private class CoefficientEstimationCoordinatesModel
+	{
+		public double X { get; set; }
+
+		public double Y { get; set; }
+
+		public string Color { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Models;
 using ChartRendering.Renders.ChartRenders;
@@ -15,15 +16,13 @@ public class ChartRenderingHandler
 
 	private readonly List<IChartRender> _providers = new();
 
-	public ChartRenderingHandler(List<string> chartNames)
+	public ChartRenderingHandler(List<string> chartNames, string mode)
 	{
 		_chartNames = chartNames;
-
-		var drivingMode = ModesHelper.GetCurrentDrivingMode();
-		InitializeChartProviders(drivingMode);
+		InitializeChartProviders(mode);
 	}
 
-	public void InitializeChartProviders(DrivingMode mode)
+	public void InitializeChartProviders(string mode)
 	{
 		_providers.Clear();
 		foreach (var name in _chartNames)

@@ -131,7 +131,6 @@
     <Compile Include="CustomControls\SubMenuCustomColorTable.cs" />
     <Compile Include="Handlers\ChartRenderingHandler.cs" />
     <Compile Include="Handlers\FormUpdateHandler.cs" />
-    <Compile Include="Handlers\ParametersSelectionRenderingHandler.cs" />
     <Compile Include="Helpers\EnumComboBoxHelper.cs" />
     <Compile Include="Helpers\LocalizationWindowHelper.cs" />
     <Compile Include="Helpers\MainWindowHelper.cs" />

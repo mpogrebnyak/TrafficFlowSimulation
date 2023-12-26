@@ -65,7 +65,7 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 				x[i] = r.X(i).Last();
 				y[i] = r.Y(i).Last();
 			}
-			
+
 			if (t - tp > 0.1)
 			{
 				tp = t;
