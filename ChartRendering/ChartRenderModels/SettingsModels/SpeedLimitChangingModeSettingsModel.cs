@@ -30,9 +30,9 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 	[Translation(Locales.en, "")]
 	[CustomDisplay(1)]
 	[Required]
-	public int SegmentsNumber { get; set; }
+	public virtual int SegmentsNumber { get; set; }
 
-	[Translation(Locales.ru, "Начальная скорость")]
+	[Translation(Locales.ru, "Начальная скорость потока")]
 	[Translation(Locales.en, "")]
 	[CustomDisplay(2)]
 	[Required]
@@ -41,13 +41,13 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 	[Translation(Locales.ru, "Начало отрезков")]
 	[Translation(Locales.en, "")]
 	[CustomDisplay(3, true, placeHolder: "1:100 2:200 3:300")] 
-	public string SegmentBeginning { get; set; }
+	public virtual string SegmentBeginning { get; set; }
 
 	[Translation(Locales.ru, "Скорость на отрезках")]
 	[Translation(Locales.en, "")]
 	[CustomDisplay(4, true, placeHolder: "1:16.7 2:8.3 3:16.7")]
 	[Required]
-	public string SpeedInSegment { get; set; }
+	public virtual string SpeedInSegment { get; set; }
 
 	public override void MapTo(ModelParameters mp)
 	{

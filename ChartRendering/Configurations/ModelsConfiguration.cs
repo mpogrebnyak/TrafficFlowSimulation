@@ -63,6 +63,18 @@ public class ModelsConfiguration : IInitializable
 
 					break;
 				}
+
+				case DrivingMode.RoadHole:
+				{
+					var m = DrivingMode.RoadHole.ToString();
+					CommonHelper.ServiceRegistration.RegisterInstance<IBaseParametersModel>(() => new SpeedLimitChangingModeParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new SpeedLimitChangingInitialConditionsParametersModel(), m);
+
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new RoadHoleModeSettingsModel(), m);
+
+					break;
+				}
 			}
 		}
 

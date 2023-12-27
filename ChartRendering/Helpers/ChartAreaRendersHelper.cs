@@ -22,7 +22,12 @@ public static class ChartAreaRendersHelper
 			Minimum = 0,
 			Maximum = 1,
 			Interval = 1,
-		},
+			LabelStyle = new LabelStyle
+				{
+					Enabled = false,
+					
+				}
+		}
 	};
 
 	private static readonly AxisScaleView GetScaleView = new()
@@ -61,6 +66,7 @@ public static class ChartAreaRendersHelper
 				Minimum = model.AxisY?.Minimum ?? ChartAreaBaseModel.AxisY.Minimum,
 				Interval = model.AxisY?.Interval ?? ChartAreaBaseModel.AxisY.Interval,
 				Title = model.AxisY?.Title ?? ChartAreaBaseModel.AxisY.Title,
+				LabelStyle = model.AxisY?.LabelStyle ?? ChartAreaBaseModel.AxisY.LabelStyle,
 				TitleAlignment = StringAlignment.Far,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 			}

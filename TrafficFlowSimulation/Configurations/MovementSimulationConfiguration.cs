@@ -4,6 +4,7 @@ using ChartRendering.Renders.ChartRenders;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughOneTrafficLight;
+using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.RoadHole;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.StartAndStopMovement;
 using Common;
@@ -92,6 +93,21 @@ namespace TrafficFlowSimulation.Configurations
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingSpeedFromDistanceChartRender(_speedFromDistanceChart),
 					_speedFromDistanceChart.Name + DrivingMode.SpeedLimitChanging);
+			}
+
+			if (availableModes.Contains(DrivingMode.RoadHole))
+			{
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleSpeedChartRender(_speedChart),
+					_speedChart.Name + DrivingMode.RoadHole);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleDistanceChartRender(_distanceChart),
+					_distanceChart.Name + DrivingMode.RoadHole);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleCarsChartRender(_carsMovementChart),
+					_carsMovementChart.Name + DrivingMode.RoadHole);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleSpeedFromDistanceChartRender(_speedFromDistanceChart),
+					_speedFromDistanceChart.Name + DrivingMode.RoadHole);
 			}
 
 			CommonHelper.ServiceRegistration.RegisterInstance(() => new ChartRenderingHandler(

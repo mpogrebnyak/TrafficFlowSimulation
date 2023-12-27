@@ -43,6 +43,12 @@ public class HandlersConfiguration : IInitializable
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new SpeedLimitChangingEvaluationHandler(),
 				DrivingMode.SpeedLimitChanging.ToString());
 		}
+
+		if (availableModes.Contains(DrivingMode.RoadHole))
+		{
+			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new RoadHoleEvaluationHandler(),
+				DrivingMode.RoadHole.ToString());
+		}
 	}
 
 	private void InitializeParametersSelectionEvaluationHandlers()

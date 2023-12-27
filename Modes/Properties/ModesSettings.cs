@@ -8,7 +8,7 @@ internal class ModesSettings
 	[DefaultValue("StartAndStopMovement")]
 	public DrivingMode CurrentDrivingMode { get; set; }
 
-	[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow, SpeedLimitChanging")]
+	[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow, SpeedLimitChanging, RoadHole")]
 	public DrivingMode[] AvailableDrivingModes { get; set; }
 
 	[DefaultValue("InliningDistanceEstimation")]
