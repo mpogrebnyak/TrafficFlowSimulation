@@ -45,7 +45,7 @@ public class RoadHoleModeSettingsModel : SpeedLimitChangingModeSettingsModel
 		for (var i = 0; i < mp.n; i++)
 		{
 			mp.Vn[i] = InitialSpeed;
-			mp.lambda[i] = -EquationHelper.S(mp, InitialSpeed) * (i + 1);
+			mp.lambda[i] = -EquationHelper.S(mp, InitialSpeed) * (i + 1) - 20;
 		}
 	}
 

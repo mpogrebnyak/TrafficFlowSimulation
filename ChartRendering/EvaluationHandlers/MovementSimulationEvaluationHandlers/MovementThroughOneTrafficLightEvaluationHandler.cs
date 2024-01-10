@@ -39,9 +39,9 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 		StartExecution();
 		while (true)
 		{
-			lock (_lockObject)
+			lock (LockObject)
 			{
-				if (_isPaused)
+				if (IsPaused)
 				{
 					Thread.Sleep(1000);
 					continue;

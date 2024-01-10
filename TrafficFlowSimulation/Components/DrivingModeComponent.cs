@@ -15,11 +15,14 @@ namespace TrafficFlowSimulation.Components;
 
 public class DrivingModeComponent : IComponent
 {
-	private ToolStripDropDownButton _modeButton;
+	private readonly ToolStripDropDownButton _modeButton;
 
-	public DrivingModeComponent(ToolStripDropDownButton modeButton)
+	private readonly Panel _panel;
+
+	public DrivingModeComponent(ToolStripDropDownButton modeButton, Panel panel)
 	{
 		_modeButton = modeButton;
+		_panel = panel;
 	}
 
 	public void Initialize()
@@ -60,6 +63,7 @@ public class DrivingModeComponent : IComponent
 		var owner = (selectedModeItem.Owner as ToolStripDropDownMenu)?.OwnerItem;
 		if (owner != null) owner.Text = selectedModeItem.Text;
 
+		_panel.Hide();
 		var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 		ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
 

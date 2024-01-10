@@ -42,9 +42,9 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 		StartExecution();
 		while (true)
 		{
-			lock (_lockObject)
+			lock (LockObject)
 			{
-				if (_isPaused)
+				if (IsPaused)
 				{
 					Thread.Sleep(1000);
 					continue;
@@ -66,7 +66,7 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 				y[i] = r.Y(i).Last();
 			}
 
-			if (t - tp > 0.1)
+			if (t - tp > 0.4)
 			{
 				tp = t;
 

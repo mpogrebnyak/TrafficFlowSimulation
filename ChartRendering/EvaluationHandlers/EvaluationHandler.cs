@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Events;
 using Common.Errors;
@@ -13,14 +12,14 @@ public abstract class EvaluationHandler : IEvaluationHandler
 {
 	private static Thread? _thread;
 
-	protected static object _lockObject;
+	protected static object LockObject;
 
-	protected static bool _isPaused;
+	protected static bool IsPaused;
 
-	public EvaluationHandler()
+	protected EvaluationHandler()
 	{
-		_lockObject = new object();
-		_isPaused = false;
+		LockObject = new object();
+		IsPaused = false;
 		_thread = null;
 	}
 
@@ -70,17 +69,17 @@ public abstract class EvaluationHandler : IEvaluationHandler
 
 	public void StartExecution() 
 	{
-		lock (_lockObject) 
+		lock (LockObject) 
 		{
-			_isPaused = false;
+			IsPaused = false;
 		}
 	}
 
 	public void StopExecution()
 	{
-		lock (_lockObject) 
+		lock (LockObject) 
 		{
-			_isPaused = true;
+			IsPaused = true;
 		}
 	}
 

@@ -150,9 +150,13 @@ namespace EvaluationKernel
 
 				x[i].Add(x[i][x[i].Count - 1] + (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6);
 				y[i].Add(y[i][y[i].Count - 1] + (q1[i] + 2 * q2[i] + 2 * q3[i] + q4[i]) / 6);
+
+				x[i].RemoveAt(0);
+				y[i].RemoveAt(0);
 			}
 
 			t.Add(t[t.Count - 1] + _h);
+			t.RemoveAt(0);
 		}
 	}
 }

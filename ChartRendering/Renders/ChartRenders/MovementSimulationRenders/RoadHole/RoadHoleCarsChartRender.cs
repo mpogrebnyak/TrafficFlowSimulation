@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -7,7 +6,6 @@ using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Helpers;
 using ChartRendering.Models;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
 using EvaluationKernel.Models;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.RoadHole;

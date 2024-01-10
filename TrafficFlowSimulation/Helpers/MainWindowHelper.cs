@@ -105,7 +105,10 @@ namespace TrafficFlowSimulation.Helpers
 
 			if (drivingModeStripDropDownButton != null)
 			{
-				var drivingModeComponent = new DrivingModeComponent(drivingModeStripDropDownButton);
+				if (_controls.Find(ControlName.CommonControlName.ParametersPanelName, true).Single() is not Panel parametersPanel)
+					parametersPanel = null!;
+
+				var drivingModeComponent = new DrivingModeComponent(drivingModeStripDropDownButton, parametersPanel);
 				drivingModeComponent.Initialize();
 			}
 		}

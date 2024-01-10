@@ -4,6 +4,7 @@ using ChartRendering.EvaluationHandlers;
 using ChartRendering.Helpers;
 using Microsoft.Practices.ServiceLocation;
 using Modes;
+using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Windows.Components;

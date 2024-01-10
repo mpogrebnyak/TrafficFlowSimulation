@@ -37,7 +37,7 @@ public class StartAndStopMovementSpeedChartRender : SpeedChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (coordinates.X[i] > -30)
+			if (coordinates.X[i] > -3000)
 			{
 				Chart.Series[i].Points.AddXY(coordinates.T, coordinates.Y[i]);
 				showLegend = true;

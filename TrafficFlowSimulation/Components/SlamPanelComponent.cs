@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Windows.Forms;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Windows.Components;
 
-namespace TrafficFlowSimulation.Windows.Components;
+namespace TrafficFlowSimulation.Components;
 
 public class SlamPanelComponent : IComponent
 {
