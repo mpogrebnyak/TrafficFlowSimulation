@@ -39,6 +39,7 @@ public static class EquationHelper
 
 	public static double S(ModelParameters m, double v)
 	{
-		return (m.tau + m.tau_b) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + m.lSafe[0] + m.lCar[0];;
+		var q = (m.tau + m.tau_b) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + m.lSafe[0] + m.lCar[0];
+		return q;
 	}
 }

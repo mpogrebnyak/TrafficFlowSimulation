@@ -5,7 +5,9 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
 using ChartRendering.Models;
+using ChartRendering.Properties;
 using EvaluationKernel.Models;
+using Settings;
 
 namespace ChartRendering.Renders.ChartRenders;
 
@@ -23,6 +25,10 @@ public abstract class ChartsRender : IChartRender
 
 	public static string EnvironmentSeriesTag => "EnvironmentSeries";
 
+	protected virtual bool IsTimeAutomaticallyIncrease => false;
+
+	private int _currentMinute = 1;
+
 	protected ChartsRender(Chart chart)
 	{
 		Chart = chart;
@@ -37,7 +43,7 @@ public abstract class ChartsRender : IChartRender
 
 		Chart.Legends.Add(CreateLegend(LegendStyle.Column));
 
-		for (int i = 0; i < modelParameters.n; i++)
+		for (var i = 0; i < modelParameters.n; i++)
 		{
 			Chart.Series.Add(new Series
 			{
@@ -49,9 +55,28 @@ public abstract class ChartsRender : IChartRender
 		}
 
 		RenderChartEnvironment(modelParameters, modeSettings);
+
+		_currentMinute = 1;
 	}
 
-	public abstract void UpdateChart(CoordinatesArgs coordinates);
+	public virtual void UpdateChart(CoordinatesArgs coordinates)
+	{
+		if (!IsTimeAutomaticallyIncrease)
+			return;
+
+		if (!(coordinates.T > 60 * _currentMinute))
+			return;
+
+		_currentMinute++;
+
+		var maximumTime = SettingsHelper.Get<ChartRenderingSettings>().MaximumTimeForAutomaticIncrease;
+		if (_currentMinute <= maximumTime)
+		{
+			var chartAreas = Chart.ChartAreas.Single(x => x.Name == ChartAreaName);
+			chartAreas.AxisX.Maximum = 60 * _currentMinute;
+			Chart.Invalidate();
+		}
+	}
 
 	public virtual void UpdateEnvironment(object parameters) { } 
 
@@ -133,7 +158,7 @@ public abstract class ChartsRender : IChartRender
 		Chart.Legends.Clear();
 	}
 
-	protected ChartArea GetChartArea(string name)
+	protected ChartArea GetChartArea()
 	{
 		return Chart.ChartAreas.Single(x => x.Name == ChartAreaName);
 	}

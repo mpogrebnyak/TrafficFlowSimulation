@@ -26,7 +26,8 @@ public class SpeedLimitChangingSpeedFromDistanceChartRender : SpeedFromDistanceC
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = segment.Last() + 100
+				Maximum = segment.Last() + 100,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			},
 			AxisY = new Axis
 			{
@@ -47,5 +48,4 @@ public class SpeedLimitChangingSpeedFromDistanceChartRender : SpeedFromDistanceC
 
 		return settings.GetSegmentList(segmentSpeeds);
 	}
-	
 }

@@ -24,7 +24,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			var chartArea = GetChartArea(ChartAreaName);
+			var chartArea = GetChartArea();
 
 			var showLegend = false;
 			if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
@@ -49,7 +49,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if(Chart.Series[i].Points.Any())
 				Chart.Series[i].Points.RemoveAt(0);
-			if (coordinates.X[i] > GetChartArea(ChartAreaName).AxisX.Minimum)
+			if (coordinates.X[i] > GetChartArea().AxisX.Minimum)
 			{
 				Chart.Series[i].Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;

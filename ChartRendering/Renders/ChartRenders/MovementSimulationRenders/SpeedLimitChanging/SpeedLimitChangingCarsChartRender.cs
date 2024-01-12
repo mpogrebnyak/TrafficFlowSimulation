@@ -52,8 +52,8 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if(Chart.Series[i].Points.Any())
 				Chart.Series[i].Points.RemoveAt(0);
-			
-			if (coordinates.X[i] > GetChartArea(ChartAreaName).AxisX.Minimum)
+
+			if (coordinates.X[i] > GetChartArea().AxisX.Minimum)
 			{
 				Chart.Series[i].Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;

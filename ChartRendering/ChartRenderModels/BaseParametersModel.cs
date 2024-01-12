@@ -4,6 +4,7 @@ using ChartRendering.Attribute;
 using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.Constants;
 using ChartRendering.Helpers;
+using Common;
 using EvaluationKernel.Models;
 using Localization.Localization;
 
@@ -123,12 +124,12 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 
 	private void MapMultiple(ModelParameters mp)
 	{
-		var vMaxDictionary = ChartRenderModelHelper.ParseMultipleValues(Vmax_multiple);
-		var aDictionary = ChartRenderModelHelper.ParseMultipleValues(a_multiple);
-		var qDictionary = ChartRenderModelHelper.ParseMultipleValues(q_multiple);
-		var lDictionary = ChartRenderModelHelper.ParseMultipleValues(l_safe_multiple);
-		var lCarDictionary = ChartRenderModelHelper.ParseMultipleValues(l_car_multiple);
-		var kDictionary = ChartRenderModelHelper.ParseMultipleValues(k_multiple);
+		var vMaxDictionary = CommonParserHelper.ParseMultipleValues(Vmax_multiple);
+		var aDictionary = CommonParserHelper.ParseMultipleValues(a_multiple);
+		var qDictionary = CommonParserHelper.ParseMultipleValues(q_multiple);
+		var lDictionary = CommonParserHelper.ParseMultipleValues(l_safe_multiple);
+		var lCarDictionary = CommonParserHelper.ParseMultipleValues(l_car_multiple);
+		var kDictionary = CommonParserHelper.ParseMultipleValues(k_multiple);
 
 		for (int i = 0; i < n; i++)
 		{

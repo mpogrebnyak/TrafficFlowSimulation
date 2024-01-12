@@ -49,14 +49,14 @@ public class EquationWithSpeedLimitChanging : Equation
 
 	protected override double DeltaX(Coordinates x_n, Coordinates x_n_1)
 	{
-			return Math.Min(Phi(), x_n_1.X) - x_n.X;
+		return Math.Min(Phi(), x_n_1.X) - x_n.X;
 	}
 
 	protected override double DeltaDotX(Coordinates x_n, Coordinates x_n_1)
 	{
 		return Vmin(x_n.DotX, x_n_1.DotX) - x_n.DotX;
 	}
-	
+
 	protected override double L_safe(int n)
 	{
 		if (n == 0)
@@ -68,6 +68,9 @@ public class EquationWithSpeedLimitChanging : Equation
 	private double Vmin(double v1, double v)
 	{
 		var min = Math.Min(v, v1);
+		if (_currentSegment + 1 == _segmentSpeeds.Count - 1)
+			return min;
+
 		return Math.Min(_segmentSpeeds[_currentSegment + 1].Speed, min);
 	}
 

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Constants;
 using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
+using Settings;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
 
@@ -25,7 +27,8 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			Chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+			if (i == 0)
+				Chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
 
 			UpdateLegend(i, true, modelParameters.lambda[i]);
 		}
@@ -33,6 +36,8 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
+		base.UpdateChart(coordinates);
+
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
@@ -53,7 +58,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 			{
 				Minimum = 0,
 				Maximum = 60,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText
 			},
 			AxisY = new Axis
 			{
@@ -66,44 +71,42 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 
 		return chartArea;
 	}
-	
+
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var settings = (SpeedLimitChangingModeSettingsModel)modeSettings;
 
-/*		var segmentBeginSeries = new Series
-		{
-			Name = "SegmentBegin",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 2,
-			Color = Color.Blue,
-			IsVisibleInLegend = false
-		};
-		segmentBeginSeries.Points.Add(new DataPoint(ChartAreaModel.AxisXMinimum,settings.SegmentBeginning));
-		segmentBeginSeries.Points.Add(new DataPoint(ChartAreaModel.AxisXMaximum, settings.SegmentBeginning));
+		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
+		settings.MapTo(segmentSpeeds);
 
-		var segmentEndSeries = new Series
-		{
-			Name = "SegmentEnd",
-			ChartType = SeriesChartType.Line,
-			ChartArea = _chartAreaName,
-			BorderWidth = 2,
-			Color = Color.Blue,
-			IsVisibleInLegend = false
-		};
-		segmentEndSeries.Points.Add(new DataPoint(ChartAreaModel.AxisXMinimum, settings.SegmentEnding));
-		segmentEndSeries.Points.Add(new DataPoint(ChartAreaModel.AxisXMaximum, settings.SegmentEnding));
+		var maximumTime = SettingsHelper.Get<ChartRenderingSettings>().MaximumTimeForAutomaticIncrease;
 
-		return new[]
+		var series = new List<Series>();
+		foreach (var segment in segmentSpeeds)
 		{
-			segmentBeginSeries,
-			segmentEndSeries
-		};*/
-		return new Series[]
-		{
-			
-		} ;
+			var segmentSeries = new Series
+			{
+				Name = "SegmentBegin" + segment.Key,
+				ChartType = SeriesChartType.Line,
+				ChartArea = ChartAreaName,
+				BorderWidth = 2,
+				Color = CustomColors.Red,
+				IsVisibleInLegend = false
+			};
+
+			segmentSeries.Points.Add(new DataPoint(GetChartArea().AxisX.Minimum, segment.Value.SegmentBeginning));
+			for (var i = 1; i <= maximumTime; i++)
+			{
+				segmentSeries.Points.Add(new DataPoint(GetChartArea().AxisX.Maximum * i, segment.Value.SegmentBeginning));
+			}
+			// необходимо для красивой отрисовки без начала движения
+			segmentSeries.Points.Add(new DataPoint(20, segment.Value.SegmentBeginning));
+			segmentSeries.Points.Add(new DataPoint(40, segment.Value.SegmentBeginning));
+
+			series.Add(segmentSeries);
+		}
+
+		return series.ToArray();
 	}
 
 	private List<double> GetSegmentList(SpeedLimitChangingModeSettingsModel settings)

@@ -11,6 +11,73 @@ namespace ChartRendering.Helpers;
 
 public static class RenderingHelper
 {
+	public static Chart CreateChartToSave(Chart chart)
+	{
+		var newChart = CreateCleanChart();
+
+		foreach (var originalSeries in chart.Series)
+		{
+			var newSeries = new Series(originalSeries.Name);
+			newSeries.ChartType = originalSeries.ChartType;
+			newSeries.BorderWidth = 10;
+
+			foreach (var originalPoint in originalSeries.Points)
+			{
+				newSeries.Points.AddXY(originalPoint.XValue, originalPoint.YValues.Single());
+				newSeries.Color = originalSeries.Color;
+			}
+
+			newChart.Series.Add(newSeries);
+		}
+
+		var originalChartArea = chart.ChartAreas.Single();
+
+		var model = new ChartAreaCreationModel
+		{
+			Name = originalChartArea.Name,
+			AxisX = new Axis
+			{
+				Minimum = originalChartArea.AxisX.Minimum,
+				Maximum = originalChartArea.AxisX.Maximum,
+				//Title = originalChartArea.AxisX.Title,
+				LineWidth = 2,
+				LabelAutoFitMinFontSize = 50,
+				MajorGrid = new Grid
+				{
+					LineWidth = 2
+				}
+			},
+			AxisY = new Axis
+			{
+				Minimum = originalChartArea.AxisY.Minimum,
+				Maximum = originalChartArea.AxisY.Maximum,
+				//Title = originalChartArea.AxisY.Title,
+				LineWidth = 2,
+				LabelAutoFitMinFontSize = 50,
+				MajorGrid = new Grid
+				{
+					LineWidth = 2
+				}
+			}
+		};
+		var newChartArea = ChartAreaRendersHelper.CreateChartArea(model);
+		newChart.ChartAreas.Add(newChartArea);
+
+		return newChart;
+	}
+
+	public static Chart CreateCleanChart()
+	{
+		var chart = new Chart();
+		chart.Size = new Size(1920, 1080);
+
+		chart.Series.Clear();
+		chart.ChartAreas.Clear();
+		chart.Legends.Clear();
+
+		return chart;
+	}
+
 	public static Series CreateLineSeries(string name, Color color)
 	{
 		return new Series

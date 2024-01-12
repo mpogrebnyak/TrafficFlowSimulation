@@ -4,7 +4,9 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using ChartRendering.Models;
+using Common;
 using EvaluationKernel.Models;
+using Settings;
 using TrafficFlowSimulation.Renders;
 
 namespace ChartRendering.Helpers;
@@ -35,14 +37,15 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			{"q", 1}
 		};
 
-		var fileName = EvaluationCommonHelper.CreateFileName("Q_Estimation", parameters);
-		var chartFilePath = EvaluationCommonHelper.CreateFile(fileName, ".png");
+		var fileName = CommonFileHelper.CreateFileName("Q_Estimation", parameters);
+		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
+		var chartFilePath = CommonFileHelper.CreateFile(fileName, folderName, ".png");
 		chart.SaveImage(chartFilePath, ChartImageFormat.Png);
 	}
 
 	private static Chart CreateChart(ModelParameters modelParameters, DecelerationCoefficientEnvironmentModel environmentModel)
 	{
-		var chartArea = GetChartAreaParameters(modelParameters, environmentModel);
+	/*	var chartArea = GetChartAreaParameters(modelParameters, environmentModel);
 		var chart = EvaluationCommonHelper.CreateBaseChart(chartArea);
 		foreach (var color in CustomColors.GetColorsForDecelerationCoefficientEstimation())
 		{
@@ -78,10 +81,11 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 			}
 		}
 
-		return chart;
+		return chart;*/
+	return new Chart();
 	}
 
-	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters, DecelerationCoefficientEnvironmentModel environmentModel)
+/*	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters, DecelerationCoefficientEnvironmentModel environmentModel)
 	{
 		var chartArea = new EvaluationCommonHelper.ChartAreaParameters
 		{
@@ -173,5 +177,5 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 		}
 
 		return chartArea;
-	}
+	}*/
 }

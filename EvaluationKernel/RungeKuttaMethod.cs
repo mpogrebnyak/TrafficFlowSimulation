@@ -111,7 +111,7 @@ namespace EvaluationKernel
 					},
 					PreviousСarCoordinates = new Coordinates
 					{
-						n = i != 0 ? i - 1 : 0,
+						n = i - 1,
 						X = i != 0 ? x[i - 1][x[i].Count - _N] : 0,
 						DotX = i != 0 ? y[i - 1][y[i].Count - _N] : 0
 					}	

@@ -37,7 +37,7 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (coordinates.X[i] > GetChartArea(ChartAreaName).AxisY.Minimum)
+			if (coordinates.X[i] > GetChartArea().AxisY.Minimum)
 			{
 				Chart.Series[i].Points.AddXY(coordinates.T, coordinates.X[i]);
 				showLegend = true;

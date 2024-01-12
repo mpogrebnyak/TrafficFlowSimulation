@@ -16,6 +16,8 @@ public abstract class DistanceChartRender : ChartsRender
 
 	protected override string ChartAreaName => "DistanceChartArea";
 
+	protected override bool IsTimeAutomaticallyIncrease => true;
+
 	protected DistanceChartRender(Chart chart) : base(chart)
 	{
 	}

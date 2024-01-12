@@ -28,6 +28,7 @@ public class ChartContextMenuStripComponent : IComponent
 		public const string HideAxesMenuItem = "HideAxesMenuItem";
 		public const string ToolStripSeparator = "ToolStripSeparator";
 		public const string SaveChartToolStripMenuItem = "SaveChartToolStripMenuItem";
+		public const string SaveAllChartsToolStripMenuItem = "SaveAllChartsToolStripMenuItem";
 		public const string DisplaySpeedFromDistanceChartMenuItem = "DisplaySpeedFromDistanceChartMenuItem";
 	}
 
@@ -64,9 +65,13 @@ public class ChartContextMenuStripComponent : IComponent
 
 		contextMenuStrip.Items.Add(helper.CreateToolStripSeparator(MenuItemName.ToolStripSeparator));
 
-		var saveMenuItem = helper.CreateToolStripMenuItem(MenuItemName.SaveChartToolStripMenuItem, resources.SaveChartToolStripMenuItem);
-		saveMenuItem.Click += helper.SaveChartMenuItem_Click;
-		contextMenuStrip.Items.Add(saveMenuItem);
+		var saveChartMenuItem = helper.CreateToolStripMenuItem(MenuItemName.SaveChartToolStripMenuItem, resources.SaveChartToolStripMenuItem);
+		saveChartMenuItem.Click += helper.SaveChartMenuItem_Click;
+		contextMenuStrip.Items.Add(saveChartMenuItem);
+
+		var saveAllChartsMenuItem = helper.CreateToolStripMenuItem(MenuItemName.SaveAllChartsToolStripMenuItem, resources.SaveAllChartsToolStripMenuItem);
+		saveAllChartsMenuItem.Click += helper.SaveAllChartsMenuItem_Click;
+		contextMenuStrip.Items.Add(saveAllChartsMenuItem);
 
 		contextMenuStrip.Renderer = new ToolStripProfessionalRenderer(new SubMenuCustomColorTable());
 

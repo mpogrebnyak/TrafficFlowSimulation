@@ -30,7 +30,8 @@ public class SpeedFromDistanceChartRender : ChartsRender
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			Chart.Series[i].Points.AddXY(0, 0);
+			if (i == 0)
+				Chart.Series[i].Points.AddXY(modelParameters.lambda[i], modelParameters.Vn[i]);
 
 			UpdateLegend(i, true, 0);
 		}
@@ -41,9 +42,15 @@ public class SpeedFromDistanceChartRender : ChartsRender
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			Chart.Series[i].Points.AddXY(coordinates.X[i], coordinates.Y[i]);
 
-			UpdateLegend(i, true, coordinates.Y[i]);
+			var showLegend = false;
+			if (coordinates.X[i] > GetChartArea().AxisX.Minimum - 10)
+			{
+				Chart.Series[i].Points.AddXY(coordinates.X[i], coordinates.Y[i]);
+				showLegend = true;
+			}
+
+			UpdateLegend(i, showLegend, coordinates.Y[i]);
 		}
 	}
 
@@ -72,7 +79,8 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = modelParameters.L + 100
+				Maximum = modelParameters.L + 100,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			},
 			AxisY = new Axis
 			{

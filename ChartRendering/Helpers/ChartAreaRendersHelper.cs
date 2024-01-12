@@ -7,7 +7,8 @@ namespace ChartRendering.Helpers;
 
 public static class ChartAreaRendersHelper
 {
-	private static readonly double ZoomShift = 48;
+	private const double ZoomShift = 48;
+
 	private static readonly ChartAreaCreationModel ChartAreaBaseModel = new()
 	{
 		Name = string.Empty,
@@ -24,8 +25,7 @@ public static class ChartAreaRendersHelper
 			Interval = 1,
 			LabelStyle = new LabelStyle
 				{
-					Enabled = false,
-					
+					Enabled = false
 				}
 		}
 	};
@@ -58,6 +58,9 @@ public static class ChartAreaRendersHelper
 				Interval = model.AxisX?.Interval ?? ChartAreaBaseModel.AxisX.Interval,
 				Title = model.AxisX?.Title ?? ChartAreaBaseModel.AxisX.Title,
 				TitleAlignment = StringAlignment.Far,
+				LineWidth = model.AxisX?.LineWidth ?? ChartAreaBaseModel.AxisX.LineWidth,
+				MajorGrid = model.AxisX?.MajorGrid ?? ChartAreaBaseModel.AxisX.MajorGrid,
+				LabelAutoFitMinFontSize = model.AxisX?.LabelAutoFitMinFontSize ?? ChartAreaBaseModel.AxisX.LabelAutoFitMinFontSize,
 				TitleFont = new Font("Microsoft Sans Serif", 10F)
 			},
 			AxisY = new Axis
@@ -68,6 +71,9 @@ public static class ChartAreaRendersHelper
 				Title = model.AxisY?.Title ?? ChartAreaBaseModel.AxisY.Title,
 				LabelStyle = model.AxisY?.LabelStyle ?? ChartAreaBaseModel.AxisY.LabelStyle,
 				TitleAlignment = StringAlignment.Far,
+				LineWidth = model.AxisY?.LineWidth ?? ChartAreaBaseModel.AxisY.LineWidth,
+				MajorGrid = model.AxisY?.MajorGrid ?? ChartAreaBaseModel.AxisY.MajorGrid,
+				LabelAutoFitMinFontSize = model.AxisY?.LabelAutoFitMinFontSize ?? ChartAreaBaseModel.AxisY.LabelAutoFitMinFontSize,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
 			}
 		};

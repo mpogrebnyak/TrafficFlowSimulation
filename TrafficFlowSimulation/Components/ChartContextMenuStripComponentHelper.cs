@@ -4,7 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Helpers;
-using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
+using ChartRendering.Properties;
+using Common;
 using Localization;
 using Settings;
 using TrafficFlowSimulation.Constants;
@@ -137,17 +138,46 @@ public class ChartContextMenuStripComponentHelper
 		using SaveFileDialog sfd = new();
 		sfd.Title = LocalizationHelper.Get<ContextMenuResources>().SaveImageText;
 		sfd.Filter = SettingsHelper.Get<TrafficFlowSimulationSettings>().AvailableFileTypes;
+		sfd.FileName = SettingsHelper.Get<TrafficFlowSimulationSettings>().DefaultFileName;
 		sfd.AddExtension = true;
-		sfd.FileName = "image";
 		if (sfd.ShowDialog() == DialogResult.OK)
 		{
+			var chartToSave = RenderingHelper.CreateChartToSave(chart);
 			switch (sfd.FilterIndex)
 			{
-				case 1: chart.SaveImage(sfd.FileName, ChartImageFormat.Bmp); break;
-				case 2: chart.SaveImage(sfd.FileName, ChartImageFormat.Png); break;
-				case 3: chart.SaveImage(sfd.FileName, ChartImageFormat.Jpeg); break;
-				case 4: chart.SaveImage(sfd.FileName, ChartImageFormat.Emf); break;
+				case 1: chartToSave.SaveImage(sfd.FileName, ChartImageFormat.Bmp); break;
+				case 2: chartToSave.SaveImage(sfd.FileName, ChartImageFormat.Png); break;
+				case 3: chartToSave.SaveImage(sfd.FileName, ChartImageFormat.Jpeg); break;
+				case 4: chartToSave.SaveImage(sfd.FileName, ChartImageFormat.Emf); break;
 			}
+		}
+	}
+
+	public void SaveAllChartsMenuItem_Click(object sender, EventArgs e)
+	{
+		var menuItem = sender as ToolStripMenuItem;
+
+		if (menuItem?.Owner is not ContextMenuStrip menu || menu.SourceControl == null)
+			return;
+
+		var mainWindow = GetWindow(menu);
+
+		if (mainWindow == null) 
+			return;
+
+		using FolderBrowserDialog fbd = new();
+		fbd.Description = "Выберите папку для сохранения файлов";
+
+		if (fbd.ShowDialog() == DialogResult.OK)
+		{
+			var selectedFolder = fbd.SelectedPath;
+
+			RenderingHelper.CreateChartToSave(mainWindow.DistanceChart)
+				.SaveImage(CommonFileHelper.CreateFile("DistanceChart", selectedFolder,".png", selectedFolder), ChartImageFormat.Png);
+			RenderingHelper.CreateChartToSave(mainWindow.SpeedChart)
+				.SaveImage(CommonFileHelper.CreateFile("SpeedChart", selectedFolder,".png", selectedFolder), ChartImageFormat.Png);
+			RenderingHelper.CreateChartToSave(mainWindow.SpeedFromDistanceChart)
+				.SaveImage(CommonFileHelper.CreateFile("SpeedFromDistanceChart", selectedFolder,".png", selectedFolder), ChartImageFormat.Png);
 		}
 	}
 
@@ -158,43 +188,15 @@ public class ChartContextMenuStripComponentHelper
 		if (menuItem?.Owner is not ContextMenuStrip menu || menu.SourceControl == null)
 			return;
 
-		var chart = menu.SourceControl as Chart;
-		if (chart == null) return;
+		var mainWindow = GetWindow(menu);
 
-		var panel = chart.Parent as Panel;
-		if (panel == null) return;
+		if (mainWindow == null) 
+			return;
 
-		var splitContainer = panel.Parent as SplitContainer;
-		if (splitContainer == null) return;
-
-		Control.ControlCollection? controls = null;
-		while (true)
-		{
-			if (splitContainer != null && splitContainer.Parent is Panel p && p.Parent is SplitContainer)
-			{
-				panel = splitContainer.Parent as Panel;
-
-				if (panel != null)
-					splitContainer = panel.Parent as SplitContainer;
-			}
-			else
-			{
-				if (splitContainer != null)
-				{
-					var mainWindow = splitContainer.Parent as MainWindow;
-					if (mainWindow != null) controls = mainWindow.Controls;
-				}
-
-				break;
-			}
-		}
-
-		if (controls == null) return;
-
-		var chartsSplitContainer = controls
+		var chartsSplitContainer = mainWindow.Controls
 			.Find(ControlName.MainWindowControlName.ChartsSplitContainer, true)
 			.Single() as SplitContainer;
-		var speedAndDistanceSplitContainer = controls
+		var speedAndDistanceSplitContainer = mainWindow.Controls
 			.Find(ControlName.MainWindowControlName.SpeedAndDistanceSplitContainer, true)
 			.Single() as SplitContainer;
 
@@ -215,5 +217,41 @@ public class ChartContextMenuStripComponentHelper
 			chartsSplitContainer.Panel2.Hide();
 			speedAndDistanceSplitContainer.SplitterDistance = speedAndDistanceSplitContainer.Size.Width / 2;
 		}
+	}
+
+	private MainWindow? GetWindow(ContextMenuStrip menu)
+	{
+		var chart = menu.SourceControl as Chart;
+		if (chart == null) return null;
+
+		var panel = chart.Parent as Panel;
+		if (panel == null) return null;
+
+		var splitContainer = panel.Parent as SplitContainer;
+		if (splitContainer == null) return null;
+
+		while (true)
+		{
+			if (splitContainer != null && splitContainer.Parent is Panel p && p.Parent is SplitContainer)
+			{
+				panel = splitContainer.Parent as Panel;
+
+				if (panel != null)
+					splitContainer = panel.Parent as SplitContainer;
+			}
+			else
+			{
+				if (splitContainer != null)
+				{
+					var mainWindow = splitContainer.Parent as MainWindow;
+					if (mainWindow != null)
+						return mainWindow;
+				}
+
+				break;
+			}
+		}
+
+		return null;
 	}
 }

@@ -88,6 +88,11 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		_thread?.Abort();
 	}
 
+	public bool IsExecuted()
+	{
+		return _thread != null;
+	}
+
 	protected class Parameters
 	{
 		public ModelParameters ModelParameters;

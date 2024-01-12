@@ -36,9 +36,13 @@ public class ContextMenuResources
 	[Translation(Locales.en, "Show speed from distance chart")]
 	public string ShowSpeedFromDistanceChartMenuItem { get; set; }
 
-	[Translation(Locales.ru, "Сохранить")]
+	[Translation(Locales.ru, "Сохранить график")]
 	[Translation(Locales.en, "Save")]
 	public string SaveChartToolStripMenuItem { get; set; }
+
+	[Translation(Locales.ru, "Сохранить все графики")]
+	[Translation(Locales.en, "Save")]
+	public string SaveAllChartsToolStripMenuItem { get; set; }
 
 	[Translation(Locales.ru, "Сохранить изображение как ...")]
 	[Translation(Locales.en, "Save image as ...")]

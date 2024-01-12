@@ -15,4 +15,6 @@ public interface IEvaluationHandler
 	public void StopExecution();
 
 	public void AbortExecution();
+
+	public bool IsExecuted();
 }

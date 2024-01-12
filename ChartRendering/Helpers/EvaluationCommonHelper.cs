@@ -9,29 +9,6 @@ namespace ChartRendering.Helpers;
 
 public static class EvaluationCommonHelper
 {
-	public static string CreateFileName(string prefixName, Dictionary<string, double> parameters)
-	{
-		var fileName = prefixName;
-		foreach (var p in parameters)
-		{
-			fileName += @"_" + p.Key + "=" + Math.Round(p.Value, 2);
-		}
-
-		return fileName;
-	}
-
-	public static string CreateFile(string fileName, string extension)
-	{
-		var folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
-		folder += folderName;
-		var folderExists = Directory.Exists(folder);
-		if (!folderExists)
-			Directory.CreateDirectory(folder);
-
-		return folder +  @"\" + fileName + extension;
-	}
-
 	public static Chart CreateBaseChart(ChartAreaParameters chartParameters)
 	{
 		var chart = new Chart();

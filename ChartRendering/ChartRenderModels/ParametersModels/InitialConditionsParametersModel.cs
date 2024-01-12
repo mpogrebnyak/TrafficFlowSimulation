@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
 using ChartRendering.Helpers;
+using Common;
 using EvaluationKernel.Models;
 using Localization.Localization;
 
@@ -34,8 +35,8 @@ public class InitialConditionsParametersModel : IInitialConditionsParametersMode
 
 	public void MapTo(ModelParameters mp)
 	{
-		var VnDictionary = ChartRenderModelHelper.ParseMultipleValues(Vn_multiple);
-		var lambdaDictionary = ChartRenderModelHelper.ParseMultipleValues(lambda_multiple);
+		var VnDictionary = CommonParserHelper.ParseMultipleValues(Vn_multiple);
+		var lambdaDictionary = CommonParserHelper.ParseMultipleValues(lambda_multiple);
 
 		for (int i = 0; i < mp.n; i++)
 		{

@@ -18,18 +18,17 @@ public static class TrafficCapacityHelper
 		{60, 0},
 		{120, 0},
 		{180, 0},
-		{240, 0}
+		{240, 0},
+		{300, 0},
+		{360, 0}
 	};
 
 	private static readonly string TrafficCapacityName = "TrafficCapacitySeries_";
 
 	public static void RenderTrafficCapacity(SeriesCollection chartSeries, string chartAreaName)
 	{
-		if(IsTrafficCapacityAvailable() == false)
-			return;
-
 		var environmentLineSeries = chartSeries
-			.Where(x => x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
+			.Where(x => (string) x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
 			.ToList();
 
 		foreach (var series in environmentLineSeries)
@@ -45,12 +44,13 @@ public static class TrafficCapacityHelper
 
 	public static void UpdateTrafficCapacity(SeriesCollection chartSeries, List<double> values, double t)
 	{
-		if(IsTrafficCapacityAvailable() == false)
-			return;
-
 		var environmentLineSeries = chartSeries
-			.Where(x => x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
+			.Where(x => (string) x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
 			.ToList();
+		
+		chartSeries
+			.Where(x => x.Name.Contains("FictitiousSeries"))
+			.ForEach(x => x.Enabled = IsTrafficCapacityAvailable());
 
 		foreach (var series in environmentLineSeries)
 		{
@@ -63,6 +63,7 @@ public static class TrafficCapacityHelper
 
 			if (trafficCapacitySeries != null)
 			{
+				trafficCapacitySeries.Enabled = IsTrafficCapacityAvailable();
 				var currentTrafficCapacity = int.Parse(trafficCapacitySeries.Tag.ToString());
 				if (currentTrafficCapacity < trafficCapacity)
 				{
@@ -97,13 +98,14 @@ public static class TrafficCapacityHelper
 				IsOverlappedHidden = true,
 				AllowOutsidePlotArea = LabelOutsidePlotAreaStyle.Partial,
 				MovingDirection = LabelAlignmentStyles.BottomLeft,
-				MinMovingDistance = 20,
+				MinMovingDistance = 6,
 				CalloutStyle = LabelCalloutStyle.Underlined,
 				CalloutLineAnchorCapStyle = LineAnchorCapStyle.Arrow
 			},
-			Tag = 0.ToString()
+			Tag = 0.ToString(),
+			Enabled = IsTrafficCapacityAvailable()
 		};
-		trafficCapacitySeries.Points.Add(new DataPoint(xCoordinate, 0.5));
+		trafficCapacitySeries.Points.Add(new DataPoint(xCoordinate, 0.42));
 
 		/*
 		Добавляет мнимые точки на график, чтобы label не прыгал и всегда находился в одном месте
@@ -115,9 +117,9 @@ public static class TrafficCapacityHelper
 			BorderWidth = 2,
 			Color = Color.Transparent,
 			IsVisibleInLegend = false,
+			Enabled = IsTrafficCapacityAvailable()
 		};
 		fictitiousSeries.Points.Add(new DataPoint(xCoordinate, 0.6));
-		fictitiousSeries.Points.Add(new DataPoint(xCoordinate - 5, 0.3));
 
 		return new[] {trafficCapacitySeries, fictitiousSeries};
 	}
@@ -137,11 +139,17 @@ public static class TrafficCapacityHelper
 
 	private static string GetTrafficCapacityLabel()
 	{
-		return LocalizationHelper.Get<ChartRenderingResources>().TrafficCapacity(_trafficCapacity[60],_trafficCapacity[120],_trafficCapacity[180],_trafficCapacity[240]);
+		return LocalizationHelper.Get<ChartRenderingResources>().TrafficCapacity(
+			_trafficCapacity[60].ToString("D2"),
+			_trafficCapacity[120].ToString("D2"),
+			_trafficCapacity[180].ToString("D2"),
+			_trafficCapacity[240].ToString("D2"),
+			_trafficCapacity[300].ToString("D2"),
+			_trafficCapacity[360].ToString("D2"));
 	}
 
 	private static bool IsTrafficCapacityAvailable()
 	{
-		return SettingsHelper.Get<ChartRendering.Properties.ChartRenderingSettings>().IsTrafficCapacityAvailable;
+		return SettingsHelper.Get<ChartRenderingSettings>().IsTrafficCapacityAvailable;
 	}
 }

@@ -46,7 +46,7 @@ public class HandlersConfiguration : IInitializable
 
 		if (availableModes.Contains(DrivingMode.RoadHole))
 		{
-			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new RoadHoleEvaluationHandler(),
+			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new SpeedLimitChangingEvaluationHandler(),
 				DrivingMode.RoadHole.ToString());
 		}
 	}

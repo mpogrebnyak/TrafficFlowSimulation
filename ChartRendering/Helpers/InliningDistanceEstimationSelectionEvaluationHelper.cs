@@ -7,7 +7,9 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
 using ChartRendering.Models;
+using Common;
 using EvaluationKernel.Models;
+using Settings;
 using TrafficFlowSimulation.Renders;
 
 namespace ChartRendering.Helpers;
@@ -46,8 +48,9 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		{
 			{"k",k}
 		};
-		var pointsFileName = EvaluationCommonHelper.CreateFileName("Points", parameters);
-		return EvaluationCommonHelper.CreateFile(pointsFileName, ".txt");
+		var pointsFileName = CommonFileHelper.CreateFileName("Points", parameters);
+		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
+		return CommonFileHelper.CreateFile(pointsFileName, folderName, ".txt");
 	}
 
 	public static void SavePoints(string path, ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -123,12 +126,14 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{"k", modelParameters.k[1]}
 		};
 
-		var fullFIllFileName = EvaluationCommonHelper.CreateFileName("FullFIll", parameters);
-		var fullFIllFilePath = EvaluationCommonHelper.CreateFile(fullFIllFileName, ".png");
+		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
+
+		var fullFIllFileName = CommonFileHelper.CreateFileName("FullFIll", parameters);
+		var fullFIllFilePath = CommonFileHelper.CreateFile(fullFIllFileName, folderName, ".png");
 		fullFIllChart.SaveImage(fullFIllFilePath, ChartImageFormat.Png);
 
-		var lineFIllFileName = EvaluationCommonHelper.CreateFileName("LineFIll", parameters);
-		var lineFIllFilePath = EvaluationCommonHelper.CreateFile(lineFIllFileName, ".png");
+		var lineFIllFileName = CommonFileHelper.CreateFileName("LineFIll", parameters);
+		var lineFIllFilePath = CommonFileHelper.CreateFile(lineFIllFileName, folderName, ".png");
 		lineChart.SaveImage(lineFIllFilePath, ChartImageFormat.Png);
 	}
 
@@ -157,7 +162,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 	private static Chart CreateFullFIllChart(ModelParameters modelParameters)
 	{
-		var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters));
+	/*	var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters));
 		chart.Legends.Add(CreateLegend(modelParameters));
 		chart.ChartAreas[0].InnerPlotPosition = new ElementPosition
 		{
@@ -182,7 +187,8 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			});
 		}
 
-		return chart;
+		return chart;*/
+	return new Chart();
 	}
 
 	private static Series CreateLineL(ModelParameters modelParameters)
@@ -228,7 +234,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 
 	private static Chart CreateLineChart(ModelParameters modelParameters)
 	{
-		var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters));
+		/*var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters));
 
 			chart.Series.Add(new Series
 			{
@@ -238,10 +244,11 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 				Color = CustomColors.Green
 			});
 
-			return chart;
+			return chart;*/
+		return new Chart();
 	}
 
-	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters)
+/*	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters)
 	{
 		var chartArea = new EvaluationCommonHelper.ChartAreaParameters
 		{
@@ -293,7 +300,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 		});
 
 		return chartArea;
-	}
+	}*/
 
 	private static string GetColor(double intensityInPercentage)
 	{

@@ -16,6 +16,8 @@ public abstract class SpeedChartRender : ChartsRender
 
 	protected override string ChartAreaName => "SpeedChartArea";
 
+	protected override bool IsTimeAutomaticallyIncrease => true;
+
 	protected SpeedChartRender(Chart chart) : base(chart)
 	{
 	}

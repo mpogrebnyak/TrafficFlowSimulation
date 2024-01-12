@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 
-namespace ChartRendering.Helpers;
+namespace Common;
 
-public static class ChartRenderModelHelper
+public static class CommonParserHelper
 {
 	private const char Separator = ':';
 
@@ -22,9 +19,8 @@ public static class ChartRenderModelHelper
 				.Split(ElementsSeparator)
 				.ToList();
 
-			foreach (var element in elements)
+			foreach (var value in elements.Select(element => element.Split(Separator)))
 			{
-				var value = element.Split(Separator);
 				dictionary.Add(Convert.ToInt32(value[0], CultureInfo.InvariantCulture) - 1, Convert.ToDouble(value[1]));
 			}
 		}

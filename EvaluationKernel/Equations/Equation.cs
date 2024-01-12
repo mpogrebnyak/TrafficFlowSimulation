@@ -49,13 +49,13 @@ namespace EvaluationKernel.Equations
 		protected double P(int n, Coordinates x_n, Coordinates x_n_1)
 		{
 			var s = S(n, x_n.DotX) + _m.tau * DeltaDotX(x_n, x_n_1);
-
 			return (Vmax(n) - V(n, x_n_1.DotX)) / (1 + Math.Exp(_m.k[n] * (-DeltaX(x_n, x_n_1) + s))) + V(n, x_n_1.DotX);
 		}
 
 		protected double H(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			var deceleration = _m.q[n] * Math.Pow(x_n.DotX * DeltaDotX(x_n, x_n_1), 2) / Math.Pow(DeltaX(x_n, x_n_1) - L_safe(n), 2);
+			var ee = DeltaDotX(x_n, x_n_1);
+			var deceleration = _m.q[n] * Math.Pow(x_n.DotX * ee, 2) / Math.Pow(DeltaX(x_n, x_n_1) - L_safe(n), 2);
 
 			if (x_n.DotX < _eps && x_n.DotX > 0)
 			{
@@ -72,6 +72,7 @@ namespace EvaluationKernel.Equations
 
 		protected double S(int n, double v)
 		{
+			var q =  (_m.tau + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
 			return (_m.tau + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
 		}
 
@@ -94,7 +95,7 @@ namespace EvaluationKernel.Equations
 		
 		protected virtual double DeltaX(Coordinates x_n, Coordinates x_n_1)
 		{
-			return x_n_1.X - x_n.X;
+			return Math.Abs(x_n_1.X - x_n.X);
 		}
 
 		protected virtual double DeltaDotX(Coordinates x_n, Coordinates x_n_1)

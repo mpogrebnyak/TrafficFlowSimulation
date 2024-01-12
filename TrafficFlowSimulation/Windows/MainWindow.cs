@@ -110,7 +110,10 @@ namespace TrafficFlowSimulation.Windows
 			settings.IsTrafficCapacityAvailable = EstimateTrafficCapacityCheckBox.Checked;
 			SettingsHelper.Set(settings);
 
-			RenderCharts();
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
+			var isExecuted = ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).IsExecuted();
+			if (!isExecuted)
+				RenderCharts();
 		}
 
 		private static void RenderCharts()

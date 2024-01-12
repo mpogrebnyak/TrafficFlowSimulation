@@ -130,10 +130,11 @@ namespace TrafficFlowSimulation.Helpers
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			_bindingSources.ForEach(x => x.Value.EndEdit());
 
-			var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentDrivingMode.ToString());
+			var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentDrivingMode);
 
 			var modeSettings = (BaseSettingsModels)_bindingSources[settingsModel.GetType()].DataSource;
 			modeSettings.MapTo(modelParameters);
+			modeSettings.Map();
 
 			return modeSettings;
 		}
@@ -145,9 +146,9 @@ namespace TrafficFlowSimulation.Helpers
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			_bindingSources.ForEach(x => x.Value.EndEdit());
 
-			var basicParametersModel = ServiceLocator.Current.GetInstance<IBaseParametersModel>(currentDrivingMode.ToString());
-			var additionalParametersModel = ServiceLocator.Current.GetInstance<IAdditionalParametersModel>(currentDrivingMode.ToString());
-			var initialConditionsParametersModel = ServiceLocator.Current.GetInstance<IInitialConditionsParametersModel>(currentDrivingMode.ToString());
+			var basicParametersModel = ServiceLocator.Current.GetInstance<IBaseParametersModel>(currentDrivingMode);
+			var additionalParametersModel = ServiceLocator.Current.GetInstance<IAdditionalParametersModel>(currentDrivingMode);
+			var initialConditionsParametersModel = ServiceLocator.Current.GetInstance<IInitialConditionsParametersModel>(currentDrivingMode);
 
 			((IBaseParametersModel)_bindingSources[basicParametersModel.GetType()].DataSource).MapTo(modelParameters);
 			((IAdditionalParametersModel)_bindingSources[additionalParametersModel.GetType()].DataSource).MapTo(modelParameters);

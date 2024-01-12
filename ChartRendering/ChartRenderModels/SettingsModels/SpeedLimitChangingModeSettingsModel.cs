@@ -4,6 +4,7 @@ using System.Linq;
 using ChartRendering.Attribute;
 using ChartRendering.Constants;
 using ChartRendering.Helpers;
+using Common;
 using Common.Errors;
 using EvaluationKernel.Helpers;
 using EvaluationKernel.Models;
@@ -56,14 +57,15 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 		for (int i = 0; i < mp.n; i++)
 		{
 			mp.Vn[i] = InitialSpeed;
-			mp.lambda[i] = -EquationHelper.S(mp, InitialSpeed) * (i);
+			mp.lambda[i] = -300 - EquationHelper.S(mp, InitialSpeed) * (i);
 		}
+		mp.Vn[1] = InitialSpeed - 0.1;
 	}
 
 	public void MapTo(SortedDictionary<int, SegmentModel> segmentSpeeds)
 	{
-		var segmentBeginning = ChartRenderModelHelper.ParseMultipleValues(SegmentBeginning);
-		var speedInSegment = ChartRenderModelHelper.ParseMultipleValues(SpeedInSegment);
+		var segmentBeginning = CommonParserHelper.ParseMultipleValues(SegmentBeginning);
+		var speedInSegment = CommonParserHelper.ParseMultipleValues(SpeedInSegment);
 
 		if (segmentBeginning.Count != SegmentsNumber)
 		{
@@ -110,7 +112,7 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 		for (var i = 0; i < n; i++)
 		{
 			segmentBeginning += i + 1 + ":" + 100 * i + ' ';
-			speedInSegment += i + 1 + ":" + ((i % 2 == 0 ? 16.7 : 8.3)) + ' ';
+			speedInSegment += i + 1 + ":" + ((i % 2 == 0 ? 16.7 : 16.7)) + ' ';
 		}
 		return new SpeedLimitChangingModeSettingsModel
 		{

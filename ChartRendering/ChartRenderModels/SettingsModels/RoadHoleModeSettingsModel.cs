@@ -49,6 +49,12 @@ public class RoadHoleModeSettingsModel : SpeedLimitChangingModeSettingsModel
 		}
 	}
 
+	public override void Map()
+	{
+		SegmentBeginning = "1:0" + " 2:" + SegmentLenght;
+		SpeedInSegment = "1:" + SegmentSpeed + " 2:" + InitialSpeed;// + " 3:" + InitialSpeed;
+	}
+
 	public static RoadHoleModeSettingsModel Default()
 	{
 		var p = new RoadHoleModeSettingsModel
@@ -57,12 +63,12 @@ public class RoadHoleModeSettingsModel : SpeedLimitChangingModeSettingsModel
 			ScrollFor = 0,
 			L = MaxL,
 			InitialSpeed = 16.7,
-			SegmentsNumber = 3,
+			SegmentsNumber = 2,
 			SegmentLenght = 2,
 			SegmentSpeed = 1.38
 		};
-		p.SegmentBeginning = "1:0" + " 2:" + p.SegmentLenght + " 3:" + p.L;
-		p.SpeedInSegment = "1:" + p.SegmentSpeed + " 2:" + p.InitialSpeed + " 3:" + p.InitialSpeed;
+		p.SegmentBeginning = "1:0" + " 2:" + p.SegmentLenght;// + " 3:" + p.L;
+		p.SpeedInSegment = "1:" + p.SegmentSpeed + " 2:" + p.InitialSpeed;// + " 3:" + p.InitialSpeed;
 
 		return p;
 	}

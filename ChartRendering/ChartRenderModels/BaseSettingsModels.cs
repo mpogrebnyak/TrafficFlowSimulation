@@ -1,5 +1,4 @@
 ﻿using ChartRendering.Attribute;
-using ChartRendering.Constants;
 using EvaluationKernel.Models;
 using Localization.Localization;
 using Microsoft.Build.Framework;
@@ -28,6 +27,8 @@ public abstract class BaseSettingsModels : ValidationModel, ISettingsModel
 	{
 		mp.L = L;
 	}
+
+	public virtual void Map() { }
 
 	public abstract object GetDefault();
 }

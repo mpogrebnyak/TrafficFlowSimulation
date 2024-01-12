@@ -4,7 +4,9 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using ChartRendering.Models;
+using Common;
 using EvaluationKernel.Models;
+using Settings;
 using TrafficFlowSimulation.Renders;
 
 namespace ChartRendering.Helpers;
@@ -30,14 +32,15 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			{"a", modelParameters.a[0]}
 		};
 
-		var fileName = EvaluationCommonHelper.CreateFileName("A_Estimation", parameters);
-		var chartFilePath = EvaluationCommonHelper.CreateFile(fileName, ".png");
+		var fileName = CommonFileHelper.CreateFileName("A_Estimation", parameters);
+		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
+		var chartFilePath = CommonFileHelper.CreateFile(fileName, folderName,".png");
 		chart.SaveImage(chartFilePath, ChartImageFormat.Png);
 	}
 
 	private static Chart CreateChart(ModelParameters modelParameters, AccelerationCoefficientEnvironmentModel environmentModel)
 	{
-		var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters, environmentModel));
+	/*	var chart = EvaluationCommonHelper.CreateBaseChart(GetChartAreaParameters(modelParameters, environmentModel));
 		foreach (var color in CustomColors.GetColorsForAccelerationCoefficientEstimation())
 		{
 			chart.Series.Add(new Series
@@ -51,9 +54,11 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 		}
 
 		return chart;
+		*/
+		return new Chart();
 	}
 
-	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters, AccelerationCoefficientEnvironmentModel environmentModel)
+/*	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters, AccelerationCoefficientEnvironmentModel environmentModel)
 	{
 		var chartArea = new EvaluationCommonHelper.ChartAreaParameters
 		{
@@ -125,5 +130,5 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 		}
 
 		return chartArea;
-	}
+	}*/
 }

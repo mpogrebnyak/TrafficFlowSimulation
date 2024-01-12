@@ -7,6 +7,9 @@ public class TrafficFlowSimulationSettings
 	[DefaultValue("*.bmp|*.bmp;|*.png|*.png;|*.jpg|*.jpg|*.emf|*.emf")]
 	public string AvailableFileTypes { get; set; }
 
+	[DefaultValue("image")]
+	public string DefaultFileName { get; set; }
+
 	/*
 	Пример настроек:
 

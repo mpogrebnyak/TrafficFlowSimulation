@@ -23,7 +23,8 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			Chart.Series[i].Points.AddXY(0, 0);
+			if (i == 0)
+				Chart.Series[i].Points.AddXY(0, modelParameters.Vn[i]);
 
 			UpdateLegend(i, true, 0);
 		}
@@ -31,6 +32,8 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
+		base.UpdateChart(coordinates);
+
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
