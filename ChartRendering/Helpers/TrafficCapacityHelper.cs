@@ -5,6 +5,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders;
+using Common;
 using Localization;
 using Microsoft.Practices.ObjectBuilder2;
 using Settings;
@@ -13,26 +14,37 @@ namespace ChartRendering.Helpers;
 
 public static class TrafficCapacityHelper
 {
-	private static Dictionary<int, int> _trafficCapacity = new()
-	{
-		{60, 0},
-		{120, 0},
-		{180, 0},
-		{240, 0},
-		{300, 0},
-		{360, 0}
-	};
+	private const string TrafficCapacityName = "TrafficCapacitySeries_";
 
-	private static readonly string TrafficCapacityName = "TrafficCapacitySeries_";
+	private const string KeyPrefix = "Line ";
+
+	private static readonly Dictionary<string, Dictionary<int, int>> SeriesTrafficCapacity = new();
+
+	private static int _currentMinute = 1;
+
+	private static Dictionary<int, int> CreateTrafficCapacity()
+	{
+		var dictionary = new Dictionary<int, int>();
+		var minutes = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityTimeInMinutes;
+		for (var i = 1; i <= minutes; i++)
+		{
+			dictionary.Add(i, 0);
+		}
+
+		return dictionary;
+	}
 
 	public static void RenderTrafficCapacity(SeriesCollection chartSeries, string chartAreaName)
 	{
+		SeriesTrafficCapacity.Clear();
+
 		var environmentLineSeries = chartSeries
 			.Where(x => (string) x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
 			.ToList();
 
 		foreach (var series in environmentLineSeries)
 		{
+			SeriesTrafficCapacity.Add(KeyPrefix + (int)series.Points.First().XValue, CreateTrafficCapacity());
 			var trafficCapacitySeries = CreateTrafficCapacitySeriesLabel(series.Name, series.Points.First().XValue);
 			trafficCapacitySeries.ForEach(x =>
 			{
@@ -47,7 +59,7 @@ public static class TrafficCapacityHelper
 		var environmentLineSeries = chartSeries
 			.Where(x => (string) x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
 			.ToList();
-		
+
 		chartSeries
 			.Where(x => x.Name.Contains("FictitiousSeries"))
 			.ForEach(x => x.Enabled = IsTrafficCapacityAvailable());
@@ -67,10 +79,21 @@ public static class TrafficCapacityHelper
 				var currentTrafficCapacity = int.Parse(trafficCapacitySeries.Tag.ToString());
 				if (currentTrafficCapacity < trafficCapacity)
 				{
-					CalculateTrafficCapacity(t, trafficCapacity);
-					trafficCapacitySeries.Label = GetTrafficCapacityLabel();
+					CalculateTrafficCapacity(series.Points.First().XValue, t, trafficCapacity);
+					trafficCapacitySeries.Label = GetTrafficCapacityLabel(series.Points.First().XValue);
 					trafficCapacitySeries.Tag = trafficCapacity.ToString();
 				}
+			}
+		}
+
+		if (IsTrafficCapacityAvailable())
+		{
+
+			var minutes = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityTimeInMinutes;
+			if (t > _currentMinute * 60 && t < (minutes + 1) * 60)
+			{
+				_currentMinute++;
+				CommonFileHelper.WriteDictionaryToFile(SeriesTrafficCapacity, " ");
 			}
 		}
 	}
@@ -84,7 +107,7 @@ public static class TrafficCapacityHelper
 			BorderWidth = 2,
 			Color = Color.Transparent,
 			IsVisibleInLegend = false,
-			Label = GetTrafficCapacityLabel(),
+			Label = GetTrafficCapacityLabel(xCoordinate),
 			LabelForeColor = Color.Black,
 			LabelBorderColor = CustomColors.SystemOrange,
 			LabelBorderDashStyle = ChartDashStyle.Dot,
@@ -124,28 +147,44 @@ public static class TrafficCapacityHelper
 		return new[] {trafficCapacitySeries, fictitiousSeries};
 	}
 
-	private static void CalculateTrafficCapacity(double t, int trafficCapacity)
+	private static void CalculateTrafficCapacity(double key, double t, int capacity)
 	{
-		var keys = _trafficCapacity
+		var trafficCapacity = SeriesTrafficCapacity[KeyPrefix + (int)key];
+		var innerKeys = trafficCapacity
 			.ToDictionary(entry => entry.Key, entry => entry.Value)
 			.Keys
-			.Where(x => x > t);
+			.Where(x => x * 60 > t);
 
-		foreach (var key in keys)
+		foreach (var innerKey in innerKeys)
 		{
-			_trafficCapacity[key] = trafficCapacity;
+			trafficCapacity[innerKey] = capacity;
 		}
 	}
 
-	private static string GetTrafficCapacityLabel()
+	private static string GetTrafficCapacityLabel(double key)
 	{
-		return LocalizationHelper.Get<ChartRenderingResources>().TrafficCapacity(
-			_trafficCapacity[60].ToString("D2"),
-			_trafficCapacity[120].ToString("D2"),
-			_trafficCapacity[180].ToString("D2"),
-			_trafficCapacity[240].ToString("D2"),
-			_trafficCapacity[300].ToString("D2"),
-			_trafficCapacity[360].ToString("D2"));
+		var trafficCapacity = SeriesTrafficCapacity.First(x => x.Key == KeyPrefix + (int)key).Value;
+
+		var label = LocalizationHelper.Get<ChartRenderingResources>().TrafficCapacityLabelHead;
+
+		var minutes = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityTimeInMinutes;
+		for (var minute = 1; minute <= minutes; minute++)
+		{
+			var innerKey = minute;
+			label += LocalizationHelper.Get<ChartRenderingResources>()
+				.TrafficCapacity(minute, trafficCapacity[innerKey].ToString("D2"));
+
+			label += minute != minutes
+				? "; "
+				: ". ";
+
+			label += minutes % 2 == 0 && minute == minutes / 2 || minutes % 2 == 1 && minute == (minutes - 1) / 2
+				? "\n"
+				: "";
+		}
+
+		label += "\n \n";
+		return label;
 	}
 
 	private static bool IsTrafficCapacityAvailable()

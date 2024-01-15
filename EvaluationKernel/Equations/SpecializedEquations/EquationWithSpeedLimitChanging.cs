@@ -16,7 +16,7 @@ public class EquationWithSpeedLimitChanging : Equation
 	public EquationWithSpeedLimitChanging(ModelParameters modelParameters, SortedDictionary<int, SegmentModel> segmentSpeeds) : base(modelParameters)
 	{
 		_segmentSpeeds = segmentSpeeds;
-		for (int i = 0; i < modelParameters.n; i++)
+		for (var i = 0; i < modelParameters.n; i++)
 		{
 			_position.Add(i, 0);
 		}
@@ -54,15 +54,10 @@ public class EquationWithSpeedLimitChanging : Equation
 
 	protected override double DeltaDotX(Coordinates x_n, Coordinates x_n_1)
 	{
+		if (x_n_1.X - x_n.X < _segmentSpeeds[_currentSegment + 1].SegmentBeginning - x_n.X)
+			return x_n_1.DotX - x_n.DotX;
+
 		return Vmin(x_n.DotX, x_n_1.DotX) - x_n.DotX;
-	}
-
-	protected override double L_safe(int n)
-	{
-		if (n == 0)
-			return _m.lSafe[n];
-
-		return _m.lSafe[n] + _m.lCar[n - 1];
 	}
 
 	private double Vmin(double v1, double v)

@@ -62,7 +62,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 			},
 			AxisY = new Axis
 			{
-				Minimum = 0,
+				Minimum = modelParameters.lambda[0],
 				Maximum = segment.Last() + 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
@@ -91,18 +91,19 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 				ChartArea = ChartAreaName,
 				BorderWidth = 2,
 				Color = CustomColors.Red,
-				IsVisibleInLegend = false
+				IsVisibleInLegend = false,
+				BorderDashStyle = ChartDashStyle.Dash
 			};
-
 			segmentSeries.Points.Add(new DataPoint(GetChartArea().AxisX.Minimum, segment.Value.SegmentBeginning));
-			for (var i = 1; i <= maximumTime; i++)
-			{
-				segmentSeries.Points.Add(new DataPoint(GetChartArea().AxisX.Maximum * i, segment.Value.SegmentBeginning));
-			}
+
 			// необходимо для красивой отрисовки без начала движения
 			segmentSeries.Points.Add(new DataPoint(20, segment.Value.SegmentBeginning));
 			segmentSeries.Points.Add(new DataPoint(40, segment.Value.SegmentBeginning));
 
+			for (var i = 1; i <= maximumTime; i++)
+			{
+				segmentSeries.Points.Add(new DataPoint(GetChartArea().AxisX.Maximum * i, segment.Value.SegmentBeginning));
+			}
 			series.Add(segmentSeries);
 		}
 

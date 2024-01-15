@@ -49,8 +49,7 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{"k",k}
 		};
 		var pointsFileName = CommonFileHelper.CreateFileName("Points", parameters);
-		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
-		return CommonFileHelper.CreateFile(pointsFileName, folderName, ".txt");
+		return CommonFileHelper.CreateFilePath(pointsFileName, null, CommonFileHelper.Extension.Txt);
 	}
 
 	public static void SavePoints(string path, ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -126,14 +125,12 @@ public static class InliningDistanceEstimationSelectionEvaluationHelper
 			{"k", modelParameters.k[1]}
 		};
 
-		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
-
 		var fullFIllFileName = CommonFileHelper.CreateFileName("FullFIll", parameters);
-		var fullFIllFilePath = CommonFileHelper.CreateFile(fullFIllFileName, folderName, ".png");
+		var fullFIllFilePath = CommonFileHelper.CreateFilePath(fullFIllFileName, null, CommonFileHelper.Extension.Png);
 		fullFIllChart.SaveImage(fullFIllFilePath, ChartImageFormat.Png);
 
 		var lineFIllFileName = CommonFileHelper.CreateFileName("LineFIll", parameters);
-		var lineFIllFilePath = CommonFileHelper.CreateFile(lineFIllFileName, folderName, ".png");
+		var lineFIllFilePath = CommonFileHelper.CreateFilePath(lineFIllFileName, null, CommonFileHelper.Extension.Png);
 		lineChart.SaveImage(lineFIllFilePath, ChartImageFormat.Png);
 	}
 

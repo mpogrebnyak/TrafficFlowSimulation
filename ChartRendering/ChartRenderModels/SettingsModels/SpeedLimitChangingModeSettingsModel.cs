@@ -3,10 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ChartRendering.Attribute;
 using ChartRendering.Constants;
-using ChartRendering.Helpers;
 using Common;
 using Common.Errors;
-using EvaluationKernel.Helpers;
+using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Localization.Localization;
 
@@ -57,9 +56,8 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 		for (int i = 0; i < mp.n; i++)
 		{
 			mp.Vn[i] = InitialSpeed;
-			mp.lambda[i] = -300 - EquationHelper.S(mp, InitialSpeed) * (i);
+			mp.lambda[i] = -100 - (Equation.S(mp, i, InitialSpeed) + mp.tau * InitialSpeed)* i;
 		}
-		mp.Vn[1] = InitialSpeed - 0.1;
 	}
 
 	public void MapTo(SortedDictionary<int, SegmentModel> segmentSpeeds)
@@ -106,13 +104,13 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 
 	public static SpeedLimitChangingModeSettingsModel Default()
 	{
-		var n = 3;
+		var n = 2;
 		var segmentBeginning = string.Empty;
 		var speedInSegment = string.Empty;
 		for (var i = 0; i < n; i++)
 		{
-			segmentBeginning += i + 1 + ":" + 100 * i + ' ';
-			speedInSegment += i + 1 + ":" + ((i % 2 == 0 ? 16.7 : 16.7)) + ' ';
+			segmentBeginning += i + 1 + ":" + (100 * i + 50) + ' ';
+			speedInSegment += i + 1 + ":" + ((i % 2 == 0 ? 8 : 8)) + ' ';
 		}
 		return new SpeedLimitChangingModeSettingsModel
 		{

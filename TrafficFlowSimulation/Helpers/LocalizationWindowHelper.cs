@@ -50,7 +50,14 @@ public class LocalizationWindowHelper
 				_form.DrivingModeStripDropDownButton.Text = value.GetDescription();
 		}
 
+		LocalizeToolTip();
 		LocalizeCharts();
+	}
+
+	private void LocalizeToolTip()
+	{
+		var toolTip = new ToolTip();
+		toolTip.SetToolTip(_form.EstimateTrafficCapacityCheckBox, LocalizationHelper.Get<MainWindowResources>().EstimateTrafficCapacityCheckBoxToolTip);
 	}
 
 	private void LocalizeCharts()

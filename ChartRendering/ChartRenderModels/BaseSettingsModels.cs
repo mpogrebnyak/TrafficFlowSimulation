@@ -28,7 +28,7 @@ public abstract class BaseSettingsModels : ValidationModel, ISettingsModel
 		mp.L = L;
 	}
 
-	public virtual void Map() { }
+	public virtual void MapToSelf() { }
 
 	public abstract object GetDefault();
 }

@@ -21,8 +21,8 @@ public class RoadHoleSpeedFromDistanceChartRender : SpeedLimitChangingSpeedFromD
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = -50,
-				Maximum = 50,
+				Minimum = -100,
+				Maximum = 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			},
 			AxisY = new Axis

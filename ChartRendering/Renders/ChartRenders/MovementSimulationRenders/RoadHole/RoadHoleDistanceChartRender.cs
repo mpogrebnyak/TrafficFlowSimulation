@@ -28,8 +28,8 @@ public class RoadHoleDistanceChartRender : SpeedLimitChangingDistanceChartRender
 			},
 			AxisY = new Axis
 			{
-				Minimum = -50,
-				Maximum = 50,
+				Minimum = -5,
+				Maximum = 5,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};

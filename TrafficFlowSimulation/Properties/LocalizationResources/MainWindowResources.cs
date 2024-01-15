@@ -59,4 +59,7 @@ public class MainWindowResources
 	[Translation(Locales.ru, "Оценить пропускную способность")]
 	[Translation(Locales.en, "Estimate traffic capacity ")]
 	public string EstimateTrafficCapacityCheckBoxText { get; set; }
+
+	[Translation(Locales.ru, "Дополнительно сохраняет пропускную способность каждую минуту в файл")]
+	public string EstimateTrafficCapacityCheckBoxToolTip { get; set; }
 }

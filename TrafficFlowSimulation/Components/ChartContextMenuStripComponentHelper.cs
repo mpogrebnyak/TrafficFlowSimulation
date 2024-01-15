@@ -173,11 +173,11 @@ public class ChartContextMenuStripComponentHelper
 			var selectedFolder = fbd.SelectedPath;
 
 			RenderingHelper.CreateChartToSave(mainWindow.DistanceChart)
-				.SaveImage(CommonFileHelper.CreateFile("DistanceChart", selectedFolder,".png", selectedFolder), ChartImageFormat.Png);
+				.SaveImage(CommonFileHelper.CreateFilePath("DistanceChart", selectedFolder, CommonFileHelper.Extension.Png), ChartImageFormat.Png);
 			RenderingHelper.CreateChartToSave(mainWindow.SpeedChart)
-				.SaveImage(CommonFileHelper.CreateFile("SpeedChart", selectedFolder,".png", selectedFolder), ChartImageFormat.Png);
+				.SaveImage(CommonFileHelper.CreateFilePath("SpeedChart", selectedFolder,CommonFileHelper.Extension.Png), ChartImageFormat.Png);
 			RenderingHelper.CreateChartToSave(mainWindow.SpeedFromDistanceChart)
-				.SaveImage(CommonFileHelper.CreateFile("SpeedFromDistanceChart", selectedFolder,".png", selectedFolder), ChartImageFormat.Png);
+				.SaveImage(CommonFileHelper.CreateFilePath("SpeedFromDistanceChart", selectedFolder,CommonFileHelper.Extension.Png), ChartImageFormat.Png);
 		}
 	}
 

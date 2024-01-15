@@ -67,7 +67,7 @@ public class SpeedLimitChangingEvaluationHandler : EvaluationHandler
 			}
 
 			//if (t - tp > 0.4)
-			if (t - tp > 0.4)
+			if (t - tp > 1)
 			{
 				tp = t;
 

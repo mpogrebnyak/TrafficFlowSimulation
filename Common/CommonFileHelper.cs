@@ -1,7 +1,18 @@
-﻿namespace Common;
+﻿using System.Collections;
+using Common.Properties;
+using Settings;
+
+namespace Common;
 
 public static class CommonFileHelper
 {
+	public enum Extension
+	{
+		Jpeg,
+		Png, 
+		Txt
+	}
+
 	public static string CreateFileName(string prefixName, Dictionary<string, double> parameters)
 	{
 		var fileName = prefixName;
@@ -13,16 +24,61 @@ public static class CommonFileHelper
 		return fileName;
 	}
 
-	// TODO сделать нормальное создание и сохранение файлов
-	public static string CreateFile(string fileName, string folder, string extension, string? folderPath = null)
+	public static string CreateFilePath(string fileName = "", string? folderPath = null, Extension? extension = null, bool IsAllNamesUnique = false)
 	{
-		folderPath ??= Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-		var folderName = @"\" + Path.GetFileName(folder);
-		folderPath += folderName;
+		var folderName = SettingsHelper.Get<CommonSettings>().FolderName;
+
+		folderPath ??= Environment.GetFolderPath(Environment.SpecialFolder.Personal) + folderName;
 		var folderExists = Directory.Exists(folderPath);
 		if (!folderExists)
 			Directory.CreateDirectory(folderPath);
 
-		return folderPath +  @"\" + fileName + extension;
+		fileName = IsAllNamesUnique ?
+			CreateDateName() + fileName
+			: fileName;
+		var fileExtension = GetExtension(extension);
+
+		return folderPath +  @"\" + fileName + fileExtension;
+	}
+
+	public static void WriteDictionaryToFile<TKey, TValue>(Dictionary<TKey, TValue> dictionary, string separator, string? filePath = null)
+	{
+		filePath ??= CreateFilePath("Dictionary", null, Extension.Txt);
+		using var writer = new StreamWriter(filePath);
+		foreach (var pair in dictionary)
+		{
+			if (pair.Value is IDictionary innerDictionary)
+			{
+				writer.WriteLine($"{pair.Key}");
+
+				foreach (var key in innerDictionary.Keys)
+				{
+					writer.WriteLine($"{key}{separator}{innerDictionary[key]}");
+				}
+
+				writer.WriteLine();
+				continue;
+			}
+			writer.WriteLine($"{pair.Key}{separator}{pair.Value}");
+		}
+	}
+
+	private static string CreateDateName()
+	{
+		var date = CommonHelper.GetDate;
+		var time = CommonHelper.GetTime;
+
+		return date.ToString(@"MM/dd/yyyy") + "_" + time.ToString(@"hh\.mm\.ss") + "_";
+	}
+
+	private static string GetExtension(Extension? extension)
+	{
+		return extension switch
+		{
+			Extension.Jpeg => ".jpeg",
+			Extension.Png => ".png",
+			Extension.Txt => ".txt",
+			_ => ".png"
+		};
 	}
 }

@@ -93,7 +93,12 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 
 		var series = new List<Series>();
 		foreach (var segment in segmentSpeeds)
-		{
+		{ 
+			if (segment.Value.SegmentBeginning < GetChartArea().AxisX.Minimum || segment.Value.SegmentBeginning > GetChartArea().AxisX.Maximum)
+			{
+				continue;
+			}
+
 			var segmentSeries = new Series
 			{
 				Name = "SegmentBegin" + segment.Key,

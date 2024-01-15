@@ -6,12 +6,12 @@ public class ChartRenderingSettings
 	[DefaultValue("ColorCars")]
 	public string PaintedCarsFolder { get; set; }
 
-	[DefaultValue(@"\Images")]
-	public string ImageFolderName { get; set; }
-
 	[DefaultValue("false")]
 	public bool IsTrafficCapacityAvailable { get; set; }
 
-	[DefaultValue(4)]
+	[DefaultValue(10)]
+	public int TrafficCapacityTimeInMinutes { get; set; }
+
+	[DefaultValue(5)]
 	public int MaximumTimeForAutomaticIncrease { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿using ChartRendering.Attribute;
 using ChartRendering.Constants;
-using EvaluationKernel.Helpers;
+using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Localization.Localization;
 
@@ -45,11 +45,11 @@ public class RoadHoleModeSettingsModel : SpeedLimitChangingModeSettingsModel
 		for (var i = 0; i < mp.n; i++)
 		{
 			mp.Vn[i] = InitialSpeed;
-			mp.lambda[i] = -EquationHelper.S(mp, InitialSpeed) * (i + 1) - 20;
+			mp.lambda[i] = -100 - (Equation.S(mp, i, InitialSpeed) + mp.tau * InitialSpeed)* i;
 		}
 	}
 
-	public override void Map()
+	public override void MapToSelf()
 	{
 		SegmentBeginning = "1:0" + " 2:" + SegmentLenght;
 		SpeedInSegment = "1:" + SegmentSpeed + " 2:" + InitialSpeed;// + " 3:" + InitialSpeed;

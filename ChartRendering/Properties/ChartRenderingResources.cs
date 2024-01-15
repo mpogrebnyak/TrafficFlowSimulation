@@ -38,6 +38,10 @@ public abstract class ChartRenderingResources
 	[Translation(Locales.en, "S:")]
 	public string DistanceText { get; set; }
 
-	[Translation(Locales.ru, "\nПропускная способность: \n1 м. - {tc1}; 2 м. - {tc2}; 3 м. - {tc3};\n4 м. - {tc4}; 5 м. - {tc5}; 6 м. - {tc6}.\n \n")]
-	public abstract string TrafficCapacity(string tc1, string tc2, string tc3, string tc4, string tc5, string tc6);
+	
+	[Translation(Locales.ru, "\nПропускная способность: \n")]
+	public string TrafficCapacityLabelHead { get; set; }
+
+	[Translation(Locales.ru, "{minute} м. - {value}")]
+	public abstract string TrafficCapacity(int minute, string value);
 }

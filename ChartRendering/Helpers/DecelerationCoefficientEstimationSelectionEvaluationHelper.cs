@@ -38,8 +38,7 @@ public static class DecelerationCoefficientEstimationSelectionEvaluationHelper
 		};
 
 		var fileName = CommonFileHelper.CreateFileName("Q_Estimation", parameters);
-		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
-		var chartFilePath = CommonFileHelper.CreateFile(fileName, folderName, ".png");
+		var chartFilePath = CommonFileHelper.CreateFilePath(fileName, null, CommonFileHelper.Extension.Png);
 		chart.SaveImage(chartFilePath, ChartImageFormat.Png);
 	}
 

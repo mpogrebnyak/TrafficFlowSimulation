@@ -36,6 +36,10 @@ namespace EvaluationKernel.Equations
 
 		protected double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1)
 		{
+			if (x_n_1.X > -300)
+			{
+				int X = 0;
+			}
 			return RelayFunction(n, x_n, x_n_1)
 				? _m.a[n] * (P(n, x_n, x_n_1) - x_n.DotX)
 				: -H(n, x_n, x_n_1);
@@ -54,8 +58,7 @@ namespace EvaluationKernel.Equations
 
 		protected double H(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			var ee = DeltaDotX(x_n, x_n_1);
-			var deceleration = _m.q[n] * Math.Pow(x_n.DotX * ee, 2) / Math.Pow(DeltaX(x_n, x_n_1) - L_safe(n), 2);
+			var deceleration = _m.q[n] * Math.Pow(x_n.DotX * DeltaDotX(x_n, x_n_1), 2) / Math.Pow(DeltaX(x_n, x_n_1) - L_safe(n), 2);
 
 			if (x_n.DotX < _eps && x_n.DotX > 0)
 			{
@@ -72,8 +75,12 @@ namespace EvaluationKernel.Equations
 
 		protected double S(int n, double v)
 		{
-			var q =  (_m.tau + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
 			return (_m.tau + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
+		}
+
+		public static double S(ModelParameters m, int n, double v)
+		{
+			return (m.tau + m.tau_b) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + L_safe(m, n);
 		}
 
 		protected virtual double V(int n, double v)
@@ -88,11 +95,16 @@ namespace EvaluationKernel.Equations
 
 		protected virtual double L_safe(int n)
 		{
-			return n == 0
-				? _m.lSafe[n]
-				: _m.lSafe[n] + _m.lCar[n - 1];
+			return L_safe(_m, n);
 		}
-		
+
+		public static double L_safe(ModelParameters m, int n)
+		{
+			return n == 0
+				? m.lSafe[n]
+				: m.lSafe[n] + m.lCar[n - 1];
+		}
+	
 		protected virtual double DeltaX(Coordinates x_n, Coordinates x_n_1)
 		{
 			return Math.Abs(x_n_1.X - x_n.X);

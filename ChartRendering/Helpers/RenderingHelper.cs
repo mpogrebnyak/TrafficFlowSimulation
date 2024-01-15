@@ -19,6 +19,7 @@ public static class RenderingHelper
 		{
 			var newSeries = new Series(originalSeries.Name);
 			newSeries.ChartType = originalSeries.ChartType;
+			newSeries.BorderDashStyle = originalSeries.BorderDashStyle;
 			newSeries.BorderWidth = 10;
 
 			foreach (var originalPoint in originalSeries.Points)

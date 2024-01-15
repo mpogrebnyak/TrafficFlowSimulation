@@ -2,6 +2,7 @@
 using ChartRendering.Attribute;
 using ChartRendering.Helpers;
 using Common;
+using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 using Localization.Localization;
 
@@ -38,7 +39,7 @@ public class InitialConditionsParametersModel : IInitialConditionsParametersMode
 		var VnDictionary = CommonParserHelper.ParseMultipleValues(Vn_multiple);
 		var lambdaDictionary = CommonParserHelper.ParseMultipleValues(lambda_multiple);
 
-		for (int i = 0; i < mp.n; i++)
+		for (var i = 0; i < mp.n; i++)
 		{
 			mp.Vn.Add(VnDictionary.ContainsKey(i) ? VnDictionary[i] : Vn);
 			mp.lambda.Add(lambdaDictionary.ContainsKey(i) ? lambdaDictionary[i] : lambda * -i);
@@ -52,9 +53,11 @@ public class InitialConditionsParametersModel : IInitialConditionsParametersMode
 
 	public static InitialConditionsParametersModel Default()
 	{
+		var defaultBPM = BaseParametersModel.Default();
+
 		return new InitialConditionsParametersModel
 		{
-			lambda = 25,
+			lambda = defaultBPM.l_car + defaultBPM.l_safe,
 			lambda_multiple = string.Empty,
 			Vn = 0,
 			Vn_multiple = string.Empty

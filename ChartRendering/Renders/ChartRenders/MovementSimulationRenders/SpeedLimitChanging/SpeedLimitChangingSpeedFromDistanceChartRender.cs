@@ -25,7 +25,7 @@ public class SpeedLimitChangingSpeedFromDistanceChartRender : SpeedFromDistanceC
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = 0,
+				Minimum = modelParameters.lambda[0],
 				Maximum = segment.Last() + 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			},

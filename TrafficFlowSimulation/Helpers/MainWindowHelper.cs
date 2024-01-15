@@ -134,7 +134,7 @@ namespace TrafficFlowSimulation.Helpers
 
 			var modeSettings = (BaseSettingsModels)_bindingSources[settingsModel.GetType()].DataSource;
 			modeSettings.MapTo(modelParameters);
-			modeSettings.Map();
+			modeSettings.MapToSelf();
 
 			return modeSettings;
 		}

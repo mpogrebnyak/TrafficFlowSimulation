@@ -33,8 +33,7 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 		};
 
 		var fileName = CommonFileHelper.CreateFileName("A_Estimation", parameters);
-		var folderName = SettingsHelper.Get<Properties.ChartRenderingSettings>().ImageFolderName;
-		var chartFilePath = CommonFileHelper.CreateFile(fileName, folderName,".png");
+		var chartFilePath = CommonFileHelper.CreateFilePath(fileName, null,CommonFileHelper.Extension.Png);
 		chart.SaveImage(chartFilePath, ChartImageFormat.Png);
 	}
 
