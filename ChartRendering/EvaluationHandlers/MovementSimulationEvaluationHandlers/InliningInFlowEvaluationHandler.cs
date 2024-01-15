@@ -14,7 +14,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
 
-		var r = new RungeKuttaMethod(modelParameters, new MainEquation(modelParameters));
+		var r = new RungeKuttaMethod(modelParameters, new Equation(modelParameters));
 		var n = modelParameters.n;
 
 		var xp = new double[n];
@@ -83,7 +83,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				y = yNew.ToArray();
 
 				var time = r.T;
-				r = new RungeKuttaMethod(modelParameters, new MainEquation(modelParameters));
+				r = new RungeKuttaMethod(modelParameters, new Equation(modelParameters));
 				r.T = time;
 				flag = false;
 

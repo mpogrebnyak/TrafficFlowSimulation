@@ -4,13 +4,13 @@ using EvaluationKernel.Models;
 
 namespace EvaluationKernel.Equations
 {
-	public abstract class Equation : IEquation
+	public class Equation : IEquation
 	{
 		protected readonly ModelParameters _m;
 
 		private const double _eps = 0.01;
 
-		protected Equation(ModelParameters modelParameters)
+		public Equation(ModelParameters modelParameters)
 		{
 			_m = modelParameters;
 		}
@@ -36,10 +36,6 @@ namespace EvaluationKernel.Equations
 
 		protected double GetAllCarEquation(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			if (x_n_1.X > -300)
-			{
-				int X = 0;
-			}
 			return RelayFunction(n, x_n, x_n_1)
 				? _m.a[n] * (P(n, x_n, x_n_1) - x_n.DotX)
 				: -H(n, x_n, x_n_1);
@@ -104,7 +100,7 @@ namespace EvaluationKernel.Equations
 				? m.lSafe[n]
 				: m.lSafe[n] + m.lCar[n - 1];
 		}
-	
+
 		protected virtual double DeltaX(Coordinates x_n, Coordinates x_n_1)
 		{
 			return Math.Abs(x_n_1.X - x_n.X);

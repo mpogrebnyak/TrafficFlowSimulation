@@ -195,7 +195,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 	private DecelerationEvaluation IsDecelerate(ModelParameters modelParameters, double space, double speed)
 	{
-		var r = new RungeKuttaMethod(modelParameters, new MainEquation(modelParameters));
+		var r = new RungeKuttaMethod(modelParameters, new Equation(modelParameters));
 		r.SetInitialConditions(
 			new List<double> {modelParameters.Vn[0], speed},
 			new List<double> {modelParameters.lambda[0], -space});
