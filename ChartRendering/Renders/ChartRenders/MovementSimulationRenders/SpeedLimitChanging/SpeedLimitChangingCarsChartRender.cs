@@ -23,7 +23,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 
 		Chart.Legends.Clear();
 
-		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
+		var segment = RenderingHelper.GetSegmentBeginningList((SpeedLimitChangingModeSettingsModel)modeSettings);
 
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
@@ -32,7 +32,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if (modelParameters.lambda[i] > segment.First() - 100 && modelParameters.lambda[i] < segment.Last() + 100)
 			{
-				Chart.Series[i].Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
@@ -50,12 +50,12 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if(Chart.Series[i].Points.Any())
-				Chart.Series[i].Points.RemoveAt(0);
+			if (GetSeries(i).Points.Any())
+				GetSeries(i).Points.RemoveAt(0);
 
 			if (coordinates.X[i] > GetChartArea().AxisX.Minimum)
 			{
-				Chart.Series[i].Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				GetSeries(i).Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
@@ -67,7 +67,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
+		var segment = RenderingHelper.GetSegmentBeginningList((SpeedLimitChangingModeSettingsModel)modeSettings);
 
 		var model = new ChartAreaCreationModel
 		{
@@ -115,13 +115,5 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 		}
 
 		return series.ToArray();
-	}
-
-	private List<double> GetSegmentList(SpeedLimitChangingModeSettingsModel settings)
-	{
-		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
-		settings.MapTo(segmentSpeeds);
-
-		return settings.GetSegmentList(segmentSpeeds);
 	}
 }

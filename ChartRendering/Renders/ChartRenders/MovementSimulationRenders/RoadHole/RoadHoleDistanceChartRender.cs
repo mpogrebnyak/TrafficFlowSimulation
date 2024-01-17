@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Helpers;
 using ChartRendering.Properties;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
@@ -17,6 +19,9 @@ public class RoadHoleDistanceChartRender : SpeedLimitChangingDistanceChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
+		var segments = RenderingHelper.GetSegmentBeginningList((SpeedLimitChangingModeSettingsModel)modeSettings);
+
+		var qq = Math.Ceiling(segments.Last()) + 1;
 		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
@@ -28,11 +33,15 @@ public class RoadHoleDistanceChartRender : SpeedLimitChangingDistanceChartRender
 			},
 			AxisY = new Axis
 			{
-				Minimum = -5,
-				Maximum = 5,
+				Minimum = -3,
+				Maximum = Math.Ceiling(segments.Last()) + 1,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};
+		foreach (var segment in segments)
+		{
+			model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segment));
+		}
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;

@@ -42,7 +42,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			if (i == 0)
-				Chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+				GetSeries(i).Points.AddXY(0, modelParameters.lambda[i]);
 
 			var lambda = i < modelParameters.lambda.Count
 				? modelParameters.lambda[i]
@@ -63,7 +63,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 				var showLegend = false;
 				if (coordinates.X[i] > CommonChartAreaParameters.BeginOfRoad && coordinates.X[i] < CommonChartAreaParameters.EndOfRoad)
 				{
-					Chart.Series[i].Points.AddXY(coordinates.T, coordinates.X[i]);
+					GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
 					showLegend = true;
 				}
 

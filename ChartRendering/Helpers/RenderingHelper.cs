@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Renders.ChartRenders;
+using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 using Modes;
 
@@ -11,6 +13,10 @@ namespace ChartRendering.Helpers;
 
 public static class RenderingHelper
 {
+	private const int Width = 1920;
+
+	private const int Height = 1080;
+
 	public static Chart CreateChartToSave(Chart chart)
 	{
 		var newChart = CreateCleanChart();
@@ -40,7 +46,6 @@ public static class RenderingHelper
 			{
 				Minimum = originalChartArea.AxisX.Minimum,
 				Maximum = originalChartArea.AxisX.Maximum,
-				//Title = originalChartArea.AxisX.Title,
 				LineWidth = 2,
 				LabelAutoFitMinFontSize = 50,
 				MajorGrid = new Grid
@@ -52,7 +57,6 @@ public static class RenderingHelper
 			{
 				Minimum = originalChartArea.AxisY.Minimum,
 				Maximum = originalChartArea.AxisY.Maximum,
-				//Title = originalChartArea.AxisY.Title,
 				LineWidth = 2,
 				LabelAutoFitMinFontSize = 50,
 				MajorGrid = new Grid
@@ -61,7 +65,17 @@ public static class RenderingHelper
 				}
 			}
 		};
+		foreach (var customLabel in originalChartArea.AxisY.CustomLabels)
+		{
+			model.AxisY.CustomLabels.Add(customLabel);
+		}
+		foreach (var customLabel in originalChartArea.AxisX.CustomLabels)
+		{
+			model.AxisX.CustomLabels.Add(customLabel);
+		}
 		var newChartArea = ChartAreaRendersHelper.CreateChartArea(model);
+		CreateCustomLabels(newChartArea);
+
 		newChart.ChartAreas.Add(newChartArea);
 
 		return newChart;
@@ -70,7 +84,7 @@ public static class RenderingHelper
 	public static Chart CreateCleanChart()
 	{
 		var chart = new Chart();
-		chart.Size = new Size(1920, 1080);
+		chart.Size = new Size(Width, Height);
 
 		chart.Series.Clear();
 		chart.ChartAreas.Clear();
@@ -111,5 +125,39 @@ public static class RenderingHelper
 		var provider = ServiceLocator.Current.GetInstance<IChartRender>(chart.Name + currentDrivingMode);
 
 		provider.SetChartAreaAxisTitle(isHidden);
+	}
+
+	public static List<double> GetSegmentBeginningList(SpeedLimitChangingModeSettingsModel settings)
+	{
+		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
+		settings.MapTo(segmentSpeeds);
+
+		settings.GetSegmentBeginningList(segmentSpeeds, out var segmentBeginningList, out _);
+		return segmentBeginningList;
+	}
+
+	public static List<double> GetSegmentSpeedList(SpeedLimitChangingModeSettingsModel settings)
+	{
+		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
+		settings.MapTo(segmentSpeeds);
+
+		settings.GetSegmentBeginningList(segmentSpeeds, out _, out var segmentSpeedList);
+		return segmentSpeedList;
+	}
+
+	private static void CreateCustomLabels(ChartArea chartArea)
+	{
+		if (chartArea.AxisX.CustomLabels.Any())
+		{
+			var distance = chartArea.AxisX.Maximum - chartArea.AxisX.Minimum;
+			var singleSegmentInPixels = Width / distance;
+			ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisX, singleSegmentInPixels, 110);
+		}
+		if (chartArea.AxisY.CustomLabels.Any())
+		{
+			var distance = chartArea.AxisY.Maximum - chartArea.AxisY.Minimum;
+			var singleSegmentInPixels = Height / distance;
+			ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisY, singleSegmentInPixels, 70);
+		}
 	}
 }

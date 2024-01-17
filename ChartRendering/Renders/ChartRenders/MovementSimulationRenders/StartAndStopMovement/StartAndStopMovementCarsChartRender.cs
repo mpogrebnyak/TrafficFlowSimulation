@@ -29,7 +29,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
 			{
-				Chart.Series[i].Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
@@ -47,11 +47,11 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if(Chart.Series[i].Points.Any())
-				Chart.Series[i].Points.RemoveAt(0);
+			if (GetSeries(i).Points.Any())
+				GetSeries(i).Points.RemoveAt(0);
 			if (coordinates.X[i] > GetChartArea().AxisX.Minimum)
 			{
-				Chart.Series[i].Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				GetSeries(i).Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 

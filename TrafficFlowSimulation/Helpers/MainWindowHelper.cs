@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Helpers;
+using Common.Modularity;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
@@ -19,6 +22,8 @@ namespace TrafficFlowSimulation.Helpers
 {
 	public class MainWindowHelper
 	{
+		private readonly MainWindow _mainWindow;
+
 		private readonly LocalizationWindowHelper _localizationWindowHelper;
 
 		private readonly ChartContextMenuStripComponent _chartContextMenuStripComponent;
@@ -31,6 +36,7 @@ namespace TrafficFlowSimulation.Helpers
 
 		public MainWindowHelper(MainWindow form)
 		{
+			_mainWindow = form;
 			_localizationWindowHelper = new LocalizationWindowHelper(form);
 			_chartContextMenuStripComponent = new ChartContextMenuStripComponent(form);
 			_errorProvider = form.ParametersErrorProvider;
@@ -38,7 +44,7 @@ namespace TrafficFlowSimulation.Helpers
 			_controls = form.Controls;
 		}
 
-			public void InitializeInterface()
+		public void InitializeInterface()
 		{
 			var slamPanelComponent = new SlamPanelComponent(_controls);
 			slamPanelComponent.Initialize();
@@ -214,6 +220,26 @@ namespace TrafficFlowSimulation.Helpers
 			}
 
 			_errorProvider.SetError(control, error.Message);
+		}
+
+		public void ResizeAllChart()
+		{
+			ResizeChart(_mainWindow.DistanceChart);
+			ResizeChart(_mainWindow.SpeedChart);
+			ResizeChart(_mainWindow.SpeedFromDistanceChart);
+		}
+
+		public void ResizeChart(Chart chart)
+		{
+			if (chart.Visible == false)
+				return;
+
+			chart.Update();
+			foreach (var chartArea in chart.ChartAreas)
+			{
+				ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisX, Math.Abs(chartArea.AxisX.ValueToPixelPosition(0) - chartArea.AxisX.ValueToPixelPosition(1)));
+				ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisY, Math.Abs(chartArea.AxisY.ValueToPixelPosition(0) - chartArea.AxisY.ValueToPixelPosition(1)));
+			}
 		}
 	}
 }

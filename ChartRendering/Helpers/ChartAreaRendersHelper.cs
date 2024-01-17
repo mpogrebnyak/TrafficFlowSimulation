@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartRendering.Helpers;
@@ -7,6 +10,8 @@ namespace ChartRendering.Helpers;
 
 public static class ChartAreaRendersHelper
 {
+	private const int MinimumSingleSegmentInPixels = 18;
+
 	private const double ZoomShift = 48;
 
 	private static readonly ChartAreaCreationModel ChartAreaBaseModel = new()
@@ -61,7 +66,8 @@ public static class ChartAreaRendersHelper
 				LineWidth = model.AxisX?.LineWidth ?? ChartAreaBaseModel.AxisX.LineWidth,
 				MajorGrid = model.AxisX?.MajorGrid ?? ChartAreaBaseModel.AxisX.MajorGrid,
 				LabelAutoFitMinFontSize = model.AxisX?.LabelAutoFitMinFontSize ?? ChartAreaBaseModel.AxisX.LabelAutoFitMinFontSize,
-				TitleFont = new Font("Microsoft Sans Serif", 10F)
+				TitleFont = new Font("Microsoft Sans Serif", 10F),
+				LabelAutoFitStyle = LabelAutoFitStyles.IncreaseFont
 			},
 			AxisY = new Axis
 			{
@@ -75,6 +81,7 @@ public static class ChartAreaRendersHelper
 				MajorGrid = model.AxisY?.MajorGrid ?? ChartAreaBaseModel.AxisY.MajorGrid,
 				LabelAutoFitMinFontSize = model.AxisY?.LabelAutoFitMinFontSize ?? ChartAreaBaseModel.AxisY.LabelAutoFitMinFontSize,
 				TitleFont = new Font("Microsoft Sans Serif", 10F),
+				LabelAutoFitStyle = LabelAutoFitStyles.IncreaseFont
 			}
 		};
 
@@ -85,7 +92,102 @@ public static class ChartAreaRendersHelper
 			chartArea.AxisX.ScaleView.Zoom(-30, -30 + ZoomShift);
 		}
 
+		if (model.AxisX != null && model.AxisX.CustomLabels.Any())
+		{
+			foreach (var customLabels in model.AxisX.CustomLabels)
+			{
+				chartArea.AxisX.CustomLabels.Add(customLabels);
+			}
+		}
+
+		if (model.AxisY != null && model.AxisY.CustomLabels.Any())
+		{
+			foreach (var customLabels in model.AxisY.CustomLabels)
+			{
+				chartArea.AxisY.CustomLabels.Add(customLabels);
+			}
+		}
+
 		return chartArea;
+	}
+
+	public static void CreateCustomLabels(Axis axis, double singleSegmentInPixels, int minimumSingleSegmentInPixels = MinimumSingleSegmentInPixels)
+	{
+		if (axis.CustomLabels.Any() == false)
+		{
+			return;
+		}
+
+		var requiredCustomLabels = new CustomLabel[axis.CustomLabels.Count];
+		axis.CustomLabels
+			.Where(x => x.Tag is null)
+			.ToArray()
+			.CopyTo(requiredCustomLabels, 0);
+		axis.CustomLabels.Clear();
+
+		foreach (var requiredCustomLabel in requiredCustomLabels.Where(x => x is not null))
+		{
+			var isLabelAvailable = true;
+			foreach (var customLabel in axis.CustomLabels)
+			{
+				if (Math.Abs(CalculateInitialPosition(customLabel.FromPosition) - CalculateInitialPosition(requiredCustomLabel.FromPosition)) * singleSegmentInPixels < minimumSingleSegmentInPixels)
+				{
+					isLabelAvailable = false;
+					break;
+				}
+			}
+
+			if (isLabelAvailable)
+			{
+				axis.CustomLabels.Add(requiredCustomLabel);
+			}
+		}
+
+		var step = Math.Round((axis.Maximum - axis.Minimum) / 5, 0);
+		for (var i = axis.Minimum; i <= axis.Maximum; i += step)
+		{
+			var isLabelAvailable = true;
+			foreach (var customLabel in axis.CustomLabels)
+			{
+				if (Math.Abs(CalculateInitialPosition(customLabel.FromPosition) - i) * singleSegmentInPixels < minimumSingleSegmentInPixels)
+				{
+					isLabelAvailable = false;
+					break;
+				}
+			}
+
+			if (isLabelAvailable)
+			{
+				axis.CustomLabels.Add(CreateCustomLabel(i, i.ToString(CultureInfo.InvariantCulture)));
+			}
+		}
+	}
+
+	public static CustomLabel CreateCustomLabel(double value, string tag = null, GridTickTypes gridTickTypes = GridTickTypes.None)
+	{
+		return new CustomLabel
+		{
+			Text = Math.Round(value, 2).ToString(CultureInfo.InvariantCulture),
+			FromPosition = CalculateFromPosition(value),
+			ToPosition = CalculateToPosition(value),
+			GridTicks = gridTickTypes,
+			Tag = tag
+		};
+	}
+
+	private static double CalculateFromPosition(double position, double step = 50)
+	{
+		return position - step;
+	}
+
+	private static double CalculateToPosition(double position, double step = 50)
+	{
+		return position + step;
+	}
+
+	private static double CalculateInitialPosition(double position, double step = 50)
+	{
+		return position + step;
 	}
 }
 

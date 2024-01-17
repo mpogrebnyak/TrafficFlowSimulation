@@ -76,5 +76,6 @@ public class DrivingModeComponent : IComponent
 		var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 		var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 		ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
+		ServiceLocator.Current.GetInstance<MainWindowHelper>().ResizeAllChart();
 	}
 }

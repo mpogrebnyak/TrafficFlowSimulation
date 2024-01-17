@@ -24,7 +24,7 @@ public class StartAndStopMovementSpeedChartRender : SpeedChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				Chart.Series[i].Points.AddXY(0, modelParameters.Vn[i]);
+				GetSeries(i).Points.AddXY(0, modelParameters.Vn[i]);
 
 			UpdateLegend(i, true, 0);
 		}
@@ -39,7 +39,7 @@ public class StartAndStopMovementSpeedChartRender : SpeedChartRender
 			var showLegend = false;
 			if (coordinates.X[i] > -3000)
 			{
-				Chart.Series[i].Points.AddXY(coordinates.T, coordinates.Y[i]);
+				GetSeries(i).Points.AddXY(coordinates.T, coordinates.Y[i]);
 				showLegend = true;
 			}
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -44,7 +45,7 @@ public static class TrafficCapacityHelper
 
 		foreach (var series in environmentLineSeries)
 		{
-			SeriesTrafficCapacity.Add(KeyPrefix + (int)series.Points.First().XValue, CreateTrafficCapacity());
+			SeriesTrafficCapacity.Add(KeyPrefix + Math.Round(series.Points.First().XValue, 2), CreateTrafficCapacity());
 			var trafficCapacitySeries = CreateTrafficCapacitySeriesLabel(series.Name, series.Points.First().XValue);
 			trafficCapacitySeries.ForEach(x =>
 			{
@@ -149,7 +150,7 @@ public static class TrafficCapacityHelper
 
 	private static void CalculateTrafficCapacity(double key, double t, int capacity)
 	{
-		var trafficCapacity = SeriesTrafficCapacity[KeyPrefix + (int)key];
+		var trafficCapacity = SeriesTrafficCapacity[KeyPrefix + Math.Round(key, 2)];
 		var innerKeys = trafficCapacity
 			.ToDictionary(entry => entry.Key, entry => entry.Value)
 			.Keys
@@ -163,7 +164,7 @@ public static class TrafficCapacityHelper
 
 	private static string GetTrafficCapacityLabel(double key)
 	{
-		var trafficCapacity = SeriesTrafficCapacity.First(x => x.Key == KeyPrefix + (int)key).Value;
+		var trafficCapacity = SeriesTrafficCapacity.First(x => x.Key == KeyPrefix + Math.Round(key, 2)).Value;
 
 		var label = LocalizationHelper.Get<ChartRenderingResources>().TrafficCapacityLabelHead;
 

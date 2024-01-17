@@ -12,6 +12,6 @@ public class ChartRenderingSettings
 	[DefaultValue(10)]
 	public int TrafficCapacityTimeInMinutes { get; set; }
 
-	[DefaultValue(5)]
+	[DefaultValue(2)]
 	public int MaximumTimeForAutomaticIncrease { get; set; }
 }

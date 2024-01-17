@@ -34,6 +34,11 @@ public abstract class ChartsRender : IChartRender
 		Chart = chart;
 	}
 
+	protected Series GetSeries(int index)
+	{
+		return Chart.Series.Single(x => x.Name == SeriesName + index);
+	}
+
 	public virtual void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		FullClearChart();
@@ -42,6 +47,8 @@ public abstract class ChartsRender : IChartRender
 		Chart.ChartAreas.Add(chartArea);
 
 		Chart.Legends.Add(CreateLegend(LegendStyle.Column));
+
+		RenderChartEnvironment(modelParameters, modeSettings);
 
 		for (var i = 0; i < modelParameters.n; i++)
 		{
@@ -54,7 +61,7 @@ public abstract class ChartsRender : IChartRender
 			});
 		}
 
-		RenderChartEnvironment(modelParameters, modeSettings);
+		//RenderChartEnvironment(modelParameters, modeSettings);
 
 		_currentMinute = 1;
 	}
@@ -104,12 +111,12 @@ public abstract class ChartsRender : IChartRender
 	{
 		if (showLegend)
 		{
-			Chart.Series[i].LegendText = GetLegendText(values);
-			Chart.Series[i].IsVisibleInLegend = true;
+			GetSeries(i).LegendText = GetLegendText(values);
+			GetSeries(i).IsVisibleInLegend = true;
 		}
 		else
 		{
-			Chart.Series[i].IsVisibleInLegend = false;
+			GetSeries(i).IsVisibleInLegend = false;
 		}
 	}
 
@@ -117,11 +124,11 @@ public abstract class ChartsRender : IChartRender
 	{
 		if (showLabel)
 		{
-			Chart.Series[i].Label = GetLegendText(values);
+			GetSeries(i).Label = GetLegendText(values);
 		}
 		else
 		{
-			Chart.Series[i].Label = string.Empty;
+			GetSeries(i).Label = string.Empty;
 		}
 	}
 

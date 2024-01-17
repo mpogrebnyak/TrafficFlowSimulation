@@ -28,7 +28,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				Chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+				GetSeries(i).Points.AddXY(0, modelParameters.lambda[i]);
 
 			UpdateLegend(i, true, modelParameters.lambda[i]);
 		}
@@ -41,7 +41,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			Chart.Series[i].Points.AddXY(coordinates.T, coordinates.X[i]);
+			GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
 
 			UpdateLegend(i, true, coordinates.X[i]);
 		}
@@ -49,7 +49,7 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var segment = GetSegmentList((SpeedLimitChangingModeSettingsModel)modeSettings);
+		var segments = RenderingHelper.GetSegmentBeginningList((SpeedLimitChangingModeSettingsModel)modeSettings);
 
 		var model = new ChartAreaCreationModel
 		{
@@ -58,15 +58,19 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 			{
 				Minimum = 0,
 				Maximum = 60,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText
+				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 			},
 			AxisY = new Axis
 			{
 				Minimum = modelParameters.lambda[0],
-				Maximum = segment.Last() + 100,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
+				Maximum = segments.Last() + 100,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText
 			}
 		};
+		foreach (var segment in segments)
+		{
+			model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segment));
+		}
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
@@ -108,13 +112,5 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		}
 
 		return series.ToArray();
-	}
-
-	private List<double> GetSegmentList(SpeedLimitChangingModeSettingsModel settings)
-	{
-		var segmentSpeeds = new SortedDictionary<int, SegmentModel>();
-		settings.MapTo(segmentSpeeds);
-
-		return settings.GetSegmentList(segmentSpeeds);
 	}
 }

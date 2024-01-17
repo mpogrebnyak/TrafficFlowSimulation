@@ -124,11 +124,16 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 		};
 	}
 
-	public List<double> GetSegmentList(SortedDictionary<int, SegmentModel> segmentSpeeds)
+	public void GetSegmentBeginningList(SortedDictionary<int, SegmentModel> segmentSpeeds, out List<double> segmentBeginningList, out List<double> segmentSpeedList)
 	{
-		return segmentSpeeds
+		segmentBeginningList = segmentSpeeds
 			.Where(x => x.Key != 0 && x.Key != SegmentsNumber + 1)
 			.Select(x=> x.Value.SegmentBeginning)
-			.ToList();;
+			.ToList();
+
+		segmentSpeedList = segmentSpeeds
+			.Where(x => x.Key != SegmentsNumber + 1)
+			.Select(x=> x.Value.Speed)
+			.ToList();
 	}
 }

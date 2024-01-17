@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.EvaluationHandlers;
 using ChartRendering.Properties;
 using Common.Errors;
@@ -48,14 +49,16 @@ namespace TrafficFlowSimulation.Windows
 
 		private void StartToolStripButton_Click(object sender, EventArgs e)
 		{
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
+
 			ParametersPanel.Hide();
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().ResizeAllChart();
 
-			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).Execute(
 				modelParameters,
 				modeSettings,
@@ -116,17 +119,27 @@ namespace TrafficFlowSimulation.Windows
 				RenderCharts();
 		}
 
-		private static void RenderCharts()
+		private void RenderCharts()
 		{
 			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
 			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().ResizeAllChart();
 		}
 
 		private void HandleError(object sender, ErrorEventArgs errorEventArgs)
 		{
 			ServiceLocator.Current.GetInstance<MainWindowHelper>().ShowError(sender.ToString(),errorEventArgs.GetException());
+		}
+
+		private void Chart_Resize(object sender, EventArgs e)
+		{
+			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<ChartRenderingHandler>(ModesHelper.DrivingModeType))
+			{
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).SetMarkerImage();
+				ServiceLocator.Current.GetInstance<MainWindowHelper>().ResizeChart((Chart) sender);
+			}
 		}
 	}
 }

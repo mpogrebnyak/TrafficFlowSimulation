@@ -24,7 +24,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				Chart.Series[i].Points.AddXY(0, modelParameters.lambda[i]);
+				GetSeries(i).Points.AddXY(0, modelParameters.lambda[i]);
 
 			UpdateLegend(i, true, modelParameters.lambda[i]);
 		}
@@ -39,7 +39,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 			var showLegend = false;
 			if (coordinates.X[i] > GetChartArea().AxisY.Minimum && coordinates.X[i] < GetChartArea().AxisY.Maximum)
 			{
-				Chart.Series[i].Points.AddXY(coordinates.T, coordinates.X[i]);
+				GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
 				showLegend = true;
 			}
 

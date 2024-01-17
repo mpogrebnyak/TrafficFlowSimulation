@@ -64,7 +64,7 @@ public class RoadHoleModeSettingsModel : SpeedLimitChangingModeSettingsModel
 			L = MaxL,
 			InitialSpeed = 16.7,
 			SegmentsNumber = 2,
-			SegmentLenght = 2,
+			SegmentLenght = 1,
 			SegmentSpeed = 1.38
 		};
 		p.SegmentBeginning = "1:0" + " 2:" + p.SegmentLenght;// + " 3:" + p.L;
