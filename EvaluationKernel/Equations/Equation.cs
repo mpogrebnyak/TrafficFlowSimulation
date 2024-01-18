@@ -43,7 +43,7 @@ namespace EvaluationKernel.Equations
 
 		protected bool RelayFunction(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			return DeltaX(x_n, x_n_1) > S(n, x_n.DotX);
+			return Math.Round(DeltaX(x_n, x_n_1), 5) > Math.Round(S(n, x_n.DotX), 5);
 		}
 
 		protected double P(int n, Coordinates x_n, Coordinates x_n_1)

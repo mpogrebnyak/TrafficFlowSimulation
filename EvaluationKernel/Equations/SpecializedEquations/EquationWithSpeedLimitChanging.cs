@@ -49,31 +49,27 @@ public class EquationWithSpeedLimitChanging : Equation
 
 	protected override double DeltaX(Coordinates x_n, Coordinates x_n_1)
 	{
-		return Math.Min(Phi(), x_n_1.X) - x_n.X;
+		return Phi(x_n, x_n_1) - x_n.X;
 	}
 
 	protected override double DeltaDotX(Coordinates x_n, Coordinates x_n_1)
 	{
-		if (x_n_1.X - x_n.X < _segmentSpeeds[_currentSegment + 1].SegmentBeginning - x_n.X)
-			return x_n_1.DotX - x_n.DotX;
-
-		return Vmin(x_n.DotX, x_n_1.DotX) - x_n.DotX;
+		return Vmin(x_n_1.DotX) - x_n.DotX;
 	}
 
-	private double Vmin(double v1, double v)
+	private double Vmin(double v)
 	{
-		var min = Math.Min(v, v1);
-		if (_currentSegment + 1 == _segmentSpeeds.Count - 1)
-			return min;
-
-		return Math.Min(_segmentSpeeds[_currentSegment + 1].Speed, min);
+		return Math.Min(v, _segmentSpeeds[_currentSegment + 1].Speed);
 	}
 
-	private double Phi()
+	private double Phi(Coordinates x_n, Coordinates x_n_1)
 	{
-		return _segmentSpeeds[_currentSegment].Speed > _segmentSpeeds[_currentSegment + 1].Speed
-			? _segmentSpeeds[_currentSegment + 1].SegmentBeginning
-			: _segmentSpeeds[_currentSegment + 2].SegmentBeginning;
+		if (x_n.DotX > _segmentSpeeds[_currentSegment + 1].Speed)
+		{
+			return Math.Min(_segmentSpeeds[_currentSegment + 1].SegmentBeginning, x_n_1.X);
+		}
+
+		return x_n_1.X;
 	}
 
 	private int GetSegmentNumber(double x)

@@ -157,7 +157,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 			n = 2,
 			Vmax = 16.7,
 			Vmax_multiple = string.Empty,
-			tau = 1,
+			tau = 0.5,
 			tau_multiple = string.Empty,
 			a = 0.5,
 			a_multiple = string.Empty,
