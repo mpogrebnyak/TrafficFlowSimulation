@@ -43,7 +43,7 @@ namespace TrafficFlowSimulation
 
 		private static void Registration()
 		{
-			CommonHelper.ServiceRegistration.RegisterInstance<IErrorManager>(() => new ErrorManager());
+			CommonHelper.ServiceRegistration.RegisterInstance<IErrorManager>(() => new ErrorManager(), skipIfAlreadyRegistered: false);
 
 			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("Ru");
 

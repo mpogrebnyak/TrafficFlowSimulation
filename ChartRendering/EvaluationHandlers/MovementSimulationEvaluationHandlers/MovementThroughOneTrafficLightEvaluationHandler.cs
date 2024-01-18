@@ -66,13 +66,12 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 				{
 					if (!isCarToStopNotFound)
 					{
-						r.SetCarNumberToStop(new List<int> { });
+						r.SetCarNumberToStop(new List<int>());
 						isCarToStopNotFound = true;
 					}
 				}
 				else
 				{
-					//if (x[i] < modeSettings.TrafficLight.Position && isCarToStopNotFound)
 					if (x[i] < 0 && isCarToStopNotFound)
 					{
 						r.SetCarNumberToStop(new List<int> {i});

@@ -3,5 +3,6 @@
 public enum ChartEventActions
 {
 	UpdateCharts,
-	UpdateChartEnvironments
+	UpdateChartEnvironments,
+	SaveChart
 }

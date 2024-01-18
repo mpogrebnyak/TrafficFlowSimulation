@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.EvaluationHandlers;
 using ChartRendering.Helpers;
+using Common.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Modes;
 using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
-using TrafficFlowSimulation.Windows.Components;
 
 namespace TrafficFlowSimulation.Windows
 {
@@ -40,6 +41,7 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.ParametersSelectionModeType).RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().ResizeAllChart();
 
 			var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode).AbortExecution();
@@ -63,6 +65,7 @@ namespace TrafficFlowSimulation.Windows
 			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.ParametersSelectionModeType).RenderCharts(modelParameters, modeSettings);
+			ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().ResizeAllChart();
 		}
 
 		private void ImportPointsButton_Click(object sender, EventArgs e)
@@ -78,6 +81,14 @@ namespace TrafficFlowSimulation.Windows
 			var serializerPointsModel = SerializerPointsHelper.DeserializePoints(filePath);
 
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode).ExecutePreCalculated(serializerPointsModel.ModelParameters, serializerPointsModel.ModeSettings, serializerPointsModel.CoordinatesModel);
+		}
+
+		private void Chart_Resize(object sender, EventArgs e)
+		{
+			if (ServiceLocator.Current.GetInstance<IServiceRegistrator>().IsRegistered<ChartRenderingHandler>(ModesHelper.ParametersSelectionModeType))
+			{
+				ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().ResizeChart((Chart) sender);
+			}
 		}
 	}
 }

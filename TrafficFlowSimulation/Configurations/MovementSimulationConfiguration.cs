@@ -38,76 +38,76 @@ namespace TrafficFlowSimulation.Configurations
 			if (availableModes.Contains(DrivingMode.StartAndStopMovement))
 			{
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new StartAndStopMovementSpeedChartRender(_speedChart),
-					_speedChart.Name + DrivingMode.StartAndStopMovement);
+					_speedChart.Name + DrivingMode.StartAndStopMovement, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new StartAndStopMovementDistanceChartRender(_distanceChart),
-					_distanceChart.Name + DrivingMode.StartAndStopMovement);
+					_distanceChart.Name + DrivingMode.StartAndStopMovement, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new StartAndStopMovementCarsChartRender(_carsMovementChart),
-					_carsMovementChart.Name + DrivingMode.StartAndStopMovement);
+					_carsMovementChart.Name + DrivingMode.StartAndStopMovement, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
-					_speedFromDistanceChart.Name + DrivingMode.StartAndStopMovement);
+					_speedFromDistanceChart.Name + DrivingMode.StartAndStopMovement, false);
 			}
 
 			if (availableModes.Contains(DrivingMode.TrafficThroughOneTrafficLight))
 			{
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightSpeedChartRender(_speedChart),
-					_speedChart.Name + DrivingMode.TrafficThroughOneTrafficLight);
+					_speedChart.Name + DrivingMode.TrafficThroughOneTrafficLight, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightDistanceChartRender(_distanceChart),
-					_distanceChart.Name + DrivingMode.TrafficThroughOneTrafficLight);
+					_distanceChart.Name + DrivingMode.TrafficThroughOneTrafficLight, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightCarsChartRender(_carsMovementChart),
-					_carsMovementChart.Name + DrivingMode.TrafficThroughOneTrafficLight);
+					_carsMovementChart.Name + DrivingMode.TrafficThroughOneTrafficLight, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
-					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughOneTrafficLight);
+					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughOneTrafficLight, false);
 			}
 
 			if (availableModes.Contains(DrivingMode.InliningInFlow))
 			{
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningInFlowSpeedChartRender(_speedChart),
-					_speedChart.Name + DrivingMode.InliningInFlow);
+					_speedChart.Name + DrivingMode.InliningInFlow, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningInFlowDistanceChartRender(_distanceChart),
-					_distanceChart.Name + DrivingMode.InliningInFlow);
+					_distanceChart.Name + DrivingMode.InliningInFlow, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningInFlowCarsChartRender(_carsMovementChart),
-					_carsMovementChart.Name + DrivingMode.InliningInFlow);
+					_carsMovementChart.Name + DrivingMode.InliningInFlow, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
-					_speedFromDistanceChart.Name + DrivingMode.InliningInFlow);
+					_speedFromDistanceChart.Name + DrivingMode.InliningInFlow, false);
 			}
 
 			if (availableModes.Contains(DrivingMode.SpeedLimitChanging))
 			{
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingSpeedChartRender(_speedChart),
-					_speedChart.Name + DrivingMode.SpeedLimitChanging);
+					_speedChart.Name + DrivingMode.SpeedLimitChanging, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingDistanceChartRender(_distanceChart),
-					_distanceChart.Name + DrivingMode.SpeedLimitChanging);
+					_distanceChart.Name + DrivingMode.SpeedLimitChanging, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingCarsChartRender(_carsMovementChart),
-					_carsMovementChart.Name + DrivingMode.SpeedLimitChanging);
+					_carsMovementChart.Name + DrivingMode.SpeedLimitChanging, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedLimitChangingSpeedFromDistanceChartRender(_speedFromDistanceChart),
-					_speedFromDistanceChart.Name + DrivingMode.SpeedLimitChanging);
+					_speedFromDistanceChart.Name + DrivingMode.SpeedLimitChanging, false);
 			}
 
 			if (availableModes.Contains(DrivingMode.RoadHole))
 			{
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleSpeedChartRender(_speedChart),
-					_speedChart.Name + DrivingMode.RoadHole);
+					_speedChart.Name + DrivingMode.RoadHole, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleDistanceChartRender(_distanceChart),
-					_distanceChart.Name + DrivingMode.RoadHole);
+					_distanceChart.Name + DrivingMode.RoadHole, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleCarsChartRender(_carsMovementChart),
-					_carsMovementChart.Name + DrivingMode.RoadHole);
+					_carsMovementChart.Name + DrivingMode.RoadHole, false);
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new RoadHoleSpeedFromDistanceChartRender(_speedFromDistanceChart),
-					_speedFromDistanceChart.Name + DrivingMode.RoadHole);
+					_speedFromDistanceChart.Name + DrivingMode.RoadHole, false);
 			}
 
 			CommonHelper.ServiceRegistration.RegisterInstance(() => new ChartRenderingHandler(
@@ -118,7 +118,7 @@ namespace TrafficFlowSimulation.Configurations
 					_carsMovementChart.Name,
 					_speedFromDistanceChart.Name
 				},
-				ModesHelper.GetCurrentDrivingMode()), ModesHelper.DrivingModeType);
+				ModesHelper.GetCurrentDrivingMode()), ModesHelper.DrivingModeType, false);
 		}
 	}
 }

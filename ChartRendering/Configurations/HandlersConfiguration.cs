@@ -23,54 +23,54 @@ public class HandlersConfiguration : IInitializable
 		if (availableModes.Contains(DrivingMode.StartAndStopMovement))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new StartAndStopMovementEvaluationHandler(),
-				DrivingMode.StartAndStopMovement.ToString());
+				DrivingMode.StartAndStopMovement.ToString(), false);
 		}
 
 		if (availableModes.Contains(DrivingMode.TrafficThroughOneTrafficLight))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new MovementThroughOneTrafficLightEvaluationHandler(),
-				DrivingMode.TrafficThroughOneTrafficLight.ToString());
+				DrivingMode.TrafficThroughOneTrafficLight.ToString(), false);
 		}
 
 		if (availableModes.Contains(DrivingMode.InliningInFlow))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new InliningInFlowEvaluationHandler(),
-				DrivingMode.InliningInFlow.ToString());
+				DrivingMode.InliningInFlow.ToString(), false);
 		}
 		
 		if (availableModes.Contains(DrivingMode.SpeedLimitChanging))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new SpeedLimitChangingEvaluationHandler(),
-				DrivingMode.SpeedLimitChanging.ToString());
+				DrivingMode.SpeedLimitChanging.ToString(), false);
 		}
 
 		if (availableModes.Contains(DrivingMode.RoadHole))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new SpeedLimitChangingEvaluationHandler(),
-				DrivingMode.RoadHole.ToString());
+				DrivingMode.RoadHole.ToString(), false);
 		}
 	}
 
 	private void InitializeParametersSelectionEvaluationHandlers()
 	{
-		var parametersSelectionModes = ModesHelper.GetAvailableParametersSelectionMode();;
+		var parametersSelectionModes = ModesHelper.GetAvailableParametersSelectionMode();
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistanceEstimation))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new InliningDistanceEstimationSelectionEvaluationHandler(),
-				ParametersSelectionMode.InliningDistanceEstimation.ToString());
+				ParametersSelectionMode.InliningDistanceEstimation.ToString(), false);
 		}
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.AccelerationCoefficientEstimation))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new AccelerationCoefficientEstimationSelectionEvaluationHandler(),
-				ParametersSelectionMode.AccelerationCoefficientEstimation.ToString());
+				ParametersSelectionMode.AccelerationCoefficientEstimation.ToString(), false);
 		}
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.DecelerationCoefficientEstimation))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new DecelerationCoefficientEstimationSelectionEvaluationHandler(),
-				ParametersSelectionMode.DecelerationCoefficientEstimation.ToString());
+				ParametersSelectionMode.DecelerationCoefficientEstimation.ToString(), false);
 		}
 	}
 }

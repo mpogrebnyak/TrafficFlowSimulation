@@ -41,8 +41,8 @@ namespace ChartRendering.ChartRenderModels
 					new ValidationContext(this, null, null), results, true);
 				if (!result)
 					return string.Join("\n", results.Select(x => x.ErrorMessage));
-				else
-					return null;
+
+				return null;
 			}
 		}
 

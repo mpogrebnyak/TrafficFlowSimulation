@@ -57,35 +57,35 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 		return new Chart();
 	}
 
-/*	private static EvaluationCommonHelper.ChartAreaParameters GetChartAreaParameters(ModelParameters modelParameters, AccelerationCoefficientEnvironmentModel environmentModel)
+	private static void GetChartAreaParameters(ModelParameters modelParameters, AccelerationCoefficientEnvironmentModel environmentModel)
 	{
-		var chartArea = new EvaluationCommonHelper.ChartAreaParameters
-		{
-			Name = "AccelerationCoefficientEstimationChartArea",
-			AxisX = new Axis
-			{
-				Minimum = 0,
-				Maximum = 1,
-				LabelAutoFitMinFontSize = 50,
-				LineWidth = 2,
-				MajorGrid = new Grid
-				{
-					LineWidth = 2
-				}
-			},
-			AxisY = new Axis
-			{
-				Minimum = 0,
-				Maximum = 20,
-				LabelAutoFitMinFontSize = 50,
-				LineWidth = 2,
-				MajorGrid = new Grid
-				{
-					LineWidth = 2
-				}
-			}
-		};
-
+		//var chartArea = new EvaluationCommonHelper.ChartAreaParameters
+	//	{
+	//		Name = "AccelerationCoefficientEstimationChartArea",
+		//	AxisX = new Axis
+		//	{
+		//		Minimum = 0,
+	//			Maximum = 1,
+	//			LabelAutoFitMinFontSize = 50,
+	//			LineWidth = 2,
+		//		MajorGrid = new Grid
+		//		{
+		//			LineWidth = 2
+		//		}
+		//	},
+		//	AxisY = new Axis
+	//		{
+	//			Minimum = 0,
+		//		Maximum = 20,
+	//			LabelAutoFitMinFontSize = 50,
+		//		LineWidth = 2,
+	//			MajorGrid = new Grid
+	//			{
+		//			LineWidth = 2
+	//			}
+		//	}
+	//	};
+	var chartArea = new ChartArea();
 		chartArea.AxisX.CustomLabels.Add(new CustomLabel
 		{
 			Text = "a",
@@ -128,6 +128,6 @@ public static class AccelerationCoefficientEstimationSelectionEvaluationHelper
 			});
 		}
 
-		return chartArea;
-	}*/
+	//	return chartArea;
+	}
 }

@@ -22,24 +22,24 @@ public class ParametersSelectionConfiguration : IInitializable
 
 	public void Initialize()
 	{
-		var parametersSelectionModes = ModesHelper.GetAvailableParametersSelectionMode();;
+		var parametersSelectionModes = ModesHelper.GetAvailableParametersSelectionMode();
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.InliningDistanceEstimation))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningDistanceEstimationSelectionChartRender(_parametersSelectionChart),
-				_parametersSelectionChart.Name + ParametersSelectionMode.InliningDistanceEstimation);
+				_parametersSelectionChart.Name + ParametersSelectionMode.InliningDistanceEstimation, false);
 		}
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.AccelerationCoefficientEstimation))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new AccelerationCoefficientEstimationSelectionChartRender(_parametersSelectionChart),
-				_parametersSelectionChart.Name + ParametersSelectionMode.AccelerationCoefficientEstimation);
+				_parametersSelectionChart.Name + ParametersSelectionMode.AccelerationCoefficientEstimation, false);
 		}
 
 		if (parametersSelectionModes.Contains(ParametersSelectionMode.DecelerationCoefficientEstimation))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new DecelerationCoefficientEstimationSelectionChartRender(_parametersSelectionChart),
-				_parametersSelectionChart.Name + ParametersSelectionMode.DecelerationCoefficientEstimation);
+				_parametersSelectionChart.Name + ParametersSelectionMode.DecelerationCoefficientEstimation, false);
 		}
 
 		CommonHelper.ServiceRegistration.RegisterInstance(() => new ChartRenderingHandler(
@@ -47,6 +47,6 @@ public class ParametersSelectionConfiguration : IInitializable
 			{
 				_parametersSelectionChart.Name
 			},
-			ModesHelper.GetCurrentParametersSelectionMode()), ModesHelper.ParametersSelectionModeType);
+			ModesHelper.GetCurrentParametersSelectionMode()), ModesHelper.ParametersSelectionModeType, false);
 	}
 }

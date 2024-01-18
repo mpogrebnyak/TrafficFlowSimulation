@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
 using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.Constants;
-using ChartRendering.Helpers;
 using Common;
 using EvaluationKernel.Models;
 using Localization.Localization;

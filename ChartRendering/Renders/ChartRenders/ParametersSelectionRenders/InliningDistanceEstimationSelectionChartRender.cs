@@ -18,9 +18,9 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 	protected override SeriesChartType SeriesChartType => SeriesChartType.Point;
 
 	private readonly List<Color> _pointColors = CustomColors.GetColorsForInliningDistanceEstimation();
+
 	public InliningDistanceEstimationSelectionChartRender(Chart chart) : base(chart)
 	{
-		FullClearChart();
 	}
 
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -30,20 +30,14 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		var chartArea = CreateChartArea(modelParameters, modeSettings);
 		Chart.ChartAreas.Add(chartArea);
 
-		foreach (var color in _pointColors)
-		{
-			Chart.Series.Add(new Series
-			{
-				Name = SeriesName + color.Name,
-				ChartType = SeriesChartType,
-				ChartArea = chartArea.Name,
-				BorderWidth = 1,
-				Color = color,
-				MarkerStyle = MarkerStyle.Circle
-			});
-		}
 
 		Chart.Series.Where(series => series.Name.Contains(_pointColors.First().Name));
+		
+		var environmentSeries = CreateEnvironment(modelParameters, modeSettings);
+		foreach (var series in environmentSeries)
+		{
+			Chart.Series.Add(series);
+		}
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
@@ -79,7 +73,35 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		return new Series[] { };
+		var startLineSeries = new Series
+		{
+			Name = "UpperBound",
+			ChartType = SeriesChartType.Line,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = Color.Black,
+			IsVisibleInLegend = false
+		};
+		startLineSeries.Points.Add(new DataPoint(0, 5));
+		startLineSeries.Points.Add(new DataPoint(6, 7));
+
+		var endLineSeries = new Series
+		{
+			Name = "LowerBound",
+			ChartType = SeriesChartType.Line,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = Color.Black,
+			IsVisibleInLegend = false
+		};
+		endLineSeries.Points.Add(new DataPoint(0, 1));
+		endLineSeries.Points.Add(new DataPoint(1,1));
+
+		return new[]
+		{
+			startLineSeries,
+			endLineSeries
+		};
 	}
 
 	protected override Legend CreateLegend(LegendStyle legendStyle)

@@ -4,6 +4,7 @@ using System.Linq;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
@@ -48,13 +49,14 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			}
 		}
 
-		//AccelerationCoefficientEstimationSelectionEvaluationHelper.GenerateCharts(modelParameters, cm, em); 
+	//	AccelerationCoefficientEstimationSelectionEvaluationHelper.GenerateCharts(modelParameters, cm, em); 
 
 		p.ChartEventHandler.Invoke(
 			new List<ChartEventActions>
 			{
 				ChartEventActions.UpdateCharts,
-				ChartEventActions.UpdateChartEnvironments
+				ChartEventActions.UpdateChartEnvironments,
+				ChartEventActions.SaveChart
 			},
 			new ChartEventHandlerArgs(new CoefficientEstimationCoordinatesArgs
 				{

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Renders.ChartRenders;
+using Common;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using Modes;
-using Modes.Constants;
 
 namespace TrafficFlowSimulation.Handlers;
 
@@ -77,6 +78,15 @@ public class ChartRenderingHandler
 		foreach (var provider in _providers)
 		{
 			provider.UpdateScale(coordinates);
+		}
+	}
+
+	public void SaveCharts(List<Chart> charts)
+	{
+		foreach (var chart in charts)
+		{
+			RenderingHelper.CreateChartToSave(chart)
+				.SaveImage(CommonFileHelper.CreateFilePath(chart.Name, null, CommonFileHelper.Extension.Png), ChartImageFormat.Png);
 		}
 	}
 }

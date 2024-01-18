@@ -25,7 +25,6 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	public AccelerationCoefficientEstimationSelectionChartRender(Chart chart) : base(chart)
 	{
-		FullClearChart();
 	}
 
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
@@ -44,7 +43,8 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				ChartArea = chartArea.Name,
 				BorderWidth = 1,
 				Color = color,
-				MarkerStyle = MarkerStyle.Circle
+				MarkerStyle = MarkerStyle.Circle,
+				IsVisibleInLegend = false
 			});
 		}
 
@@ -78,38 +78,49 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			{
 				Minimum = 0,
 				Maximum = settings.MaxA,
-				Interval = 1
+				Interval = 1,
+				LabelAutoFitMinFontSize = 15,
+				CustomLabels =
+				{
+					ChartAreaRendersHelper.CreateCustomLabel(1,"a")
+				}
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = 20,
-				Interval = 5
+				//Interval = 5,
+				LabelAutoFitMinFontSize = 15,
+				CustomLabels =
+				{
+					ChartAreaRendersHelper.CreateCustomLabel(5),
+					ChartAreaRendersHelper.CreateCustomLabel(15),
+					ChartAreaRendersHelper.CreateCustomLabel(20,"t₀")
+				}
 			}
 		};
+
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
 	}
 
+	protected override Legend CreateLegend(LegendStyle legendStyle)
+	{
+		throw new NotImplementedException();
+	}
+
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var settings = (AccelerationCoefficientEstimationSettingsModel) modeSettings;
-		Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
-		{
-			Text = "1",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(1),
-			ToPosition = ChartCommonHelper.CalculateToPosition(1),
-			GridTicks = GridTickTypes.All
-		});
 
 		var startLineSeries = new Series
 		{
 			Name = "UpperBound",
 			ChartType = SeriesChartType.Line,
 			ChartArea = ChartAreaName,
-			BorderWidth = 1,
-			Color = Color.Red,
+			BorderWidth = 2,
+			Color = Color.Black,
 			IsVisibleInLegend = false
 		};
 		startLineSeries.Points.Add(new DataPoint(0, settings.MinTime));
@@ -120,8 +131,8 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			Name = "LowerBound",
 			ChartType = SeriesChartType.Line,
 			ChartArea = ChartAreaName,
-			BorderWidth = 1,
-			Color = Color.Red,
+			BorderWidth = 2,
+			Color = Color.Black,
 			IsVisibleInLegend = false
 		};
 		endLineSeries.Points.Add(new DataPoint(0, settings.MaxTime));
@@ -159,15 +170,5 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				GridTicks = GridTickTypes.All
 			});
 		}
-	}
-
-	protected override Legend CreateLegend(LegendStyle legendStyle)
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public override void SetChartAreaAxisTitle(bool isHidden = false)
-	{
-		throw new System.NotImplementedException();
 	}
 }

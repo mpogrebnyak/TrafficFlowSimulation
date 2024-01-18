@@ -25,7 +25,6 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	public DecelerationCoefficientEstimationSelectionChartRender(Chart chart) : base(chart)
 	{
-		FullClearChart();
 	}
 
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)

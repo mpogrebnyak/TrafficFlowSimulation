@@ -144,6 +144,10 @@ public static class ChartAreaRendersHelper
 		}
 
 		var step = Math.Round((axis.Maximum - axis.Minimum) / 5, 0);
+		step = step == 0 
+			? 1
+			: step;
+
 		for (var i = axis.Minimum; i <= axis.Maximum; i += step)
 		{
 			var isLabelAvailable = true;
@@ -158,19 +162,19 @@ public static class ChartAreaRendersHelper
 
 			if (isLabelAvailable)
 			{
-				axis.CustomLabels.Add(CreateCustomLabel(i, i.ToString(CultureInfo.InvariantCulture)));
+				axis.CustomLabels.Add(CreateCustomLabel(i, null, i.ToString(CultureInfo.InvariantCulture)));
 			}
 		}
 	}
 
-	public static CustomLabel CreateCustomLabel(double value, string tag = null, GridTickTypes gridTickTypes = GridTickTypes.None)
+	public static CustomLabel CreateCustomLabel(double value, string? text = null, string tag = null)
 	{
 		return new CustomLabel
 		{
-			Text = Math.Round(value, 2).ToString(CultureInfo.InvariantCulture),
+			Text = text ?? Math.Round(value, 2).ToString(CultureInfo.InvariantCulture),
 			FromPosition = CalculateFromPosition(value),
 			ToPosition = CalculateToPosition(value),
-			GridTicks = gridTickTypes,
+			GridTicks = GridTickTypes.None,
 			Tag = tag
 		};
 	}
@@ -200,4 +204,6 @@ public class ChartAreaCreationModel
 	public Axis AxisY { get; set; }
 
 	public bool IsZoomAvailable { get; set; }
+
+	public bool IsOnlyCustomGridAvailable { get; set; }
 }

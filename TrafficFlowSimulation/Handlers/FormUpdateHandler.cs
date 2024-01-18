@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using ChartRendering.Events;
 using Microsoft.Practices.ServiceLocation;
@@ -41,6 +43,11 @@ public static class FormUpdateHandler
 		}
 
 		_form.Invoke((MethodInvoker) Method);
+
+		foreach (var action in actions)
+		{
+			ChartEventHandlerExternal(action, e);
+		}
 	}
 
 	private static void ChartEventHandlerInternal(ChartEventActions action, ChartEventHandlerArgs e)
@@ -57,6 +64,24 @@ public static class FormUpdateHandler
 			case ChartEventActions.UpdateChartEnvironments:
 			{
 				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateChartEnvironments(e.EnvironmentArgs);
+				return;
+			}
+
+			default:
+			{
+				return;
+			}
+		}
+	}
+
+	private static void ChartEventHandlerExternal(ChartEventActions action, ChartEventHandlerArgs e)
+	{
+		switch (action)
+		{
+			case ChartEventActions.SaveChart:
+			{
+				var charts = _form.Controls.OfType<Chart>().ToList();
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).SaveCharts(charts);
 				return;
 			}
 

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.ParametersModels;
+using ChartRendering.Helpers;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
@@ -17,6 +19,8 @@ namespace TrafficFlowSimulation.Helpers;
 
 public class ParametersSelectionWindowHelper
 {
+	private readonly ParametersSelectionWindow _parametersSelectionWindow;
+
 	private readonly ErrorProvider _errorProvider;
 
 	private readonly Dictionary<Type, BindingSource> _bindingSources;
@@ -25,6 +29,7 @@ public class ParametersSelectionWindowHelper
 
 	public ParametersSelectionWindowHelper(ParametersSelectionWindow form)
 	{
+		_parametersSelectionWindow = form;
 		_errorProvider = form.ParametersErrorProvider;
 		_bindingSources = new();
 		_controls = form.Controls;
@@ -126,5 +131,23 @@ public class ParametersSelectionWindowHelper
 		}
 
 		return null;
+	}
+
+	public void ResizeAllChart()
+	{
+		ResizeChart(_parametersSelectionWindow.ParametersSelectionChart);
+	}
+
+	public void ResizeChart(Chart chart)
+	{
+		if (chart.Visible == false)
+			return;
+
+		chart.Update();
+		foreach (var chartArea in chart.ChartAreas)
+		{
+			ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisX, Math.Abs(chartArea.AxisX.ValueToPixelPosition(0) - chartArea.AxisX.ValueToPixelPosition(1)));
+			ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisY, Math.Abs(chartArea.AxisY.ValueToPixelPosition(0) - chartArea.AxisY.ValueToPixelPosition(1)));
+		}
 	}
 }

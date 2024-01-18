@@ -28,6 +28,8 @@ public class ParametersSelectionModeComponent : IComponent
 	{
 		_modeButton.DropDownItems.Clear();
 		var availableModes = ModesHelper.GetAvailableParametersSelectionMode();
+		var currentMode = ModesHelper.GetCurrentParametersSelectionMode();
+		string? modeButtonText = null;
 
 		foreach (ParametersSelectionMode mode in Enum.GetValues(typeof(ParametersSelectionMode)))
 		{
@@ -43,6 +45,11 @@ public class ParametersSelectionModeComponent : IComponent
 
 				menuItem.Click += MenuItem_Click;
 				_modeButton.DropDownItems.Add(menuItem);
+
+				if (currentMode == mode.ToString())
+				{
+					modeButtonText = mode.GetDescription();
+				}
 			}
 		}
 
@@ -50,7 +57,7 @@ public class ParametersSelectionModeComponent : IComponent
 			System.Drawing.GraphicsUnit.Point, 204);
 
 		_modeButton.Text = _modeButton.DropDownItems.Count > 0
-			? _modeButton.DropDownItems[0].Text
+			? modeButtonText ?? _modeButton.DropDownItems[0].Text
 			: LocalizationHelper.Get<MainWindowResources>().EmptyModeLabel;
 	}
 
@@ -73,5 +80,6 @@ public class ParametersSelectionModeComponent : IComponent
 		var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectParametersFromBindingSource();
 		var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
 		ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.ParametersSelectionModeType).RenderCharts(modelParameters, modeSettings);
+		ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().ResizeAllChart();
 	}
 }

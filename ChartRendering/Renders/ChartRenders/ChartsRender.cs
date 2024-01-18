@@ -61,8 +61,6 @@ public abstract class ChartsRender : IChartRender
 			});
 		}
 
-		//RenderChartEnvironment(modelParameters, modeSettings);
-
 		_currentMinute = 1;
 	}
 
@@ -91,7 +89,7 @@ public abstract class ChartsRender : IChartRender
 
 	public virtual void UpdateScale(CoordinatesArgs? coordinates = null, AutoScroll? scroll = null, int? scrollFor = null) { }
 
-	public abstract void SetChartAreaAxisTitle(bool isHidden = false);
+	public virtual void SetChartAreaAxisTitle(bool isHidden = false) { }
 
 	public virtual void SetMarkerImage(object? parameters = null)
 	{
@@ -154,7 +152,10 @@ public abstract class ChartsRender : IChartRender
 
 	protected abstract ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
-	protected abstract Legend CreateLegend(LegendStyle legendStyle);
+	protected virtual Legend CreateLegend(LegendStyle legendStyle)
+	{
+		return null;
+	}
 
 	protected abstract Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
