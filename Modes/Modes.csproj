@@ -11,4 +11,15 @@
       <ProjectReference Include="..\Localization\Localization.csproj" />
     </ItemGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <NoWarn>8618</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <NoWarn>8618</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+        <NoWarn>8618</NoWarn>
+    </PropertyGroup>
 </Project>

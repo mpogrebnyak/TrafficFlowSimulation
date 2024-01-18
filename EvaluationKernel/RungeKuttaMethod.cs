@@ -17,7 +17,7 @@ namespace EvaluationKernel
 		List<List<double>> y;
 		List<double> t;
 
-		List<int> CarNumberToStop = new List<int>(); 
+		List<int> CarNumberToStop = new (); 
 
 		public RungeKuttaMethod(ModelParameters modelParameters, Equation equation)
 		{
@@ -65,11 +65,6 @@ namespace EvaluationKernel
 			}
 		}
 
-		public Equation Equation
-		{
-			set => _equation = value;
-		}
-
 		public List<double> T
 		{
 			get { return t; }
@@ -105,16 +100,16 @@ namespace EvaluationKernel
 					CarNumberToStop = CarNumberToStop,
 					CurrentCarCoordinates = new Coordinates
 					{
-						n = i,
+						N = i,
 						X = x[i][x[i].Count - 1],
 						DotX = y[i][y[i].Count - 1]
 					},
 					PreviousСarCoordinates = new Coordinates
 					{
-						n = i - 1,
+						N = i - 1,
 						X = i != 0 ? x[i - 1][x[i].Count - _N] : 0,
 						DotX = i != 0 ? y[i - 1][y[i].Count - _N] : 0
-					}	
+					}
 				});
 		}
 

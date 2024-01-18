@@ -18,9 +18,6 @@ namespace EvaluationKernel.Models
 
 		public List<double> Vmax { get; set; }
 
-		// удалить
-		public double Vmin { get; set; }
-
 		public List<double> k { get; set; }
 
 		public double mu { get; set; }
@@ -32,8 +29,6 @@ namespace EvaluationKernel.Models
 		public List<double> lCar { get; set; }
 
 		public double L { get; set; }
-
-		public double eps { get; set; }
 
 		public List<double> lambda { get; set; }
 
@@ -60,14 +55,12 @@ namespace EvaluationKernel.Models
 				a = a,
 				q = q,
 				Vmax = Vmax,
-				Vmin = Vmin,
 				k = k,
 				mu = mu,
 				g = g,
 				lSafe = lSafe,
 				lCar = lCar,
 				L = L,
-				eps = eps,
 				lambda = lambda,
 				Vn = Vn
 			};

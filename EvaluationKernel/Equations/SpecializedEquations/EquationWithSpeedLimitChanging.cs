@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using EvaluationKernel.Helpers;
 using EvaluationKernel.Models;
+// ReSharper disable InconsistentNaming
 
 namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationWithSpeedLimitChanging : Equation
 {
-	private readonly SortedDictionary<int, int> _position = new();
-
 	private readonly SortedDictionary<int, SegmentModel> _segmentSpeeds;
 
 	private int _currentSegment;
@@ -16,10 +15,6 @@ public class EquationWithSpeedLimitChanging : Equation
 	public EquationWithSpeedLimitChanging(ModelParameters modelParameters, SortedDictionary<int, SegmentModel> segmentSpeeds) : base(modelParameters)
 	{
 		_segmentSpeeds = segmentSpeeds;
-		for (var i = 0; i < modelParameters.n; i++)
-		{
-			_position.Add(i, 0);
-		}
 	}
 
 	public override double GetEquation(CarCoordinatesModel carCoordinatesModel)
@@ -30,7 +25,6 @@ public class EquationWithSpeedLimitChanging : Equation
 		var x_n_1 = carCoordinatesModel.PreviousСarCoordinates;
 
 		_currentSegment = GetSegmentNumber(x_n.X);
-		_position[n] = _currentSegment;
 
 		return n == 0
 			? GetFirstCarEquation(n, x_n, x_0)

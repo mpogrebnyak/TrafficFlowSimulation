@@ -1,6 +1,7 @@
 ﻿using ChartRendering.Attribute;
 
 // ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
 
 namespace ChartRendering.ChartRenderModels.ParametersModels;
 
