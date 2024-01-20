@@ -9,27 +9,27 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace TrafficFlowSimulation.Handlers;
 
-public static class FormUpdateHandler
+public class FormUpdateHandler
 {
-	private static Form _form;
+	private readonly Form _form;
 
-	private static string _key;
+	private readonly string _key;
 
-	public static event ChartEventHandler ChartEventHandler;
+	public event ChartEventHandler ChartEventHandler;
 
-	public static void Initialize(Form form, string key)
+	public FormUpdateHandler(Form form, string key)
 	{
 		_form = form;
 		_key = key;
 		ChartEventHandler += Form_ChartEventHandler;
 	}
 
-	public static ChartEventHandler GetEvent()
+	public ChartEventHandler GetEvent()
 	{
 		return ChartEventHandler;
 	}
 
-	private static void Form_ChartEventHandler(List<ChartEventActions> actions, ChartEventHandlerArgs e)
+	private void Form_ChartEventHandler(List<ChartEventActions> actions, ChartEventHandlerArgs e)
 	{
 		void Method()
 		{
@@ -50,7 +50,7 @@ public static class FormUpdateHandler
 		}
 	}
 
-	private static void ChartEventHandlerInternal(ChartEventActions action, ChartEventHandlerArgs e)
+	private void ChartEventHandlerInternal(ChartEventActions action, ChartEventHandlerArgs e)
 	{
 		switch (action)
 		{
@@ -64,6 +64,7 @@ public static class FormUpdateHandler
 			case ChartEventActions.UpdateChartEnvironments:
 			{
 				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateChartEnvironments(e.EnvironmentArgs);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateScale(e.Coordinates);
 				return;
 			}
 
@@ -74,7 +75,7 @@ public static class FormUpdateHandler
 		}
 	}
 
-	private static void ChartEventHandlerExternal(ChartEventActions action, ChartEventHandlerArgs e)
+	private void ChartEventHandlerExternal(ChartEventActions action, ChartEventHandlerArgs e)
 	{
 		switch (action)
 		{

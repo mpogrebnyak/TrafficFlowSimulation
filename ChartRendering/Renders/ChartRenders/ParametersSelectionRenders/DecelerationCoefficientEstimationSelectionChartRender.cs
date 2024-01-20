@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Renders;
 
 namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -57,139 +55,95 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-	/*	var coordinatesModel = (List<DecelerationCoefficientEstimationCoordinatesModel>) parameters;
+		var coordinatesModel = (CoefficientEstimationCoordinatesArgs) coordinates;
 
-		foreach (var cm in coordinatesModel)
+		for (var i = 0; i < coordinatesModel.Color.Count; i++)
 		{
-			_chart.Series.Single(series => series.Name.Contains(CustomColors.Black.Name))
+			Chart.Series.Single(series => series.Name.Contains(coordinatesModel.Color[i]))
 				.Points
-				.AddXY(cm.X, cm.Y);
+				.AddXY(coordinatesModel.X[i], coordinatesModel.Y[i]);
 		}
-		
-		var optimalValue = coordinatesModel.Single(x => x.Color == CustomColors.Green.Name);
-		_chart.Series.Single(series => series.Name.Contains(CustomColors.Green.Name))
-			.Points
-			.AddXY(optimalValue.X, optimalValue.Y);*/
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		return new ChartArea
+		var settings = (DecelerationCoefficientEstimationSettingsModel) modeSettings;
+
+		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = ((DecelerationCoefficientEstimationSettingsModel)modeSettings).MaxQ,
-				Interval = 1
+				Maximum = settings.MaxQ + 0.0001,
+				LabelAutoFitMinFontSize = 15,
+				Interval = settings.MaxQ / 5,
+				CustomLabels =
+				{
+					ChartAreaRendersHelper.CreateCustomLabel(settings.MaxQ,"q")
+				}
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = 10,
-				Interval = 5
+				Maximum = 2,
+				LabelAutoFitMinFontSize = 15,
+				CustomLabels =
+				{
+					ChartAreaRendersHelper.CreateCustomLabel(2,"v")
+				}
 			}
 		};
+
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
+
+		return chartArea;
 	}
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var maxQ = ((DecelerationCoefficientEstimationSettingsModel) modeSettings).MaxQ;
-		Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
-		{
-			Text = maxQ.ToString(CultureInfo.InvariantCulture),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(maxQ),
-			ToPosition = ChartCommonHelper.CalculateToPosition(maxQ),
-			GridTicks = GridTickTypes.All
-		});
+		var optimalQ = 1 / (modelParameters.g * modelParameters.mu);
 
-		Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+		var optimalQSeries = new Series
 		{
-			Text = "0",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(0),
-			ToPosition = ChartCommonHelper.CalculateToPosition(0),
-			GridTicks = GridTickTypes.All
-		});
+			Name = "optimalQLineSeries",
+			ChartType = SeriesChartType.Line,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = Color.Black,
+			IsVisibleInLegend = false
+		};
+		optimalQSeries.Points.Add(new DataPoint(optimalQ, 0));
+		optimalQSeries.Points.Add(new DataPoint(optimalQ, 2));
 
-		Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
+		GetChartArea().AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(optimalQ));
+
+		return new[]
 		{
-			Text = "10",
-			FromPosition = ChartCommonHelper.CalculateFromPosition(10),
-			ToPosition = ChartCommonHelper.CalculateToPosition(10),
-			GridTicks = GridTickTypes.All
-		});
-
-		return new Series[] { };
+			optimalQSeries
+		};
 	}
 
 	public override void UpdateEnvironment(object parameters)
 	{
-		var environmentModel = (DecelerationCoefficientEnvironmentModel) parameters;
+		var environmentModel = (DecelerationCoefficientEnvironmentArgs) parameters;
 
 		if (!environmentModel.OptimalQ.HasValue)
-		 return;
+			return;
 
-		Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+		var qSeries = new Series
 		{
-			Text = Math.Round(environmentModel.OptimalQ.Value, 2).ToString(),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalQ.Value),
-			ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.OptimalQ.Value),
-			GridTicks = GridTickTypes.All
-		});
+			Name = "qSeries",
+			ChartType = SeriesChartType.Line,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = Color.Black,
+			IsVisibleInLegend = false
+		};
+		qSeries.Points.Add(new DataPoint(environmentModel.OptimalQ.Value, 0));
+		qSeries.Points.Add(new DataPoint(environmentModel.OptimalQ.Value, 2));
 
-		Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
-		{
-			Text = Math.Round(environmentModel.StopTime, 2).ToString(),
-			FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.OptimalTime),
-			ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.OptimalTime),
-			GridTicks = GridTickTypes.All
-		});
-
-		if (environmentModel.DoubleOptimalQ.HasValue)
-		{
-			Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
-			{
-				Text = Math.Round(environmentModel.DoubleOptimalQ.Value, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalQ.Value),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.DoubleOptimalQ.Value),
-				GridTicks = GridTickTypes.All
-			});
-
-			Chart.ChartAreas.First().AxisY.CustomLabels.Add(new CustomLabel
-			{
-				Text = Math.Round(2 * environmentModel.StopTime, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.DoubleOptimalTime),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.DoubleOptimalTime),
-				GridTicks = GridTickTypes.All
-			});
-		}
-
-		for (var i = -10.0; i <= 10; i+=0.5)
-		{
-			var redLine = new Series
-			{
-				Name = "RedLine" + i,
-				ChartType = SeriesChartType.Line,
-				ChartArea = ChartAreaName,
-				BorderWidth = 1,
-				Color = Color.Red,
-				IsVisibleInLegend = false
-			};
-
-			redLine.Points.Add(new DataPoint(0, i));
-			redLine.Points.Add(new DataPoint(environmentModel.OptimalQ.Value, i + 10));
-
-			Chart.Series.Add(redLine);
-		}
-	}
-
-	protected override Legend CreateLegend(LegendStyle legendStyle)
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public override void SetChartAreaAxisTitle(bool isHidden = false)
-	{
-		throw new System.NotImplementedException();
+		GetChartArea().AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(environmentModel.OptimalQ.Value));
+		Chart.Series.Add(qSeries);
 	}
 }

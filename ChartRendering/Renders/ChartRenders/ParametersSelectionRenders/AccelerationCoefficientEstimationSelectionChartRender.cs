@@ -82,14 +82,13 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				LabelAutoFitMinFontSize = 15,
 				CustomLabels =
 				{
-					ChartAreaRendersHelper.CreateCustomLabel(1,"a")
+					ChartAreaRendersHelper.CreateCustomLabel(settings.MaxA,"a")
 				}
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = 20,
-				//Interval = 5,
 				LabelAutoFitMinFontSize = 15,
 				CustomLabels =
 				{
@@ -103,11 +102,6 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
-	}
-
-	protected override Legend CreateLegend(LegendStyle legendStyle)
-	{
-		throw new NotImplementedException();
 	}
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)

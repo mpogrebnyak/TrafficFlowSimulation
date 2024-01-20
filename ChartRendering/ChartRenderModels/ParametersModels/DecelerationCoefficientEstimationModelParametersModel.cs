@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
 using ChartRendering.Constants;
@@ -87,7 +88,8 @@ public class DecelerationCoefficientEstimationModelParametersModel : BaseParamet
 		mp.mu = mu;
 		mp.Vn = mp.Vmax;
 		mp.lambda = new List<double> { 0 };
-		mp.L = System.Math.Pow(mp.Vmax[0], 2) / (2 * mp.g * mp.mu) + mp.lSafe[0];
+		// добавка 0.1 нужна, чтобы в уравнении знаменатель не менял знак
+		mp.L = Math.Pow(mp.Vmax[0], 2) / (2 * mp.g * mp.mu) + 0.1;
 		mp.Vmax = null;
 	}
 

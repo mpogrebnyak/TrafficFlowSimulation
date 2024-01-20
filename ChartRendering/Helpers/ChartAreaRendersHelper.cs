@@ -145,7 +145,7 @@ public static class ChartAreaRendersHelper
 
 		var step = Math.Round((axis.Maximum - axis.Minimum) / 5, 0);
 		step = step == 0 
-			? 1
+			? Math.Round((axis.Maximum - axis.Minimum) / 5, 2)
 			: step;
 
 		for (var i = axis.Minimum; i <= axis.Maximum; i += step)

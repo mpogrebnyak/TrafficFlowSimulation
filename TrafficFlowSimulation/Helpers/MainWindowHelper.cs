@@ -6,6 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Events;
 using ChartRendering.Helpers;
 using Common.Modularity;
 using EvaluationKernel.Models;
@@ -15,6 +16,7 @@ using Modes;
 using Modes.Constants;
 using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Windows;
 using TrafficFlowSimulation.Windows.Components;
 
@@ -22,6 +24,8 @@ namespace TrafficFlowSimulation.Helpers
 {
 	public class MainWindowHelper
 	{
+		public readonly ChartEventHandler ChartEventHandler;
+
 		private readonly MainWindow _mainWindow;
 
 		private readonly LocalizationWindowHelper _localizationWindowHelper;
@@ -42,6 +46,9 @@ namespace TrafficFlowSimulation.Helpers
 			_errorProvider = form.ParametersErrorProvider;
 			_bindingSources = new();
 			_controls = form.Controls;
+
+			var formUpdateHandler = new FormUpdateHandler(form, ModesHelper.DrivingModeType);
+			ChartEventHandler = formUpdateHandler.GetEvent();
 		}
 
 		public void InitializeInterface()

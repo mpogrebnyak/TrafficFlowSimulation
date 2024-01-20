@@ -56,7 +56,8 @@ public static class CustomColors
 		return new List<Color>
 		{
 			Black,
-			Green
+			Green,
+			BrightRed
 		};
 	}
 }

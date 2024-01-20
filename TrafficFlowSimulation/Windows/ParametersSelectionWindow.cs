@@ -37,11 +37,13 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SelectParametersToolStripButton_Click(object sender, EventArgs e)
 		{
-			var modelParameters = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectParametersFromBindingSource();
-			var modeSettings = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+			var windowHelper = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>();
+
+			var modelParameters = windowHelper.CollectParametersFromBindingSource();
+			var modeSettings = windowHelper.CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.ParametersSelectionModeType).RenderCharts(modelParameters, modeSettings);
-			ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().ResizeAllChart();
+			windowHelper.ResizeAllChart();
 
 			var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode).AbortExecution();
@@ -50,7 +52,7 @@ namespace TrafficFlowSimulation.Windows
 				.Execute(
 					modelParameters,
 					modeSettings,
-					FormUpdateHandler.GetEvent());
+					windowHelper.ChartEventHandler);
 		}
 
 		private void ParametersSelectionWindow_FormClosing(object sender, FormClosingEventArgs e)

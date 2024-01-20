@@ -152,7 +152,7 @@ public static class RenderingHelper
 		{
 			var distance = chartArea.AxisX.Maximum - chartArea.AxisX.Minimum;
 			var singleSegmentInPixels = Width / distance;
-			ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisX, singleSegmentInPixels, 110);
+			ChartAreaRendersHelper.CreateCustomLabels(chartArea.AxisX, singleSegmentInPixels, 140);
 		}
 		if (chartArea.AxisY.CustomLabels.Any())
 		{

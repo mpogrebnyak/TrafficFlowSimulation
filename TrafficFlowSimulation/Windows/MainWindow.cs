@@ -49,20 +49,21 @@ namespace TrafficFlowSimulation.Windows
 
 		private void StartToolStripButton_Click(object sender, EventArgs e)
 		{
+			var windowHelper = ServiceLocator.Current.GetInstance<MainWindowHelper>();
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
 
 			ParametersPanel.Hide();
-			var modelParameters = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectParametersFromBindingSource();
-			var modeSettings = ServiceLocator.Current.GetInstance<MainWindowHelper>().CollectModeSettingsFromBindingSource(modelParameters);
+			var modelParameters = windowHelper.CollectParametersFromBindingSource();
+			var modeSettings =windowHelper.CollectModeSettingsFromBindingSource(modelParameters);
 
 			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
-			ServiceLocator.Current.GetInstance<MainWindowHelper>().ResizeAllChart();
+			windowHelper.ResizeAllChart();
 
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).Execute(
 				modelParameters,
 				modeSettings,
-				FormUpdateHandler.GetEvent());
+				windowHelper.ChartEventHandler);
 		}
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)

@@ -1,8 +1,6 @@
 ﻿using Common;
 using Common.Modularity;
-using Modes;
 using TrafficFlowSimulation.Configurations;
-using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
 
 namespace TrafficFlowSimulation.Windows;
@@ -22,7 +20,5 @@ public class ParametersSelectionWindowConfiguration : IInitializable
 
 		var movementSimulationConfiguration = new ParametersSelectionConfiguration(_form);
 		movementSimulationConfiguration.Initialize();
-
-		FormUpdateHandler.Initialize(_form, ModesHelper.ParametersSelectionModeType);
 	}
 }

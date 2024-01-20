@@ -4,7 +4,6 @@ using System.Linq;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
-using ChartRendering.Helpers;
 using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
@@ -48,8 +47,6 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 				minAValue ??= coordinatesModel.X;
 			}
 		}
-
-	//	AccelerationCoefficientEstimationSelectionEvaluationHelper.GenerateCharts(modelParameters, cm, em); 
 
 		p.ChartEventHandler.Invoke(
 			new List<ChartEventActions>

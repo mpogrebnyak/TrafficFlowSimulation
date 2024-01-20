@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.ParametersModels;
+using ChartRendering.Events;
 using ChartRendering.Helpers;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
@@ -13,12 +14,15 @@ using Modes;
 using Modes.Constants;
 using TrafficFlowSimulation.Components;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Windows;
 
 namespace TrafficFlowSimulation.Helpers;
 
 public class ParametersSelectionWindowHelper
 {
+	public readonly ChartEventHandler ChartEventHandler;
+
 	private readonly ParametersSelectionWindow _parametersSelectionWindow;
 
 	private readonly ErrorProvider _errorProvider;
@@ -33,6 +37,9 @@ public class ParametersSelectionWindowHelper
 		_errorProvider = form.ParametersErrorProvider;
 		_bindingSources = new();
 		_controls = form.Controls;
+
+		var formUpdateHandler = new FormUpdateHandler(form, ModesHelper.ParametersSelectionModeType);
+		ChartEventHandler = formUpdateHandler.GetEvent();
 	}
 
 	public void InitializeInterface()
@@ -67,7 +74,7 @@ public class ParametersSelectionWindowHelper
 			_errorProvider);
 		baseParametersTableLayoutPanelComponent.Initialize();
 
-		var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentParametersSelectionMode.ToString());
+		var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentParametersSelectionMode);
 		var settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
 			settingsModel,
 			_controls.Find(ControlName.ParametersSelectionWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel,
