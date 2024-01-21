@@ -108,7 +108,7 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 		return chartArea;
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle)
+	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
 	{
 		return new Legend
 		{

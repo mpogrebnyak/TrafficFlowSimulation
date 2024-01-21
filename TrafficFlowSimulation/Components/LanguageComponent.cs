@@ -5,7 +5,6 @@ using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Helpers;
-using TrafficFlowSimulation.Windows.Helpers;
 
 namespace TrafficFlowSimulation.Windows.Components;
 

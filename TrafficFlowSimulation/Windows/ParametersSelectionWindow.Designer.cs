@@ -35,9 +35,7 @@
 			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.ControlMenuStrip = new System.Windows.Forms.ToolStrip();
 			this.SelectParametersToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.ToolStripLoadingLabel = new System.Windows.Forms.ToolStripLabel();
-			this.ToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.ParametersSelectionModeStripLabel = new System.Windows.Forms.ToolStripLabel();
 			this.ParametersSelectionStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
@@ -67,7 +65,7 @@
 			// ControlMenuStrip
 			// 
 			this.ControlMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-			this.ControlMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.SelectParametersToolStripButton, this.toolStripSeparator1, this.ToolStripLoadingLabel, this.ToolStripProgressBar, this.toolStripSeparator2, this.ParametersSelectionModeStripLabel, this.ParametersSelectionStripDropDownButton});
+			this.ControlMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.SelectParametersToolStripButton, this.ToolStripLoadingLabel, this.toolStripSeparator2, this.ParametersSelectionModeStripLabel, this.ParametersSelectionStripDropDownButton});
 			this.ControlMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.ControlMenuStrip.Name = "ControlMenuStrip";
 			this.ControlMenuStrip.Size = new System.Drawing.Size(1023, 31);
@@ -83,23 +81,14 @@
 			this.SelectParametersToolStripButton.Text = "Оценить параметры";
 			this.SelectParametersToolStripButton.Click += new System.EventHandler(this.SelectParametersToolStripButton_Click);
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
-			// 
 			// ToolStripLoadingLabel
 			// 
+			this.ToolStripLoadingLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.ToolStripLoadingLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.ToolStripLoadingLabel.Image = global::TrafficFlowSimulation.Properties.Resources.gear_static;
 			this.ToolStripLoadingLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.ToolStripLoadingLabel.Name = "ToolStripLoadingLabel";
 			this.ToolStripLoadingLabel.Size = new System.Drawing.Size(28, 28);
-			// 
-			// ToolStripProgressBar
-			// 
-			this.ToolStripProgressBar.Name = "ToolStripProgressBar";
-			this.ToolStripProgressBar.Size = new System.Drawing.Size(150, 28);
 			// 
 			// toolStripSeparator2
 			// 
@@ -358,14 +347,12 @@
 		private System.Windows.Forms.GroupBox ModeSettingsGroupBox;
 		private System.Windows.Forms.TableLayoutPanel SettingsTableLayoutPanel;
 		private System.Windows.Forms.Panel SlamPanel;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripLabel ParametersSelectionModeStripLabel;
 		private System.Windows.Forms.ToolStripDropDownButton ParametersSelectionStripDropDownButton;
 		public System.Windows.Forms.ErrorProvider ParametersErrorProvider;
         private System.Windows.Forms.GroupBox BasicParametersGroupBox;
         private System.Windows.Forms.TableLayoutPanel BasicParametersTableLayoutPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripProgressBar ToolStripProgressBar;
         private System.Windows.Forms.ToolStripLabel ToolStripLoadingLabel;
         private System.Windows.Forms.GroupBox ControlsGroupBox;
         private System.Windows.Forms.TableLayoutPanel ControlsTableLayoutPanel;

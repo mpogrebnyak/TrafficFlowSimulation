@@ -36,13 +36,14 @@ public abstract class EvaluationHandler : IEvaluationHandler
 		_thread.Start(parameters);
 	}
 
-	public void ExecutePreCalculated(ModelParameters modelParameters, BaseSettingsModels modeSettings, object preCalculatedParameters)
+	public void ExecutePreCalculated(ModelParameters modelParameters, BaseSettingsModels modeSettings, ChartEventHandler chartEventHandler, object preCalculatedParameters)
 	{
 		var parameters = new Parameters
 		{
 			ModelParameters = modelParameters,
 			ModeSettings = modeSettings,
-			PreCalculatedParameters = preCalculatedParameters
+			PreCalculatedParameters = preCalculatedParameters,
+			ChartEventHandler = chartEventHandler
 		};
 
 		_thread = new Thread(EvaluatePreCalculated);
@@ -62,10 +63,7 @@ public abstract class EvaluationHandler : IEvaluationHandler
 	}
 	protected abstract void Evaluate(object parameters);
 
-	protected virtual void EvaluatePreCalculated(object parameters)
-	{
-		throw new System.NotImplementedException();
-	}
+	protected virtual void EvaluatePreCalculated(object parameters) { }
 
 	public void StartExecution() 
 	{

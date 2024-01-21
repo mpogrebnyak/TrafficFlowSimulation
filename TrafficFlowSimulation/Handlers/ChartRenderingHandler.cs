@@ -81,12 +81,37 @@ public class ChartRenderingHandler
 		}
 	}
 
-	public void SaveCharts(List<Chart> charts)
+	public void SaveCharts(List<Chart> charts, string fileName)
 	{
 		foreach (var chart in charts)
 		{
 			RenderingHelper.CreateChartToSave(chart)
-				.SaveImage(CommonFileHelper.CreateFilePath(chart.Name, null, CommonFileHelper.Extension.Png), ChartImageFormat.Png);
+				.SaveImage(CommonFileHelper.CreateFilePath(fileName + "_" + chart.Name, null, CommonFileHelper.Extension.Png), ChartImageFormat.Png);
+		}
+	}
+
+	public void SaveCoordinates(SerializerPointsModel serializerData, string fileName)
+	{
+		var path = CommonFileHelper.CreateFilePath(fileName, null, CommonFileHelper.Extension.Txt);
+
+		var attempt = 5;
+		while (true)
+		{
+			try
+			{
+				attempt--;
+				SerializerPointsHelper.SerializePoints(path, serializerData);
+				return;
+			}
+			catch (Exception e)
+			{
+				if (attempt == 0)
+				{
+					throw new Exception(e.Message);
+				}
+				GC.Collect();
+				System.Threading.Thread.Sleep(1000);
+			}
 		}
 	}
 }

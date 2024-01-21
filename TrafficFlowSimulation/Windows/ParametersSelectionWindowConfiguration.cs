@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.Modularity;
+using Modes;
 using TrafficFlowSimulation.Configurations;
 using TrafficFlowSimulation.Helpers;
 
@@ -20,5 +21,7 @@ public class ParametersSelectionWindowConfiguration : IInitializable
 
 		var movementSimulationConfiguration = new ParametersSelectionConfiguration(_form);
 		movementSimulationConfiguration.Initialize();
+
+		CommonHelper.ServiceRegistration.RegisterInstance(() => new SpinningLabelHelper(_form), ModesHelper.ParametersSelectionModeType, false);
 	}
 }

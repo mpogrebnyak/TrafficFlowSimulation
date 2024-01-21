@@ -4,6 +4,7 @@ using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
 using ChartRendering.Models;
+using Common;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
@@ -44,8 +45,7 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 			new List<ChartEventActions>
 			{
 				ChartEventActions.UpdateCharts,
-				ChartEventActions.UpdateChartEnvironments,
-				ChartEventActions.SaveChart
+				ChartEventActions.UpdateChartEnvironments
 			},
 			new ChartEventHandlerArgs(new CoefficientEstimationCoordinatesArgs
 				{
@@ -57,6 +57,15 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 				{
 					OptimalQ = optimalQ,
 				}));
+
+		if (settings.IsSaveChart.Value.Equals(SaveChart.Yes))
+		{
+			p.ChartEventHandler.Invoke(
+				new List<ChartEventActions>
+				{
+					ChartEventActions.SaveChart
+				}, new SaveChartEventHandlerArgs(CreateFileName(modelParameters)));
+		}
 	}
 
 	private CoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters)
@@ -102,5 +111,15 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 				? CustomColors.Green.Name
 				: CustomColors.BrightRed.Name
 		};
+	}
+
+	private static string CreateFileName(ModelParameters modelParameters)
+	{
+		var parameters = new Dictionary<string, double>
+		{
+			{"q", modelParameters.q[0]}
+		};
+
+		return CommonFileHelper.CreateFileName("Q_Estimation", parameters);
 	}
 }

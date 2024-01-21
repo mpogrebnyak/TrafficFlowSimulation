@@ -5,9 +5,23 @@ using ChartRendering.Models;
 
 namespace ChartRendering.Events;
 
-public delegate void ChartEventHandler(List<ChartEventActions> actions, ChartEventHandlerArgs e);
+public delegate void ChartEventHandler(List<ChartEventActions> actions, EventHandlerArgs e);
 
-public class ChartEventHandlerArgs : EventArgs
+public abstract class EventHandlerArgs : EventArgs
+{
+}
+
+public class SaveChartEventHandlerArgs : EventHandlerArgs
+{
+	public string FileName { get; set; }
+
+	public SaveChartEventHandlerArgs(string fileName)
+	{
+		FileName = fileName;
+	}
+}
+
+public class ChartEventHandlerArgs : EventHandlerArgs
 {
 	public CoordinatesArgs Coordinates { get; set; }
 
@@ -17,5 +31,15 @@ public class ChartEventHandlerArgs : EventArgs
 	{
 		Coordinates = coordinates;
 		EnvironmentArgs = environment;
+	}
+}
+
+public class ChartEventHandlerWithSavingArgs : SaveChartEventHandlerArgs
+{
+	public SerializerPointsModel SerializerData { get; set; }
+
+	public ChartEventHandlerWithSavingArgs(string fileName, SerializerPointsModel serializerData) : base(fileName)
+	{
+		SerializerData = serializerData;
 	}
 }

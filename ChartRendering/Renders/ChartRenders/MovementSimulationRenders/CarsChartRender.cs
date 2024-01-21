@@ -11,6 +11,7 @@ using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
+using Modes;
 using Settings;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
@@ -53,7 +54,7 @@ public abstract class CarsChartRender : ChartsRender
 		}
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle)
+	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
 	{
 		return new Legend
 		{

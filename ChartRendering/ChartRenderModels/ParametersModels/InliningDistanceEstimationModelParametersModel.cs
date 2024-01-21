@@ -9,6 +9,12 @@ namespace ChartRendering.ChartRenderModels.ParametersModels;
 
 public class InliningDistanceEstimationModelParametersModel : BaseParametersModel
 {
+	[Hidden]
+	public override double k { get; set; }
+
+	[Hidden] 
+	public override string k_multiple { get; set; }
+
 	[Translation(Locales.ru, "Количество автомобилей")]
 	[Translation(Locales.en, "Vehicles number")]
 	[CustomDisplay(1, isReadOnly: true)]

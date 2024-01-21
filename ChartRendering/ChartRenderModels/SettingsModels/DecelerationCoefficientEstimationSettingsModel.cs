@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
+using ChartRendering.Constants;
 using EvaluationKernel.Models;
 using Localization.Localization;
 
@@ -12,9 +13,13 @@ public class DecelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 	[Hidden] 
 	public override double L { get; set; }
 
+	[Translation(Locales.ru, "Сохранить картинку в файл")]
+	[CustomDisplay(1, enumType: typeof(SaveChart))]
+	public EnumItem IsSaveChart { get; set; }
+
 	[Translation(Locales.ru, "Максимальное значение")]
 	[Translation(Locales.en, "Maximum value")]
-	[CustomDisplay(1)]
+	[CustomDisplay(2)]
 	[Required]
 	public double MaxQ { get; set; }
 	
@@ -26,6 +31,7 @@ public class DecelerationCoefficientEstimationSettingsModel : BaseSettingsModels
 	{
 		return new DecelerationCoefficientEstimationSettingsModel
 		{
+			IsSaveChart = new EnumItem(SaveChart.Yes),
 			MaxQ = 0.2
 		};
 	}

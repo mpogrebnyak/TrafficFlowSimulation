@@ -6,6 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Constants;
 using ChartRendering.Events;
 using Microsoft.Practices.ServiceLocation;
+using TrafficFlowSimulation.Helpers;
 
 namespace TrafficFlowSimulation.Handlers;
 
@@ -29,7 +30,7 @@ public class FormUpdateHandler
 		return ChartEventHandler;
 	}
 
-	private void Form_ChartEventHandler(List<ChartEventActions> actions, ChartEventHandlerArgs e)
+	private void Form_ChartEventHandler(List<ChartEventActions> actions, EventHandlerArgs e)
 	{
 		void Method()
 		{
@@ -50,21 +51,23 @@ public class FormUpdateHandler
 		}
 	}
 
-	private void ChartEventHandlerInternal(ChartEventActions action, ChartEventHandlerArgs e)
+	private void ChartEventHandlerInternal(ChartEventActions action, EventHandlerArgs e)
 	{
 		switch (action)
 		{
 			case ChartEventActions.UpdateCharts:
 			{
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateCharts(e.Coordinates);
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateScale(e.Coordinates);
+				var args = (ChartEventHandlerArgs) e;
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateCharts(args.Coordinates);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateScale(args.Coordinates);
 				return;
 			}
 
 			case ChartEventActions.UpdateChartEnvironments:
 			{
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateChartEnvironments(e.EnvironmentArgs);
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateScale(e.Coordinates);
+				var args = (ChartEventHandlerArgs) e;
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateChartEnvironments(args.EnvironmentArgs);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).UpdateScale(args.Coordinates);
 				return;
 			}
 
@@ -75,14 +78,28 @@ public class FormUpdateHandler
 		}
 	}
 
-	private void ChartEventHandlerExternal(ChartEventActions action, ChartEventHandlerArgs e)
+	private void ChartEventHandlerExternal(ChartEventActions action, EventHandlerArgs e)
 	{
 		switch (action)
 		{
 			case ChartEventActions.SaveChart:
 			{
+				var args = (SaveChartEventHandlerArgs) e;
 				var charts = _form.Controls.OfType<Chart>().ToList();
-				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).SaveCharts(charts);
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).SaveCharts(charts, args.FileName);
+				return;
+			}
+
+			case ChartEventActions.SaveChartPoints:
+			{
+				var args = (ChartEventHandlerWithSavingArgs) e;
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).SaveCoordinates(args.SerializerData, args.FileName);
+				return;
+			}
+
+			case ChartEventActions.DisplayExecution:
+			{
+				ServiceLocator.Current.GetInstance<SpinningLabelHelper>(_key).Switch();
 				return;
 			}
 

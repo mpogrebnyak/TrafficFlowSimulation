@@ -8,7 +8,7 @@ public interface IEvaluationHandler
 {
 	public void Execute(ModelParameters modelParameters, BaseSettingsModels modeSettings, ChartEventHandler chartEventHandler);
 
-	public void ExecutePreCalculated(ModelParameters modelParameters, BaseSettingsModels modeSettings, object preCalculatedParameters);
+	public void ExecutePreCalculated(ModelParameters modelParameters, BaseSettingsModels modeSettings, ChartEventHandler chartEventHandler, object preCalculatedParameters);
 
 	public void StartExecution();
 

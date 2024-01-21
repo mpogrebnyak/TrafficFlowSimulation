@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -9,7 +8,6 @@ using ChartRendering.Constants;
 using ChartRendering.Helpers;
 using ChartRendering.Models;
 using EvaluationKernel.Models;
-using TrafficFlowSimulation.Renders;
 
 namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -78,7 +76,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			{
 				Minimum = 0,
 				Maximum = settings.MaxA,
-				Interval = 1,
+				Interval = 0.2,
 				LabelAutoFitMinFontSize = 15,
 				CustomLabels =
 				{
@@ -145,24 +143,36 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 
 		if (environmentModel.MinAValue.HasValue)
 		{
-			Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+			var minAValueLineSeries = new Series
 			{
-				Text = Math.Round(environmentModel.MinAValue.Value, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MinAValue.Value),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.MinAValue.Value),
-				GridTicks = GridTickTypes.All
-			});
+				Name = "minAValueLineSeries",
+				ChartType = SeriesChartType.Line,
+				ChartArea = ChartAreaName,
+				BorderWidth = 1,
+				Color = Color.Black,
+				IsVisibleInLegend = false
+			};
+			minAValueLineSeries.Points.Add(new DataPoint(environmentModel.MinAValue.Value, 0));
+			minAValueLineSeries.Points.Add(new DataPoint(environmentModel.MinAValue.Value, 20));
+
+			Chart.Series.Add(minAValueLineSeries);
 		}
 
 		if (environmentModel.MaxAValue.HasValue)
 		{
-			Chart.ChartAreas.First().AxisX.CustomLabels.Add(new CustomLabel
+			var maxAValueLineSeries = new Series
 			{
-				Text = Math.Round(environmentModel.MaxAValue.Value, 2).ToString(),
-				FromPosition = ChartCommonHelper.CalculateFromPosition(environmentModel.MaxAValue.Value),
-				ToPosition = ChartCommonHelper.CalculateToPosition(environmentModel.MaxAValue.Value),
-				GridTicks = GridTickTypes.All
-			});
+				Name = "maxAValueLineSeries",
+				ChartType = SeriesChartType.Line,
+				ChartArea = ChartAreaName,
+				BorderWidth = 1,
+				Color = Color.Black,
+				IsVisibleInLegend = false
+			};
+			maxAValueLineSeries.Points.Add(new DataPoint(environmentModel.MaxAValue.Value, 0));
+			maxAValueLineSeries.Points.Add(new DataPoint(environmentModel.MaxAValue.Value, 20));
+
+			Chart.Series.Add(maxAValueLineSeries);
 		}
 	}
 }

@@ -14,15 +14,6 @@ public static class SerializerPointsHelper
 	{
 		var deserializeObject = (SerializerPointsModel)SerializerDataHelper.Deserialize(filePath, typeof(SerializerPointsModel));
 
-	//	modelParameters = deserializeObject.ModelParameters;
-	//	modeSettings = deserializeObject.ModeSettings;
-
-	//	deserializeObject.CoordinatesModel.ForEach(x =>
-	//	{
-	//		if (x.Intensity > 0 && x.Intensity < 1)
-	//			x.Color = CustomColors.Green.Name;
-	//	});
-
 		return new SerializerPointsModel
 		{
 			Name = deserializeObject.Name,

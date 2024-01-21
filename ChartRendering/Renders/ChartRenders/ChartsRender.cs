@@ -152,7 +152,7 @@ public abstract class ChartsRender : IChartRender
 
 	protected abstract ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
-	protected virtual Legend CreateLegend(LegendStyle legendStyle)
+	protected virtual Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
 	{
 		return null;
 	}

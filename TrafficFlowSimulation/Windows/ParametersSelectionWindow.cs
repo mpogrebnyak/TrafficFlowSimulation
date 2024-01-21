@@ -72,17 +72,19 @@ namespace TrafficFlowSimulation.Windows
 
 		private void ImportPointsButton_Click(object sender, EventArgs e)
 		{
+			var windowHelper = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>();
+
 			var currentParametersSelectionMode = ModesHelper.GetCurrentParametersSelectionMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode).AbortExecution();
 
-			var filePath = ServiceLocator.Current.GetInstance<ParametersSelectionWindowHelper>().GetFilePathFromFileDialog();
+			var filePath = windowHelper.GetFilePathFromFileDialog();
 
 			if(filePath == null)
 				return;
 
 			var serializerPointsModel = SerializerPointsHelper.DeserializePoints(filePath);
 
-			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode).ExecutePreCalculated(serializerPointsModel.ModelParameters, serializerPointsModel.ModeSettings, serializerPointsModel.CoordinatesModel);
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentParametersSelectionMode).ExecutePreCalculated(serializerPointsModel.ModelParameters, serializerPointsModel.ModeSettings, windowHelper.ChartEventHandler, serializerPointsModel.CoordinatesModel);
 		}
 
 		private void Chart_Resize(object sender, EventArgs e)

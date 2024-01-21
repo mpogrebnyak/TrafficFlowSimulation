@@ -111,7 +111,7 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 		};
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle)
+	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
 	{
 		return new Legend
 		{

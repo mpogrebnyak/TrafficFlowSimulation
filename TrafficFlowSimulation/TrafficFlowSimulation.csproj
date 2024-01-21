@@ -135,7 +135,6 @@
     <Compile Include="Helpers\LocalizationWindowHelper.cs" />
     <Compile Include="Helpers\MainWindowHelper.cs" />
     <Compile Include="Helpers\ParametersSelectionWindowHelper.cs" />
-    <Compile Include="Helpers\ProgressBarHelper.cs" />
     <Compile Include="Helpers\SpinningLabelHelper.cs" />
     <Compile Include="Models\TableLayoutPanelsModel.cs" />
     <Compile Include="Program.cs" />

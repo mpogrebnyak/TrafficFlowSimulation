@@ -3,11 +3,14 @@ using System.Windows.Forms;
 using TrafficFlowSimulation.Constants;
 using TrafficFlowSimulation.Properties;
 
-namespace TrafficFlowSimulation.Windows.Helpers;
+namespace TrafficFlowSimulation.Helpers;
 
 public class SpinningLabelHelper
 {
+	private bool _enabled;
+
 	private readonly ToolStripLabel? _label;
+
 	private readonly Control _form;
 
 	public SpinningLabelHelper(Form form)
@@ -21,46 +24,46 @@ public class SpinningLabelHelper
 			.Single() as ToolStripLabel;
 	}
 
-	public void StartSpinning()
+	public void Switch()
 	{
-		if (_label == null)
-			return;
-
-		MethodInvoker action = delegate
+		if (_enabled)
 		{
-			_label.Image = Resources.gear;
-		};
-
-		if (_form.InvokeRequired)
-			_form.Invoke(action);
+			StopSpinning();
+			_enabled = false;
+		}
+		else
+		{
+			StartSpinning();
+			_enabled = true;
+		}
 	}
 
-	public void StopSpinning()
+	private void StartSpinning()
 	{
 		if (_label == null)
 			return;
 
-		MethodInvoker action = delegate
+		void Action()
+		{
+			_label.Image = Resources.gear;
+		}
+
+		if (_form.InvokeRequired)
+			_form.Invoke((MethodInvoker) Action);
+	}
+
+	private void StopSpinning()
+	{
+		if (_label == null)
+			return;
+
+		void Action()
 		{
 			_label.Image = Resources.gear_static;
 			_label.ToolTipText = null;
-		};
+		}
 
 		if (_form.InvokeRequired)
-			_form.Invoke(action);
-	}
-
-	public void UpdateSpinningToolTip(int value)
-	{
-		if (_label == null)
-			return;
-
-		MethodInvoker action = delegate
-		{
-			_label.ToolTipText = value.ToString();
-		};
-
-		if (_form.InvokeRequired)
-			_form.Invoke(action);
+			_form.Invoke((MethodInvoker) Action);
 	}
 }

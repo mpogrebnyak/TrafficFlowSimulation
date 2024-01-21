@@ -39,7 +39,7 @@ public abstract class DistanceChartRender : ChartsRender
 		}
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle)
+	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
 	{
 		return new Legend
 		{

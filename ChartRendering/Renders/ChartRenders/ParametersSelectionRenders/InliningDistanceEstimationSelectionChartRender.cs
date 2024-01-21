@@ -3,9 +3,13 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
+using ChartRendering.Properties;
 using EvaluationKernel.Models;
+using Localization;
 
 namespace ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 
@@ -30,87 +34,137 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		var chartArea = CreateChartArea(modelParameters, modeSettings);
 		Chart.ChartAreas.Add(chartArea);
 
+		foreach (var color in _pointColors)
+		{
+			if (color == CustomColors.Black)
+			{
+				Chart.Series.Add(new Series
+				{
+					Name = SeriesName + color.Name,
+					ChartType = SeriesChartType.Spline,
+					ChartArea = chartArea.Name,
+					BorderWidth = 5,
+					Color = color,
+					IsVisibleInLegend = false
+				});
 
-		Chart.Series.Where(series => series.Name.Contains(_pointColors.First().Name));
-		
+				continue;
+			}
+
+			Chart.Series.Add(new Series
+			{
+				Name = SeriesName + color.Name,
+				ChartType = SeriesChartType,
+				ChartArea = chartArea.Name,
+				BorderWidth = 1,
+				Color = color,
+				MarkerStyle = MarkerStyle.Circle,
+				IsVisibleInLegend = false
+			});
+		}
+
 		var environmentSeries = CreateEnvironment(modelParameters, modeSettings);
 		foreach (var series in environmentSeries)
 		{
 			Chart.Series.Add(series);
 		}
+
+		Chart.Legends.Add(CreateLegend(LegendStyle.Row, modelParameters));
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-	/*	var coordinatesModel = (List<InliningDistanceEstimationCoordinatesModel>) parameters;
+		var coordinatesModel = (CoefficientEstimationCoordinatesArgs) coordinates;
 
-		foreach (var cm in coordinatesModel)
+		for (var i = 0; i < coordinatesModel.Color.Count; i++)
 		{
-			_chart.Series.Single(series => series.Name.Contains(cm.Color))
+			Chart.Series.Single(series => series.Name.Contains(coordinatesModel.Color[i]))
 				.Points
-				.AddXY(cm.X, cm.Y);
-		}*/
+				.AddXY(coordinatesModel.X[i], coordinatesModel.Y[i]);
+		}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		return new ChartArea
+		var settings = (InliningDistanceEstimationSettingsModel) modeSettings;
+
+		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 100,
+				Maximum = settings.MaximumDistanceBetweenCars,
+				Interval = 20,
+				LabelAutoFitMinFontSize = 15,
+				CustomLabels =
+				{
+					ChartAreaRendersHelper.CreateCustomLabel(settings.MaximumDistanceBetweenCars,"λ")
+				}
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = modelParameters.Vmax[1],
-				Interval = modelParameters.Vmax[1] / 2,
+				Interval = modelParameters.Vmax[1] / 5,
+				LabelAutoFitMinFontSize = 15,
+				CustomLabels =
+				{
+					ChartAreaRendersHelper.CreateCustomLabel(modelParameters.Vmax[1],"v")
+				}
 			}
 		};
+
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
+
+		return chartArea;
 	}
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var startLineSeries = new Series
+		var lLineSeries = new Series
 		{
-			Name = "UpperBound",
+			Name = "lLineSeries",
 			ChartType = SeriesChartType.Line,
 			ChartArea = ChartAreaName,
 			BorderWidth = 2,
 			Color = Color.Black,
 			IsVisibleInLegend = false
 		};
-		startLineSeries.Points.Add(new DataPoint(0, 5));
-		startLineSeries.Points.Add(new DataPoint(6, 7));
+		lLineSeries.Points.Add(new DataPoint(modelParameters.lCar[0] + modelParameters.lSafe[1], 0));
+		lLineSeries.Points.Add(new DataPoint(modelParameters.lCar[0] + modelParameters.lSafe[1], modelParameters.Vmax[1]));
 
-		var endLineSeries = new Series
-		{
-			Name = "LowerBound",
-			ChartType = SeriesChartType.Line,
-			ChartArea = ChartAreaName,
-			BorderWidth = 2,
-			Color = Color.Black,
-			IsVisibleInLegend = false
-		};
-		endLineSeries.Points.Add(new DataPoint(0, 1));
-		endLineSeries.Points.Add(new DataPoint(1,1));
+		GetChartArea().AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(modelParameters.lCar[0] + modelParameters.lSafe[1], "ℓ"));
 
 		return new[]
 		{
-			startLineSeries,
-			endLineSeries
+			lLineSeries
 		};
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle)
+	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
 	{
-		throw new System.NotImplementedException();
-	}
+		var legend = new Legend
+		{
+			Name = "Legend",
+			TitleFont = new Font("Microsoft Sans Serif", 15F),
+			LegendStyle = legendStyle,
+			Docking = Docking.Top,
+			Font = new Font("Microsoft Sans Serif", 15F),
+			Alignment = StringAlignment.Center,
+			Title = modelParameters != null
+				? LocalizationHelper.Get<ChartRenderingResources>().SpeedReductionTitle(modelParameters.k[1]).Replace(',', '.')
+				: null,
+			TitleAlignment = StringAlignment.Near,
+			TableStyle = LegendTableStyle.Wide
+		};
 
-	public override void SetChartAreaAxisTitle(bool isHidden = false)
-	{
-		throw new System.NotImplementedException();
+		var colorsIntensityDictionary = InliningDistanceEstimationSelectionEvaluationRenderingHelper.GetColorIntensity();
+		foreach (var colorIntensity in colorsIntensityDictionary)
+		{
+			legend.CustomItems.Add(colorIntensity.Key, colorIntensity.Value.DisplayValue);
+		}
+
+		return legend;
 	}
 }

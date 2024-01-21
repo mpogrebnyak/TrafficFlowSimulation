@@ -7,7 +7,7 @@ using Microsoft.Build.Framework;
 
 namespace ChartRendering.ChartRenderModels;
 
-public abstract class BaseSettingsModels : ValidationModel, ISettingsModel
+public class BaseSettingsModels : ValidationModel, ISettingsModel
 {
 	protected const double MaxL = (double) (decimal.MaxValue / 2);
 
@@ -30,5 +30,8 @@ public abstract class BaseSettingsModels : ValidationModel, ISettingsModel
 
 	public virtual void MapToSelf() { }
 
-	public abstract object GetDefault();
+	public virtual object GetDefault()
+	{
+		return null;
+	}
 }

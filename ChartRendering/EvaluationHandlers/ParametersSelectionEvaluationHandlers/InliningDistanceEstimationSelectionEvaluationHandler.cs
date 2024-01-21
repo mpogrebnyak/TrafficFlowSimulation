@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Constants;
+using ChartRendering.Events;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
+using Common;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
-using Helper = ChartRendering.Helpers.InliningDistanceEstimationSelectionEvaluationHelper;
 
 namespace ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
 
@@ -23,175 +24,167 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			return;
 
 		var settings = (InliningDistanceEstimationSettingsModel) p.ModeSettings;
-		//var form = p.Form;
-		/*var progressBarHelper = new ProgressBarHelper(form);
+		modelParameters.k = new List<double> {settings.k, settings.k};
 
-		if (((ComboBoxItem) settings.IsParametersEvaluated).Value.Equals(EvaluateParameters.No))
+		p.ChartEventHandler.Invoke(new List<ChartEventActions> { ChartEventActions.DisplayExecution }, null);
+
+		var fileName = CreateFileName(modelParameters);
+		var allCoordinatesModel = TryGetLastValue(settings, fileName, out var initialSpace);
+
+		if (allCoordinatesModel.Any())
 		{
-			progressBarHelper.SetMaximum((int) settings.MaximumDistanceBetweenCars);
-
-			Task.Factory.StartNew(() =>
-			{
-				EvaluateInternal((ModelParameters) modelParameters.Clone(), settings, progressBarHelper);
-
-				var filePath = Helper.CreatePointsFile(modelParameters.k[1]);
-				var pointsModel = SerializerPointsHelper.DeserializePoints(filePath);
-
-				MethodInvoker action = delegate
+			p.ChartEventHandler.Invoke(
+				new List<ChartEventActions>
 				{
-					ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(pointsModel.CoordinatesModel);
-				};
-
-				p.Form.Invoke(action);
-			}, TaskCreationOptions.None);
+					ChartEventActions.UpdateCharts,
+					ChartEventActions.UpdateChartEnvironments,
+				},
+				new ChartEventHandlerArgs(new CoefficientEstimationCoordinatesArgs
+				{
+					X = allCoordinatesModel.Select(x => x.X).ToList(),
+					Y = allCoordinatesModel.Select(x => x.Y).ToList(),
+					Color = allCoordinatesModel.Select(x => x.Color).ToList(),
+				}));
 		}
-		else
+
+		const double step = 0.1;
+		for (var space = initialSpace + step; space <= settings.MaximumDistanceBetweenCars; space += step)
 		{
-			var spinningLabelHelper = new SpinningLabelHelper(form);
-			spinningLabelHelper.StartSpinning();
+			var cm = EvaluateInternal((ModelParameters) modelParameters.Clone(), space, step);
+			allCoordinatesModel.AddRange(cm);
 
-			var tasks = new List<TaskModel>();
-			for (var k = 2.0; k < 2.1; k += 0.1)
-			{
-				var mp = (ModelParameters)modelParameters.Clone();
-				mp.k = new List<double> {k, k};
-
-				var task = new Task(() => EvaluateInternal(mp, settings, progressBarHelper));
-				tasks.Add(new TaskModel
+			p.ChartEventHandler.Invoke(
+				new List<ChartEventActions>
 				{
-					ModelParameters = mp,
-					Task = task
-				});
-			}
+					ChartEventActions.UpdateCharts,
+					ChartEventActions.UpdateChartEnvironments,
+				},
+				new ChartEventHandlerArgs(new CoefficientEstimationCoordinatesArgs
+				{
+					X = cm.Select(x => x.X).ToList(),
+					Y = cm.Select(x => x.Y).ToList(),
+					Color = cm.Select(x => x.Color).ToList(),
+				}));
 
-			progressBarHelper.SetMaximum((int) settings.MaximumDistanceBetweenCars * tasks.Count);
+			p.ChartEventHandler.Invoke(
+				new List<ChartEventActions>
+				{
+					ChartEventActions.SaveChartPoints
+				},
+				new ChartEventHandlerWithSavingArgs(
+					fileName,
+					new SerializerPointsModel
+					{
+						Name = fileName,
+						ModelParameters = modelParameters,
+						ModeSettings = settings,
+						CoordinatesModel = allCoordinatesModel,
+						LastValue = space
+					}));
 
-			tasks.ForEach(x => x.Task.Start());
-			var firstK = tasks.First().ModelParameters.k.First();
-
-			while (tasks.Count != 0)
+			if (settings.IsSaveChart.Value.Equals(SaveChart.Yes))
 			{
-				spinningLabelHelper.UpdateSpinningToolTip(tasks.Count);
-				var index = Task.WaitAny(tasks.Select(x => x.Task).ToArray());
-
-				tasks.RemoveAt(index);
-				spinningLabelHelper.UpdateSpinningToolTip(tasks.Count);
+				p.ChartEventHandler.Invoke(
+					new List<ChartEventActions>
+					{
+						ChartEventActions.SaveChart
+					}, new SaveChartEventHandlerArgs(fileName));
 			}
-			spinningLabelHelper.StopSpinning();
-
-			var filePath = Helper.CreatePointsFile(firstK);
-			var pointsModel = SerializerPointsHelper.DeserializePoints(filePath);
-
-			MethodInvoker action = delegate
-			{ 
-				ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(pointsModel.CoordinatesModel);
-			};
-
-			p.Form.Invoke(action);
 		}
-		*/
+
+		p.ChartEventHandler.Invoke(new List<ChartEventActions> { ChartEventActions.DisplayExecution }, null);
 	}
 
 	protected override void EvaluatePreCalculated(object parameters)
 	{
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
-		var preCalculatedParameters = (List<InliningDistanceEstimationCoordinatesModel>) p.PreCalculatedParameters;
+		var preCalculatedParameters = (List<CoefficientEstimationCoordinatesModel>) p.PreCalculatedParameters;
 
-		MethodInvoker action = delegate
-		{ 
-			//ServiceLocator.Current.GetInstance<ParametersSelectionRenderingHandler>().UpdateChart(preCalculatedParameters);
-		};
-
-		//p.Form.Invoke(action);
-
-		var filePath = Helper.CreatePointsFile(modelParameters.k[1]);
-		Helper.GenerateCharts(filePath);
+		p.ChartEventHandler.Invoke(
+			new List<ChartEventActions>
+			{
+				ChartEventActions.UpdateCharts,
+				ChartEventActions.UpdateChartEnvironments,
+			},
+			new ChartEventHandlerArgs(new CoefficientEstimationCoordinatesArgs
+			{
+				X = preCalculatedParameters.Select(x => x.X).ToList(),
+				Y = preCalculatedParameters.Select(x => x.Y).ToList(),
+				Color = preCalculatedParameters.Select(x => x.Color).ToList(),
+			}));
+		
+		p.ChartEventHandler.Invoke(
+			new List<ChartEventActions>
+			{
+				ChartEventActions.SaveChart
+			}, new SaveChartEventHandlerArgs(CreateFileName(modelParameters)));
 	}
 
-/*	private void EvaluateInternal(ModelParameters modelParameters, InliningDistanceEstimationSettingsModel modeSettings, ProgressBarHelper? progressBarHelper = null)
+	private List<CoefficientEstimationCoordinatesModel> EvaluateInternal(ModelParameters modelParameters, double space,
+		double step)
 	{
-		var filePath = Helper.CreatePointsFile(modelParameters.k[1]);
-
-		var step = 0.05;
-		if (Helper.TryGetLastValue(filePath, out var initialSpace))
-		{
-			if (step >= modeSettings.MaximumDistanceBetweenCars)
-				return;
-
-			initialSpace -= step;
-			progressBarHelper?.Update(initialSpace);
-		}
-		else
-		{
-			Helper.SavePoints(filePath, modelParameters, modeSettings);
-		}
-
 		var min = 0;
 		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
 
-		for (double space = initialSpace + step; space <= modeSettings.MaximumDistanceBetweenCars; space+=step)
+
+		var cm = new List<CoefficientEstimationCoordinatesModel>();
+
+		if (space <= modelParameters.lCar[0] + modelParameters.lSafe[1])
 		{
-			var cm = new List<InliningDistanceEstimationCoordinatesModel>();
-
-			progressBarHelper?.Update(step);
-
-			if (space <= modelParameters.lCar[0] + modelParameters.lSafe[1])
+			for (var i = max; i >= min; i -= step)
 			{
-				for (var i = max; i >= min; i -= step)
-				{
-					Helper.AddCoordinates(i, cm, space, i, -1);
-				}
-
-				Helper.SavePoints(filePath, cm, space);
-				continue;
+				cm.Add(PrepareCoordinates(i, space, i, -1));
 			}
 
-			var topSolution = IsDecelerate(modelParameters, space, max);
-			if (topSolution.IsDeceleration == false)
-			{
-				for (var i = max; i >= min; i -= step)
-				{
-					Helper.AddCoordinates(i, cm, space, i, 0);
-				}
-
-				cm.First().IsIntensityChangedToZero = true;
-				Helper.SavePoints(filePath, cm, space);
-				continue;
-			}
-
-			Helper.AddCoordinates(max, cm, space, max, topSolution.Intensity);
-			Helper.AddCoordinates(max, cm, space, min, 0);
-
-			for (var i = max-step; i >= min+step; i -= step)
-			{
-				if (i < step)
-					i = 0;
-
-				var solution = IsDecelerate(modelParameters, space, i);
-				Helper.AddCoordinates(i, cm, space, i, solution.Intensity);
-
-				if (!solution.IsDeceleration)
-				{
-					cm.Last().IsIntensityChangedToZero = true;
-					for (var j = i-step; j >= min+step; j -= step)
-					{
-						Helper.AddCoordinates(j, cm, space, j, 0);
-					}
-					break;
-				}
-			}
-
-			if (!cm.Any(x => x.IsIntensityChangedToZero))
-			{
-				cm.Last().IsIntensityChangedToZero = true;
-			}
-
-			Helper.SavePoints(filePath, cm, space);
+			return cm;
 		}
 
-		Helper.GenerateCharts(filePath);
-	}*/
+		var topSolution = IsDecelerate(modelParameters, space, max);
+		if (topSolution.IsDeceleration == false)
+		{
+			cm.Add(new CoefficientEstimationCoordinatesModel { X = max, Y = space, Color = CustomColors.Black.Name });
+			for (var i = max; i >= min; i -= step)
+			{
+				cm.Add(PrepareCoordinates(i, space, i, 0));
+			}
+			cm.Add(new CoefficientEstimationCoordinatesModel { X = max, Y = space, Color = CustomColors.Black.Name });
+
+			return cm;
+		}
+
+		cm.Add(PrepareCoordinates(max, space, max, topSolution.Intensity));
+		cm.Add(PrepareCoordinates(max, space, min, 0));
+
+		for (var i = max - step; i >= min + step; i -= step)
+		{
+			if (i < step)
+				i = 0;
+
+			var solution = IsDecelerate(modelParameters, space, i);
+			cm.Add(PrepareCoordinates(i, space, i, solution.Intensity));
+
+			if (!solution.IsDeceleration)
+			{
+				cm.Add(new CoefficientEstimationCoordinatesModel { X = cm.Last().X, Y = cm.Last().Y, Color = CustomColors.Black.Name });
+
+				for (var j = i - step; j >= min + step; j -= step)
+				{
+					cm.Add(PrepareCoordinates(i, space, j, 0));
+
+				}
+
+				return cm;
+			}
+		}
+
+		if (cm.Any(x => x.Color == CustomColors.Black.Name) == false)
+		{
+			cm.Add(new CoefficientEstimationCoordinatesModel {X = cm.Last().X, Y = cm.Last().Y, Color = CustomColors.Black.Name});
+		}
+
+		return cm;
+	}
 
 	private DecelerationEvaluation IsDecelerate(ModelParameters modelParameters, double space, double speed)
 	{
@@ -206,7 +199,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		var yp = new double[n];
 		var x = new double[n];
 		var y = new double[n];
-		for (int i = 0; i < n; i++)
+		for (var i = 0; i < n; i++)
 		{
 			x[i] = r.X(i).Last();
 			y[i] = r.Y(i).Last();
@@ -219,20 +212,15 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 		while (true)
 		{
-			for (int i = 0; i < n; i++)
+			for (var i = 0; i < n; i++)
 			{
 				xp[i] = x[i];
 				yp[i] = y[i];
 			}
 
 			r.Solve();
-			var t = r.T.Last();
 
-			if (t > 0.2)
-			{
-				var q = 0;
-			}
-			for (int i = 0; i < n; i++)
+			for (var i = 0; i < n; i++)
 			{
 				x[i] = r.X(i).Last();
 				y[i] = r.Y(i).Last();
@@ -252,7 +240,6 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 
 			if (y[1] > yp[1] && y[1] - yp[1] > 0.0001)
 			{
-				var qq = y[1] - yp[1];
 				if (isDeceleration)
 				{
 					diff = Math.Max(diff, localMax - localMin);
@@ -284,17 +271,67 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		}
 	}
 
+	private static CoefficientEstimationCoordinatesModel PrepareCoordinates(double maxSpeed, double x, double y, double intensity)
+	{
+		var intensityInPercentage = 0.0;
+		if (maxSpeed != 0)
+		{
+			maxSpeed = maxSpeed > 4
+				? maxSpeed
+				: 4;
+			// на сколько процентов скорость снижения отличается от максимальной
+			// 100 минус разница между числами в процентах
+			intensityInPercentage = intensity <= 0
+				? intensity
+				: 100 - (int) ((Math.Abs(intensity - maxSpeed)) / maxSpeed * 100);
+		}
+
+		return new CoefficientEstimationCoordinatesModel
+		{
+			X = x,
+			Y = y,
+			Color = InliningDistanceEstimationSelectionEvaluationRenderingHelper.GetColor(intensityInPercentage),
+		};
+	}
+
+	private static string CreateFileName(ModelParameters modelParameters)
+	{
+		var parameters = new Dictionary<string, double>
+		{
+			{"k", modelParameters.k[1]}
+		};
+
+		return CommonFileHelper.CreateFileName("FullFIll", parameters);
+	}
+
+	private static List<CoefficientEstimationCoordinatesModel> TryGetLastValue(InliningDistanceEstimationSettingsModel settings, string fileName, out double lastValue)
+	{
+		if (settings.IsContinueEvaluate.Value.Equals(ContinueEvaluate.No))
+		{
+			lastValue = 0;
+			return new List<CoefficientEstimationCoordinatesModel>();
+		}
+
+		var path = CommonFileHelper.CreateFilePath(fileName, null, CommonFileHelper.Extension.Txt);
+
+		try
+		{
+			var pointsModel = SerializerPointsHelper.DeserializePoints(path);
+			lastValue = pointsModel.LastValue;
+			return pointsModel.CoordinatesModel;
+		}
+		catch
+		{
+			lastValue = 0;
+		}
+
+		return new List<CoefficientEstimationCoordinatesModel>();
+	}
+
 	private class DecelerationEvaluation
 	{
 		public bool IsDeceleration { get; set; }
 
 		public double Intensity { get; set; }
-	}
-
-	private class TaskModel
-	{
-		public ModelParameters ModelParameters { get; set; }
-
-		public Task Task { get; set; }
 	}
 }

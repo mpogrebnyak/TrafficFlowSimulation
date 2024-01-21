@@ -44,4 +44,12 @@ public abstract class ChartRenderingResources
 
 	[Translation(Locales.ru, "{minute} м. - {value}")]
 	public abstract string TrafficCapacity(int minute, string value);
+
+	[Translation(Locales.ru, "Процент снижения скорости при k={k}")]
+	[Translation(Locales.en, "Percentage of speed reduction at k={k}")]
+	public abstract string SpeedReductionTitle(double k);
+
+	[Translation(Locales.ru, "Авария")]
+	[Translation(Locales.en, "Crash")]
+	public string CrashTitle { get; set; }
 }

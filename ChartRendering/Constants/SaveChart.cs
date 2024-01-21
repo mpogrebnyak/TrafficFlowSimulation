@@ -4,7 +4,7 @@
 
 namespace ChartRendering.Constants;
 
-public class EvaluateParametersResources
+public class SaveChartResources
 {
 	[Translation(Locales.ru, "Да")]
 	[Translation(Locales.en, "Yes")]
@@ -15,11 +15,11 @@ public class EvaluateParametersResources
 	public string No { get; set; }
 }
 
-public enum EvaluateParameters
+public enum SaveChart
 {
-	[LocalizedDescription("Yes", typeof(EvaluateParametersResources))]
+	[LocalizedDescription("Yes", typeof(SaveChartResources))]
 	Yes = 1,
 
-	[LocalizedDescription("No", typeof(EvaluateParametersResources))]
+	[LocalizedDescription("No", typeof(SaveChartResources))]
 	No = 2
 }

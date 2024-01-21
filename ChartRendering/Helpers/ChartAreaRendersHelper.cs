@@ -143,26 +143,24 @@ public static class ChartAreaRendersHelper
 			}
 		}
 
-		var step = Math.Round((axis.Maximum - axis.Minimum) / 5, 0);
-		step = step == 0 
-			? Math.Round((axis.Maximum - axis.Minimum) / 5, 2)
-			: step;
-
-		for (var i = axis.Minimum; i <= axis.Maximum; i += step)
+		if (axis.Interval != 0)
 		{
-			var isLabelAvailable = true;
-			foreach (var customLabel in axis.CustomLabels)
+			for (var i = axis.Minimum; i <= axis.Maximum; i += axis.Interval)
 			{
-				if (Math.Abs(CalculateInitialPosition(customLabel.FromPosition) - i) * singleSegmentInPixels < minimumSingleSegmentInPixels)
+				var isLabelAvailable = true;
+				foreach (var customLabel in axis.CustomLabels)
 				{
-					isLabelAvailable = false;
-					break;
+					if (Math.Abs(CalculateInitialPosition(customLabel.FromPosition) - i) * singleSegmentInPixels < minimumSingleSegmentInPixels)
+					{
+						isLabelAvailable = false;
+						break;
+					}
 				}
-			}
 
-			if (isLabelAvailable)
-			{
-				axis.CustomLabels.Add(CreateCustomLabel(i, null, i.ToString(CultureInfo.InvariantCulture)));
+				if (isLabelAvailable)
+				{
+					axis.CustomLabels.Add(CreateCustomLabel(i, null, i.ToString(CultureInfo.InvariantCulture)));
+				}
 			}
 		}
 	}

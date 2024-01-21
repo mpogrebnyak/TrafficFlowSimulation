@@ -25,9 +25,11 @@ public static class RenderingHelper
 		{
 			var newSeries = new Series(originalSeries.Name);
 			newSeries.ChartType = originalSeries.ChartType;
+			newSeries.MarkerStyle = originalSeries.MarkerStyle;
 			newSeries.BorderDashStyle = originalSeries.BorderDashStyle;
 			newSeries.BorderWidth = 10;
 			newSeries.MarkerSize = 10;
+			newSeries.IsVisibleInLegend = false;
 
 			foreach (var originalPoint in originalSeries.Points)
 			{
@@ -36,6 +38,32 @@ public static class RenderingHelper
 			}
 
 			newChart.Series.Add(newSeries);
+		}
+
+		foreach (var legend in chart.Legends)
+		{
+			if (legend.CustomItems.Any())
+			{
+				var newLegend = new Legend
+				{
+					Name = legend.Name,
+					TitleFont = new Font("Microsoft Sans Serif", 38F),
+					LegendStyle = legend.LegendStyle,
+					Docking = legend.Docking,
+					Font = new Font("Microsoft Sans Serif", 38F),
+					Alignment = legend.Alignment,
+					Title = legend.Title,
+					TitleAlignment = legend.TitleAlignment,
+					TableStyle = legend.TableStyle
+				};
+
+				foreach (var customItem in legend.CustomItems)
+				{
+					newLegend.CustomItems.Add(customItem);
+				}
+
+				newChart.Legends.Add(newLegend);
+			}
 		}
 
 		var originalChartArea = chart.ChartAreas.Single();
@@ -47,6 +75,7 @@ public static class RenderingHelper
 			{
 				Minimum = originalChartArea.AxisX.Minimum,
 				Maximum = originalChartArea.AxisX.Maximum,
+				Interval = originalChartArea.AxisX.Interval,
 				LineWidth = 2,
 				LabelAutoFitMinFontSize = 50,
 				MajorGrid = new Grid
@@ -58,6 +87,7 @@ public static class RenderingHelper
 			{
 				Minimum = originalChartArea.AxisY.Minimum,
 				Maximum = originalChartArea.AxisY.Maximum,
+				Interval = originalChartArea.AxisY.Interval,
 				LineWidth = 2,
 				LabelAutoFitMinFontSize = 50,
 				MajorGrid = new Grid
