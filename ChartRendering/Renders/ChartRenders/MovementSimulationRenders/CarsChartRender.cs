@@ -11,7 +11,6 @@ using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
-using Modes;
 using Settings;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders;

@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
+using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Constants;
+using ChartRendering.Events;
+using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
@@ -13,6 +17,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 	{
 		var p = (Parameters) parameters;
 		var modelParameters = p.ModelParameters;
+		var modeSettings = (InliningInFlowModeSettingsModel) p.ModeSettings;
 
 		var r = new RungeKuttaMethod(modelParameters, new Equation(modelParameters));
 		var n = modelParameters.n;
@@ -30,9 +35,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		}
 
 		bool flag = true;
-		//bool isGreenLight = true;
-		//var circleTime = modeSettings.TrafficLight.GreenSignalTime + modeSettings.TrafficLight.RedSignalTime;
-		//bool isCarToStopNotFound = true;
+
 		StartExecution();
 		while (true)
 		{
@@ -45,7 +48,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				}
 			}
 
-			for (int i = 0; i < n; i++)
+			for (var i = 0; i < n; i++)
 			{
 				xp[i] = x[i];
 				yp[i] = y[i];
@@ -60,81 +63,70 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				y[i] = r.Y(i).Last();
 			}
 
-			var isInliningAvaliable = IsInliningAvaliable(modelParameters, n, x, y, out var index);
-			if (flag && isInliningAvaliable)
+			var isInliningAvailable = IsInliningAvailable(modelParameters, n, x, y, out var index);
+			if (flag && isInliningAvailable)
 			{
-				n = n + 1;
-				modelParameters = ExtendModelParameters(modelParameters, index, x, y);
+				modelParameters = ExtendModelParameters(modelParameters, modeSettings, index, x, y);
+				n = modelParameters.n;
 
-				var xpNew = xp.ToList();
-				xpNew.Insert(index, 0);
-				xp = xpNew.ToArray();
-
-				var ypNew = yp.ToList();
-				ypNew.Insert(index, 0);
-				yp = ypNew.ToArray();
-
-				var xNew = x.ToList();
-				xNew.Insert(index, 0);
-				x = xNew.ToArray();
-
-				var yNew = y.ToList();
-				yNew.Insert(index, 0);
-				y = yNew.ToArray();
+				xp = xp.Take(index).Concat(new[] {0.0}).Concat(xp.Skip(index)).ToArray();
+				yp = yp.Take(index).Concat(new[] {0.0}).Concat(yp.Skip(index)).ToArray();
+				x = x.Take(index).Concat(new[] {0.0}).Concat(x.Skip(index)).ToArray();
+				y = y.Take(index).Concat(new[] {0.0}).Concat(y.Skip(index)).ToArray();
 
 				var time = r.T;
 				r = new RungeKuttaMethod(modelParameters, new Equation(modelParameters));
 				r.T = time;
 				flag = false;
 
-				MethodInvoker action = delegate
-				{
-			//		ServiceLocator.Current.GetInstance<RenderingHandler>().AddSeries(index);
-			//		ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
-			//			new CoordinatesModel
-			//			{
-			//				t = t,
-			//				x = x.ToList(),
-			//				y = y.ToList()
-			//			});
-			//		Application.DoEvents();
-				};
+				p.ChartEventHandler.Invoke(
+					new List<ChartEventActions>
+					{
+						ChartEventActions.AddChartSeries
+					},
+					new AddChartEventHandlerArgs(modelParameters, index));
 
-		//		p.Form.Invoke(action);
+				p.ChartEventHandler.Invoke(
+					new List<ChartEventActions>
+					{
+						ChartEventActions.UpdateCharts
+					},
+					new ChartEventHandlerArgs(new CoordinatesArgs
+					{
+						T = t,
+						X = x.ToList(),
+						Y = y.ToList()
+					}));
 			}
 
-			if (t - tp > 0.01)
+			if (t - tp > 0.1)
 			{
 				tp = t;
-				MethodInvoker action = delegate
-				{
-	//				ServiceLocator.Current.GetInstance<RenderingHandler>().UpdateCharts(
-	//					new CoordinatesModel
-	//					{
-	//						t = t,
-	//						x = x.ToList(),
-	//						y = y.ToList()
-	//					});
 
-					Thread.Sleep(20);
-					Application.DoEvents();
-				};
-
-		//		p.Form.Invoke(action);
+				p.ChartEventHandler.Invoke(
+					new List<ChartEventActions>
+					{
+						ChartEventActions.UpdateCharts
+					},
+					new ChartEventHandlerArgs(new CoordinatesArgs
+					{
+						T = t,
+						X = x.ToList(),
+						Y = y.ToList()
+					}));
 			}
 		}
 	}
 
-	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, int index, double[] lambda, double[] Vn)
+	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, InliningInFlowModeSettingsModel modeSettings, int index, IEnumerable<double> lambda, IEnumerable<double> Vn)
 	{
 		modelParameters.n++;
-		// задавать из настроек
-		modelParameters.a.Insert(index, 4);
-		modelParameters.q.Insert(index, 3);
-		modelParameters.lSafe.Insert(index, 2);
-		modelParameters.lCar.Insert(index, 5);
-		modelParameters.Vmax.Insert(index, 16.7);
-		modelParameters.k.Insert(index, 0.5);
+		modelParameters.a.Insert(index, modeSettings.a);
+		modelParameters.q.Insert(index, modeSettings.q);
+		modelParameters.lSafe.Insert(index, modeSettings.l_safe);
+		modelParameters.lCar.Insert(index, modeSettings.l_car);
+		modelParameters.Vmax.Insert(index, modeSettings.Vmax);
+		modelParameters.k.Insert(index, modeSettings.k);
 
 		modelParameters.lambda = lambda.ToList();
 		modelParameters.Vn = Vn.ToList();
@@ -144,20 +136,15 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		return modelParameters;
 	}
 
-	private bool IsInliningAvaliable(ModelParameters modelParameters, int n, double[] x, double[] v, out int inline)
+	private bool IsInliningAvailable(ModelParameters modelParameters, int n, IReadOnlyList<double> x, IReadOnlyList<double> v, out int inline)
 	{
-		for (int i = 0; i < n; i++)
+		for (var i = 0; i < n; i++)
 		{
 			if (x[i] > 0)
 				continue;
 			inline = i;
 
-			var l = n == 0
-				? modelParameters.lSafe[n]
-				: modelParameters.lSafe[n] + modelParameters.lCar[n - 1];
-			var s = System.Math.Pow(v[i], 2) / (2 * modelParameters.g * modelParameters.mu) + l;
-
-			s = s + 5;
+			var s = modelParameters.k[i] * (x[i] + Equation.S(modelParameters, i, v[i]) + modelParameters.tau * v[i]);
 
 			if (s + x[i] < 0)
 				return true;

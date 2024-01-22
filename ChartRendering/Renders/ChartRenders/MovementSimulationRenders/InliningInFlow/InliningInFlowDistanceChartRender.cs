@@ -3,32 +3,18 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
-public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
+public class InliningInFlowDistanceChartRender : DistanceChartRender
 {
-	protected override SeriesChartType SeriesChartType => SeriesChartType.Spline;
-
-	protected override string SeriesName => "DistanceSeries";
-
-	protected override string ChartAreaName => "DistanceChartArea";
-
-	/*private readonly ChartAreaModel _chartAreaModel = new()
-	{
-		AxisXMinimum = 0,
-		AxisXMaximum = 60,
-		AxisXInterval = 10,
-		AxisYMinimum = CommonChartAreaParameters.BeginOfRoad,
-		AxisYMaximum = CommonChartAreaParameters.EndOfRoad,
-		AxisYInterval = 1,
-		ZoomShift = 48
-	};*/
-
 	public InliningInFlowDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
@@ -37,19 +23,39 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
+		Chart.Palette = ChartColorPalette.None;
+		Chart.Legends.Clear();
+
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
+			series.Color = CustomColors.Blue;
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			var chartArea = GetChartArea();
 
-			if (i == 0)
-				GetSeries(i).Points.AddXY(0, modelParameters.lambda[i]);
+			if (i < modelParameters.n)
+			{
+				var showLegend = false;
+				if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
+				{
+					GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+					showLegend = true;
+				}
 
-			var lambda = i < modelParameters.lambda.Count
-				? modelParameters.lambda[i]
-				: 0;
-
-			UpdateLegend(i, true, lambda);
+				UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			}
 		}
+
+		var inliningCar = new Series
+		{
+			Name = SeriesName + modelParameters.n,
+			ChartType = SeriesChartType,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = CustomColors.Red,
+		};
+		inliningCar.Points.AddXY(0, Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 10);
+		Chart.Series.Add(inliningCar);
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
@@ -60,14 +66,8 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 
 			if (i < coordinates.X.Count)
 			{
-				var showLegend = false;
-				if (coordinates.X[i] > CommonChartAreaParameters.BeginOfRoad && coordinates.X[i] < CommonChartAreaParameters.EndOfRoad)
-				{
-					GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
-					showLegend = true;
-				}
-
-				UpdateLegend(i, showLegend, coordinates.X[i]);
+				GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
+				UpdateLegend(i, true, coordinates.X[i]);
 			}
 		}
 	}
@@ -91,24 +91,25 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		return new ChartArea
+		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				//Minimum = _chartAreaModel.AxisXMinimum,
-				//Maximum = _chartAreaModel.AxisXMaximum,
+				Minimum = 0,
+				Maximum = 60,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
 			},
 			AxisY = new Axis
 			{
-				//Minimum = _chartAreaModel.AxisYMinimum,
-				//Maximum = _chartAreaModel.AxisYMaximum,
+				Minimum = 0,
+				Maximum = 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
 			}
 		};
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
+
+		return chartArea;
 	}
 
 	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
@@ -126,5 +127,29 @@ public class InliningInFlowDistanceChartRender : InliningInFlowChartRender
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		return new Series[] { };
+	}
+
+	public override void AddSeries(ModelParameters modelParameters, int index)
+	{
+		var seriesToRemove = Chart.Series.Single(x => x.Color == CustomColors.Red);
+		Chart.Series.Remove(seriesToRemove);
+
+		var i = Chart.Series.Count(x => x.Name.Contains(SeriesName));
+		Chart.Series
+			.Where(x => x.Name.Contains(SeriesName))
+			.Where(x => Convert.ToInt32(x.Name.Replace(SeriesName, "")) >= index)
+			.Reverse()
+			.ForEach(x => x.Name = SeriesName + i--);
+
+		Chart.Series.Insert(index,
+			new Series
+			{
+				Name = SeriesName + index,
+				ChartType = SeriesChartType,
+				ChartArea = ChartAreaName,
+				BorderWidth = 2,
+				Color = CustomColors.Red
+			}
+		);
 	}
 }

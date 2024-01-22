@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ChartRendering.Constants;
 using ChartRendering.Models;
+using EvaluationKernel.Models;
 
 namespace ChartRendering.Events;
 
@@ -33,6 +34,19 @@ public class ChartEventHandlerArgs : EventHandlerArgs
 		EnvironmentArgs = environment;
 	}
 }
+
+public class AddChartEventHandlerArgs : EventHandlerArgs
+{
+	public ModelParameters ModelParameters { get; set; }
+	public int Index { get; set; }
+
+	public AddChartEventHandlerArgs(ModelParameters modelParameters, int index)
+	{
+		ModelParameters = modelParameters;
+		Index = index;
+	}
+}
+
 
 public class ChartEventHandlerWithSavingArgs : SaveChartEventHandlerArgs
 {

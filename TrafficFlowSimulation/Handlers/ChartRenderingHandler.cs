@@ -65,11 +65,11 @@ public class ChartRenderingHandler
 		}
 	}
 
-	public void AddSeries(int index)
+	public void AddSeries(ModelParameters modelParameters, int index)
 	{
 		foreach (var provider in _providers)
 		{
-			provider.AddSeries(index);
+			provider.AddSeries(modelParameters, index);
 		}
 	}
 

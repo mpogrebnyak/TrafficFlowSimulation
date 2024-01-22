@@ -65,7 +65,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 
 	public override void UpdateEnvironment(object parameters)
 	{
-		var environmentModel = (EnvironmentModel) parameters;
+		var environmentModel = (EnvironmentArgs) parameters;
 		var trafficLine = Chart.Series.First(series => series.Name.Contains("StartLine"));
 		trafficLine.Color = environmentModel.IsGreenLight ? Color.Green : Color.Red;
 

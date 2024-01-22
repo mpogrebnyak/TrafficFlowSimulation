@@ -71,6 +71,13 @@ public class FormUpdateHandler
 				return;
 			}
 
+			case ChartEventActions.AddChartSeries:
+			{
+				var args = (AddChartEventHandlerArgs) e;
+				ServiceLocator.Current.GetInstance<ChartRenderingHandler>(_key).AddSeries(args.ModelParameters, args.Index);
+				return;
+			}
+
 			default:
 			{
 				return;

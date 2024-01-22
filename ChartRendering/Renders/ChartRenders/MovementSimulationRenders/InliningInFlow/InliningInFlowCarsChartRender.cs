@@ -1,24 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
-public class InliningInFlowCarsChartRender : InliningInFlowChartRender
+public class InliningInFlowCarsChartRender : CarsChartRender
 {
-	protected override SeriesChartType SeriesChartType => SeriesChartType.Point;
-
-	protected override string SeriesName => "CarsMovementSeries";
-
-	protected override string ChartAreaName => "CarsMovementChartArea";
-
 	public InliningInFlowCarsChartRender(Chart chart) : base(chart)
 	{
 	}
@@ -27,18 +26,23 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
+		var settings = (InliningInFlowModeSettingsModel)modeSettings;
+
+		Chart.Palette = ChartColorPalette.None;
 		Chart.Legends.Clear();
 
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
+			series.Color = CustomColors.Blue;
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			var chartArea = GetChartArea();
 
 			if (i < modelParameters.n)
 			{
 				var showLegend = false;
-			//	if (modelParameters.lambda[i] > _chartAreaModel.AxisXMinimum && modelParameters.lambda[i] < _chartAreaModel.AxisXMaximum)
+				if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
 				{
-					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+					GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 					showLegend = true;
 				}
 
@@ -47,14 +51,27 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 			}
 		}
 
-		var inliningCar = Chart.Series.First(series => series.Name.Contains(SeriesName + modelParameters.n));
+		var inliningCar = new Series
+		{
+			Name = SeriesName + modelParameters.n,
+			ChartType = SeriesChartType,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = CustomColors.Red,
+		};
 		inliningCar.Points.AddXY(0, Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 10);
+		Chart.Series.Add(inliningCar);
 
-		SetMarkerImage(modelParameters.lCar);
+		var lCars = new List<double>();
+		lCars.AddRange(modelParameters.lCar);
+		lCars.Add(settings.l_car);
+
+		SetMarkerImage(lCars);
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
+		var chartArea = GetChartArea();
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
@@ -65,9 +82,9 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 				if(series.Points.Any())
 					series.Points.RemoveAt(0);
 
-			//	if (coordinates.x[i] > _chartAreaModel.AxisXMinimum && coordinates.x[i] < _chartAreaModel.AxisXMaximum)
+				if (coordinates.X[i] > chartArea.AxisX.Minimum && coordinates.X[i] < chartArea.AxisX.Maximum)
 				{
-					var yValue = series.Tag != null && series.Tag.ToString() == _inliningTag
+					var yValue = series.Color == CustomColors.Red
 						? CalculateWay(coordinates.X[i])
 						: Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2;
 					series.Points.AddXY(coordinates.X[i], yValue);
@@ -78,16 +95,6 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 				UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
 			}
 		}
-	}
-
-	public override void UpdateEnvironment(object parameters)
-	{
-		//var environmentModel = (EnvironmentModel) parameters;
-		//var trafficLine = _chart.Series.First(series => series.Name.Contains("StartLine"));
-		//trafficLine.Color = environmentModel.IsGreenLight ? Color.Green : Color.Red;
-		//trafficLine.Label = environmentModel.IsGreenLight 
-		//	? Math.Round(environmentModel.GreenTime, 2).ToString()
-		//	: Math.Round(environmentModel.RedTime, 2).ToString();
 	}
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)
@@ -108,48 +115,18 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		/*var chartArea = new ChartArea
+		var model = new ChartAreaCreationModel
 		{
-			Name = _chartAreaName,
+			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = _chartAreaModel.AxisXMinimum,
-				Maximum = _chartAreaModel.AxisXMaximum,
-				ScaleView = new AxisScaleView
-				{
-					//Zoomable = true,
-					SizeType = DateTimeIntervalType.Number,
-					MinSize = 30
-				},
-				Interval = _chartAreaModel.AxisXInterval,
-				ScrollBar = new AxisScrollBar
-				{
-					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
-					IsPositionedInside = true,
-					BackColor = Color.White,
-					ButtonColor = Color.FromArgb(249, 246, 247)
-				},
-				IsStartedFromZero = true,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				TitleAlignment = StringAlignment.Far
-			},
-			AxisY = new Axis
-			{
-				Minimum = _chartAreaModel.AxisYMinimum,
-				Maximum = _chartAreaModel.AxisYMaximum,
-				Interval = _chartAreaModel.AxisYInterval,
-				LabelStyle = new LabelStyle
-				{
-					Enabled = false
-				}
+				Minimum = -30,
+				Maximum = 20
 			}
 		};
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
-		//chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
-
-		return chartArea;*/
-		return new ChartArea();
+		return chartArea;
 	}
 
 	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
@@ -166,18 +143,6 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var lineSeries = new Series
-		{
-			Name = "line",
-			ChartType = SeriesChartType.Line,
-			ChartArea = ChartAreaName,
-			BorderWidth = 1,
-			Color = Color.Black,
-			IsVisibleInLegend = false
-		};
-		//lineSeries.Points.Add(new DataPoint(_chartAreaModel.AxisXMinimum, 0));
-		//lineSeries.Points.Add(new DataPoint(_chartAreaModel.AxisXMaximum, 0));
-		
 		var startLineSeries = new Series
 		{
 			Name = "StartLine",
@@ -187,13 +152,12 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 			Color = Color.Red,
 			IsVisibleInLegend = false
 		};
-		startLineSeries.Points.Add(new DataPoint(0, 1));
-		startLineSeries.Points.Add(new DataPoint(0, 0));
+		startLineSeries.Points.Add(new DataPoint(0.001, 1));
+		startLineSeries.Points.Add(new DataPoint(0.001, 0));
 
-		return new Series[]
+		return new[]
 		{
-			lineSeries,
-			startLineSeries,
+			startLineSeries
 		};
 	}
 
@@ -217,5 +181,31 @@ public class InliningInFlowCarsChartRender : InliningInFlowChartRender
 		return mainRoad > road
 			? road
 			: mainRoad;
+	}
+
+	public override void AddSeries(ModelParameters modelParameters, int index)
+	{
+		var seriesToRemove = Chart.Series.Single(x => x.Color == CustomColors.Red);
+		Chart.Series.Remove(seriesToRemove);
+
+		var i = Chart.Series.Count(x => x.Name.Contains(SeriesName));
+		Chart.Series
+			.Where(x => x.Name.Contains(SeriesName))
+			.Where(x => Convert.ToInt32(x.Name.Replace(SeriesName, "")) >= index)
+			.Reverse()
+			.ForEach(x => x.Name = SeriesName + i--);
+
+		Chart.Series.Insert(index,
+			new Series
+			{
+				Name = SeriesName + index,
+				ChartType = SeriesChartType,
+				ChartArea = ChartAreaName,
+				BorderWidth = 2,
+				Color = CustomColors.Red
+			}
+		);
+
+		SetMarkerImage(modelParameters.lCar);
 	}
 }

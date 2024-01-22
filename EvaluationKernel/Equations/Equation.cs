@@ -103,7 +103,7 @@ namespace EvaluationKernel.Equations
 
 		protected virtual double DeltaX(Coordinates x_n, Coordinates x_n_1)
 		{
-			return Math.Abs(x_n_1.X - x_n.X);
+			return x_n_1.X - x_n.X;
 		}
 
 		protected virtual double DeltaDotX(Coordinates x_n, Coordinates x_n_1)

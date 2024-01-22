@@ -14,7 +14,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 	public StartAndStopMovementCarsChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		base.RenderChart(modelParameters, modeSettings);

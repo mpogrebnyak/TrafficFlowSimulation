@@ -3,47 +3,59 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.Constants;
 using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
-public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
+public class InliningInFlowSpeedChartRender : SpeedChartRender
 {
-	protected override SeriesChartType SeriesChartType => SeriesChartType.Spline;
-
-	protected override string SeriesName => "SpeedSeries";
-
-	protected override string ChartAreaName => "SpeedChartArea";
-
-	/*private readonly ChartAreaModel _chartAreaModel = new()
-	{
-		AxisXMinimum = 0,
-		AxisXMaximum = 60,
-		AxisYMinimum = 0,
-		ZoomShift = 40
-	};*/
-
 	public InliningInFlowSpeedChartRender(Chart chart) : base(chart)
 	{
 	}
-
+	
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		base.RenderChart(modelParameters, modeSettings);
 
+		Chart.Palette = ChartColorPalette.None;
+		Chart.Legends.Clear();
+
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
+			series.Color = CustomColors.Blue;
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
+			var chartArea = GetChartArea();
 
-			if (i == 0) 
-				GetSeries(i).Points.AddXY(0, 0);
+			if (i < modelParameters.n)
+			{
+				var showLegend = false;
+				if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
+				{
+					GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+					showLegend = true;
+				}
 
-			UpdateLegend(i, true, 0);
+				UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			}
 		}
+
+		var inliningCar = new Series
+		{
+			Name = SeriesName + modelParameters.n,
+			ChartType = SeriesChartType,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = CustomColors.Red,
+		};
+		inliningCar.Points.AddXY(0, Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 10);
+		Chart.Series.Add(inliningCar);
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
@@ -54,56 +66,31 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 
 			if (i < coordinates.X.Count)
 			{
-				var showLegend = false;
-				if (coordinates.X[i] > CommonChartAreaParameters.BeginOfRoad && coordinates.X[i] < CommonChartAreaParameters.EndOfRoad)
-				{
-					GetSeries(i).Points.AddXY(coordinates.T, coordinates.Y[i]);
-					showLegend = true;
-				}
-
-				UpdateLegend(i, showLegend, coordinates.Y[i]);
+				GetSeries(i).Points.AddXY(coordinates.T, coordinates.Y[i]);
+				UpdateLegend(i, true, coordinates.Y[i]);
 			}
 		}
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		var chartArea = new ChartArea
+		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-			//	Minimum = _chartAreaModel.AxisXMinimum,
-			//	Maximum = _chartAreaModel.AxisXMaximum,
+				Minimum = 0,
+				Maximum = 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
-				/*
-				ScaleView = new AxisScaleView
-				{
-					Zoomable = true,
-					SizeType = DateTimeIntervalType.Number,
-					MinSize = 30
-				},
-				*/
-			//	Interval = _chartAreaModel.AxisXInterval,
-				ScrollBar = new AxisScrollBar
-				{
-					ButtonStyle = ScrollBarButtonStyles.SmallScroll,
-					IsPositionedInside = true,
-					BackColor = Color.White,
-					ButtonColor = Color.FromArgb(249, 246, 247)
-				}
 			},
 			AxisY = new Axis
 			{
-			//	Minimum = _chartAreaModel.AxisYMinimum,
+				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
-				TitleFont = new Font("Microsoft Sans Serif", 10F),
 			}
 		};
-
-		//chartArea.AxisX.ScaleView.Zoom(_chartAreaModel.AxisXMinimum,_chartAreaModel.AxisXMinimum + _chartAreaModel.ZoomShift);
+		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
 	}
@@ -140,5 +127,29 @@ public class InliningInFlowSpeedChartRender : InliningInFlowChartRender
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		return new Series[] { };
+	}
+
+	public override void AddSeries(ModelParameters modelParameters, int index)
+	{
+		var seriesToRemove = Chart.Series.Single(x => x.Color == CustomColors.Red);
+		Chart.Series.Remove(seriesToRemove);
+
+		var i = Chart.Series.Count(x => x.Name.Contains(SeriesName));
+		Chart.Series
+			.Where(x => x.Name.Contains(SeriesName))
+			.Where(x => Convert.ToInt32(x.Name.Replace(SeriesName, "")) >= index)
+			.Reverse()
+			.ForEach(x => x.Name = SeriesName + i--);
+
+		Chart.Series.Insert(index,
+			new Series
+			{
+				Name = SeriesName + index,
+				ChartType = SeriesChartType,
+				ChartArea = ChartAreaName,
+				BorderWidth = 2,
+				Color = CustomColors.Red
+			}
+		);
 	}
 }
