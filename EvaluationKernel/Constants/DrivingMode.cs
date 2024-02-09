@@ -1,6 +1,6 @@
 ﻿using Localization.Localization;
 
-namespace Modes.Constants;
+namespace EvaluationKernel.Constants;
 
 public class DrivingModeResources
 {

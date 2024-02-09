@@ -12,6 +12,11 @@
 	  <Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Localization\Localization.csproj" />
+	  <ProjectReference Include="..\Settings\Settings.csproj" />
+	</ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<NoWarn>8618</NoWarn>
 	</PropertyGroup>

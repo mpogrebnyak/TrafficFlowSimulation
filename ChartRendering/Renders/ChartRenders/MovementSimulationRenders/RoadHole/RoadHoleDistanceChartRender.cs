@@ -21,7 +21,6 @@ public class RoadHoleDistanceChartRender : SpeedLimitChangingDistanceChartRender
 	{
 		var segments = RenderingHelper.GetSegmentBeginningList((SpeedLimitChangingModeSettingsModel)modeSettings);
 
-		var qq = Math.Ceiling(segments.Last()) + 1;
 		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,

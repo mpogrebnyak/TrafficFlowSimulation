@@ -87,6 +87,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			{
 				Minimum = 0,
 				Maximum = 20,
+				Interval = 5,
 				LabelAutoFitMinFontSize = 15,
 				CustomLabels =
 				{
@@ -111,7 +112,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			Name = "UpperBound",
 			ChartType = SeriesChartType.Line,
 			ChartArea = ChartAreaName,
-			BorderWidth = 2,
+			BorderWidth = 3,
 			Color = Color.Black,
 			IsVisibleInLegend = false
 		};
@@ -123,7 +124,7 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 			Name = "LowerBound",
 			ChartType = SeriesChartType.Line,
 			ChartArea = ChartAreaName,
-			BorderWidth = 2,
+			BorderWidth = 3,
 			Color = Color.Black,
 			IsVisibleInLegend = false
 		};
@@ -148,12 +149,13 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				Name = "minAValueLineSeries",
 				ChartType = SeriesChartType.Line,
 				ChartArea = ChartAreaName,
-				BorderWidth = 1,
+				BorderWidth = 3,
 				Color = Color.Black,
 				IsVisibleInLegend = false
 			};
 			minAValueLineSeries.Points.Add(new DataPoint(environmentModel.MinAValue.Value, 0));
 			minAValueLineSeries.Points.Add(new DataPoint(environmentModel.MinAValue.Value, 20));
+			GetChartArea().AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(environmentModel.MinAValue.Value));
 
 			Chart.Series.Add(minAValueLineSeries);
 		}
@@ -165,12 +167,13 @@ public class AccelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				Name = "maxAValueLineSeries",
 				ChartType = SeriesChartType.Line,
 				ChartArea = ChartAreaName,
-				BorderWidth = 1,
+				BorderWidth = 3,
 				Color = Color.Black,
 				IsVisibleInLegend = false
 			};
 			maxAValueLineSeries.Points.Add(new DataPoint(environmentModel.MaxAValue.Value, 0));
 			maxAValueLineSeries.Points.Add(new DataPoint(environmentModel.MaxAValue.Value, 20));
+			GetChartArea().AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(environmentModel.MaxAValue.Value));
 
 			Chart.Series.Add(maxAValueLineSeries);
 		}

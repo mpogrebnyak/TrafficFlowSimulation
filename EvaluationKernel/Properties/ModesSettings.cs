@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Modes.Constants;
+using EvaluationKernel.Constants;
 
 namespace Modes.Properties;
 

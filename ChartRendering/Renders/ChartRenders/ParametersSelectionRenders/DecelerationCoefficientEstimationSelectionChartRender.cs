@@ -88,6 +88,7 @@ public class DecelerationCoefficientEstimationSelectionChartRender : ChartsRende
 				Minimum = 0,
 				Maximum = 2,
 				LabelAutoFitMinFontSize = 15,
+				Interval = 0.4,
 				CustomLabels =
 				{
 					ChartAreaRendersHelper.CreateCustomLabel(2,"v")

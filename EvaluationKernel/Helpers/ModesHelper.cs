@@ -1,8 +1,10 @@
-﻿using Modes.Constants;
+﻿using System.Collections.Generic;
+using System.Linq;
+using EvaluationKernel.Constants;
 using Modes.Properties;
 using Settings;
 
-namespace Modes;
+namespace EvaluationKernel.Helpers;
 
 public static class ModesHelper
 {
