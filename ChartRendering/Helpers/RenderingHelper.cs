@@ -5,9 +5,9 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Renders.ChartRenders;
+using EvaluationKernel.Helpers;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
-using Modes;
 
 namespace ChartRendering.Helpers;
 

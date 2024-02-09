@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
-using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
+using EvaluationKernel.Constants;
+using EvaluationKernel.Helpers;
 using Localization;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
-using Modes;
-using Modes.Constants;
-using Settings;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
@@ -17,7 +14,7 @@ namespace TrafficFlowSimulation.Components;
 
 public class ParametersSelectionModeComponent : IComponent
 {
-	private ToolStripDropDownButton _modeButton;
+	private readonly ToolStripDropDownButton _modeButton;
 
 	public ParametersSelectionModeComponent(ToolStripDropDownButton modeButton)
 	{

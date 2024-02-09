@@ -4,8 +4,8 @@ using ChartRendering.Renders.ChartRenders;
 using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using Common;
 using Common.Modularity;
-using Modes;
-using Modes.Constants;
+using EvaluationKernel.Constants;
+using EvaluationKernel.Helpers;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Windows;
 

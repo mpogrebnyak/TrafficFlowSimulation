@@ -9,8 +9,8 @@ using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitCh
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.StartAndStopMovement;
 using Common;
 using Common.Modularity;
-using Modes;
-using Modes.Constants;
+using EvaluationKernel.Constants;
+using EvaluationKernel.Helpers;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Windows;
 

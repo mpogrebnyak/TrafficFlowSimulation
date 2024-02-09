@@ -3,8 +3,8 @@ using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using Common;
 using Common.Modularity;
-using Modes;
-using Modes.Constants;
+using EvaluationKernel.Constants;
+using EvaluationKernel.Helpers;
 
 namespace ChartRendering.Configurations;
 

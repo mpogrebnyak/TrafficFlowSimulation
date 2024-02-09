@@ -3,8 +3,8 @@ using ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 using ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
 using Common;
 using Common.Modularity;
-using Modes;
-using Modes.Constants;
+using EvaluationKernel.Constants;
+using EvaluationKernel.Helpers;
 
 namespace ChartRendering.Configurations;
 

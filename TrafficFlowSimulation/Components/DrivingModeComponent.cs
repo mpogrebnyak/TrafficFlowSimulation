@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using ChartRendering.EvaluationHandlers;
+using EvaluationKernel.Constants;
+using EvaluationKernel.Helpers;
 using Localization;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
-using Modes;
-using Modes.Constants;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Properties.LocalizationResources;
