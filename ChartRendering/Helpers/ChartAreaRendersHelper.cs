@@ -177,6 +177,11 @@ public static class ChartAreaRendersHelper
 		};
 	}
 
+	public static double GetLabelInitialPosition(CustomLabel customLabel)
+	{
+		return CalculateInitialPosition(customLabel.FromPosition);
+	}
+
 	private static double CalculateFromPosition(double position, double step = 50)
 	{
 		return position - step;

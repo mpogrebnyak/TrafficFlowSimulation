@@ -58,12 +58,14 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 			{
 				Minimum = 0,
 				Maximum = 60,
+				Interval = 60 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
+				Interval = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText
 			}
 		};
@@ -71,6 +73,9 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 		{
 			model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segment));
 		}
+		model.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(60, LocalizationHelper.Get<ChartRenderingResources>().TWithMeasurements));
+		model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax), LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
+
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;

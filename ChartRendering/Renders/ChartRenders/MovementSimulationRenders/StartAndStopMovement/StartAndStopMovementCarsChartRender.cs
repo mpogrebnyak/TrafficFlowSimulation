@@ -68,7 +68,7 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = -3000,
+				Minimum = -30,
 				Maximum = modelParameters.L + 100
 			},
 			IsZoomAvailable = true

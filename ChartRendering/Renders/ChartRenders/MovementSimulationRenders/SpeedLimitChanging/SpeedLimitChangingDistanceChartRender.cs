@@ -58,12 +58,14 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 			{
 				Minimum = 0,
 				Maximum = 60,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
+				Interval = 60 / 5.0,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText
 			},
 			AxisY = new Axis
 			{
 				Minimum = modelParameters.lambda[0],
 				Maximum = segments.Last() + 100,
+				Interval = (segments.Last() + 100 - modelParameters.lambda[0]) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText
 			}
 		};
@@ -71,6 +73,9 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		{
 			model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segment));
 		}
+		model.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(60, LocalizationHelper.Get<ChartRenderingResources>().TWithMeasurements));
+		model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segments.Last() + 100, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
+
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;

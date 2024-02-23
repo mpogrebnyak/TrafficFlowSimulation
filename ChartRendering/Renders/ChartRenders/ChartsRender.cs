@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
+using Microsoft.Practices.ObjectBuilder2;
 using Settings;
 
 namespace ChartRendering.Renders.ChartRenders;
@@ -78,7 +81,23 @@ public abstract class ChartsRender : IChartRender
 		if (_currentMinute <= maximumTime)
 		{
 			var chartAreas = Chart.ChartAreas.Single(x => x.Name == ChartAreaName);
+
+			var customLabel = new List<CustomLabel>();
+			foreach (var label in chartAreas.AxisX.CustomLabels)
+			{
+				var position = _currentMinute * ChartAreaRendersHelper.GetLabelInitialPosition(label);
+				customLabel.Add(ChartAreaRendersHelper.CreateCustomLabel(position, label.Text));
+			}
+			chartAreas.AxisX.CustomLabels.Clear();
+
 			chartAreas.AxisX.Maximum = 60 * _currentMinute;
+			chartAreas.AxisX.Interval = 60 * _currentMinute / 5.0;
+
+			foreach (var label in customLabel)
+			{
+				chartAreas.AxisX.CustomLabels.Add(label);
+			}
+
 			Chart.Invalidate();
 		}
 	}

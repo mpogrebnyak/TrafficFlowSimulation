@@ -1,6 +1,7 @@
 ﻿using Localization.Localization;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable InconsistentNaming
 
 namespace ChartRendering.Properties;
 
@@ -38,7 +39,6 @@ public abstract class ChartRenderingResources
 	[Translation(Locales.en, "S:")]
 	public string DistanceText { get; set; }
 
-	
 	[Translation(Locales.ru, "\nПропускная способность: \n")]
 	public string TrafficCapacityLabelHead { get; set; }
 
@@ -52,4 +52,28 @@ public abstract class ChartRenderingResources
 	[Translation(Locales.ru, "Авария")]
 	[Translation(Locales.en, "Crash")]
 	public string CrashTitle { get; set; }
+
+	[Translation(Locales.ru, "t")]
+	[Translation(Locales.en, "t")]
+	public string T { get; set; }
+
+	[Translation(Locales.ru, "x")]
+	[Translation(Locales.en, "x")]
+	public string X { get; set; }
+
+	[Translation(Locales.ru, "ẋ")]
+	[Translation(Locales.en, "ẋ")]
+	public string DotX { get; set; }
+
+	[Translation(Locales.ru, "t (c)")]
+	[Translation(Locales.en, "t (s)")]
+	public string TWithMeasurements { get; set; }
+
+	[Translation(Locales.ru, "x (м)")]
+	[Translation(Locales.en, "x (m)")]
+	public string XWithMeasurements { get; set; }
+
+	[Translation(Locales.ru, "ẋ (м/с)")]
+	[Translation(Locales.en, "ẋ (m/c)")]
+	public string DotXWithMeasurements { get; set; }
 }

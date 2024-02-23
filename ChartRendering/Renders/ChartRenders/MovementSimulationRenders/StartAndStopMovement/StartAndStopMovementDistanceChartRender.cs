@@ -32,6 +32,8 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
+		base.UpdateChart(coordinates);
+
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));

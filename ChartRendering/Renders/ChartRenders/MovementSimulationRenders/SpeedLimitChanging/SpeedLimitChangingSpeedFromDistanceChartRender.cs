@@ -27,14 +27,16 @@ public class SpeedLimitChangingSpeedFromDistanceChartRender : SpeedFromDistanceC
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = modelParameters.lambda[0],
+				Minimum = modelParameters.lambda[0] - 0,
 				Maximum = segmentsBeginning.Last() + 100,
+				Interval = (segmentsBeginning.Last() + 100 - (modelParameters.lambda[0] - 0)) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
+				Interval = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 			}
 		};
@@ -46,6 +48,9 @@ public class SpeedLimitChangingSpeedFromDistanceChartRender : SpeedFromDistanceC
 		{
 			model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segment));
 		}
+		model.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segmentsBeginning.Last() + 100, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
+		model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax), LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
+
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;

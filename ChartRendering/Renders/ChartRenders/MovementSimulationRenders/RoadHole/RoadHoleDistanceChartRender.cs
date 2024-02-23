@@ -28,12 +28,14 @@ public class RoadHoleDistanceChartRender : SpeedLimitChangingDistanceChartRender
 			{
 				Minimum = 0,
 				Maximum = 60,
+				Interval = 60 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 			},
 			AxisY = new Axis
 			{
 				Minimum = -3,
 				Maximum = Math.Ceiling(segments.Last()) + 1,
+				Interval = (Math.Ceiling(segments.Last()) + 1 - (-3)) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};
@@ -41,6 +43,9 @@ public class RoadHoleDistanceChartRender : SpeedLimitChangingDistanceChartRender
 		{
 			model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(segment));
 		}
+		model.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(60, LocalizationHelper.Get<ChartRenderingResources>().TWithMeasurements));
+		model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(Math.Ceiling(segments.Last()) + 1, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
+
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
