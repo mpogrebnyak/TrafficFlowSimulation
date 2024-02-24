@@ -45,14 +45,14 @@ public class RoadHoleModeSettingsModel : SpeedLimitChangingModeSettingsModel
 		for (var i = 0; i < mp.n; i++)
 		{
 			mp.Vn[i] = InitialSpeed;
-			mp.lambda[i] = -100 - (Equation.S(mp, i, InitialSpeed) + mp.tau * InitialSpeed)* i;
+			mp.lambda[i] = -100 - (Equation.S(mp, i, InitialSpeed) + mp.tau[i] * InitialSpeed) * i;
 		}
 	}
 
 	public override void MapToSelf()
 	{
 		SegmentBeginning = "1:0" + " 2:" + SegmentLenght;
-		SpeedInSegment = "1:" + SegmentSpeed + " 2:" + InitialSpeed;// + " 3:" + InitialSpeed;
+		SpeedInSegment = "1:" + SegmentSpeed + " 2:" + InitialSpeed;
 	}
 
 	public static RoadHoleModeSettingsModel Default()

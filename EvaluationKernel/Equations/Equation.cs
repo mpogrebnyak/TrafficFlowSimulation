@@ -48,7 +48,7 @@ namespace EvaluationKernel.Equations
 
 		protected double P(int n, Coordinates x_n, Coordinates x_n_1)
 		{
-			var s = S(n, x_n.DotX) + _m.tau * DeltaDotX(x_n, x_n_1);
+			var s = S(n, x_n.DotX) + _m.tau[n] * DeltaDotX(x_n, x_n_1);
 			return (Vmax(n) - V(n, x_n_1.DotX)) / (1 + Math.Exp(_m.k[n] * (-DeltaX(x_n, x_n_1) + s))) + V(n, x_n_1.DotX);
 		}
 
@@ -71,12 +71,12 @@ namespace EvaluationKernel.Equations
 
 		protected double S(int n, double v)
 		{
-			return (_m.tau + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
+			return (_m.tau[n] + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
 		}
 
 		public static double S(ModelParameters m, int n, double v)
 		{
-			return (m.tau + m.tau_b) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + L_safe(m, n);
+			return (m.tau[n] + m.tau_b) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + L_safe(m, n);
 		}
 
 		protected virtual double V(int n, double v)

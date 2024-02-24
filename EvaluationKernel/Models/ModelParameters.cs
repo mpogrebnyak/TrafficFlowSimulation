@@ -8,7 +8,7 @@ namespace EvaluationKernel.Models
 	{
 		public int n { get; set; }
 
-		public double tau { get; set; }
+		public List<double> tau { get; set; }
 
 		public double tau_b { get; set; }
 
@@ -36,6 +36,7 @@ namespace EvaluationKernel.Models
 
 		public ModelParameters()
 		{
+			tau = new List<double>();
 			Vmax = new List<double>();
 			a = new List<double>();
 			q = new List<double>();

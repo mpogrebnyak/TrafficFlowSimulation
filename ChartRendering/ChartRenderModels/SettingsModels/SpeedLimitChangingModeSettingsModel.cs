@@ -53,10 +53,10 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 	{
 		base.MapTo(mp);
 
-		for (int i = 0; i < mp.n; i++)
+		for (var i = 0; i < mp.n; i++)
 		{
 			mp.Vn[i] = InitialSpeed;
-			mp.lambda[i] = -100 - (Equation.S(mp, i, InitialSpeed) + mp.tau * InitialSpeed)* i;
+			mp.lambda[i] = -100 - (Equation.S(mp, i, InitialSpeed) + mp.tau[i] * InitialSpeed) * i;
 		}
 	}
 

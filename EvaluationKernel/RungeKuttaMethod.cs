@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EvaluationKernel.Equations;
 using EvaluationKernel.Models;
 // ReSharper disable InconsistentNaming
@@ -7,32 +8,31 @@ namespace EvaluationKernel
 {
 	public class RungeKuttaMethod
 	{
-		const double _h = 0.001;
+		private const double _h = 0.001;
 
-		private int _N, _n;
+		private readonly int _n;
 
-		private Equation _equation;
+		private readonly Equation _equation;
 
-		List<List<double>> x;
-		List<List<double>> y;
+		private readonly List<List<double>> x;
+		private readonly List<List<double>> y;
 		List<double> t;
-
+		private readonly List<int> N;
 		List<int> CarNumberToStop = new (); 
 
 		public RungeKuttaMethod(ModelParameters modelParameters, Equation equation)
 		{
-			_n = modelParameters.n;
-			_N = (int) modelParameters.tau != 0
-				? (int) (modelParameters.tau / _h)
-				: 1;
 			_equation = equation;
 
+			_n = modelParameters.n;
 			t = new List<double>();
 			x = new List<List<double>>();
 			y = new List<List<double>>();
+			N = new List<int>();
 
 			SetInitialConditions(modelParameters);
 		}
+
 
 		private void SetInitialConditions(ModelParameters modelParameters)
 		{
@@ -42,9 +42,14 @@ namespace EvaluationKernel
 				y.Add(new List<double>());
 			}
 
-			for (var i = 0; i < _N; i++)
+			foreach (var tau in modelParameters.tau)
 			{
-				t.Add((i - _N) * _h);
+				N.Add((int)(tau / _h));
+			}
+
+			for (var i = 0; i < N.Max(); i++)
+			{
+				t.Add((i - N.Max()) * _h);
 				for (var j = 0; j < _n; j++)
 				{
 					x[j].Add(modelParameters.lambda[j]);
@@ -55,9 +60,9 @@ namespace EvaluationKernel
 
 		public void SetInitialConditions(List<double> Vn, List<double> lambda)
 		{
-			for (int i = 0; i < _N; i++)
+			for (var i = 0; i < N.Max(); i++)
 			{
-				for (int j = 0; j < _n; j++)
+				for (var j = 0; j < _n; j++)
 				{
 					x[j].Add(lambda[j]);
 					y[j].Add(Vn[j]);
@@ -107,23 +112,23 @@ namespace EvaluationKernel
 					PreviousСarCoordinates = new Coordinates
 					{
 						N = i - 1,
-						X = i != 0 ? x[i - 1][x[i].Count - _N] : 0,
-						DotX = i != 0 ? y[i - 1][y[i].Count - _N] : 0
+						X = i != 0 ? x[i - 1][x[i - 1].Count - N[i - 1]] : 0,
+						DotX = i != 0 ? y[i - 1][y[i - 1].Count - N[i - 1]] : 0
 					}
 				});
 		}
 
 		public void Solve()
 		{
-			double[] k1 = new double[_n];
-			double[] k2 = new double[_n];
-			double[] k3 = new double[_n];
-			double[] k4 = new double[_n];
-			double[] q1 = new double[_n];
-			double[] q2 = new double[_n];
-			double[] q3 = new double[_n];
-			double[] q4 = new double[_n];
-			for (int i = 0; i < _n; i++)
+			var k1 = new double[_n];
+			var k2 = new double[_n];
+			var k3 = new double[_n];
+			var k4 = new double[_n];
+			var q1 = new double[_n];
+			var q2 = new double[_n];
+			var q3 = new double[_n];
+			var q4 = new double[_n];
+			for (var i = 0; i < _n; i++)
 			{
 				k1[i] = _h * f(i);
 				k2[i] = _h * (f(i)+k1[i] / 2);

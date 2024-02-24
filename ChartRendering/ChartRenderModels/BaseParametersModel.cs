@@ -94,15 +94,15 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	public void MapTo(ModelParameters mp)
 	{
 		mp.n = n;
-		mp.tau = tau;
 		mp.tau_b = 0.1;
 
 		switch (IsCarsIdentical.Value)
 		{
 			case IdenticalCars.Yes:
 			{
-				for (int i = 0; i < n; i++)
+				for (var i = 0; i < n; i++)
 				{
+					mp.tau.Add(tau);
 					mp.Vmax.Add(Vmax);
 					mp.a.Add(a);
 					mp.q.Add(q);
@@ -129,8 +129,9 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 		var lDictionary = CommonParserHelper.ParseMultipleValues(l_safe_multiple);
 		var lCarDictionary = CommonParserHelper.ParseMultipleValues(l_car_multiple);
 		var kDictionary = CommonParserHelper.ParseMultipleValues(k_multiple);
+		var tauDictionary = CommonParserHelper.ParseMultipleValues(tau_multiple);
 
-		for (int i = 0; i < n; i++)
+		for (var i = 0; i < n; i++)
 		{
 			mp.Vmax.Add(vMaxDictionary.ContainsKey(i) ? vMaxDictionary[i] : Vmax);
 			mp.a.Add(aDictionary.ContainsKey(i) ? aDictionary[i] : a);
@@ -138,6 +139,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 			mp.lSafe.Add(lDictionary.ContainsKey(i) ? lDictionary[i] : l_safe);
 			mp.lCar.Add(lCarDictionary.ContainsKey(i) ? lCarDictionary[i] : l_car);
 			mp.k.Add(kDictionary.ContainsKey(i) ? kDictionary[i] : k);
+			mp.tau.Add(tauDictionary.ContainsKey(i) ? tauDictionary[i] : tau);
 		}
 	}
 

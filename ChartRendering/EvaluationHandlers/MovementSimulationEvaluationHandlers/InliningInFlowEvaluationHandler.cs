@@ -144,7 +144,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 				continue;
 			inline = i;
 
-			var s = modelParameters.k[i] * (x[i] + Equation.S(modelParameters, i, v[i]) + modelParameters.tau * v[i]);
+			var s = modelParameters.k[i] * (x[i] + Equation.S(modelParameters, i, v[i]) + modelParameters.tau[i] * v[i]);
 
 			if (s + x[i] < 0)
 				return true;
