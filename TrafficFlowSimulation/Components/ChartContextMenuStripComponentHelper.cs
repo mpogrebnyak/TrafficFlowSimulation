@@ -174,12 +174,26 @@ public class ChartContextMenuStripComponentHelper
 		{
 			var selectedFolder = fbd.SelectedPath;
 
-			RenderingHelper.CreateChartToSave(mainWindow.DistanceChart)
-				.SaveImage(CommonFileHelper.CreateFilePath("DistanceChart", selectedFolder, CommonFileHelper.Extension.Png), ChartImageFormat.Png);
-			RenderingHelper.CreateChartToSave(mainWindow.SpeedChart)
-				.SaveImage(CommonFileHelper.CreateFilePath("SpeedChart", selectedFolder,CommonFileHelper.Extension.Png), ChartImageFormat.Png);
-			RenderingHelper.CreateChartToSave(mainWindow.SpeedFromDistanceChart)
-				.SaveImage(CommonFileHelper.CreateFilePath("SpeedFromDistanceChart", selectedFolder,CommonFileHelper.Extension.Png), ChartImageFormat.Png);
+			var isVectorGraphicsSave = SettingsHelper.Get<TrafficFlowSimulationSettings>().AutomaticSaveToVectorGraphics;
+
+			if (isVectorGraphicsSave)
+			{
+				RenderingHelper.CreateChartToSave(mainWindow.DistanceChart)
+					.SaveImage(CommonFileHelper.CreateFilePath("DistanceChart", selectedFolder, CommonFileHelper.Extension.Emf), ChartImageFormat.Emf);
+				RenderingHelper.CreateChartToSave(mainWindow.SpeedChart)
+					.SaveImage(CommonFileHelper.CreateFilePath("SpeedChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.Emf);
+				RenderingHelper.CreateChartToSave(mainWindow.SpeedFromDistanceChart)
+					.SaveImage(CommonFileHelper.CreateFilePath("SpeedFromDistanceChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.Emf);
+			}
+			else
+			{
+				RenderingHelper.CreateChartToSave(mainWindow.DistanceChart)
+					.SaveImage(CommonFileHelper.CreateFilePath("DistanceChart", selectedFolder, CommonFileHelper.Extension.Png), ChartImageFormat.Png);
+				RenderingHelper.CreateChartToSave(mainWindow.SpeedChart)
+					.SaveImage(CommonFileHelper.CreateFilePath("SpeedChart", selectedFolder,CommonFileHelper.Extension.Png), ChartImageFormat.Png);
+				RenderingHelper.CreateChartToSave(mainWindow.SpeedFromDistanceChart)
+					.SaveImage(CommonFileHelper.CreateFilePath("SpeedFromDistanceChart", selectedFolder,CommonFileHelper.Extension.Png), ChartImageFormat.Png);
+			}
 		}
 	}
 

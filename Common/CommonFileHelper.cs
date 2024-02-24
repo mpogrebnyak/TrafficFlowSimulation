@@ -10,7 +10,8 @@ public static class CommonFileHelper
 	{
 		Jpeg,
 		Png, 
-		Txt
+		Txt,
+		Emf
 	}
 
 	public static string CreateFileName(string prefixName, Dictionary<string, double> parameters)
@@ -78,6 +79,7 @@ public static class CommonFileHelper
 			Extension.Jpeg => ".jpeg",
 			Extension.Png => ".png",
 			Extension.Txt => ".txt",
+			Extension.Emf => ".emf",
 			_ => ".png"
 		};
 	}
