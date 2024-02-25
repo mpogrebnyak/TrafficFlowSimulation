@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.EvaluationHandlers;
+using ChartRendering.Helpers;
 using ChartRendering.Properties;
 using Common.Errors;
 using Common.Modularity;

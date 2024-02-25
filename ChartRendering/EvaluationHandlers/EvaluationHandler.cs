@@ -13,18 +13,18 @@ namespace ChartRendering.EvaluationHandlers;
 
 public abstract class EvaluationHandler : IEvaluationHandler
 {
-	private static KernelEvaluationHandler _kernelEvaluationHandler;
+	protected static KernelEvaluationHandler KernelEvaluationHandler;
 
 	private static Thread? _thread;
 
-	protected static object LockObject;
+	private static object _lockObject;
 
-	protected static bool IsPaused;
+	private static bool _isPaused;
 
 	protected EvaluationHandler()
 	{
-		LockObject = new object();
-		IsPaused = false;
+		_lockObject = new object();
+		_isPaused = false;
 		_thread = null;
 	}
 
@@ -70,7 +70,7 @@ public abstract class EvaluationHandler : IEvaluationHandler
 	protected virtual void Evaluate(object parameters)
 	{
 		var p = (Parameters) parameters;
-		_kernelEvaluationHandler = CreateKernelEvaluationHandler(p.ModelParameters, p.ModeSettings);
+		KernelEvaluationHandler = CreateKernelEvaluationHandler(p.ModelParameters, p.ModeSettings);
 
 		StartExecution();
 
@@ -79,33 +79,33 @@ public abstract class EvaluationHandler : IEvaluationHandler
 
 		while (true)
 		{
-			lock (LockObject)
+			lock (_lockObject)
 			{
-				if (IsPaused)
+				if (_isPaused)
 				{
 					Thread.Sleep(1000);
 					continue;
 				}
 			}
-			_kernelEvaluationHandler.Next();
-			AdditionalEvaluation(_kernelEvaluationHandler.GetT(), _kernelEvaluationHandler.GetX(), _kernelEvaluationHandler.GetY());
+			KernelEvaluationHandler.Next();
+			AdditionalEvaluation(KernelEvaluationHandler.GetT(), KernelEvaluationHandler.GetX(), KernelEvaluationHandler.GetY());
 
 			if (stopwatch.ElapsedMilliseconds >= 10 * p.ModelParameters.n / 2)
 			{
 				SendEvent(
 					p.ChartEventHandler,
-					_kernelEvaluationHandler.GetT(),
-					_kernelEvaluationHandler.GetX(),
-					_kernelEvaluationHandler.GetY());
+					KernelEvaluationHandler.GetT(),
+					KernelEvaluationHandler.GetX(),
+					KernelEvaluationHandler.GetY());
 
 				stopwatch.Restart();
 			}
 		}
 	}
 
-	protected abstract KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels);
+	protected virtual KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels) { return null; }
 
-	protected abstract void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y);
+	protected virtual void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y) { }
 
 	protected virtual void AdditionalEvaluation(double t, List<double> x, List<double> y) { }
 
@@ -113,17 +113,17 @@ public abstract class EvaluationHandler : IEvaluationHandler
 
 	public void StartExecution() 
 	{
-		lock (LockObject) 
+		lock (_lockObject) 
 		{
-			IsPaused = false;
+			_isPaused = false;
 		}
 	}
 
 	public void StopExecution()
 	{
-		lock (LockObject) 
+		lock (_lockObject) 
 		{
-			IsPaused = true;
+			_isPaused = true;
 		}
 	}
 

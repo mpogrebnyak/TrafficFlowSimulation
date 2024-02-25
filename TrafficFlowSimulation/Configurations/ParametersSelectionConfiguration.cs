@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms.DataVisualization.Charting;
+using ChartRendering.Helpers;
 using ChartRendering.Renders.ChartRenders;
 using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;
 using Common;
 using Common.Modularity;
-using EvaluationKernel.Constants;
 using EvaluationKernel.Helpers;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Windows;

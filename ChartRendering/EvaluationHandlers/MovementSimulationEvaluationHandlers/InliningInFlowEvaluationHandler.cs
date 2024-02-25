@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
@@ -14,120 +13,72 @@ namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers
 
 public class InliningInFlowEvaluationHandler : EvaluationHandler
 {
-	protected override void Evaluate(object parameters)
+	private ModelParameters _modelParameters;
+
+	private InliningInFlowModeSettingsModel _modeSettings;
+
+	private int _index = -1;
+
+	private bool _isInlining = true;
+
+	private bool _isInliningEvent = true;
+
+	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels)
 	{
-		var p = (Parameters) parameters;
-		var modelParameters = p.ModelParameters;
-		var modeSettings = (InliningInFlowModeSettingsModel) p.ModeSettings;
+		_modelParameters = modelParameters;
+		_modeSettings = (InliningInFlowModeSettingsModel) baseSettingsModels;
 
-		var r = new RungeKuttaMethod(modelParameters, new Equation(modelParameters));
-		var n = modelParameters.n;
-
-		var xp = new double[n];
-		var yp = new double[n];
-		var t = r.T.Last();
-		var tp = t;
-		var x = new double[n];
-		var y = new double[n];
-		for (int i = 0; i < n; i++)
-		{
-			x[i] = r.X(i).Last();
-			y[i] = r.Y(i).Last();
-		}
-
-		bool flag = true;
-
-		StartExecution();
-		while (true)
-		{
-			lock (LockObject)
-			{
-				if (IsPaused)
-				{
-					Thread.Sleep(1000);
-					continue;
-				}
-			}
-
-			for (var i = 0; i < n; i++)
-			{
-				xp[i] = x[i];
-				yp[i] = y[i];
-			}
-
-			r.Solve();
-			t = r.T.Last();
-
-			for (int i = 0; i < n; i++)
-			{
-				x[i] = r.X(i).Last();
-				y[i] = r.Y(i).Last();
-			}
-
-			var isInliningAvailable = IsInliningAvailable(modelParameters, n, x, y, out var index);
-			if (flag && isInliningAvailable)
-			{
-				modelParameters = ExtendModelParameters(modelParameters, modeSettings, index, x, y);
-				n = modelParameters.n;
-
-				xp = xp.Take(index).Concat(new[] {0.0}).Concat(xp.Skip(index)).ToArray();
-				yp = yp.Take(index).Concat(new[] {0.0}).Concat(yp.Skip(index)).ToArray();
-				x = x.Take(index).Concat(new[] {0.0}).Concat(x.Skip(index)).ToArray();
-				y = y.Take(index).Concat(new[] {0.0}).Concat(y.Skip(index)).ToArray();
-
-				var time = r.T;
-				r = new RungeKuttaMethod(modelParameters, new Equation(modelParameters));
-				r.T = time;
-				flag = false;
-
-				p.ChartEventHandler.Invoke(
-					new List<ChartEventActions>
-					{
-						ChartEventActions.AddChartSeries
-					},
-					new AddChartEventHandlerArgs(modelParameters, index));
-
-				p.ChartEventHandler.Invoke(
-					new List<ChartEventActions>
-					{
-						ChartEventActions.UpdateCharts
-					},
-					new ChartEventHandlerArgs(new CoordinatesArgs
-					{
-						T = t,
-						X = x.ToList(),
-						Y = y.ToList()
-					}));
-			}
-
-			if (t - tp > 0.1)
-			{
-				tp = t;
-
-				p.ChartEventHandler.Invoke(
-					new List<ChartEventActions>
-					{
-						ChartEventActions.UpdateCharts
-					},
-					new ChartEventHandlerArgs(new CoordinatesArgs
-					{
-						T = t,
-						X = x.ToList(),
-						Y = y.ToList()
-					}));
-			}
-		}
+		var equation = new Equation(_modelParameters);
+		return new KernelEvaluationHandler(_modelParameters, equation);
 	}
 
-	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters,
-		BaseSettingsModels baseSettingsModels)
+	protected override void AdditionalEvaluation(double t, List<double> x, List<double> y)
 	{
-		throw new System.NotImplementedException();
+		var isInliningAvailable = IsInliningAvailable(_modelParameters, x, y);
+
+		if (_isInlining && isInliningAvailable)
+		{
+			_modelParameters = ExtendModelParameters(_modelParameters, _modeSettings, _index, x, y);
+
+			var time = KernelEvaluationHandler.GetTime();
+
+			var equation = new Equation(_modelParameters);
+			KernelEvaluationHandler = new KernelEvaluationHandler(_modelParameters, equation);
+			KernelEvaluationHandler.SetInitialConditions(
+				x.Take(_index).Concat(new[] {0.0}).Concat(x.Skip(_index)).ToList(),
+				y.Take(_index).Concat(new[] {0.0}).Concat(y.Skip(_index)).ToList());
+
+			KernelEvaluationHandler.SetTime(time);
+			_isInlining = false;
+		}
 	}
 
 	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
 	{
-		throw new System.NotImplementedException();
+
+		if(!_isInlining && _isInliningEvent)
+		{
+			eventHandler.Invoke(
+				new List<ChartEventActions>
+				{
+					ChartEventActions.AddChartSeries
+				},
+				new AddChartEventHandlerArgs(_modelParameters, _index));
+
+			_isInliningEvent = false;
+		}
+
+		eventHandler.Invoke(
+			new List<ChartEventActions>
+			{
+				ChartEventActions.UpdateCharts
+			},
+			new ChartEventHandlerArgs(new CoordinatesArgs
+			{
+				T = t,
+				X = x.ToList(),
+				Y = y.ToList()
+			}));
 	}
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, InliningInFlowModeSettingsModel modeSettings, int index, IEnumerable<double> lambda, IEnumerable<double> Vn)
@@ -148,13 +99,13 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		return modelParameters;
 	}
 
-	private bool IsInliningAvailable(ModelParameters modelParameters, int n, IReadOnlyList<double> x, IReadOnlyList<double> v, out int inline)
+	private bool IsInliningAvailable(ModelParameters modelParameters, IReadOnlyList<double> x, IReadOnlyList<double> v)
 	{
-		for (var i = 0; i < n; i++)
+		for (var i = 0; i < x.Count; i++)
 		{
 			if (x[i] > 0)
 				continue;
-			inline = i;
+			_index = i;
 
 			var s = modelParameters.k[i] * (x[i] + Equation.S(modelParameters, i, v[i]) + modelParameters.tau[i] * v[i]);
 
@@ -163,7 +114,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 			return false;
 		}
 
-		inline = n;
+		_index = x.Count;
 		return true;
 	}
 }

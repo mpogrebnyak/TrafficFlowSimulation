@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EvaluationKernel.Constants;
-using EvaluationKernel.Properties;
+using ChartRendering.Constants;
+using ChartRendering.Properties;
 using Settings;
 
-namespace EvaluationKernel.Helpers;
+namespace ChartRendering.Helpers;
 
 public static class ModesHelper
 {

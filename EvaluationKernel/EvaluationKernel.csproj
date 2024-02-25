@@ -17,6 +17,10 @@
 	  <ProjectReference Include="..\Settings\Settings.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Properties" />
+	</ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<NoWarn>8618</NoWarn>
 	</PropertyGroup>

@@ -6,7 +6,7 @@ using EvaluationKernel.Models;
 
 namespace EvaluationKernel.Equations
 {
-	public class Equation : IEquation
+	public class Equation
 	{
 		protected readonly HashSet<int> FirstCarNumbers;
 

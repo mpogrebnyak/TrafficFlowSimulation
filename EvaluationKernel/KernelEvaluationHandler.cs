@@ -54,6 +54,21 @@ public class KernelEvaluationHandler
 		}
 	}
 
+	public void SetInitialConditions(List<double> Vn, List<double> lambda)
+	{
+		_rungeKuttaMethod.SetInitialConditions(Vn, lambda);
+	}
+
+	public List<double> GetTime()
+	{
+		return _rungeKuttaMethod.T;
+	}
+
+	public void SetTime(List<double> t)
+	{
+		_rungeKuttaMethod.T = t;
+	}
+
 	public void Next()
 	{
 		for (var i = 0; i < _n; i++)

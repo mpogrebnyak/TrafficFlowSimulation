@@ -1,6 +1,6 @@
 ﻿using Localization.Localization;
 
-namespace EvaluationKernel.Constants;
+namespace ChartRendering.Constants;
 
 public class DrivingModeResources
 {

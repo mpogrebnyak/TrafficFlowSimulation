@@ -1,10 +1,10 @@
 ﻿using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using Common;
 using Common.Modularity;
-using EvaluationKernel.Constants;
-using EvaluationKernel.Helpers;
 
 namespace ChartRendering.Configurations;
 
@@ -13,7 +13,7 @@ public class ModelsConfiguration : IInitializable
 	public void Initialize()
 	{
 		var availableDrivingModes = ModesHelper.GetAvailableDrivingModes();
-		var availableParametersSelectionModes = ModesHelper.GetAvailableParametersSelectionMode();;
+		var availableParametersSelectionModes = ModesHelper.GetAvailableParametersSelectionMode();
 
 		foreach (var mode in availableDrivingModes)
 		{

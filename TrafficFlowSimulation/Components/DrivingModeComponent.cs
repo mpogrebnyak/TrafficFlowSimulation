@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using ChartRendering.Constants;
 using ChartRendering.EvaluationHandlers;
-using EvaluationKernel.Constants;
+using ChartRendering.Helpers;
 using EvaluationKernel.Helpers;
 using Localization;
 using Localization.Localization;

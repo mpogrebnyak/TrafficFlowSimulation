@@ -69,17 +69,6 @@ public class DecelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 		}
 	}
 
-	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters,
-		BaseSettingsModels baseSettingsModels)
-	{
-		throw new System.NotImplementedException();
-	}
-
-	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
-	{
-		throw new System.NotImplementedException();
-	}
-
 	private CoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters)
 	{
 		var r = new RungeKuttaMethod(modelParameters, new SingleCarDecelerationEquation(modelParameters));

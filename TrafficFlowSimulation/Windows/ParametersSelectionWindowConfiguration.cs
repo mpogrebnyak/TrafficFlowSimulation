@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using ChartRendering.Helpers;
+using Common;
 using Common.Modularity;
 using EvaluationKernel.Helpers;
 using TrafficFlowSimulation.Configurations;

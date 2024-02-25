@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
-using EvaluationKernel.Constants;
+using ChartRendering.Constants;
+using ChartRendering.Helpers;
 
-namespace EvaluationKernel.Properties;
+namespace ChartRendering.Properties;
 
 internal class ModesSettings
 {

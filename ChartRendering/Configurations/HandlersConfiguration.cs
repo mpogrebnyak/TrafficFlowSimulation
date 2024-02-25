@@ -1,10 +1,10 @@
-﻿using ChartRendering.EvaluationHandlers;
+﻿using ChartRendering.Constants;
+using ChartRendering.EvaluationHandlers;
 using ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 using ChartRendering.EvaluationHandlers.ParametersSelectionEvaluationHandlers;
+using ChartRendering.Helpers;
 using Common;
 using Common.Modularity;
-using EvaluationKernel.Constants;
-using EvaluationKernel.Helpers;
 
 namespace ChartRendering.Configurations;
 
@@ -37,7 +37,7 @@ public class HandlersConfiguration : IInitializable
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new InliningInFlowEvaluationHandler(),
 				DrivingMode.InliningInFlow.ToString(), false);
 		}
-		
+
 		if (availableModes.Contains(DrivingMode.SpeedLimitChanging))
 		{
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new SpeedLimitChangingEvaluationHandler(),
