@@ -11,10 +11,8 @@ public class BaseSettingsModels : ValidationModel, ISettingsModel
 {
 	protected const double MaxL = (double) (decimal.MaxValue / 2);
 
-//	[Hidden]
 	public virtual EnumItem Scroll { get; set; }
 
-//	[Hidden]
 	public virtual int ScrollFor { get; set; }
 
 	[Translation(Locales.ru, "Расстояние до остановки")]

@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel;
 using EvaluationKernel.Constants;
 
-namespace Modes.Properties;
+namespace EvaluationKernel.Properties;
 
 internal class ModesSettings
 {
 	[DefaultValue("StartAndStopMovement")]
 	public DrivingMode CurrentDrivingMode { get; set; }
 
-	[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow, SpeedLimitChanging, RoadHole")]
+	[DefaultValue("StartAndStopMovement, TrafficThroughOneTrafficLight, InliningInFlow, SpeedLimitChanging, RoadHole, ThroughTheDriver")]
 	public DrivingMode[] AvailableDrivingModes { get; set; }
 
 	[DefaultValue("InliningDistanceEstimation")]

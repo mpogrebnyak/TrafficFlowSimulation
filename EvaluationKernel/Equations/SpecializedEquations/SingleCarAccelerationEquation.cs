@@ -9,10 +9,9 @@ public class SingleCarAccelerationEquation : Equation
 	{
 	}
 
-	public override double GetEquation(CarCoordinatesModel carCoordinatesModel)
+	protected override double GetEquation(int n, double x, double dotX, double prevX = default, double prevDotX = default)
 	{
-		var n = carCoordinatesModel.CarNumber;
-		var x_n = carCoordinatesModel.CurrentCarCoordinates;
+		var x_n = new Coordinates { N = n, X = x, DotX = dotX };
 
 		return _m.a[n] * (_m.Vmax[n] - x_n.DotX);
 	}

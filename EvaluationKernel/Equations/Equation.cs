@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using EvaluationKernel.Models;
+
 // ReSharper disable InconsistentNaming
 
 namespace EvaluationKernel.Equations
 {
 	public class Equation : IEquation
 	{
+		protected readonly HashSet<int> FirstCarNumbers;
+
 		protected readonly ModelParameters _m;
 
 		private const double _eps = 0.01;
@@ -13,18 +17,52 @@ namespace EvaluationKernel.Equations
 		public Equation(ModelParameters modelParameters)
 		{
 			_m = modelParameters;
+			FirstCarNumbers = new HashSet<int> {0};
 		}
 
-		public virtual double GetEquation(CarCoordinatesModel carCoordinatesModel)
+		public void AddFirstCarNumbers(int n)
 		{
-			var n = carCoordinatesModel.CarNumber;
-			var x_0 = new Coordinates {X = _m.L, DotX = 0};
-			var x_n = carCoordinatesModel.CurrentCarCoordinates;
-			var x_n_1 = carCoordinatesModel.PreviousСarCoordinates;
+			FirstCarNumbers.Add(n);
+		}
 
-			return n == 0
-				? GetFirstCarEquation(n, x_n, x_0)
-				: GetAllCarEquation(n, x_n, x_n_1);
+		public void CleanFirstCarNumbers()
+		{
+			FirstCarNumbers.Clear();
+			FirstCarNumbers.Add(0);
+		}
+
+		public virtual double GetEquation(int i, List<List<double>> x, List<List<double>> y, List<int> N)
+		{
+			if (i == 0)
+			{
+				return GetEquation(
+					i,
+					x[i][x[i].Count - 1],
+					y[i][y[i].Count - 1]);
+			}
+
+			return GetEquation(
+				i,
+				x[i][x[i].Count - 1],
+				y[i][y[i].Count - 1],
+				x[i - 1][x[i - 1].Count - N[i - 1]],
+				y[i - 1][y[i - 1].Count - N[i - 1]]);
+		}
+
+		protected virtual double GetEquation(int n, double x, double dotX, double prevX = default, double prevDotX = default)
+		{
+			var x_n = new Coordinates { N = n, X = x, DotX = dotX };
+
+			if (FirstCarNumbers.Contains(n))
+			{
+				var x_0 = new Coordinates { N = -1, X = _m.L, DotX = 0 };
+
+				return GetFirstCarEquation(n, x_n, x_0);
+			}
+
+			var x_n_1 = new Coordinates { N = n, X = prevX, DotX = prevDotX };
+
+			return GetAllCarEquation(n, x_n, x_n_1);
 		}
 
 		protected double GetFirstCarEquation(int n, Coordinates x_n, Coordinates x_0)

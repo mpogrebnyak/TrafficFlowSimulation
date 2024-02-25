@@ -9,11 +9,10 @@ public class SingleCarDecelerationEquation : Equation
 	{
 	}
 
-	public override double GetEquation(CarCoordinatesModel carCoordinatesModel)
+	protected override double GetEquation(int n, double x, double dotX, double prevX = default, double prevDotX = default)
 	{
-		var n = carCoordinatesModel.CarNumber;
-		var x_n = carCoordinatesModel.CurrentCarCoordinates;
-		var x_0 = new Coordinates {X = _m.L, DotX = 0};
+		var x_n = new Coordinates { N = n, X = x, DotX = dotX };
+		var x_0 = new Coordinates { X = _m.L, DotX = 0 };
 
 		return -H(n, x_n, x_0);
 	}

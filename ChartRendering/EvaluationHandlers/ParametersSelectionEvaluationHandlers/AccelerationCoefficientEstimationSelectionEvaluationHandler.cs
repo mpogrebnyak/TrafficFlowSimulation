@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
@@ -75,6 +76,17 @@ public class AccelerationCoefficientEstimationSelectionEvaluationHandler : Evalu
 					ChartEventActions.SaveChart
 				}, new SaveChartEventHandlerArgs(CreateFileName(modelParameters)));
 		}
+	}
+
+	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters,
+		BaseSettingsModels baseSettingsModels)
+	{
+		throw new NotImplementedException();
+	}
+
+	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
+	{
+		throw new NotImplementedException();
 	}
 
 	private CoefficientEstimationCoordinatesModel EvaluateInternal(ModelParameters modelParameters, AccelerationCoefficientEstimationSettingsModel modeSettings)

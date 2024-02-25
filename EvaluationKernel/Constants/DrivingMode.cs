@@ -25,6 +25,9 @@ public class DrivingModeResources
 	[Translation(Locales.en, "A hole in the road")]
 	public string RoadHole { get; set; }
 
+	[Translation(Locales.ru, "Обращать внимание через водителя")]
+	public string ThroughTheDriver { get; set; }
+
 	// ReSharper restore UnusedMember.Global
 }
 
@@ -43,5 +46,8 @@ public enum DrivingMode
 	SpeedLimitChanging = 4,
 
 	[LocalizedDescription("RoadHole", typeof(DrivingModeResources))]
-	RoadHole = 5
+	RoadHole = 5,
+
+	[LocalizedDescription("ThroughTheDriver", typeof(DrivingModeResources))]
+	ThroughTheDriver = 6
 }

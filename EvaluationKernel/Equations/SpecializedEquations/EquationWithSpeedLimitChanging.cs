@@ -17,18 +17,21 @@ public class EquationWithSpeedLimitChanging : Equation
 		_segmentSpeeds = segmentSpeeds;
 	}
 
-	public override double GetEquation(CarCoordinatesModel carCoordinatesModel)
+	protected override double GetEquation(int n, double x, double dotX, double prevX = default, double prevDotX = default)
 	{
-		var n = carCoordinatesModel.CarNumber;
-		var x_0 = new Coordinates {X = _m.L, DotX = 100};
-		var x_n = carCoordinatesModel.CurrentCarCoordinates;
-		var x_n_1 = carCoordinatesModel.PreviousСarCoordinates;
-
+		var x_n = new Coordinates { N = n, X = x, DotX = dotX };
 		_currentSegment = GetSegmentNumber(x_n.X);
 
-		return n == 0
-			? GetFirstCarEquation(n, x_n, x_0)
-			: GetAllCarEquation(n, x_n, x_n_1);
+		if (FirstCarNumbers.Contains(n))
+		{
+			var x_0 = new Coordinates { N = -1, X = _m.L, DotX = 100 };
+
+			return GetFirstCarEquation(n, x_n, x_0);
+		}
+
+		var x_n_1 = new Coordinates { N = n, X = prevX, DotX = prevDotX };
+
+		return GetAllCarEquation(n, x_n, x_n_1);
 	}
 
 	protected override double Vmax(int n)

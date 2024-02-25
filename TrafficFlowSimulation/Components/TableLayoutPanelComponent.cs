@@ -69,6 +69,7 @@ public class TableLayoutPanelComponent : IComponent
 				.Single()).Order
 			select property;
 
+		_tableLayoutPanel.Parent.Show();
 		if (!properties.Any())
 		{
 			_tableLayoutPanel.Parent.Hide();
@@ -188,7 +189,7 @@ public class TableLayoutPanelComponent : IComponent
 		var selectedIndex = 0;
 
 		var i = 0;
-		object[] enumItems = Enum.GetValues(enumType)
+		var enumItems = Enum.GetValues(enumType)
 			.Cast<Enum>()
 			.Select(value =>
 			{

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EvaluationKernel.Constants;
-using Modes.Properties;
+using EvaluationKernel.Properties;
 using Settings;
 
 namespace EvaluationKernel.Helpers;

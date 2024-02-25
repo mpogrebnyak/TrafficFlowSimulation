@@ -75,6 +75,18 @@ public class ModelsConfiguration : IInitializable
 
 					break;
 				}
+
+				case DrivingMode.ThroughTheDriver:
+				{
+					var m = DrivingMode.ThroughTheDriver.ToString();
+					CommonHelper.ServiceRegistration.RegisterInstance<IBaseParametersModel>(() => new BaseParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m, false);
+
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new StartAndStopMovementModeSettingsModel(), m, false);
+
+					break;
+				}
 			}
 		}
 

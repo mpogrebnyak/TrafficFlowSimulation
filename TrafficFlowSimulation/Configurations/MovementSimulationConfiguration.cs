@@ -110,6 +110,21 @@ namespace TrafficFlowSimulation.Configurations
 					_speedFromDistanceChart.Name + DrivingMode.RoadHole, false);
 			}
 
+			if (availableModes.Contains(DrivingMode.ThroughTheDriver))
+			{
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new StartAndStopMovementSpeedChartRender(_speedChart),
+					_speedChart.Name + DrivingMode.ThroughTheDriver, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new StartAndStopMovementDistanceChartRender(_distanceChart),
+					_distanceChart.Name + DrivingMode.ThroughTheDriver, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new StartAndStopMovementCarsChartRender(_carsMovementChart),
+					_carsMovementChart.Name + DrivingMode.ThroughTheDriver, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
+					_speedFromDistanceChart.Name + DrivingMode.ThroughTheDriver, false);
+			}
+
 			CommonHelper.ServiceRegistration.RegisterInstance(() => new ChartRenderingHandler(
 				new List<string>
 				{

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
@@ -116,6 +117,17 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 					}));
 			}
 		}
+	}
+
+	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters,
+		BaseSettingsModels baseSettingsModels)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
+	{
+		throw new System.NotImplementedException();
 	}
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, InliningInFlowModeSettingsModel modeSettings, int index, IEnumerable<double> lambda, IEnumerable<double> Vn)

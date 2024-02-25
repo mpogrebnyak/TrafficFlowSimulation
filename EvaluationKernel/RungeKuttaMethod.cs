@@ -16,9 +16,8 @@ namespace EvaluationKernel
 
 		private readonly List<List<double>> x;
 		private readonly List<List<double>> y;
-		List<double> t;
+		private List<double> t;
 		private readonly List<int> N;
-		List<int> CarNumberToStop = new (); 
 
 		public RungeKuttaMethod(ModelParameters modelParameters, Equation equation)
 		{
@@ -86,11 +85,6 @@ namespace EvaluationKernel
 			return y[i];
 		}
 
-		public void SetCarNumberToStop(List<int> carsNumber)
-		{
-			CarNumberToStop = carsNumber;
-		}
-
 		double f(int i)
 		{
 			return y[i][y[i].Count - 1];
@@ -98,24 +92,7 @@ namespace EvaluationKernel
 
 		double g(int i)
 		{
-			return _equation.GetEquation(
-				new CarCoordinatesModel
-				{
-					CarNumber = i,
-					CarNumberToStop = CarNumberToStop,
-					CurrentCarCoordinates = new Coordinates
-					{
-						N = i,
-						X = x[i][x[i].Count - 1],
-						DotX = y[i][y[i].Count - 1]
-					},
-					PreviousСarCoordinates = new Coordinates
-					{
-						N = i - 1,
-						X = i != 0 ? x[i - 1][x[i - 1].Count - N[i - 1]] : 0,
-						DotX = i != 0 ? y[i - 1][y[i - 1].Count - N[i - 1]] : 0
-					}
-				});
+			return _equation.GetEquation(i, x, y, N);
 		}
 
 		public void Solve()
