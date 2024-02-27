@@ -71,9 +71,7 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 
 		var timePoint = Chart.Series.First(series => series.Name.Contains("TimePoint"));
 		timePoint.LabelForeColor = environmentModel.IsGreenLight ? Color.Green : Color.Red;
-		timePoint.Label = environmentModel.IsGreenLight 
-			? Math.Round(environmentModel.GreenTime, 2).ToString()
-			: Math.Round(environmentModel.RedTime, 2).ToString();
+		timePoint.Label = Math.Round(environmentModel.Time, 2).ToString();
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)

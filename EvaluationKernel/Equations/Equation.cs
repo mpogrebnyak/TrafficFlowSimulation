@@ -28,7 +28,7 @@ namespace EvaluationKernel.Equations
 		public void CleanFirstCarNumbers()
 		{
 			FirstCarNumbers.Clear();
-			FirstCarNumbers.Add(0);
+		//	FirstCarNumbers.Add(0);
 		}
 
 		public virtual double GetEquation(int i, List<List<double>> x, List<List<double>> y, List<int> N)

@@ -90,7 +90,7 @@ public abstract class EvaluationHandler : IEvaluationHandler
 			KernelEvaluationHandler.Next();
 			AdditionalEvaluation(KernelEvaluationHandler.GetT(), KernelEvaluationHandler.GetX(), KernelEvaluationHandler.GetY());
 
-			if (stopwatch.ElapsedMilliseconds >= 10 * p.ModelParameters.n / 2)
+			if (stopwatch.ElapsedMilliseconds >= 20)//p.ModelParameters.n)
 			{
 				SendEvent(
 					p.ChartEventHandler,

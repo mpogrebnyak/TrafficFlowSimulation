@@ -15,6 +15,7 @@ using TrafficFlowSimulation.Properties;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Windows;
 
+
 namespace TrafficFlowSimulation.Components;
 
 public class ChartContextMenuStripComponentHelper
@@ -179,11 +180,13 @@ public class ChartContextMenuStripComponentHelper
 			if (isVectorGraphicsSave)
 			{
 				RenderingHelper.CreateChartToSave(mainWindow.DistanceChart)
-					.SaveImage(CommonFileHelper.CreateFilePath("DistanceChart", selectedFolder, CommonFileHelper.Extension.Emf), ChartImageFormat.Emf);
+					.SaveImage(CommonFileHelper.CreateFilePath("DistanceChart", selectedFolder, CommonFileHelper.Extension.Emf), ChartImageFormat.EmfPlus);
 				RenderingHelper.CreateChartToSave(mainWindow.SpeedChart)
-					.SaveImage(CommonFileHelper.CreateFilePath("SpeedChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.Emf);
+					.SaveImage(CommonFileHelper.CreateFilePath("SpeedChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.EmfPlus);
 				RenderingHelper.CreateChartToSave(mainWindow.SpeedFromDistanceChart)
-					.SaveImage(CommonFileHelper.CreateFilePath("SpeedFromDistanceChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.Emf);
+					.SaveImage(CommonFileHelper.CreateFilePath("SpeedFromDistanceChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.EmfPlus);
+				
+				
 			}
 			else
 			{

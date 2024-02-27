@@ -17,14 +17,20 @@ public class EquationThroughTheDriver : Equation
 
 		if (FirstCarNumbers.Contains(i))
 		{
-			var x_n_0 = new Coordinates { N = -1, X = _m.L, DotX = 0 };
+			var x_n_0 = new Coordinates {N = -1, X = _m.L, DotX = 0};
 
 			return GetFirstCarEquation(i, x_n, x_n_0);
 		}
 
 		if (i % 2 == 0)
 		{
-			var y_n_1 = new Coordinates {N = i, X = x[i - 2][x[i - 2].Count - N[i - 2]], DotX = y[i - 2][y[i - 2].Count - N[i - 2]] };
+			if (i == 2)
+			{
+				var y_0 = new Coordinates {N = i, X = x[i - 2][x[i - 2].Count - N[i - 2]], DotX = y[i - 2][y[i - 2].Count - N[i - 2]]};
+				return GetAllCarEquation(i, x_n, y_0);
+			}
+
+			var y_n_1 = new Coordinates {N = i, X = x[i - 3][x[i - 3].Count - N[i - 3]], DotX = y[i - 3][y[i - 3].Count - N[i - 3]]};
 
 			return GetAllCarEquation(i, x_n, y_n_1);
 		}
