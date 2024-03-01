@@ -90,8 +90,8 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 
 		var currentCycleTime = time % cycleDuration;
 		var lightTime = Signal == TrafficLightColor.Green
-			? ModeSettings.SingleLightRedTime
-			: ModeSettings.SingleLightGreenTime;
+			? ModeSettings.SingleLightGreenTime
+			: ModeSettings.SingleLightRedTime;
 
 		if (currentCycleTime < lightTime)
 		{
