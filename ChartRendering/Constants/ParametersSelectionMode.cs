@@ -1,6 +1,6 @@
 ﻿using Localization.Localization;
 
-namespace ChartRendering.Helpers;
+namespace ChartRendering.Constants;
 
 public class ParametersSelectionModeResources
 {

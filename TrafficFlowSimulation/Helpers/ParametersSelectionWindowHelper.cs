@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.ParametersModels;
+using ChartRendering.Constants;
 using ChartRendering.Events;
 using ChartRendering.Helpers;
 using EvaluationKernel.Helpers;

@@ -14,7 +14,7 @@ public class MovementThroughOneTrafficLightModeSettingsModel : BaseSettingsModel
 
 	[Translation(Locales.ru, "Цвет первого сигнала")]
 	[Translation(Locales.en, "")]
-	[CustomDisplay(2, enumType: typeof(FirstTrafficLightColor))]
+	[CustomDisplay(2, enumType: typeof(TrafficLightColor))]
 	[Required]
 	public EnumItem FirstTrafficLightColor { get; set; }
 
@@ -35,7 +35,7 @@ public class MovementThroughOneTrafficLightModeSettingsModel : BaseSettingsModel
 		return new MovementThroughOneTrafficLightModeSettingsModel
 		{
 			L = 10000,
-			FirstTrafficLightColor = new EnumItem(Constants.FirstTrafficLightColor.Red),
+			FirstTrafficLightColor = new EnumItem(Constants.TrafficLightColor.Red),
 			SingleLightGreenTime = 10,
 			SingleLightRedTime = 20
 		};

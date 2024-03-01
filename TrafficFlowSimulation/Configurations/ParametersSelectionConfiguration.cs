@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms.DataVisualization.Charting;
+using ChartRendering.Constants;
 using ChartRendering.Helpers;
 using ChartRendering.Renders.ChartRenders;
 using ChartRendering.Renders.ChartRenders.ParametersSelectionRenders;

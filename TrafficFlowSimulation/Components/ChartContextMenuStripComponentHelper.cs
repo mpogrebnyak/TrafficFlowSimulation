@@ -185,8 +185,6 @@ public class ChartContextMenuStripComponentHelper
 					.SaveImage(CommonFileHelper.CreateFilePath("SpeedChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.EmfPlus);
 				RenderingHelper.CreateChartToSave(mainWindow.SpeedFromDistanceChart)
 					.SaveImage(CommonFileHelper.CreateFilePath("SpeedFromDistanceChart", selectedFolder,CommonFileHelper.Extension.Emf), ChartImageFormat.EmfPlus);
-				
-				
 			}
 			else
 			{

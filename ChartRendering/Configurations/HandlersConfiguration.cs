@@ -55,6 +55,12 @@ public class HandlersConfiguration : IInitializable
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new ThroughTheDriverEvaluationHandler(),
 				DrivingMode.ThroughTheDriver.ToString(), false);
 		}
+
+		if (availableModes.Contains(DrivingMode.TrafficThroughOneTrafficLightThroughTheDriver))
+		{
+			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler(),
+				DrivingMode.TrafficThroughOneTrafficLightThroughTheDriver.ToString(), false);
+		}
 	}
 
 	private void InitializeParametersSelectionEvaluationHandlers()

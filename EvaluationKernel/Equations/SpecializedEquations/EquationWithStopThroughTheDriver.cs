@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using EvaluationKernel.Models;
 
 // ReSharper disable InconsistentNaming
@@ -8,13 +7,14 @@ namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationWithStopThroughTheDriver : Equation
 {
+	private const double _eps = 0.001;
+
+	public readonly HashSet<int> StopCar = new() {0};
+
 	public EquationWithStopThroughTheDriver(ModelParameters modelParameters) : base(modelParameters)
 	{
 	}
 
-	public HashSet<int> CarToSTOP = new HashSet<int>();
-	
-	
 	public override double GetEquation(int i, List<List<double>> x, List<List<double>> y, List<int> N)
 	{
 		var x_n = new Coordinates { N = i, X = x[i][x[i].Count - 1], DotX = y[i][y[i].Count - 1] };
@@ -59,15 +59,14 @@ public class EquationWithStopThroughTheDriver : Equation
 
 	protected override double L_safe(int n)
 	{
-		return n == 0 || CarToSTOP.Contains(n)
-		//return n == 0 || FirstCarNumbers.Contains(n)
-			? 0.000000000001
+		return n == 0 || StopCar.Contains(n)
+			? _eps
 			: _m.lSafe[n] + _m.lCar[n - 1];
 	}
 
 	private double L(int n)
 	{
-		return CarToSTOP.Contains(n)
+		return StopCar.Contains(n)
 			? 0
 			: _m.L;
 	}

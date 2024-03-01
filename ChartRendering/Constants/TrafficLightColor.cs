@@ -4,7 +4,7 @@
 
 namespace ChartRendering.Constants;
 
-public class FirstTrafficLightColorResources
+public class TrafficLightColorResources
 {
 	[Translation(Locales.ru, "Зел.")]
 	[Translation(Locales.en, "Green")]
@@ -15,11 +15,11 @@ public class FirstTrafficLightColorResources
 	public string Red { get; set; }
 }
 
-public enum FirstTrafficLightColor
+public enum TrafficLightColor
 {
-	[LocalizedDescription("Green", typeof(FirstTrafficLightColorResources))]
+	[LocalizedDescription("Green", typeof(TrafficLightColorResources))]
 	Green = 1,
 
-	[LocalizedDescription("Red", typeof(FirstTrafficLightColorResources))]
+	[LocalizedDescription("Red", typeof(TrafficLightColorResources))]
 	Red = 2
 }

@@ -75,7 +75,6 @@ public class ModelsConfiguration : IInitializable
 
 					break;
 				}
-
 				case DrivingMode.ThroughTheDriver:
 				{
 					var m = DrivingMode.ThroughTheDriver.ToString();
@@ -84,6 +83,17 @@ public class ModelsConfiguration : IInitializable
 					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m, false);
 
 					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new StartAndStopMovementModeSettingsModel(), m, false);
+
+					break;
+				}
+				case DrivingMode.TrafficThroughOneTrafficLightThroughTheDriver:
+				{
+					var m = DrivingMode.TrafficThroughOneTrafficLightThroughTheDriver.ToString();
+					CommonHelper.ServiceRegistration.RegisterInstance<IBaseParametersModel>(() => new BaseParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m, false);
+
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new MovementThroughOneTrafficLightModeSettingsModel(), m, false);
 
 					break;
 				}
