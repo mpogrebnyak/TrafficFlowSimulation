@@ -12,7 +12,7 @@ public interface IInitialConditionsParametersModel : IParametersModel
 {
 }
 
-public class InitialConditionsParametersModel : IInitialConditionsParametersModel
+public class InitialConditionsParametersModel : ValidationModel, IInitialConditionsParametersModel
 {
 	[Translation(Locales.ru, "Начальные скорости")]
 	[Translation(Locales.en, "Initial speeds")]

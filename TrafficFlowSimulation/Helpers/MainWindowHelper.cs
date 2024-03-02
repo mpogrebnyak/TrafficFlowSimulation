@@ -9,7 +9,6 @@ using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
 using ChartRendering.Helpers;
-using EvaluationKernel.Helpers;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
@@ -40,10 +39,10 @@ namespace TrafficFlowSimulation.Helpers
 		public MainWindowHelper(MainWindow form)
 		{
 			_mainWindow = form;
-			_localizationWindowHelper = new LocalizationWindowHelper(form);
+			_bindingSources = new();
+			_localizationWindowHelper = new LocalizationWindowHelper(form, _bindingSources);
 			_chartContextMenuStripComponent = new ChartContextMenuStripComponent(form);
 			_errorProvider = form.ParametersErrorProvider;
-			_bindingSources = new();
 			_controls = form.Controls;
 
 			var formUpdateHandler = new FormUpdateHandler(form, ModesHelper.DrivingModeType);
@@ -67,7 +66,7 @@ namespace TrafficFlowSimulation.Helpers
 		{
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 
-			var basicParametersModel = ServiceLocator.Current.GetInstance<IBaseParametersModel>(currentDrivingMode.ToString());
+			var basicParametersModel = ServiceLocator.Current.GetInstance<IBaseParametersModel>(currentDrivingMode);
 			var basicParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
 				basicParametersModel,
 				_controls.Find(ControlName.MainWindowControlName.BasicParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
@@ -75,7 +74,7 @@ namespace TrafficFlowSimulation.Helpers
 				_errorProvider);
 			basicParametersTableLayoutPanelComponent.Initialize();
 
-			var additionalParametersModel = ServiceLocator.Current.GetInstance<IAdditionalParametersModel>(currentDrivingMode.ToString());
+			var additionalParametersModel = ServiceLocator.Current.GetInstance<IAdditionalParametersModel>(currentDrivingMode);
 			var additionalParametersTableLayoutPanelComponent = new TableLayoutPanelComponent(
 				additionalParametersModel,
 				_controls.Find(ControlName.MainWindowControlName.AdditionalParametersTableLayoutPanel, true).Single() as TableLayoutPanel, 
@@ -83,7 +82,7 @@ namespace TrafficFlowSimulation.Helpers
 				_errorProvider);
 			additionalParametersTableLayoutPanelComponent.Initialize();
 
-			var initialConditionsParametersModel = ServiceLocator.Current.GetInstance<IInitialConditionsParametersModel>(currentDrivingMode.ToString());
+			var initialConditionsParametersModel = ServiceLocator.Current.GetInstance<IInitialConditionsParametersModel>(currentDrivingMode);
 			var initialConditionsTableLayoutPanelComponent = new TableLayoutPanelComponent(
 				initialConditionsParametersModel,
 				_controls.Find(ControlName.MainWindowControlName.InitialConditionsTableLayoutPanel, true).Single() as TableLayoutPanel, 
@@ -99,7 +98,7 @@ namespace TrafficFlowSimulation.Helpers
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			var settingsTableLayoutPanel = _controls.Find(ControlName.MainWindowControlName.SettingsTableLayoutPanel, true).Single() as TableLayoutPanel; 
 
-			var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentDrivingMode.ToString());
+			var settingsModel = ServiceLocator.Current.GetInstance<ISettingsModel>(currentDrivingMode);
 
 			var settingsTableLayoutPanelComponent = new TableLayoutPanelComponent(
 				settingsModel,
@@ -167,6 +166,22 @@ namespace TrafficFlowSimulation.Helpers
 			((IInitialConditionsParametersModel)_bindingSources[initialConditionsParametersModel.GetType()].DataSource).MapTo(modelParameters);
 
 			return modelParameters;
+		}
+
+		public bool IsParametersValid()
+		{
+			foreach (var source in _bindingSources)
+			{
+				var dataSource = source.Value.DataSource;
+				var errors = ((ValidationModel) dataSource).Error;
+
+				if (errors != null)
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		public void LocalizeComponents()

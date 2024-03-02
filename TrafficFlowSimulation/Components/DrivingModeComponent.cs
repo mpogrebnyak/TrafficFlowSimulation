@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using ChartRendering.Constants;
 using ChartRendering.EvaluationHandlers;
 using ChartRendering.Helpers;
-using EvaluationKernel.Helpers;
 using Localization;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;

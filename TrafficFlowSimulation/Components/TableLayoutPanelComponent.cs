@@ -8,6 +8,7 @@ using ChartRendering.ChartRenderModels;
 using Localization.Localization;
 using Settings;
 using TrafficFlowSimulation.Constants;
+using TrafficFlowSimulation.Helpers;
 using TrafficFlowSimulation.Windows.Components;
 
 namespace TrafficFlowSimulation.Components;
@@ -177,9 +178,10 @@ public class TableLayoutPanelComponent : IComponent
 			DrawMode = DrawMode.OwnerDrawVariable,
 			DropDownStyle = ComboBoxStyle.DropDownList,
 			FormattingEnabled = true,
-			Tag = enumType,
 			TabIndex = tabIndex
 		};
+
+		EnumComboBoxHelper.ComboBoxTypes.Add(Prefixes.ComboBoxPrefix + name, enumType);
 
 		var property = _bindingSource.Current.GetType().GetProperty(dataMember);
 		var propertyValue = property != null

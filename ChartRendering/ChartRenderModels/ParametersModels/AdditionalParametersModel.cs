@@ -11,7 +11,7 @@ public interface IAdditionalParametersModel : IParametersModel
 {
 }
 
-public class AdditionalParametersModel : IAdditionalParametersModel
+public class AdditionalParametersModel : ValidationModel, IAdditionalParametersModel
 {
 	[Translation(Locales.ru, "Ускорение свободного\nпадения")]
 	[Translation(Locales.en, "Gravitational acceleration")]

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Localization.Localization;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Helpers;
+using TrafficFlowSimulation.Windows.Components;
 
-namespace TrafficFlowSimulation.Windows.Components;
+namespace TrafficFlowSimulation.Components;
 
 public class LanguageComponent : IComponent
 {
@@ -88,6 +90,7 @@ public class LanguageComponent : IComponent
 		{
 			case Locales.ru:
 			{
+				System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
 				settings.CurrentLocale = Locales.ru;
 				owner.Image = Properties.Resources.ru_square;
 				break;
@@ -95,6 +98,7 @@ public class LanguageComponent : IComponent
 
 			case Locales.en:
 			{
+				System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 				settings.CurrentLocale = Locales.en;
 				owner.Image = Properties.Resources.uk_square;
 				break;

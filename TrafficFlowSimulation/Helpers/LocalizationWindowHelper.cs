@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Attribute;
 using ChartRendering.Helpers;
-using EvaluationKernel.Helpers;
 using Localization;
 using Localization.Localization;
 using Settings;
@@ -19,9 +18,12 @@ public class LocalizationWindowHelper
 {
 	private readonly MainWindow _form;
 
-	public LocalizationWindowHelper(MainWindow form)
+	private readonly Dictionary<Type, BindingSource> _bindingSources;
+
+	public LocalizationWindowHelper(MainWindow form, Dictionary<Type, BindingSource> bindingSources)
 	{
 		_form = form;
+		_bindingSources = bindingSources;
 	}
 
 	public void LocalizeComponents()
@@ -50,6 +52,11 @@ public class LocalizationWindowHelper
 
 		LocalizeToolTip();
 		LocalizeCharts();
+
+		foreach (var source in _bindingSources)
+		{
+			source.Value.ResetBindings(false);
+		}
 	}
 
 	private void LocalizeToolTip()

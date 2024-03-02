@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Settings;
+﻿using Settings;
 
 namespace Localization.Localization
 {

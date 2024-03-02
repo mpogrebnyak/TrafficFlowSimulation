@@ -7,7 +7,6 @@ using ChartRendering.Helpers;
 using ChartRendering.Properties;
 using Common.Errors;
 using Common.Modularity;
-using EvaluationKernel.Helpers;
 using Microsoft.Practices.ServiceLocation;
 using Settings;
 using TrafficFlowSimulation.Handlers;
@@ -54,10 +53,15 @@ namespace TrafficFlowSimulation.Windows
 			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
 			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).AbortExecution();
 
+			if (windowHelper.IsParametersValid() == false)
+			{
+				ParametersPanel.Show();
+				return;
+			}
 			ParametersPanel.Hide();
-			var modelParameters = windowHelper.CollectParametersFromBindingSource();
-			var modeSettings =windowHelper.CollectModeSettingsFromBindingSource(modelParameters);
 
+			var modelParameters = windowHelper.CollectParametersFromBindingSource();
+			var modeSettings = windowHelper.CollectModeSettingsFromBindingSource(modelParameters);
 			ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).RenderCharts(modelParameters, modeSettings);
 			windowHelper.ResizeAllChart();
 

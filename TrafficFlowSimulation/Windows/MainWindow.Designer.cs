@@ -84,8 +84,6 @@ namespace TrafficFlowSimulation.Windows
 			this.SettingsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.SlamPanel = new System.Windows.Forms.Panel();
 			this.ParametersErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.autoScrollBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.ControlMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize) (this.CarsMovementSplitContainer)).BeginInit();
 			this.CarsMovementSplitContainer.Panel1.SuspendLayout();
@@ -114,7 +112,6 @@ namespace TrafficFlowSimulation.Windows
 			this.BasicParametersGroupBox.SuspendLayout();
 			this.ModeSettingsGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize) (this.ParametersErrorProvider)).BeginInit();
-			((System.ComponentModel.ISupportInitialize) (this.autoScrollBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// ControlMenuStrip
@@ -130,6 +127,7 @@ namespace TrafficFlowSimulation.Windows
 			// 
 			// StartToolStripButton
 			// 
+			this.StartToolStripButton.AutoToolTip = false;
 			this.StartToolStripButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
 			this.StartToolStripButton.Image = ((System.Drawing.Image) (resources.GetObject("StartToolStripButton.Image")));
 			this.StartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -141,6 +139,7 @@ namespace TrafficFlowSimulation.Windows
 			// LanguagesSwitcherButton
 			// 
 			this.LanguagesSwitcherButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.LanguagesSwitcherButton.AutoToolTip = false;
 			this.LanguagesSwitcherButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {this.RussianMenuItem, this.EnglishMenuItem});
 			this.LanguagesSwitcherButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
 			this.LanguagesSwitcherButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -164,6 +163,7 @@ namespace TrafficFlowSimulation.Windows
 			// 
 			// StopToolStripButton
 			// 
+			this.StopToolStripButton.AutoToolTip = false;
 			this.StopToolStripButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
 			this.StopToolStripButton.Image = ((System.Drawing.Image) (resources.GetObject("StopToolStripButton.Image")));
 			this.StopToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -175,6 +175,7 @@ namespace TrafficFlowSimulation.Windows
 			// 
 			// ContinueToolStripButton
 			// 
+			this.ContinueToolStripButton.AutoToolTip = false;
 			this.ContinueToolStripButton.Image = ((System.Drawing.Image) (resources.GetObject("ContinueToolStripButton.Image")));
 			this.ContinueToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ContinueToolStripButton.Name = "ContinueToolStripButton";
@@ -195,6 +196,7 @@ namespace TrafficFlowSimulation.Windows
 			// 
 			// DrivingModeStripDropDownButton
 			// 
+			this.DrivingModeStripDropDownButton.AutoToolTip = false;
 			this.DrivingModeStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.DrivingModeStripDropDownButton.Image = ((System.Drawing.Image) (resources.GetObject("DrivingModeStripDropDownButton.Image")));
 			this.DrivingModeStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -211,6 +213,7 @@ namespace TrafficFlowSimulation.Windows
 			// ParametersSelectionToolStripButton
 			// 
 			this.ParametersSelectionToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.ParametersSelectionToolStripButton.AutoToolTip = false;
 			this.ParametersSelectionToolStripButton.Image = ((System.Drawing.Image) (resources.GetObject("ParametersSelectionToolStripButton.Image")));
 			this.ParametersSelectionToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ParametersSelectionToolStripButton.Name = "ParametersSelectionToolStripButton";
@@ -654,14 +657,6 @@ namespace TrafficFlowSimulation.Windows
 			this.ParametersErrorProvider.ContainerControl = this;
 			this.ParametersErrorProvider.Icon = ((System.Drawing.Icon) (resources.GetObject("ParametersErrorProvider.Icon")));
 			// 
-			// toolTip1
-			// 
-			this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-			// 
-			// autoScrollBindingSource
-			// 
-			this.autoScrollBindingSource.DataSource = typeof(ChartRendering.Constants.AutoScroll);
-			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -677,7 +672,6 @@ namespace TrafficFlowSimulation.Windows
 			this.Name = "MainWindow";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Traffic flow simulation";
-			this.toolTip1.SetToolTip(this, "Подсказка\r\n\r\n");
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
 			this.Shown += new System.EventHandler(this.MainWindow_Shown);
 			this.SizeChanged += new System.EventHandler(this.MainWindow_SizeChanged);
@@ -720,7 +714,6 @@ namespace TrafficFlowSimulation.Windows
 			this.ModeSettingsGroupBox.ResumeLayout(false);
 			this.ModeSettingsGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize) (this.ParametersErrorProvider)).EndInit();
-			((System.ComponentModel.ISupportInitialize) (this.autoScrollBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
@@ -747,12 +740,10 @@ namespace TrafficFlowSimulation.Windows
 		internal System.Windows.Forms.GroupBox BasicParametersGroupBox;
 		private System.Windows.Forms.TableLayoutPanel BasicParametersTableLayoutPanel;
 		private System.Windows.Forms.TableLayoutPanel SettingsTableLayoutPanel;
-		private System.Windows.Forms.ToolTip toolTip1;
 		internal System.Windows.Forms.GroupBox AdditionalParametersGroupBox;
 		private System.Windows.Forms.TableLayoutPanel AdditionalParametersTableLayoutPanel;
 		internal System.Windows.Forms.GroupBox InitialConditionsGroupBox;
 		private System.Windows.Forms.TableLayoutPanel InitialConditionsTableLayoutPanel;
-		private System.Windows.Forms.BindingSource autoScrollBindingSource;
 		internal System.Windows.Forms.GroupBox ControlsGroupBox;
 		private System.Windows.Forms.TableLayoutPanel ControlsTableLayoutPanel;
 		private System.Windows.Forms.Button LoadButton;

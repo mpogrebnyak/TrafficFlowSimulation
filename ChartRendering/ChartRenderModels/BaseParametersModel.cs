@@ -20,7 +20,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Количество автомобилей")]
 	[Translation(Locales.en, "Vehicles number")]
 	[CustomDisplay(1)]
-	[Required, Range(1, 10000)]
+	[Required, Range(1, 10)]
 	public virtual int n { get; set; }
 
 	[Translation(Locales.ru, "Все автомобили одинаковы")]
@@ -31,7 +31,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Максимальная скорость")]
 	[Translation(Locales.en, "Maximum speed")]
 	[CustomDisplay(3)]
-	[Required]
+	[Required, Range(1, 100)]
 	public virtual double Vmax { get; set; }
 
 	[CustomDisplay(4, true, true)] 
