@@ -147,5 +147,11 @@ namespace TrafficFlowSimulation.Windows
 				ServiceLocator.Current.GetInstance<MainWindowHelper>().ResizeChart((Chart) sender);
 			}
 		}
+
+		private void CreateRandomFlowButton_Click(object sender, EventArgs e)
+		{
+			ServiceLocator.Current.GetInstance<MainWindowHelper>().CreateRandomFlow();
+			RenderCharts();
+		}
 	}
 }

@@ -124,7 +124,9 @@
     <Compile Include="Constants\ControlName.cs" />
     <Compile Include="Constants\Prefixes.cs" />
     <Compile Include="CustomControls\ControlToolStripCustomRender.cs" />
-    <Compile Include="CustomControls\CustomComboBox.cs" />
+    <Compile Include="CustomControls\CustomComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomControls\CustomComboBox.Designer.cs">
       <DependentUpon>CustomComboBox.cs</DependentUpon>
     </Compile>

@@ -43,7 +43,6 @@ public class TableLayoutPanelComponent : IComponent
 		_errorProvider = errorProvider;
 
 		_helper = new TableLayoutPanelComponentHelper(_multipleTag);
-		_tableLayoutPanel.CellPaint += _helper.TableLayoutCellPaintEvent;
 
 		if (bindingSources.ContainsKey(_modelType))
 			bindingSources.Remove(_modelType);
@@ -181,7 +180,10 @@ public class TableLayoutPanelComponent : IComponent
 			TabIndex = tabIndex
 		};
 
-		EnumComboBoxHelper.ComboBoxTypes.Add(Prefixes.ComboBoxPrefix + name, enumType);
+		if (EnumComboBoxHelper.ComboBoxTypes.ContainsKey(Prefixes.ComboBoxPrefix + name) == false)
+		{
+			EnumComboBoxHelper.ComboBoxTypes.Add(Prefixes.ComboBoxPrefix + name, enumType);
+		}
 
 		var property = _bindingSource.Current.GetType().GetProperty(dataMember);
 		var propertyValue = property != null
@@ -211,7 +213,7 @@ public class TableLayoutPanelComponent : IComponent
 
 		comboBox.DrawItem += _helper.ComboBoxDrawItemEvent;
 		comboBox.SelectedIndexChanged += _helper.GetComboBoxSelectedIndexChangedEvent(enumType);
-		
+
 		comboBox.SelectedIndex = selectedIndex;
 
 		if(isHidden) comboBox.Hide();

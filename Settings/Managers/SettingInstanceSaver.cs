@@ -59,7 +59,7 @@ public class SettingInstanceSaver
 
 			var settingsConverterFactory = new SettingsConverterFactory();
 			var converter = settingsConverterFactory.GetConverter(itemMetadata);
-			
+
 			var propValue = instance.GetType().GetProperty(itemMetadata.PropertyName).GetValue(instance, null);
 			var settingsValue = new SettingsValue
 			{

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
 using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using Common;
 using EvaluationKernel.Models;
 using Localization.Localization;
@@ -11,7 +12,7 @@ using Localization.Localization;
 
 namespace ChartRendering.ChartRenderModels;
 
-public interface IBaseParametersModel : IParametersModel
+public interface IBaseParametersModel : IParametersModel, IRandomParametersModel
 {
 }
 
@@ -20,7 +21,8 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Количество автомобилей")]
 	[Translation(Locales.en, "Vehicles number")]
 	[CustomDisplay(1)]
-	[Required, Range(1, 10)]
+	[Required, Range(2, 1000)]
+	[NoRandom]
 	public virtual int n { get; set; }
 
 	[Translation(Locales.ru, "Все автомобили одинаковы")]
@@ -32,9 +34,11 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.en, "Maximum speed")]
 	[CustomDisplay(3)]
 	[Required, Range(1, 100)]
+	[NoRandom]
 	public virtual double Vmax { get; set; }
 
 	[CustomDisplay(4, true, true)] 
+	[NoRandom]
 	public virtual string Vmax_multiple { get; set; }
 
 	[Translation(Locales.ru, "Время реакции водителя")]
@@ -49,7 +53,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Интенсивность разгона")]
 	[Translation(Locales.en, "Acceleration intensity")]
 	[CustomDisplay(7)]
-	[Required]
+	[Required, Range(0.31, 0.92)]
 	public virtual double a { get; set; }
 
 	[CustomDisplay(8, true, true)] 
@@ -58,7 +62,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Интенсивность торможения")]
 	[Translation(Locales.en, "Deceleration intensity")]
 	[CustomDisplay(9)]
-	[Required]
+	[Required, Range(0.14, 0.17)]
 	public virtual double q { get; set; }
 
 	[CustomDisplay(10, true, true)] 
@@ -67,7 +71,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Безопасное расстояние")]
 	[Translation(Locales.en, "Safely Distance")]
 	[CustomDisplay(11)]
-	[Required]
+	[Required, Range(1, 2)]
 	public virtual double l_safe { get; set; }
 
 	[CustomDisplay(12, true, true)] 
@@ -76,7 +80,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Длина автомобиля")]
 	[Translation(Locales.en, "Vehicle length")]
 	[CustomDisplay(13)]
-	[Required]
+	[Required, Range(3, 8)]
 	public virtual double l_car { get; set; }
 
 	[CustomDisplay(14, true, true)] 
@@ -84,7 +88,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 
 	[Translation(Locales.ru, "Коэффициент плавности")]
 	[Translation(Locales.en, "Smoothness coefficient")]
-	[CustomDisplay(15)]
+	[CustomDisplay(15), Range(0.4, 0.5)]
 	[Required]
 	public virtual double k { get; set; }
 
@@ -146,6 +150,14 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	public virtual object GetDefault()
 	{
 		return Default();
+	}
+
+	public object GetRandomValues()
+	{
+		var defaultBPM = Default();
+		defaultBPM.IsCarsIdentical = new EnumItem(IdenticalCars.No);
+		defaultBPM.n = 10;
+		return ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n);
 	}
 
 	public static BaseParametersModel Default()

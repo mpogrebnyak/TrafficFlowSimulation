@@ -49,30 +49,6 @@ public class TableLayoutPanelComponentHelper
 			multipleControls.ForEach(x => x.Show());
 	}
 
-	public void TableLayoutCellPaintEvent(object sender, TableLayoutCellPaintEventArgs e)
-	{
-		var tableLayoutPanel = sender as TableLayoutPanel;
-		if (tableLayoutPanel == null) return;
-
-		var comboBox = tableLayoutPanel.Controls
-			.OfType<ComboBox>()
-			.SingleOrDefault(x => x.Tag != null && x.Tag.Equals(typeof(IdenticalCars)));
-
-		var selectedItem = comboBox?.SelectedItem as EnumItem;
-		if (selectedItem != null && selectedItem.Value.Equals(IdenticalCars.No))
-		{
-			var childControl = tableLayoutPanel.GetControlFromPosition(e.Column, e.Row);
-			if (childControl != null && childControl.Tag != null && childControl.Tag.Equals(_multipleTag))
-			{
-				var topLeft = new Point(e.CellBounds.Left, e.CellBounds.Bottom);
-				var topRight = new Point(e.CellBounds.Right, e.CellBounds.Bottom);
-				var pen = new Pen(Color.FromArgb(255, 151, 29), 0.1f);
-
-				e.Graphics.DrawLine(pen, topLeft, topRight);
-			}
-		}
-	}
-
 	public void ComboBoxDrawItemEvent(object sender, DrawItemEventArgs e)
 	{
 		var comboBox = sender as ComboBox;
