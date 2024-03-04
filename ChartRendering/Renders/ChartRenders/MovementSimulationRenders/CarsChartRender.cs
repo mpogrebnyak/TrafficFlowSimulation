@@ -97,7 +97,8 @@ public abstract class CarsChartRender : ChartsRender
 			var lengthOfSingleSegmentYPixels =
 				(float) Chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (float) Chart.ChartAreas[0].AxisY.ValueToPixelPosition(1);
 
-			var bmp = new Bitmap(path + "\\" + ColorPalette + "\\" + series.Color.Name + ".png");
+			var bitmapName = GetBitmapName((int) length[i]);
+			var bmp = new Bitmap(path + "\\" + ColorPalette + "\\" + bitmapName + "_" + series.Color.Name + ".png");
 			var newBitmap = new Bitmap(bmp, 
 				(int)lengthOfSingleSegmentXPixels * 2 * (int)length[i], 
 				(int)lengthOfSingleSegmentYPixels / 5);
@@ -131,5 +132,18 @@ public abstract class CarsChartRender : ChartsRender
 		var x = coordinates.X;
 		var scaleView = Chart.ChartAreas[0].AxisX.ScaleView;
 		scaleView.Scroll(Math.Round(x[cashScrollFor]) - 25);
+	}
+
+	private string GetBitmapName(int length)
+	{
+		foreach (var bitmapResources in CarsRenderingHelper.BitmapResources)
+		{
+			if (length <= bitmapResources.Key.Value)
+			{
+				return bitmapResources.Key.Name;
+			}
+		}
+
+		return CarsRenderingHelper.BitmapResources.First().Key.Name;
 	}
 }

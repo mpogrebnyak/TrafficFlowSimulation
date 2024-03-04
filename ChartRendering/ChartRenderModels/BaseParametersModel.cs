@@ -22,7 +22,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.en, "Vehicles number")]
 	[CustomDisplay(1)]
 	[Required, Range(2, 1000)]
-	[NoRandom]
+	[RandomAttribute(noRandomGeneration: true)]
 	public virtual int n { get; set; }
 
 	[Translation(Locales.ru, "Все автомобили одинаковы")]
@@ -34,11 +34,10 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.en, "Maximum speed")]
 	[CustomDisplay(3)]
 	[Required, Range(1, 100)]
-	[NoRandom]
+	[Random(16, 16.7)]
 	public virtual double Vmax { get; set; }
 
 	[CustomDisplay(4, true, true)] 
-	[NoRandom]
 	public virtual string Vmax_multiple { get; set; }
 
 	[Translation(Locales.ru, "Время реакции водителя")]
@@ -50,55 +49,67 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[CustomDisplay(6, true, true)] 
 	public virtual string tau_multiple { get; set; }
 
-	[Translation(Locales.ru, "Интенсивность разгона")]
-	[Translation(Locales.en, "Acceleration intensity")]
+	[Translation(Locales.ru, "Время срабатывания\nтормозной системы")]
 	[CustomDisplay(7)]
-	[Required, Range(0.31, 0.92)]
-	public virtual double a { get; set; }
+	[Required]
+	public virtual double tau_b { get; set; }
 
 	[CustomDisplay(8, true, true)] 
+	public virtual string tau_b_multiple { get; set; }
+
+	[Translation(Locales.ru, "Интенсивность разгона")]
+	[Translation(Locales.en, "Acceleration intensity")]
+	[CustomDisplay(9)]
+	[Required, Range(0.31, 0.92)]
+	[Random(0.31, 0.92)]
+	public virtual double a { get; set; }
+
+	[CustomDisplay(10, true, true)] 
 	public virtual string a_multiple { get; set; }
 
 	[Translation(Locales.ru, "Интенсивность торможения")]
 	[Translation(Locales.en, "Deceleration intensity")]
-	[CustomDisplay(9)]
+	[CustomDisplay(11)]
 	[Required, Range(0.14, 0.17)]
+	[Random(0.14, 0.17)]
 	public virtual double q { get; set; }
 
-	[CustomDisplay(10, true, true)] 
+	[CustomDisplay(12, true, true)] 
 	public virtual string q_multiple { get; set; }
 
 	[Translation(Locales.ru, "Безопасное расстояние")]
 	[Translation(Locales.en, "Safely Distance")]
-	[CustomDisplay(11)]
+	[CustomDisplay(13)]
 	[Required, Range(1, 2)]
+	[Random(1, 2)]
 	public virtual double l_safe { get; set; }
 
-	[CustomDisplay(12, true, true)] 
+	[CustomDisplay(14, true, true)] 
 	public virtual string l_safe_multiple { get; set; }
 
 	[Translation(Locales.ru, "Длина автомобиля")]
 	[Translation(Locales.en, "Vehicle length")]
-	[CustomDisplay(13)]
+	[CustomDisplay(15)]
 	[Required, Range(3, 8)]
+	[Random(3, 8)]
 	public virtual double l_car { get; set; }
 
-	[CustomDisplay(14, true, true)] 
+	[CustomDisplay(16, true, true)] 
 	public virtual string l_car_multiple { get; set; }
 
 	[Translation(Locales.ru, "Коэффициент плавности")]
 	[Translation(Locales.en, "Smoothness coefficient")]
-	[CustomDisplay(15), Range(0.4, 0.5)]
-	[Required]
+	[CustomDisplay(17)]
+	[Required, Range(0.4, 0.5)]
+	[Random(0.4, 0.5)]
 	public virtual double k { get; set; }
 
-	[CustomDisplay(16, true, true)] 
+	[CustomDisplay(18, true, true)] 
 	public virtual string k_multiple { get; set; }
 
 	public void MapTo(ModelParameters mp)
 	{
 		mp.n = n;
-		mp.tau_b = 0.1;
 
 		switch (IsCarsIdentical.Value)
 		{
@@ -107,6 +118,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 				for (var i = 0; i < n; i++)
 				{
 					mp.tau.Add(tau);
+					mp.tau.Add(tau_b);
 					mp.Vmax.Add(Vmax);
 					mp.a.Add(a);
 					mp.q.Add(q);
@@ -134,6 +146,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 		var lCarDictionary = CommonParserHelper.ParseMultipleValues(l_car_multiple);
 		var kDictionary = CommonParserHelper.ParseMultipleValues(k_multiple);
 		var tauDictionary = CommonParserHelper.ParseMultipleValues(tau_multiple);
+		var tau_bDictionary = CommonParserHelper.ParseMultipleValues(tau_b_multiple);
 
 		for (var i = 0; i < n; i++)
 		{
@@ -144,6 +157,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 			mp.lCar.Add(lCarDictionary.ContainsKey(i) ? lCarDictionary[i] : l_car);
 			mp.k.Add(kDictionary.ContainsKey(i) ? kDictionary[i] : k);
 			mp.tau.Add(tauDictionary.ContainsKey(i) ? tauDictionary[i] : tau);
+			mp.tau_b.Add(tau_bDictionary.ContainsKey(i) ? tau_bDictionary[i] : tau_b);
 		}
 	}
 
@@ -156,7 +170,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	{
 		var defaultBPM = Default();
 		defaultBPM.IsCarsIdentical = new EnumItem(IdenticalCars.No);
-		defaultBPM.n = 10;
+		defaultBPM.n = 20;
 		return ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n);
 	}
 
@@ -172,6 +186,8 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 			Vmax_multiple = string.Empty,
 			tau = 0.5,
 			tau_multiple = string.Empty,
+			tau_b = 0.1,
+			tau_b_multiple = string.Empty,
 			a = 0.5,
 			a_multiple = string.Empty,
 			q = Math.Round(1 / (defaultAPM.g * defaultAPM.mu), 2),

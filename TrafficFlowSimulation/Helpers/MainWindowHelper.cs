@@ -168,19 +168,31 @@ public class MainWindowHelper
 		var modelParameters = new ModelParameters();
 
 		var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
+		
+		var basicParametersModel = ServiceLocator.Current.GetInstance<IBaseParametersModel>(currentDrivingMode);
+		var baseParametersBindingSources = (IBaseParametersModel) _bindingSources[basicParametersModel.GetType()].DataSource;
+
+		var additionalParametersModel = ServiceLocator.Current.GetInstance<IAdditionalParametersModel>(currentDrivingMode);
+		var additionalParametersBindingSources = (IAdditionalParametersModel) _bindingSources[additionalParametersModel.GetType()].DataSource;
+
+		var initialConditionsParametersModel = ServiceLocator.Current.GetInstance<IInitialConditionsParametersModel>(currentDrivingMode);
+		var initialConditionsParametersBindingSources = (IInitialConditionsParametersModel) _bindingSources[initialConditionsParametersModel.GetType()].DataSource;
+
+		initialConditionsParametersBindingSources = initialConditionsParametersBindingSources.MapFrom(baseParametersBindingSources, additionalParametersBindingSources);
+		_bindingSources.ForEach(x => x.Value.ResetBindings(false));
 		_bindingSources.ForEach(x => x.Value.EndEdit());
 
-		var basicParametersModel = ServiceLocator.Current.GetInstance<IBaseParametersModel>(currentDrivingMode);
-		var additionalParametersModel =
-			ServiceLocator.Current.GetInstance<IAdditionalParametersModel>(currentDrivingMode);
-		var initialConditionsParametersModel =
-			ServiceLocator.Current.GetInstance<IInitialConditionsParametersModel>(currentDrivingMode);
-
-		((IBaseParametersModel) _bindingSources[basicParametersModel.GetType()].DataSource).MapTo(modelParameters);
-		((IAdditionalParametersModel) _bindingSources[additionalParametersModel.GetType()].DataSource).MapTo(
-			modelParameters);
-		((IInitialConditionsParametersModel) _bindingSources[initialConditionsParametersModel.GetType()].DataSource)
-			.MapTo(modelParameters);
+		baseParametersBindingSources.MapTo(modelParameters);
+		additionalParametersBindingSources.MapTo(modelParameters);
+		initialConditionsParametersBindingSources.MapTo(modelParameters);
+	//	((IBaseParametersModel) _bindingSources[basicParametersModel.GetType()].DataSource).MapTo(modelParameters);
+	//	((IAdditionalParametersModel) _bindingSources[additionalParametersModel.GetType()].DataSource).MapTo(modelParameters);
+		
+	//	_bindingSources.ForEach(x => x.Value.EndEdit());
+	//	((IInitialConditionsParametersModel) _bindingSources[initialConditionsParametersModel.GetType()].DataSource)
+	//		.MapFrom((IBaseParametersModel)_bindingSources[basicParametersModel.GetType()].DataSource, (IAdditionalParametersModel) _bindingSources[additionalParametersModel.GetType()].DataSource);
+	
+//		((IInitialConditionsParametersModel) _bindingSources[initialConditionsParametersModel.GetType()].DataSource).MapTo(modelParameters);
 
 		return modelParameters;
 	}

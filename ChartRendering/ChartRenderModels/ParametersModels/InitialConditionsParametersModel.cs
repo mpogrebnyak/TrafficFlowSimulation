@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using ChartRendering.Attribute;
+using ChartRendering.Constants;
 using Common;
 using EvaluationKernel.Models;
 using Localization.Localization;
@@ -10,6 +13,7 @@ namespace ChartRendering.ChartRenderModels.ParametersModels;
 
 public interface IInitialConditionsParametersModel : IParametersModel
 {
+	IInitialConditionsParametersModel MapFrom(IBaseParametersModel baseParametersModel, IAdditionalParametersModel additionalParametersModel);
 }
 
 public class InitialConditionsParametersModel : ValidationModel, IInitialConditionsParametersModel
@@ -42,6 +46,57 @@ public class InitialConditionsParametersModel : ValidationModel, IInitialConditi
 			mp.Vn.Add(VnDictionary.ContainsKey(i) ? VnDictionary[i] : Vn);
 			mp.lambda.Add(lambdaDictionary.ContainsKey(i) ? lambdaDictionary[i] : lambda * -i);
 		}
+	}
+
+	public IInitialConditionsParametersModel MapFrom(IBaseParametersModel baseParametersModel, IAdditionalParametersModel additionalParametersModel)
+	{
+		var bpm = (BaseParametersModel) baseParametersModel;
+		var apm = (AdditionalParametersModel) additionalParametersModel;
+
+		var vn_multiple = CommonParserHelper.ParseMultipleValues(Vn_multiple);
+		if (bpm.IsCarsIdentical.Value.Equals(IdenticalCars.No) || vn_multiple.Any())
+		{
+			var l_car_multiple = CommonParserHelper.ParseMultipleValues(bpm.l_car_multiple);
+			var l_safe_multiple = CommonParserHelper.ParseMultipleValues(bpm.l_safe_multiple);
+			var tau_multiple = CommonParserHelper.ParseMultipleValues(bpm.tau_multiple);
+			var tau_b_multiple = CommonParserHelper.ParseMultipleValues(bpm.tau_b_multiple);
+
+			lambda_multiple = string.Empty;
+			var distance = 0.0;
+			for (var i = 0; i < bpm.n; i++)
+			{
+				var safeDistance = 0.0;
+				safeDistance += l_car_multiple.Any() && l_car_multiple.ContainsKey(i - 1)
+					? l_car_multiple[i - 1]
+					: i != 0 ? bpm.l_car : 0;
+
+				safeDistance += l_safe_multiple.Any() && l_safe_multiple.ContainsKey(i)
+					? i != 0 ? l_safe_multiple[i] : 0
+					: i != 0 ? bpm.l_safe : 0;
+
+				var speed = vn_multiple.Any() && vn_multiple.ContainsKey(i)
+					? vn_multiple[i]
+					: Vn;
+
+				var stopDistance = Math.Pow(speed, 2) / (2 * apm.g * apm.mu);
+				stopDistance += tau_multiple.Any() && tau_multiple.ContainsKey(i)
+					? speed * tau_multiple[i]
+					: speed * bpm.tau;
+
+				stopDistance += tau_b_multiple.Any() && tau_b_multiple.ContainsKey(i)
+					? speed * tau_b_multiple[i]
+					: speed * bpm.tau_b;
+
+				distance -= stopDistance + safeDistance;
+				lambda_multiple += i + ":" + distance + " ";
+			}
+		}
+		else
+		{
+			lambda = bpm.l_car + bpm.l_safe;
+		}
+
+		return this;
 	}
 
 	public virtual object GetDefault()

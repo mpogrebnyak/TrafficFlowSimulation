@@ -11,6 +11,12 @@ namespace ChartRendering.Renders
 {
 	public static class CarsRenderingHelper
 	{
+		public static readonly Dictionary<BitmapName, Bitmap> BitmapResources = new()
+		{
+			{new BitmapName {Name = "white_car", Value = 4}, Properties.Resources.white_car},
+			{new BitmapName {Name = "white_truck", Value = 8}, Properties.Resources.white_truck}
+		};
+
 		private static readonly string CarsFolder = SettingsHelper.Get<Properties.ChartRenderingSettings>().PaintedCarsFolder;
 
 		public static void CreatePaintedCars()
@@ -19,38 +25,41 @@ namespace ChartRendering.Renders
 			Directory.CreateDirectory(CarsFolder);
 			var directory = new DirectoryInfo(CarsFolder);
 
-			var bmp = Properties.Resources.white_car;
-
-			var colorPalettes = GetColors();
-
-			foreach (var colorPalette in colorPalettes)
+			foreach (var bitmapResource in BitmapResources)
 			{
-				directory.CreateSubdirectory(colorPalette.PaletteName);
+				var bmp = bitmapResource.Value;
 
-				foreach (var newColor in colorPalette.Colors)
+				var colorPalettes = GetColors();
+
+				foreach (var colorPalette in colorPalettes)
 				{
-					var coloredBmp = new Bitmap(bmp.Width, bmp.Height);
-					for (int i = 0; i < bmp.Width; i++)
-					{
-						for (int j = 0; j < bmp.Height; j++)
-						{
-							var actualColor = bmp.GetPixel(i, j);
-							if (actualColor.R == 255)
-								coloredBmp.SetPixel(i, j, newColor);
-							else
-								coloredBmp.SetPixel(i, j, actualColor);
-						}
-					}
+					directory.CreateSubdirectory(colorPalette.PaletteName);
 
-					var subDirectory = directory.GetDirectories().Single(x => x.Name == colorPalette.PaletteName);
-					string outputFileName = subDirectory.FullName + "\\" + newColor.Name + ".png";
-					using (MemoryStream memory = new MemoryStream())
+					foreach (var newColor in colorPalette.Colors)
 					{
-						using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+						var coloredBmp = new Bitmap(bmp.Width, bmp.Height);
+						for (var i = 0; i < bmp.Width; i++)
 						{
-							coloredBmp.Save(memory, ImageFormat.Png);
-							byte[] bytes = memory.ToArray();
-							fs.Write(bytes, 0, bytes.Length);
+							for (var j = 0; j < bmp.Height; j++)
+							{
+								var actualColor = bmp.GetPixel(i, j);
+								if (actualColor.R == 255)
+									coloredBmp.SetPixel(i, j, newColor);
+								else
+									coloredBmp.SetPixel(i, j, actualColor);
+							}
+						}
+
+						var subDirectory = directory.GetDirectories().Single(x => x.Name == colorPalette.PaletteName);
+						var outputFileName = subDirectory.FullName + "\\" + bitmapResource.Key.Name + "_" + newColor.Name + ".png";
+						using (MemoryStream memory = new MemoryStream())
+						{
+							using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+							{
+								coloredBmp.Save(memory, ImageFormat.Png);
+								var bytes = memory.ToArray();
+								fs.Write(bytes, 0, bytes.Length);
+							}
 						}
 					}
 				}
@@ -118,6 +127,13 @@ namespace ChartRendering.Renders
 			public string PaletteName { get; set; }
 
 			public List<Color> Colors { get; set; }
+		}
+
+		public class BitmapName
+		{
+			public string Name { get; set; }
+
+			public int Value { get; set; }
 		}
 	}
 }

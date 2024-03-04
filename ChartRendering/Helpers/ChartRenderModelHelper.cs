@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using ChartRendering.Attribute;
@@ -17,8 +16,8 @@ public static class ChartRenderModelHelper
 
 		foreach (var property in properties)
 		{
-			var noRandom = property.GetCustomAttribute<NoRandomAttribute>();
-			if (noRandom != null)
+			var noRandom = property.GetCustomAttribute<RandomAttribute>();
+			if (noRandom is {NoRandomGeneration: true})
 			{
 				continue;
 			}
@@ -29,12 +28,12 @@ public static class ChartRenderModelHelper
 				var singleProperty = type.GetProperty(singlePropertyName);
 				if (singleProperty != null)
 				{
-					var rangeAttribute = singleProperty.GetCustomAttribute<RangeAttribute>();
+					var range = singleProperty.GetCustomAttribute<RandomAttribute>();
 
-					if (rangeAttribute != null)
+					if (range != null)
 					{
-						var minValue = Convert.ChangeType(rangeAttribute.Minimum, singleProperty.PropertyType);
-						var maxValue = Convert.ChangeType(rangeAttribute.Maximum, singleProperty.PropertyType);
+						var minValue = Convert.ChangeType(range.Minimum, singleProperty.PropertyType);
+						var maxValue = Convert.ChangeType(range.Maximum, singleProperty.PropertyType);
 
 						var randomValue = string.Empty;
 						for (var i = 0; i < n; i++)
@@ -54,12 +53,12 @@ public static class ChartRenderModelHelper
 					continue;
 				}
 
-				var rangeAttribute = property.GetCustomAttribute<RangeAttribute>();
+				var range = property.GetCustomAttribute<RandomAttribute>();
 
-				if (rangeAttribute != null)
+				if (range != null)
 				{
-					var minValue = Convert.ChangeType(rangeAttribute.Minimum, property.PropertyType);
-					var maxValue = Convert.ChangeType(rangeAttribute.Maximum, property.PropertyType);
+					var minValue = Convert.ChangeType(range.Minimum, property.PropertyType);
+					var maxValue = Convert.ChangeType(range.Maximum, property.PropertyType);
 
 					var randomValue = GenerateRandomValue(minValue, maxValue);
 					property.SetValue(obj, randomValue);

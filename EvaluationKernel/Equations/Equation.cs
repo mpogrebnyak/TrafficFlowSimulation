@@ -109,12 +109,12 @@ namespace EvaluationKernel.Equations
 
 		protected double S(int n, double v)
 		{
-			return (_m.tau[n] + _m.tau_b) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
+			return (_m.tau[n] + _m.tau_b[n]) * v + Math.Pow(v, 2) / (2 * _m.g * _m.mu) + L_safe(n);
 		}
 
 		public static double S(ModelParameters m, int n, double v)
 		{
-			return (m.tau[n] + m.tau_b) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + L_safe(m, n);
+			return (m.tau[n] + m.tau_b[n]) * v + Math.Pow(v, 2) / (2 * m.g * m.mu) + L_safe(m, n);
 		}
 
 		protected virtual double V(int n, double v)

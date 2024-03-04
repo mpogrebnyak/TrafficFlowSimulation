@@ -21,7 +21,7 @@ public static class CommonParserHelper
 
 			foreach (var value in elements.Select(element => element.Split(Separator)))
 			{
-				dictionary.Add(Convert.ToInt32(value[0], CultureInfo.InvariantCulture) - 1, Convert.ToDouble(value[1]));
+				dictionary.Add(Convert.ToInt32(value[0], CultureInfo.InvariantCulture), Convert.ToDouble(value[1]));
 			}
 		}
 
