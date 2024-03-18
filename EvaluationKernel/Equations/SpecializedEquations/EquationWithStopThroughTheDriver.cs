@@ -7,9 +7,11 @@ namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationWithStopThroughTheDriver : Equation
 {
-	private const double _eps = 0.001;
+	private const double _eps = 0.01;
 
 	public readonly HashSet<int> StopCar = new() {0};
+
+	public readonly Dictionary<int, bool> VirtualCars = new();
 
 	public EquationWithStopThroughTheDriver(ModelParameters modelParameters) : base(modelParameters)
 	{
@@ -39,7 +41,7 @@ public class EquationWithStopThroughTheDriver : Equation
 			return GetAllCarEquation(i, x_n, x_n_2);
 		}
 
-		if (i % 2 == 0)
+		if (IsVirtual(i))
 		{
 			if (i == 2)
 			{
@@ -57,11 +59,29 @@ public class EquationWithStopThroughTheDriver : Equation
 		return GetAllCarEquation(i, x_n, x_n_1);
 	}
 
+	public bool IsVirtual(int i)
+	{
+		return VirtualCars[i];
+	}
+
 	protected override double L_safe(int n)
 	{
-		return n == 0 || StopCar.Contains(n)
-			? _eps
-			: _m.lSafe[n] + _m.lCar[n - 1];
+		if (n == 0 || FirstCarNumbers.Contains(n))
+		{
+			return _eps;
+		}
+
+		if (n == 1)
+		{
+			return _m.lSafe[n] + _m.lCar[n - 1];
+		}
+
+		if (IsVirtual(n))
+		{
+			return _m.lSafe[n] + _m.lCar[n - 2];
+		}
+
+		return _m.lSafe[n] + _m.lCar[n - 1];
 	}
 
 	private double L(int n)

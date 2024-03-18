@@ -39,4 +39,24 @@ public class EquationThroughTheDriver : Equation
 
 		return GetAllCarEquation(i, x_n, x_n_1);
 	}
+
+	protected override double L_safe(int n)
+	{
+		if (n == 0 || FirstCarNumbers.Contains(n))
+		{
+			return 0;
+		}
+
+		if (n == 1)
+		{
+			return _m.lSafe[n] + _m.lCar[n - 1];
+		}
+
+		if (n % 2 == 0)
+		{
+			return _m.lSafe[n] + _m.lCar[n - 2];
+		}
+
+		return _m.lSafe[n] + _m.lCar[n - 1];
+	}
 }

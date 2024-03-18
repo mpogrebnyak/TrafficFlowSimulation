@@ -33,7 +33,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Максимальная скорость")]
 	[Translation(Locales.en, "Maximum speed")]
 	[CustomDisplay(3)]
-	[Required, Range(1, 100)]
+	[Required, Range(1, 55)]
 	[Random(16, 16.7)]
 	public virtual double Vmax { get; set; }
 
@@ -43,7 +43,8 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Время реакции водителя")]
 	[Translation(Locales.en, "Driver's response time")]
 	[CustomDisplay(5)]
-	[Required]
+	[Required, Range(0.2, 2)]
+	[Random(0.2, 1)]
 	public virtual double tau { get; set; }
 
 	[CustomDisplay(6, true, true)] 
@@ -51,7 +52,8 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 
 	[Translation(Locales.ru, "Время срабатывания\nтормозной системы")]
 	[CustomDisplay(7)]
-	[Required]
+	[Required, Range(0.1, 0.3)]
+	[Random(0.2, 0.3)]
 	public virtual double tau_b { get; set; }
 
 	[CustomDisplay(8, true, true)] 
@@ -118,7 +120,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 				for (var i = 0; i < n; i++)
 				{
 					mp.tau.Add(tau);
-					mp.tau.Add(tau_b);
+					mp.tau_b.Add(tau_b);
 					mp.Vmax.Add(Vmax);
 					mp.a.Add(a);
 					mp.q.Add(q);
@@ -170,7 +172,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	{
 		var defaultBPM = Default();
 		defaultBPM.IsCarsIdentical = new EnumItem(IdenticalCars.No);
-		defaultBPM.n = 20;
+		defaultBPM.n = 100;
 		return ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n);
 	}
 

@@ -50,6 +50,7 @@ public class ThroughTheDriverEvaluationHandler : EvaluationHandler
 			if (i > 1)
 			{
 				extendModelParameters.tau.Add(modelParameters.tau[i - 1]);
+				extendModelParameters.tau_b.Add(modelParameters.tau_b[i - 1]);
 				extendModelParameters.Vmax.Add(modelParameters.Vmax[i - 1]);
 				extendModelParameters.a.Add(modelParameters.a[i - 1]);
 				extendModelParameters.q.Add(modelParameters.q[i - 1]);
@@ -61,6 +62,7 @@ public class ThroughTheDriverEvaluationHandler : EvaluationHandler
 			}
 
 			extendModelParameters.tau.Add(modelParameters.tau[i]);
+			extendModelParameters.tau_b.Add(modelParameters.tau_b[i]);
 			extendModelParameters.Vmax.Add(modelParameters.Vmax[i]);
 			extendModelParameters.a.Add(modelParameters.a[i]);
 			extendModelParameters.q.Add(modelParameters.q[i]);

@@ -49,6 +49,12 @@ public class DecelerationCoefficientEstimationModelParametersModel : BaseParamet
 	public override string tau_multiple { get; set; }
 
 	[Hidden]
+	public override double tau_b { get; set; }
+
+	[Hidden]
+	public override string tau_b_multiple { get; set; }
+
+	[Hidden]
 	public override double a { get; set; }
 
 	[Hidden]

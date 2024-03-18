@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using ChartRendering.Constants;
+
 namespace ChartRendering.Properties;
 
 public class ChartRenderingSettings
@@ -10,7 +12,7 @@ public class ChartRenderingSettings
 	public bool IsTrafficCapacityAvailable { get; set; }
 
 	[DefaultValue(10)]
-	public int TrafficCapacityTimeInMinutes { get; set; }
+	public int TrafficCapacityRoundsNumber { get; set; }
 
 	[DefaultValue(2)]
 	public int MaximumTimeForAutomaticIncrease { get; set; }

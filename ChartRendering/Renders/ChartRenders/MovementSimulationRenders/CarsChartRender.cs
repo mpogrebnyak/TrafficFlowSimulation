@@ -69,6 +69,11 @@ public abstract class CarsChartRender : ChartsRender
 	{
 		base.RenderChartEnvironment(modelParameters, modeSettings);
 
+		RenderTrafficCapacity(modelParameters, modeSettings);
+	}
+
+	protected virtual void RenderTrafficCapacity(ModelParameters modelParameters, BaseSettingsModels modeSettings)
+	{
 		TrafficCapacityHelper.RenderTrafficCapacity(Chart.Series, ChartAreaName);
 	}
 

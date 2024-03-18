@@ -25,10 +25,9 @@ namespace EvaluationKernel.Equations
 			FirstCarNumbers.Add(n);
 		}
 
-		public void CleanFirstCarNumbers()
+		public HashSet<int> GetFirstCarNumbers()
 		{
-			FirstCarNumbers.Clear();
-		//	FirstCarNumbers.Add(0);
+			return FirstCarNumbers;
 		}
 
 		public virtual double GetEquation(int i, List<List<double>> x, List<List<double>> y, List<int> N)

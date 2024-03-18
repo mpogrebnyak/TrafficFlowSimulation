@@ -15,18 +15,22 @@ namespace ChartRendering.Helpers;
 
 public static class TrafficCapacityHelper
 {
+	private const int RoundTime = 60;
+
 	private const string TrafficCapacityName = "TrafficCapacitySeries_";
 
 	private const string KeyPrefix = "Line ";
 
 	private static readonly Dictionary<string, Dictionary<int, int>> SeriesTrafficCapacity = new();
 
-	private static int _currentMinute = 1;
+	private static int _currentRoundNumber= 1;
+
+	private static int _roundTime = RoundTime;
 
 	private static Dictionary<int, int> CreateTrafficCapacity()
 	{
 		var dictionary = new Dictionary<int, int>();
-		var minutes = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityTimeInMinutes;
+		var minutes = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityRoundsNumber;
 		for (var i = 1; i <= minutes; i++)
 		{
 			dictionary.Add(i, 0);
@@ -35,8 +39,9 @@ public static class TrafficCapacityHelper
 		return dictionary;
 	}
 
-	public static void RenderTrafficCapacity(SeriesCollection chartSeries, string chartAreaName)
+	public static void RenderTrafficCapacity(SeriesCollection chartSeries, string chartAreaName, int? roundTime = null)
 	{
+		_roundTime = roundTime ?? RoundTime;
 		SeriesTrafficCapacity.Clear();
 
 		var environmentLineSeries = chartSeries
@@ -89,11 +94,10 @@ public static class TrafficCapacityHelper
 
 		if (IsTrafficCapacityAvailable())
 		{
-
-			var minutes = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityTimeInMinutes;
-			if (t > _currentMinute * 60 && t < (minutes + 1) * 60)
+			var rounds = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityRoundsNumber;
+			if (t > _currentRoundNumber * _roundTime && t < (rounds + 1) * _roundTime)
 			{
-				_currentMinute++;
+				_currentRoundNumber++;
 				CommonFileHelper.WriteDictionaryToFile(SeriesTrafficCapacity, " ");
 			}
 		}
@@ -154,7 +158,7 @@ public static class TrafficCapacityHelper
 		var innerKeys = trafficCapacity
 			.ToDictionary(entry => entry.Key, entry => entry.Value)
 			.Keys
-			.Where(x => x * 60 > t);
+			.Where(x => x * _roundTime > t);
 
 		foreach (var innerKey in innerKeys)
 		{
@@ -168,18 +172,17 @@ public static class TrafficCapacityHelper
 
 		var label = LocalizationHelper.Get<ChartRenderingResources>().TrafficCapacityLabelHead;
 
-		var minutes = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityTimeInMinutes;
-		for (var minute = 1; minute <= minutes; minute++)
+		var rounds = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityRoundsNumber;
+		for (var round = 1; round <= rounds; round++)
 		{
-			var innerKey = minute;
 			label += LocalizationHelper.Get<ChartRenderingResources>()
-				.TrafficCapacity(minute, trafficCapacity[innerKey].ToString("D2"));
+				.TrafficCapacity(round * _roundTime, trafficCapacity[round].ToString("D2"));
 
-			label += minute != minutes
+			label += round != rounds
 				? "; "
 				: ". ";
 
-			label += minutes % 2 == 0 && minute == minutes / 2 || minutes % 2 == 1 && minute == (minutes - 1) / 2
+			label += rounds % 2 == 0 && round == rounds / 2 || rounds % 2 == 1 && round == (rounds - 1) / 2
 				? "\n"
 				: "";
 		}

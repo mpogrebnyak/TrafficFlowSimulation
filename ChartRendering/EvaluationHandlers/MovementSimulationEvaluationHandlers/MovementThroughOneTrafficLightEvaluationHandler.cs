@@ -22,6 +22,8 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 
 	protected bool IsCarToStopNotFound;
 
+	protected ModelParameters ModelParameters;
+
 	protected MovementThroughOneTrafficLightModeSettingsModel ModeSettings;
 
 	protected Equation Equation;
@@ -29,6 +31,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels)
 	{
 		Equation = new EquationWithStop(modelParameters);
+		ModelParameters = modelParameters;
 		ModeSettings = (MovementThroughOneTrafficLightModeSettingsModel)baseSettingsModels;
 		CurrentSignal = (TrafficLightColor)ModeSettings.FirstTrafficLightColor.Value;
 		Signal = (TrafficLightColor)ModeSettings.FirstTrafficLightColor.Value;
@@ -51,9 +54,9 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 			return;
 		}
 
-		for (var i = 0; i < x.Count; i++)
+		for (var i = 0; i < ModelParameters.n; i++)
 		{
-			if (x[i] <= 0 && IsCarToStopNotFound)
+			if (x[i] <= 0 - Equation.S(ModelParameters, i, y[i]) && IsCarToStopNotFound)
 			{
 				((EquationWithStop) Equation).StopCar.Add(i);
 				Equation.AddFirstCarNumbers(i);

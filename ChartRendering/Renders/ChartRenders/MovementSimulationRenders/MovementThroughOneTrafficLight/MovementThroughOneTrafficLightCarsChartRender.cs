@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
@@ -138,5 +139,12 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		sb.Append(LocalizationHelper.Get<ChartRenderingResources>().DistanceText + " ");
 		sb.Append(Math.Round(values[1], 2));
 		return sb.ToString();
+	}
+
+	protected override void RenderTrafficCapacity(ModelParameters modelParameters, BaseSettingsModels modeSettings)
+	{
+		var settings = (MovementThroughOneTrafficLightModeSettingsModel) modeSettings;
+		var roundTime = settings.SingleLightGreenTime + settings.SingleLightRedTime;
+		TrafficCapacityHelper.RenderTrafficCapacity(Chart.Series, ChartAreaName, (int)roundTime);
 	}
 }

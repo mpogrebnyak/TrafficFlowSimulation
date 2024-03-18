@@ -42,8 +42,8 @@ public abstract class ChartRenderingResources
 	[Translation(Locales.ru, "\nПропускная способность: \n")]
 	public string TrafficCapacityLabelHead { get; set; }
 
-	[Translation(Locales.ru, "{minute} м. - {value}")]
-	public abstract string TrafficCapacity(int minute, string value);
+	[Translation(Locales.ru, "{seconds} c. - {value}")]
+	public abstract string TrafficCapacity(int seconds, string value);
 
 	[Translation(Locales.ru, "Процент снижения скорости при k={k}")]
 	[Translation(Locales.en, "Percentage of speed reduction at k={k}")]

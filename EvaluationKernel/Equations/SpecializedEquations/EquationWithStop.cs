@@ -7,7 +7,7 @@ namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationWithStop : Equation
 {
-	private const double _eps = 0.001;
+	private const double _eps = 0.000001;
 
 	public readonly HashSet<int> StopCar = new() {0};
 
@@ -17,7 +17,7 @@ public class EquationWithStop : Equation
 	{
 		var x_n = new Coordinates { N = n, X = x, DotX = dotX };
 
-		if (n == 0 || FirstCarNumbers.Contains(n))
+		if (FirstCarNumbers.Contains(n))
 		{
 			var x_0 = new Coordinates { N = -1, X = L(n), DotX = 0 };
 
