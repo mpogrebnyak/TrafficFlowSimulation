@@ -9,16 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Properties\**" />
+	  <EmbeddedResource Remove="Properties\**" />
+	  <None Remove="Properties\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Localization\Localization.csproj" />
 	  <ProjectReference Include="..\Settings\Settings.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Properties" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

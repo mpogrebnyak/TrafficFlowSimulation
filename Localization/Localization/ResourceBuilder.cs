@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Localization.Localization
+﻿namespace Localization.Localization
 {
 	public class ResourceBuilder
 	{

@@ -58,8 +58,9 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
-			UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+			// TODO Проблема производительности
+	//		UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+	//		UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
 		}
 		UpdateChartEnvironment(coordinates.X, coordinates.T);
 	}

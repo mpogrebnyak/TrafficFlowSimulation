@@ -5,6 +5,7 @@ using ChartRendering.Constants;
 using ChartRendering.Events;
 using ChartRendering.Models;
 using EvaluationKernel;
+using EvaluationKernel.Equations;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 
@@ -12,26 +13,31 @@ namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers
 
 public class ThroughTheDriverEvaluationHandler : EvaluationHandler
 {
+	private Equation _equation;
+
 	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels)
 	{
 		var extendModelParameters = ExtendModelParameters(modelParameters);
-		var equation = new EquationThroughTheDriver(extendModelParameters);
-		return new KernelEvaluationHandler(extendModelParameters, equation);
+		_equation = new EquationThroughTheDriver(extendModelParameters);
+		ExtendEquation(modelParameters);
+		return new KernelEvaluationHandler(extendModelParameters, _equation);
 	}
 
 	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
 	{
+		var equation = (EquationThroughTheDriver) _equation;
 		eventHandler.Invoke(
 			new List<ChartEventActions>
 			{
-				ChartEventActions.UpdateCharts
+				ChartEventActions.UpdateCharts,
+				ChartEventActions.UpdateChartEnvironments
 			},
 			new ChartEventHandlerArgs(new CoordinatesArgs
-			{
-				T = t,
-				X = x.Where((_, index) => index % 2 != 0 || index == 0).ToList(),
-				Y = y.Where((_, index) => index % 2 != 0 || index == 0).ToList()
-			}));
+				{
+					T = t,
+					X = x.Where((_, index) => equation.IsVirtual(index) == false).ToList(),
+					Y = y.Where((_, index) => equation.IsVirtual(index) == false).ToList()
+				}));
 	}
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters)
@@ -74,5 +80,22 @@ public class ThroughTheDriverEvaluationHandler : EvaluationHandler
 		}
 
 		return extendModelParameters;
+	}
+
+	private void ExtendEquation(ModelParameters modelParameters)
+	{
+		var equation = (EquationThroughTheDriver) _equation;
+		var index = 0;
+
+		for (var i = 0; i < modelParameters.n; i++)
+		{
+			if (i > 1)
+			{
+				equation.VirtualCars.Add(index, true);
+				index++;
+			}
+			equation.VirtualCars.Add(index, false);
+			index++;
+		}
 	}
 }

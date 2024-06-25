@@ -44,7 +44,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.en, "Driver's response time")]
 	[CustomDisplay(5)]
 	[Required, Range(0.2, 2)]
-	[Random(0.2, 1)]
+	[Random(0.2, 0.6)]
 	public virtual double tau { get; set; }
 
 	[CustomDisplay(6, true, true)] 
@@ -93,7 +93,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.en, "Vehicle length")]
 	[CustomDisplay(15)]
 	[Required, Range(3, 8)]
-	[Random(3, 8)]
+	[Random(3, 5)]
 	public virtual double l_car { get; set; }
 
 	[CustomDisplay(16, true, true)] 
@@ -172,7 +172,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	{
 		var defaultBPM = Default();
 		defaultBPM.IsCarsIdentical = new EnumItem(IdenticalCars.No);
-		defaultBPM.n = 100;
+		defaultBPM.n = 300;
 		return ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n);
 	}
 

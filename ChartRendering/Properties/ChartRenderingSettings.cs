@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using ChartRendering.Constants;
 
 namespace ChartRendering.Properties;
 

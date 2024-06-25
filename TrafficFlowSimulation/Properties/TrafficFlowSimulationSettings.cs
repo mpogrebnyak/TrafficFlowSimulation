@@ -10,7 +10,7 @@ public class TrafficFlowSimulationSettings
 	[DefaultValue("image")]
 	public string DefaultFileName { get; set; }
 
-	[DefaultValue("true")]
+	[DefaultValue("false")]
 	public bool AutomaticSaveToVectorGraphics { get; set; }
 
 	/*

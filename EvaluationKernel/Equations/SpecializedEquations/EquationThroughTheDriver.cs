@@ -7,6 +7,8 @@ namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationThroughTheDriver : Equation
 {
+	public readonly Dictionary<int, bool> VirtualCars = new();
+
 	public EquationThroughTheDriver(ModelParameters modelParameters) : base(modelParameters)
 	{
 	}
@@ -22,7 +24,7 @@ public class EquationThroughTheDriver : Equation
 			return GetFirstCarEquation(i, x_n, x_n_0);
 		}
 
-		if (i % 2 == 0)
+		if (IsVirtual(i))
 		{
 			if (i == 2)
 			{
@@ -52,11 +54,16 @@ public class EquationThroughTheDriver : Equation
 			return _m.lSafe[n] + _m.lCar[n - 1];
 		}
 
-		if (n % 2 == 0)
+		if (IsVirtual(n))
 		{
 			return _m.lSafe[n] + _m.lCar[n - 2];
 		}
 
 		return _m.lSafe[n] + _m.lCar[n - 1];
+	}
+
+	public bool IsVirtual(int i)
+	{
+		return VirtualCars[i];
 	}
 }

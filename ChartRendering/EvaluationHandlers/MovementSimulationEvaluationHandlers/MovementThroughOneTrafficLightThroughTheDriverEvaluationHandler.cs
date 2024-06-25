@@ -18,6 +18,7 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 	{
 		ModelParameters = ExtendModelParameters(modelParameters);
 		Equation = new EquationWithStopThroughTheDriver(ModelParameters);
+		ExtendEquation();
 		ModeSettings = (MovementThroughOneTrafficLightModeSettingsModel)baseSettingsModels;
 		CurrentSignal = (TrafficLightColor)ModeSettings.FirstTrafficLightColor.Value;
 		Signal = (TrafficLightColor)ModeSettings.FirstTrafficLightColor.Value;
@@ -48,7 +49,7 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 		var equation = (EquationWithStopThroughTheDriver) Equation;
 		for (var i = 0; i < x.Count; i++)
 		{
-			if (equation.IsVirtual(i) == false && x[i] <= 0 - Equation.S(ModelParameters, i, y[i]) && IsCarToStopNotFound)
+			if (equation.IsVirtual(i) == false && x[i] <= 0  && IsCarToStopNotFound)
 			{
 				equation.StopCar.Add(i);
 				equation.AddFirstCarNumbers(i);
@@ -81,8 +82,6 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters)
 	{
-		var equation = (EquationWithStopThroughTheDriver) Equation;
-
 		var extendModelParameters = new ModelParameters
 		{
 			g = modelParameters.g,
@@ -106,8 +105,6 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 				extendModelParameters.k.Add(modelParameters.k[i - 1]);
 				extendModelParameters.lambda.Add(modelParameters.lambda[i - 1]);
 				extendModelParameters.Vn.Add(modelParameters.Vn[i - 1]);
-				
-				equation.VirtualCars.Add(i, true);
 			}
 
 			extendModelParameters.tau.Add(modelParameters.tau[i]);
@@ -120,9 +117,26 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 			extendModelParameters.k.Add(modelParameters.k[i]);
 			extendModelParameters.lambda.Add(modelParameters.lambda[i]);
 			extendModelParameters.Vn.Add(modelParameters.Vn[i]);
-			equation.VirtualCars.Add(i, false);
 		}
 
 		return extendModelParameters;
+	}
+
+	private void ExtendEquation()
+	{
+		var equation = (EquationWithStopThroughTheDriver) Equation;
+
+		var index = 0;
+		for (var i = 0; i < ModelParameters.n; i++)
+		{
+
+			if (i > 1)
+			{
+				equation.VirtualCars.Add(index, true);
+				index++;
+			}
+			equation.VirtualCars.Add(index, false);
+			index++;
+		}
 	}
 }

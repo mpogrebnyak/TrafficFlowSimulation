@@ -32,9 +32,9 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 				GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
-
-			UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-			UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			
+		//	UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+		//	UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 
 		SetMarkerImage(modelParameters.lCar);

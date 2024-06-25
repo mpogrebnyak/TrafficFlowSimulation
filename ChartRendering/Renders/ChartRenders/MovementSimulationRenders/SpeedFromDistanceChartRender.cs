@@ -78,8 +78,8 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = 0,
-				Maximum = modelParameters.L + 100,
+				Minimum = -30, //0,
+				Maximum = 60, //modelParameters.L + 100,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			},
 			AxisY = new Axis
