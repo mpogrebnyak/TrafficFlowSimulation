@@ -125,7 +125,7 @@ public static class ChartAreaRendersHelper
 			.CopyTo(requiredCustomLabels, 0);
 		axis.CustomLabels.Clear();
 
-		foreach (var requiredCustomLabel in requiredCustomLabels.Where(x => x is not null))
+		foreach (var requiredCustomLabel in requiredCustomLabels.Where(x => x is not null).Reverse())
 		{
 			var isLabelAvailable = true;
 			foreach (var customLabel in axis.CustomLabels)

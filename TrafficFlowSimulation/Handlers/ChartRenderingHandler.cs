@@ -81,6 +81,14 @@ public class ChartRenderingHandler
 		}
 	}
 
+	public void LocalizeChart()
+	{
+		foreach (var provider in _providers)
+		{
+			provider.LocalizeChart();
+		}
+	}
+
 	public void SaveCharts(List<Chart> charts, string fileName)
 	{
 		foreach (var chart in charts)

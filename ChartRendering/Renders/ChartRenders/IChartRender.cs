@@ -23,4 +23,6 @@ public interface IChartRender
 	public void AddSeries(ModelParameters modelParameters, int index);
 
 	public void UpdateScale(CoordinatesArgs? coordinates = null, AutoScroll? scroll = null, int? scrollFor = null);
+
+	public void LocalizeChart();
 }

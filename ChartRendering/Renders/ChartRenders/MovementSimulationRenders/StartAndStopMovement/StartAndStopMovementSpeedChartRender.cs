@@ -58,17 +58,26 @@ public class StartAndStopMovementSpeedChartRender : SpeedChartRender
 			{
 				Minimum = 0,
 				Maximum = 60,
+				Interval = 60 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
+				Interval = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 			}
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
+	}
+
+	protected override void CreateAxisSignature()
+	{
+		var chartArea = GetChartArea();
+		chartArea.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisX.Maximum, LocalizationHelper.Get<ChartRenderingResources>().TWithMeasurements));
+		chartArea.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisY.Maximum, LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
 	}
 }

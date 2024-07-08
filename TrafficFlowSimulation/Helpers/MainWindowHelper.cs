@@ -249,6 +249,9 @@ public class MainWindowHelper
 				break;
 			}
 		}
+
+		ServiceLocator.Current.GetInstance<ChartRenderingHandler>(ModesHelper.DrivingModeType).LocalizeChart();
+		ResizeAllChart();
 	}
 
 	public void ShowError(string controlName, Exception error)

@@ -81,9 +81,9 @@ public class SpeedLimitChangingModeSettingsModel : BaseSettingsModels
 			Speed = InitialSpeed
 		});
 
-		for (var i = 0; i < SegmentsNumber; i++)
+		for (var i = 1; i <= SegmentsNumber; i++)
 		{
-			segmentSpeeds.Add(i + 1, new SegmentModel
+			segmentSpeeds.Add(i, new SegmentModel
 			{
 				SegmentBeginning = segmentBeginning[i],
 				Speed = speedInSegment[i],

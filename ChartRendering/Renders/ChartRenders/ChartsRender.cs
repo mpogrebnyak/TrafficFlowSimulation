@@ -9,7 +9,6 @@ using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
-using Microsoft.Practices.ObjectBuilder2;
 using Settings;
 
 namespace ChartRendering.Renders.ChartRenders;
@@ -48,8 +47,8 @@ public abstract class ChartsRender : IChartRender
 
 		var chartArea = CreateChartArea(modelParameters, modeSettings);
 		Chart.ChartAreas.Add(chartArea);
-
 		Chart.Legends.Add(CreateLegend(LegendStyle.Column));
+		CreateAxisSignature();
 
 		RenderChartEnvironment(modelParameters, modeSettings);
 
@@ -124,6 +123,16 @@ public abstract class ChartsRender : IChartRender
 		}
 	}
 
+	public virtual void LocalizeChart()
+	{
+		if (Chart.Legends.Any())
+			RenderingHelper.DisplayChartLegend(Chart, Chart.Legends[0].LegendStyle);
+		else
+			RenderingHelper.DisplayChartLegend(Chart, null);
+
+		CreateAxisSignature();
+	}
+
 	protected void UpdateLegend(int i, bool showLegend, params double[] values)
 	{
 		if (showLegend)
@@ -188,5 +197,9 @@ public abstract class ChartsRender : IChartRender
 	protected ChartArea GetChartArea()
 	{
 		return Chart.ChartAreas.Single(x => x.Name == ChartAreaName);
+	}
+
+	protected virtual void CreateAxisSignature()
+	{
 	}
 }

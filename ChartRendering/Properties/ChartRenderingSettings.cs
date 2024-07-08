@@ -13,6 +13,6 @@ public class ChartRenderingSettings
 	[DefaultValue(10)]
 	public int TrafficCapacityRoundsNumber { get; set; }
 
-	[DefaultValue(2)]
+	[DefaultValue(1)]
 	public int MaximumTimeForAutomaticIncrease { get; set; }
 }

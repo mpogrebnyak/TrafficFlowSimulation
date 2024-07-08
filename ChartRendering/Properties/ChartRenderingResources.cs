@@ -74,6 +74,6 @@ public abstract class ChartRenderingResources
 	public string XWithMeasurements { get; set; }
 
 	[Translation(Locales.ru, "ẋ (м/с)")]
-	[Translation(Locales.en, "ẋ (m/c)")]
+	[Translation(Locales.en, "ẋ (m/s)")]
 	public string DotXWithMeasurements { get; set; }
 }

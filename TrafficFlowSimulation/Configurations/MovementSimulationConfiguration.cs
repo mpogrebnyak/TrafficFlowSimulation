@@ -62,7 +62,7 @@ namespace TrafficFlowSimulation.Configurations
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightCarsChartRender(_carsMovementChart),
 					_carsMovementChart.Name + DrivingMode.TrafficThroughOneTrafficLight, false);
 
-				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightSpeedFromDistanceChartRender(_speedFromDistanceChart),
 					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughOneTrafficLight, false);
 			}
 
@@ -137,7 +137,7 @@ namespace TrafficFlowSimulation.Configurations
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightCarsChartRender(_carsMovementChart),
 					_carsMovementChart.Name + DrivingMode.TrafficThroughOneTrafficLightThroughTheDriver, false);
 
-				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new SpeedFromDistanceChartRender(_speedFromDistanceChart),
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightSpeedFromDistanceChartRender(_speedFromDistanceChart),
 					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughOneTrafficLightThroughTheDriver, false);
 			}
 

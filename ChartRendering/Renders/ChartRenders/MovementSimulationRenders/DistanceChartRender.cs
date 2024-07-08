@@ -51,6 +51,14 @@ public abstract class DistanceChartRender : ChartsRender
 		};
 	}
 
+	public override void LocalizeChart()
+	{
+		base.LocalizeChart();
+
+		var isHidden = Chart.ChartAreas[0].AxisX.Title == string.Empty && Chart.ChartAreas[0].AxisY.Title == string.Empty;
+		SetChartAreaAxisTitle(isHidden);
+	}
+
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		return new Series[] { };

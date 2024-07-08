@@ -78,17 +78,22 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = -30, //0,
-				Maximum = 60, //modelParameters.L + 100,
+				Minimum = 0,
+				Maximum = modelParameters.L + 100,
+				Interval = (modelParameters.L + 100) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
+				Interval = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 			}
 		};
+		model.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(modelParameters.L + 100, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
+		model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax), LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
+
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
@@ -104,6 +109,13 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			LegendStyle = legendStyle,
 			Font = new Font("Microsoft Sans Serif", 10F),
 		};
+	}
+
+	protected override void CreateAxisSignature()
+	{
+		var chartArea = GetChartArea();
+		chartArea.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisX.Maximum, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
+		chartArea.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisY.Maximum, LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
 	}
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)

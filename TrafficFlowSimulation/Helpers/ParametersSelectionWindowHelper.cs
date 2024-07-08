@@ -8,7 +8,6 @@ using ChartRendering.ChartRenderModels.ParametersModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
 using ChartRendering.Helpers;
-using EvaluationKernel.Helpers;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;

@@ -56,17 +56,26 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 			{
 				Minimum = 0,
 				Maximum = 60,
+				Interval = 60 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 			},
 			AxisY = new Axis
 			{
 				Minimum = -30,
 				Maximum = 60,
+				Interval = 90 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
 		return chartArea;
+	}
+
+	protected override void CreateAxisSignature()
+	{
+		var chartArea = GetChartArea();
+		chartArea.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisX.Maximum, LocalizationHelper.Get<ChartRenderingResources>().TWithMeasurements));
+		chartArea.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisY.Maximum, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
 	}
 }

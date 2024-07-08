@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.Attribute;
 using ChartRendering.Helpers;
 using Localization;
@@ -51,7 +50,6 @@ public class LocalizationWindowHelper
 		}
 
 		LocalizeToolTip();
-		LocalizeCharts();
 
 		foreach (var source in _bindingSources)
 		{
@@ -63,41 +61,6 @@ public class LocalizationWindowHelper
 	{
 		var toolTip = new ToolTip();
 		toolTip.SetToolTip(_form.EstimateTrafficCapacityCheckBox, LocalizationHelper.Get<MainWindowResources>().EstimateTrafficCapacityCheckBoxToolTip);
-	}
-
-	private void LocalizeCharts()
-	{
-		LocalizeChartLegend(_form.DistanceChart);
-		LocalizeChartLegend(_form.SpeedChart);
-		LocalizeChartLegend(_form.CarsMovementChart);
-		//LocalizeChartLegend(_form.SpeedFromDistanceChart);
-
-		/*LocalizeAxes(_lc.AllCharts.DistanceChart,
-			LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
-			LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText);
-		LocalizeAxes(_lc.AllCharts.SpeedChart,
-			LocalizationHelper.Get<ChartResources>().TimeAxisTitleText,
-			LocalizationHelper.Get<ChartResources>().SpeedAxisTitleText);
-		LocalizeAxes(_lc.AllCharts.CarsMovementChart,
-			LocalizationHelper.Get<ChartResources>().DistanceAxisTitleText,
-			string.Empty);*/
-	}
-
-	private void LocalizeChartLegend(Chart chart)
-	{
-		if (chart.Legends.Any())
-			RenderingHelper.DisplayChartLegend(chart, chart.Legends[0].LegendStyle);
-		else
-			RenderingHelper.DisplayChartLegend(chart, null);
-	}
-
-	private void LocalizeAxes(Chart chart, string xAxisText, string yAxisText)
-	{
-		if (chart.ChartAreas.Any() && !String.IsNullOrEmpty(chart.ChartAreas[0].AxisX.Title))
-			chart.ChartAreas[0].AxisX.Title = xAxisText;
-
-		if (chart.ChartAreas.Any() && !String.IsNullOrEmpty(chart.ChartAreas[0].AxisY.Title))
-			chart.ChartAreas[0].AxisY.Title = yAxisText;
 	}
 
 	public void LocalizePanel(Type modelType, TableLayoutPanel? tableLayoutPanel)
