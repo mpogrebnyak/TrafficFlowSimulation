@@ -129,7 +129,7 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 		return chartArea;
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
+	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null, BaseSettingsModels modeSettings = null)
 	{
 		return new Legend
 		{

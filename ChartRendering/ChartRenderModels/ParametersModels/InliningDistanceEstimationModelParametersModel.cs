@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using ChartRendering.Attribute;
 using EvaluationKernel.Models;
 using Localization.Localization;
@@ -43,11 +44,13 @@ public class InliningDistanceEstimationModelParametersModel : BaseParametersMode
 	public override object GetDefault()
 	{
 		var defaultValues = (BaseParametersModel)base.GetDefault();
+		var defaultAPM = AdditionalParametersModel.Default();
 
 		defaultValues.l_car = 4;
 		defaultValues.l_safe = 1;
 		defaultValues.a = 0.45;
-		defaultValues.q = 0.5;
+		defaultValues.q = Math.Round(1 / (defaultAPM.g * defaultAPM.mu), 2);
+
 		return new InliningDistanceEstimationModelParametersModel
 		{
 			IsCarsIdentical = defaultValues.IsCarsIdentical,
@@ -65,8 +68,10 @@ public class InliningDistanceEstimationModelParametersModel : BaseParametersMode
 			l_car = defaultValues.l_car,
 			k = defaultValues.k,
 			k_multiple = defaultValues.k_multiple,
-			g = 9.8,
-			mu = 0.6
+			tau_b = defaultValues.tau_b,
+			tau_b_multiple = defaultValues.tau_b_multiple,
+			g = defaultAPM.g,
+			mu = defaultAPM.mu
 		};
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
@@ -51,7 +50,9 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		const double step = 0.1;
 		for (var space = initialSpace + step; space <= settings.MaximumDistanceBetweenCars; space += step)
 		{
-			var cm = EvaluateInternal((ModelParameters) modelParameters.Clone(), space, step);
+			var coordinatesModel = EvaluateInternal((ModelParameters) modelParameters.Clone(), space, step);
+			var cm = AdjustCoordinatesColor(coordinatesModel);
+
 			allCoordinatesModel.AddRange(cm);
 
 			p.ChartEventHandler.Invoke(
@@ -105,8 +106,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		p.ChartEventHandler.Invoke(
 			new List<ChartEventActions>
 			{
-				ChartEventActions.UpdateCharts,
-				ChartEventActions.UpdateChartEnvironments,
+				ChartEventActions.UpdateCharts
 			},
 			new ChartEventHandlerArgs(new CoefficientEstimationCoordinatesArgs
 			{
@@ -114,7 +114,7 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				Y = preCalculatedParameters.Select(x => x.Y).ToList(),
 				Color = preCalculatedParameters.Select(x => x.Color).ToList(),
 			}));
-		
+
 		p.ChartEventHandler.Invoke(
 			new List<ChartEventActions>
 			{
@@ -122,12 +122,10 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			}, new SaveChartEventHandlerArgs(CreateFileName(modelParameters)));
 	}
 
-	private List<CoefficientEstimationCoordinatesModel> EvaluateInternal(ModelParameters modelParameters, double space,
-		double step)
+	private List<CoefficientEstimationCoordinatesModel> EvaluateInternal(ModelParameters modelParameters, double space, double step)
 	{
 		var min = 0;
 		var max = Math.Floor(modelParameters.Vmax[1]) + 1;
-
 
 		var cm = new List<CoefficientEstimationCoordinatesModel>();
 
@@ -144,12 +142,12 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 		var topSolution = IsDecelerate(modelParameters, space, max);
 		if (topSolution.IsDeceleration == false)
 		{
-			cm.Add(new CoefficientEstimationCoordinatesModel { X = max, Y = space, Color = CustomColors.Black.Name });
 			for (var i = max; i >= min; i -= step)
 			{
 				cm.Add(PrepareCoordinates(i, space, i, 0));
 			}
-			cm.Add(new CoefficientEstimationCoordinatesModel { X = max, Y = space, Color = CustomColors.Black.Name });
+
+			cm.Add(new CoefficientEstimationCoordinatesModel { X = space, Y = max, Color = CustomColors.Black.Name });
 
 			return cm;
 		}
@@ -172,7 +170,6 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 				for (var j = i - step; j >= min + step; j -= step)
 				{
 					cm.Add(PrepareCoordinates(i, space, j, 0));
-
 				}
 
 				return cm;
@@ -268,23 +265,24 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 						: 0
 				};
 			}
-
 		}
 	}
 
 	private static CoefficientEstimationCoordinatesModel PrepareCoordinates(double maxSpeed, double x, double y, double intensity)
 	{
 		var intensityInPercentage = 0.0;
+
 		if (maxSpeed != 0)
 		{
-			maxSpeed = maxSpeed > 4
-				? maxSpeed
-				: 4;
+			maxSpeed = maxSpeed > 1
+			? maxSpeed
+			: 1;
+
 			// на сколько процентов скорость снижения отличается от максимальной
 			// 100 минус разница между числами в процентах
 			intensityInPercentage = intensity <= 0
 				? intensity
-				: 100 - (int) ((Math.Abs(intensity - maxSpeed)) / maxSpeed * 100);
+				: 100 - (int) (Math.Abs(intensity - maxSpeed) / maxSpeed * 100);
 		}
 
 		return new CoefficientEstimationCoordinatesModel
@@ -294,6 +292,58 @@ public class InliningDistanceEstimationSelectionEvaluationHandler : EvaluationHa
 			Color = InliningDistanceEstimationSelectionEvaluationRenderingHelper.GetColor(intensityInPercentage),
 		};
 	}
+
+	private List<CoefficientEstimationCoordinatesModel> AdjustCoordinatesColor(List<CoefficientEstimationCoordinatesModel> coordinatesModel)
+	{
+		var colors = new List<string>();
+		var min = coordinatesModel.Min(c => c.Y);
+		var max = coordinatesModel.Max(c => c.Y);
+
+		var adjustCoordinatesModel = new List<CoefficientEstimationCoordinatesModel>();
+		foreach (var cm in coordinatesModel)
+		{
+			if (Math.Abs(cm.Y - min) < 0.001)
+			{
+				adjustCoordinatesModel.Add(cm);
+				continue;
+			}
+
+			if (cm.Color == CustomColors.Black.Name)
+			{
+				var isBlackMaxContains = adjustCoordinatesModel
+					.Any(c => Math.Abs(cm.Y - max) < 0.001 && c.Color == CustomColors.Black.Name);
+
+				if (isBlackMaxContains)
+					continue;
+
+				adjustCoordinatesModel.Add(cm);
+				continue;
+			}
+
+			if (!colors.Contains(cm.Color))
+			{
+				colors.Add(cm.Color);
+			}
+
+			var color = cm.Color;
+			if (color != colors.Last())
+			{
+				color = colors[colors.Count - 1];
+			}
+
+			var model = new CoefficientEstimationCoordinatesModel
+			{
+				X = cm.X,
+				Y = cm.Y,
+				Color = color
+			};
+
+			adjustCoordinatesModel.Add(model);
+		}
+
+		return adjustCoordinatesModel;
+	}
+
 
 	private static string CreateFileName(ModelParameters modelParameters)
 	{

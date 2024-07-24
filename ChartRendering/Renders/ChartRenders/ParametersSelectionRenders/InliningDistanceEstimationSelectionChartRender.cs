@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -43,7 +44,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 					Name = SeriesName + color.Name,
 					ChartType = SeriesChartType.Spline,
 					ChartArea = chartArea.Name,
-					BorderWidth = 5,
+					BorderWidth = 4,
 					Color = color,
 					IsVisibleInLegend = false
 				});
@@ -69,7 +70,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 			Chart.Series.Add(series);
 		}
 
-		Chart.Legends.Add(CreateLegend(LegendStyle.Row, modelParameters));
+		Chart.Legends.Add(CreateLegend(LegendStyle.Row, modelParameters, modeSettings));
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
@@ -114,6 +115,10 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 				}
 			}
 		};
+		for (var i = modelParameters.Vmax[1] / 5; i < modelParameters.Vmax[1]; i += modelParameters.Vmax[1] / 5)
+		{
+			model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(i, (Math.Round(i, 0) + 1).ToString()));
+		}
 
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
@@ -142,8 +147,10 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 		};
 	}
 
-	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
+	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null, BaseSettingsModels modeSettings = null)
 	{
+		var settings = (InliningDistanceEstimationSettingsModel) modeSettings;
+
 		var legend = new Legend
 		{
 			Name = "Legend",
@@ -152,9 +159,7 @@ public class InliningDistanceEstimationSelectionChartRender : ChartsRender
 			Docking = Docking.Top,
 			Font = new Font("Microsoft Sans Serif", 15F),
 			Alignment = StringAlignment.Center,
-			Title = modelParameters != null
-				? LocalizationHelper.Get<ChartRenderingResources>().SpeedReductionTitle(modelParameters.k[1]).Replace(',', '.')
-				: null,
+			Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedReductionTitle(settings.k).Replace(',', '.'),
 			TitleAlignment = StringAlignment.Near,
 			TableStyle = LegendTableStyle.Wide
 		};

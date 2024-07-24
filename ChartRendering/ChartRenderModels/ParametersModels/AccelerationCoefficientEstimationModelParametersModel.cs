@@ -84,6 +84,7 @@ public class AccelerationCoefficientEstimationModelParametersModel : BaseParamet
 		{
 			IsCarsIdentical = new EnumItem(IdenticalCars.No),
 			n = 1,
+			tau = 0.5,
 			Vmax = 100 / 3.6
 		};
 	}

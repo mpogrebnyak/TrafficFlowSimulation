@@ -8,7 +8,6 @@ using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
-using EvaluationKernel.Equations;
 
 namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 

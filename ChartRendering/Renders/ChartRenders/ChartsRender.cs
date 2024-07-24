@@ -180,7 +180,7 @@ public abstract class ChartsRender : IChartRender
 
 	protected abstract ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings);
 
-	protected virtual Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null)
+	protected virtual Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null, BaseSettingsModels modeSettings = null)
 	{
 		return null;
 	}
