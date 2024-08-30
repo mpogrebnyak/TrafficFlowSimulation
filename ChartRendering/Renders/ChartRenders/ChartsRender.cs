@@ -36,11 +36,6 @@ public abstract class ChartsRender : IChartRender
 		Chart = chart;
 	}
 
-	protected Series GetSeries(int index)
-	{
-		return Chart.Series.Single(x => x.Name == SeriesName + index);
-	}
-
 	public virtual void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		FullClearChart();
@@ -133,29 +128,20 @@ public abstract class ChartsRender : IChartRender
 		CreateAxisSignature();
 	}
 
-	protected void UpdateLegend(int i, bool showLegend, params double[] values)
+	protected void UpdateLegend(Series series, bool showLegend, params double[] values)
 	{
 		if (showLegend)
 		{
-			GetSeries(i).LegendText = GetLegendText(values);
-			GetSeries(i).IsVisibleInLegend = true;
+			series.LegendText = GetLegendText(values);
+			series.IsVisibleInLegend = true;
 		}
 		else
-		{
-			GetSeries(i).IsVisibleInLegend = false;
-		}
+			series.IsVisibleInLegend = false;
 	}
 
-	protected void UpdateLabel(int i, bool showLabel, params double[] values)
+	protected void UpdateLabel(Series series, bool showLabel, params double[] values)
 	{
-		if (showLabel)
-		{
-			GetSeries(i).Label = GetLegendText(values);
-		}
-		else
-		{
-			GetSeries(i).Label = string.Empty;
-		}
+		series.Label = showLabel ? GetLegendText(values) : string.Empty;
 	}
 
 	protected virtual string GetLegendText(params double[] values)

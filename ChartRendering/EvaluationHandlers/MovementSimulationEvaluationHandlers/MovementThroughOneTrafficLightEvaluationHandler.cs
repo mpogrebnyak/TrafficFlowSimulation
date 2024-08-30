@@ -47,7 +47,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 		{
 			if (!IsCarToStopNotFound)
 			{
-				((EquationWithStop) Equation).StopCar.Clear();
+				((EquationWithStop) Equation).NumberAndPositionToStop.Clear();
 				IsCarToStopNotFound = true;
 			}
 
@@ -58,7 +58,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 		{
 			if (x[i] <= 0 - Equation.S(ModelParameters, i, y[i]) && IsCarToStopNotFound)
 			{
-				((EquationWithStop) Equation).StopCar.Add(i);
+				((EquationWithStop) Equation).NumberAndPositionToStop.Add(i, 0);
 				Equation.AddFirstCarNumbers(i);
 				IsCarToStopNotFound = false;
 			}
@@ -79,7 +79,7 @@ public class MovementThroughOneTrafficLightEvaluationHandler : EvaluationHandler
 					X = x.ToList(),
 					Y = y.ToList()
 				},
-				new EnvironmentArgs
+				new SingleTrafficLightsEnvironmentArgs
 				{
 					IsGreenLight = CurrentSignal == TrafficLightColor.Green,
 					Time = RemainingTime

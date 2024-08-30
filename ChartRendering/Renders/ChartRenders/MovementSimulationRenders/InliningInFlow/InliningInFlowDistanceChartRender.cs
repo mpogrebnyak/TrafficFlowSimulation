@@ -18,7 +18,7 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 	public InliningInFlowDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		base.RenderChart(modelParameters, modeSettings);
@@ -37,12 +37,12 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 				var showLegend = false;
 				if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
 				{
-					GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 					showLegend = true;
 				}
 
-				UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-				UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 			}
 		}
 
@@ -66,8 +66,8 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 
 			if (i < coordinates.X.Count)
 			{
-				GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
-				UpdateLegend(i, true, coordinates.X[i]);
+				series.Points.AddXY(coordinates.T, coordinates.X[i]);
+				UpdateLegend(series, true, coordinates.X[i]);
 			}
 		}
 	}

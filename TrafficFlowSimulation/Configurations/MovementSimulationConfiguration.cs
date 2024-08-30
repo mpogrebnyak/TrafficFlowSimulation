@@ -5,13 +5,13 @@ using ChartRendering.Helpers;
 using ChartRendering.Renders.ChartRenders;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
+using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughMultipleTrafficLights;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughOneTrafficLight;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.RoadHole;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.SpeedLimitChanging;
 using ChartRendering.Renders.ChartRenders.MovementSimulationRenders.StartAndStopMovement;
 using Common;
 using Common.Modularity;
-using EvaluationKernel.Helpers;
 using TrafficFlowSimulation.Handlers;
 using TrafficFlowSimulation.Windows;
 
@@ -139,6 +139,21 @@ namespace TrafficFlowSimulation.Configurations
 
 				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughOneTrafficLightSpeedFromDistanceChartRender(_speedFromDistanceChart),
 					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughOneTrafficLightThroughTheDriver, false);
+			}
+			
+			if (availableModes.Contains(DrivingMode.TrafficThroughMultipleTrafficLights))
+			{
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughMultipleTrafficLightsSpeedChartRender(_speedChart),
+					_speedChart.Name + DrivingMode.TrafficThroughMultipleTrafficLights, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughMultipleTrafficLightsDistanceChartRender(_distanceChart),
+					_distanceChart.Name + DrivingMode.TrafficThroughMultipleTrafficLights, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughMultipleTrafficLightsCarsChartRender(_carsMovementChart),
+					_carsMovementChart.Name + DrivingMode.TrafficThroughMultipleTrafficLights, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new MovementThroughMultipleTrafficLightsSpeedFromDistanceChartRender(_speedFromDistanceChart),
+					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughMultipleTrafficLights, false);
 			}
 
 			CommonHelper.ServiceRegistration.RegisterInstance(() => new ChartRenderingHandler(

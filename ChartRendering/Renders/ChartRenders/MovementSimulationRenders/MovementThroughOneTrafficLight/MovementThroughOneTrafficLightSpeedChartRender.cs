@@ -24,9 +24,9 @@ public class MovementThroughOneTrafficLightSpeedChartRender : SpeedChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				GetSeries(i).Points.AddXY(0, 0);
+				series.Points.AddXY(0, 0);
 
-			UpdateLegend(i, true, 0);
+			UpdateLegend(series, true, 0);
 		}
 	}
 
@@ -37,13 +37,13 @@ public class MovementThroughOneTrafficLightSpeedChartRender : SpeedChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-		//	if (coordinates.X[i] > -30 && coordinates.X[i] < 20)
+			if (coordinates.X[i] > -30 && coordinates.X[i] < 20)
 			{
-				GetSeries(i).Points.AddXY(coordinates.T, coordinates.Y[i]);
+				series.Points.AddXY(coordinates.T, coordinates.Y[i]);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, coordinates.Y[i]);
+			UpdateLegend(series, showLegend, coordinates.Y[i]);
 		}
 	}
 

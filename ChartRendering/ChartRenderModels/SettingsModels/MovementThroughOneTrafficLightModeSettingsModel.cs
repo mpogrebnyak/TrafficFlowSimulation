@@ -34,8 +34,8 @@ public class MovementThroughOneTrafficLightModeSettingsModel : BaseSettingsModel
 	{
 		return new MovementThroughOneTrafficLightModeSettingsModel
 		{
-			L = 10000,
-			FirstTrafficLightColor = new EnumItem(Constants.TrafficLightColor.Red),
+			L = MaxL,
+			FirstTrafficLightColor = new EnumItem(TrafficLightColor.Green),
 			SingleLightGreenTime = 10,
 			SingleLightRedTime = 20
 		};

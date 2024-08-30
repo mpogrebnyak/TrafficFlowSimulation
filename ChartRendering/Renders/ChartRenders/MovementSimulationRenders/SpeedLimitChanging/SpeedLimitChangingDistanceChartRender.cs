@@ -28,9 +28,9 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				GetSeries(i).Points.AddXY(0, modelParameters.lambda[i]);
+				series.Points.AddXY(0, modelParameters.lambda[i]);
 
-			UpdateLegend(i, true, modelParameters.lambda[i]);
+			UpdateLegend(series, true, modelParameters.lambda[i]);
 		}
 	}
 
@@ -41,9 +41,9 @@ public class SpeedLimitChangingDistanceChartRender : DistanceChartRender
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
+			series.Points.AddXY(coordinates.T, coordinates.X[i]);
 
-			UpdateLegend(i, true, coordinates.X[i]);
+			UpdateLegend(series, true, coordinates.X[i]);
 		}
 	}
 

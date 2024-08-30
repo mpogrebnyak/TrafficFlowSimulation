@@ -28,9 +28,9 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				GetSeries(i).Points.AddXY(0, modelParameters.Vn[i]);
+				series.Points.AddXY(0, modelParameters.Vn[i]);
 
-			UpdateLegend(i, true, 0);
+			UpdateLegend(series, true, 0);
 		}
 	}
 
@@ -41,9 +41,9 @@ public class SpeedLimitChangingSpeedChartRender : SpeedChartRender
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			GetSeries(i).Points.AddXY(coordinates.T, coordinates.Y[i]);
+			series.Points.AddXY(coordinates.T, coordinates.Y[i]);
 
-			UpdateLegend(i, true, coordinates.Y[i]);
+			UpdateLegend(series, true, coordinates.Y[i]);
 		}
 	}
 

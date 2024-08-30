@@ -72,7 +72,7 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 					X = x.Where((_, index) => equation.IsVirtual(index) == false).ToList(),
 					Y = y.Where((_, index) => equation.IsVirtual(index) == false).ToList()
 				},
-				new EnvironmentArgs
+				new SingleTrafficLightsEnvironmentArgs
 				{
 					IsGreenLight = CurrentSignal == TrafficLightColor.Green,
 					Time = RemainingTime

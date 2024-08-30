@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
@@ -42,12 +41,12 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 				var showLegend = false;
 				if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
 				{
-					GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 					showLegend = true;
 				}
 
-				UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-				UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 			}
 		}
 
@@ -91,8 +90,8 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 					showLegend = true;
 				}
 
-				UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
-				UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+				// TODO		UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+				// TODO		UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
 			}
 		}
 	}
@@ -159,19 +158,6 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 		{
 			startLineSeries
 		};
-	}
-
-
-	protected override string GetLegendText(params double[] values)
-	{
-		var sb = new StringBuilder();
-
-		sb.Append(LocalizationHelper.Get<ChartRenderingResources>().SpeedText + " ");
-		sb.Append(Math.Round(values[0], 2));
-		sb.Append("\n");
-		sb.Append(LocalizationHelper.Get<ChartRenderingResources>().DistanceText + " ");
-		sb.Append(Math.Round(values[1], 2));
-		return sb.ToString();
 	}
 
 	private double CalculateWay(double x)

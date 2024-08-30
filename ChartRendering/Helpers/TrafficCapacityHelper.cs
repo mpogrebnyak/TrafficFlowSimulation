@@ -23,9 +23,9 @@ public static class TrafficCapacityHelper
 
 	private static readonly Dictionary<string, Dictionary<int, int>> SeriesTrafficCapacity = new();
 
-	private static int _currentRoundNumber= 1;
+	private static List<int> _currentRoundNumber = new();
 
-	private static int _roundTime = RoundTime;
+	private static List<int> _roundTime = new();
 
 	private static Dictionary<int, int> CreateTrafficCapacity()
 	{
@@ -39,19 +39,24 @@ public static class TrafficCapacityHelper
 		return dictionary;
 	}
 
-	public static void RenderTrafficCapacity(SeriesCollection chartSeries, string chartAreaName, int? roundTime = null)
+	public static void RenderTrafficCapacity(SeriesCollection chartSeries, string chartAreaName, List<int>? roundTime = null)
 	{
-		_roundTime = roundTime ?? RoundTime;
+		_roundTime = new List<int>();
 		SeriesTrafficCapacity.Clear();
 
 		var environmentLineSeries = chartSeries
 			.Where(x => (string) x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
 			.ToList();
 
-		foreach (var series in environmentLineSeries)
+		foreach (var series in environmentLineSeries.Select((value, i) => new { i, value }))
 		{
-			SeriesTrafficCapacity.Add(KeyPrefix + Math.Round(series.Points.First().XValue, 2), CreateTrafficCapacity());
-			var trafficCapacitySeries = CreateTrafficCapacitySeriesLabel(series.Name, series.Points.First().XValue);
+			_roundTime.Add(roundTime != null && series.i >= 0 && roundTime.Count - 1 >= series.i
+				? roundTime[series.i]
+				: RoundTime);
+			_currentRoundNumber.Add(1);
+
+			SeriesTrafficCapacity.Add(KeyPrefix + Math.Round(series.value.Points.First().XValue, 2), CreateTrafficCapacity());
+			var trafficCapacitySeries = CreateTrafficCapacitySeriesLabel(series.value.Name, series.value.Points.First().XValue, series.i);
 			trafficCapacitySeries.ForEach(x =>
 			{
 				x.ChartArea = chartAreaName;
@@ -70,14 +75,14 @@ public static class TrafficCapacityHelper
 			.Where(x => x.Name.Contains("FictitiousSeries"))
 			.ForEach(x => x.Enabled = IsTrafficCapacityAvailable());
 
-		foreach (var series in environmentLineSeries)
+		foreach (var series in environmentLineSeries.Select((value, i) => new { i, value }))
 		{
-			var trafficCapacity = series.Points.Any()
-				? values.Count(x => x > series.Points.First().XValue)
+			var trafficCapacity = series.value.Points.Any()
+				? values.Count(x => x > series.value.Points.First().XValue)
 				: 0;
 
 			var trafficCapacitySeries = chartSeries.
-				SingleOrDefault(x => x.Name.Contains(TrafficCapacityName + series.Name));
+				SingleOrDefault(x => x.Name.Contains(TrafficCapacityName + series.value.Name));
 
 			if (trafficCapacitySeries != null)
 			{
@@ -85,8 +90,8 @@ public static class TrafficCapacityHelper
 				var currentTrafficCapacity = int.Parse(trafficCapacitySeries.Tag.ToString());
 				if (currentTrafficCapacity < trafficCapacity)
 				{
-					CalculateTrafficCapacity(series.Points.First().XValue, t, trafficCapacity);
-					trafficCapacitySeries.Label = GetTrafficCapacityLabel(series.Points.First().XValue);
+					CalculateTrafficCapacity(series.value.Points.First().XValue, t, trafficCapacity, series.i);
+					trafficCapacitySeries.Label = GetTrafficCapacityLabel(series.value.Points.First().XValue, series.i);
 					trafficCapacitySeries.Tag = trafficCapacity.ToString();
 				}
 			}
@@ -95,15 +100,18 @@ public static class TrafficCapacityHelper
 		if (IsTrafficCapacityAvailable())
 		{
 			var rounds = SettingsHelper.Get<ChartRenderingSettings>().TrafficCapacityRoundsNumber;
-			if (t > _currentRoundNumber * _roundTime && t < (rounds + 1) * _roundTime)
+			for (var i = 0; i < environmentLineSeries.Count; i++)
 			{
-				_currentRoundNumber++;
-				CommonFileHelper.WriteDictionaryToFile(SeriesTrafficCapacity, " ");
+				if (t > _currentRoundNumber[i] * _roundTime[i] && t < (rounds + 1) * _roundTime[i])
+				{
+					_currentRoundNumber[i]++;
+					CommonFileHelper.WriteDictionaryToFile(SeriesTrafficCapacity, " ");
+				}
 			}
 		}
 	}
 
-	private static Series[] CreateTrafficCapacitySeriesLabel(string name, double xCoordinate)
+	private static Series[] CreateTrafficCapacitySeriesLabel(string name, double xCoordinate, int index)
 	{
 		var trafficCapacitySeries = new Series
 		{
@@ -112,7 +120,7 @@ public static class TrafficCapacityHelper
 			BorderWidth = 2,
 			Color = Color.Transparent,
 			IsVisibleInLegend = false,
-			Label = GetTrafficCapacityLabel(xCoordinate),
+			Label = GetTrafficCapacityLabel(xCoordinate, index),
 			LabelForeColor = Color.Black,
 			LabelBorderColor = CustomColors.SystemOrange,
 			LabelBorderDashStyle = ChartDashStyle.Dot,
@@ -152,13 +160,13 @@ public static class TrafficCapacityHelper
 		return new[] {trafficCapacitySeries, fictitiousSeries};
 	}
 
-	private static void CalculateTrafficCapacity(double key, double t, int capacity)
+	private static void CalculateTrafficCapacity(double key, double t, int capacity, int index)
 	{
 		var trafficCapacity = SeriesTrafficCapacity[KeyPrefix + Math.Round(key, 2)];
 		var innerKeys = trafficCapacity
 			.ToDictionary(entry => entry.Key, entry => entry.Value)
 			.Keys
-			.Where(x => x * _roundTime > t);
+			.Where(x => x * _roundTime[index] > t);
 
 		foreach (var innerKey in innerKeys)
 		{
@@ -166,7 +174,7 @@ public static class TrafficCapacityHelper
 		}
 	}
 
-	private static string GetTrafficCapacityLabel(double key)
+	private static string GetTrafficCapacityLabel(double key, int index)
 	{
 		var trafficCapacity = SeriesTrafficCapacity.First(x => x.Key == KeyPrefix + Math.Round(key, 2)).Value;
 
@@ -176,7 +184,7 @@ public static class TrafficCapacityHelper
 		for (var round = 1; round <= rounds; round++)
 		{
 			label += LocalizationHelper.Get<ChartRenderingResources>()
-				.TrafficCapacity(round * _roundTime, trafficCapacity[round].ToString("D2"));
+				.TrafficCapacity(round * _roundTime[index], trafficCapacity[round].ToString("D2"));
 
 			label += round != rounds
 				? "; "

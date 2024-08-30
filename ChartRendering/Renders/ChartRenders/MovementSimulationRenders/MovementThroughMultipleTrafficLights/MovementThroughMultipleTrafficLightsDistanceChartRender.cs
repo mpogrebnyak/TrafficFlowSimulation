@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
@@ -9,14 +8,14 @@ using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.StartAndStopMovement;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughMultipleTrafficLights;
 
-public class StartAndStopMovementDistanceChartRender : DistanceChartRender
+public class MovementThroughMultipleTrafficLightsDistanceChartRender : DistanceChartRender
 {
-	public StartAndStopMovementDistanceChartRender(Chart chart) : base(chart)
+	public MovementThroughMultipleTrafficLightsDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		base.RenderChart(modelParameters, modeSettings);
@@ -33,14 +32,12 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		base.UpdateChart(coordinates);
-
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (coordinates.X[i] > GetChartArea().AxisY.Minimum)
+			if (coordinates.X[i] > GetChartArea().AxisY.Minimum && coordinates.X[i] < GetChartArea().AxisY.Maximum)
 			{
 				series.Points.AddXY(coordinates.T, coordinates.X[i]);
 				showLegend = true;
@@ -64,9 +61,9 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 			},
 			AxisY = new Axis
 			{
-				Minimum = 0,
-				Maximum = modelParameters.L + 100,
-				Interval = (modelParameters.L + 100) / 5.0,
+				Minimum = -30,
+				Maximum = 60,
+				Interval = 90 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};

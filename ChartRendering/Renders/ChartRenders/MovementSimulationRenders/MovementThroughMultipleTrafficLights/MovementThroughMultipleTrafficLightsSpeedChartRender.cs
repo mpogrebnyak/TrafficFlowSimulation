@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
@@ -9,14 +8,14 @@ using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
 
-namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.StartAndStopMovement;
+namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughMultipleTrafficLights;
 
-public class StartAndStopMovementDistanceChartRender : DistanceChartRender
+public class MovementThroughMultipleTrafficLightsSpeedChartRender : SpeedChartRender
 {
-	public StartAndStopMovementDistanceChartRender(Chart chart) : base(chart)
+	public MovementThroughMultipleTrafficLightsSpeedChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		base.RenderChart(modelParameters, modeSettings);
@@ -25,28 +24,26 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				series.Points.AddXY(0, modelParameters.lambda[i]);
+				series.Points.AddXY(0, 0);
 
-			UpdateLegend(series, true, modelParameters.lambda[i]);
+			UpdateLegend(series, true, 0);
 		}
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		base.UpdateChart(coordinates);
-
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (coordinates.X[i] > GetChartArea().AxisY.Minimum)
+			if (coordinates.X[i] > -30 && coordinates.X[i] < 20)
 			{
-				series.Points.AddXY(coordinates.T, coordinates.X[i]);
+				series.Points.AddXY(coordinates.T, coordinates.Y[i]);
 				showLegend = true;
 			}
 
-			UpdateLegend(series, showLegend, coordinates.X[i]);
+			UpdateLegend(series, showLegend, coordinates.Y[i]);
 		}
 	}
 
@@ -65,10 +62,11 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = modelParameters.L + 100,
-				Interval = (modelParameters.L + 100) / 5.0,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
+				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
+				Interval = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax) / 5.0,
+				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 			}
+			
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
@@ -79,6 +77,6 @@ public class StartAndStopMovementDistanceChartRender : DistanceChartRender
 	{
 		var chartArea = GetChartArea();
 		chartArea.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisX.Maximum, LocalizationHelper.Get<ChartRenderingResources>().TWithMeasurements));
-		chartArea.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisY.Maximum, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
+		chartArea.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisY.Maximum, LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
 	}
 }

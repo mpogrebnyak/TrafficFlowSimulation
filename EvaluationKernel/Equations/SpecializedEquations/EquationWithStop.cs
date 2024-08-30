@@ -9,7 +9,7 @@ public class EquationWithStop : Equation
 {
 	private const double _eps = 0.000001;
 
-	public readonly HashSet<int> StopCar = new() {0};
+	public readonly Dictionary<int, double> NumberAndPositionToStop = new();
 
 	public EquationWithStop(ModelParameters modelParameters) : base(modelParameters) { }
 
@@ -17,7 +17,7 @@ public class EquationWithStop : Equation
 	{
 		var x_n = new Coordinates { N = n, X = x, DotX = dotX };
 
-		if (FirstCarNumbers.Contains(n))
+		if (FirstCarNumbers.Contains(n) || NumberAndPositionToStop.ContainsKey(n))
 		{
 			var x_0 = new Coordinates { N = -1, X = L(n), DotX = 0 };
 
@@ -31,15 +31,15 @@ public class EquationWithStop : Equation
 
 	protected override double L_safe(int n)
 	{
-		return n == 0 || StopCar.Contains(n)
+		return n == 0 || NumberAndPositionToStop.ContainsKey(n)
 			? _eps
 			: _m.lSafe[n] + _m.lCar[n - 1];
 	}
 
 	private double L(int n)
 	{
-		return StopCar.Contains(n)
-			? 0
+		return NumberAndPositionToStop.ContainsKey(n)
+			? NumberAndPositionToStop[n]
 			: _m.L;
 	}
 }

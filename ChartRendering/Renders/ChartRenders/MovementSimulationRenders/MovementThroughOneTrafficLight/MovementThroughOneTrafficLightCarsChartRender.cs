@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Helpers;
 using ChartRendering.Models;
-using ChartRendering.Properties;
 using EvaluationKernel.Models;
-using Localization;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.MovementThroughOneTrafficLight;
 
@@ -32,12 +30,12 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if (modelParameters.lambda[i] > GetChartArea().AxisX.Minimum && modelParameters.lambda[i] < GetChartArea().AxisX.Maximum)
 			{
-				GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-			UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 
 		SetMarkerImage(modelParameters.lCar);
@@ -49,25 +47,25 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
+			if(series.Points.Any())
+				series.Points.RemoveAt(0);
+
 			var showLegend = false;
-			if(GetSeries(i).Points.Any())
-				GetSeries(i).Points.RemoveAt(0);
 			if (coordinates.X[i] > GetChartArea().AxisX.Minimum && coordinates.X[i] < GetChartArea().AxisX.Maximum)
 			{
-				GetSeries(i).Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				series.Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			// TODO Проблема производительности
-	//		UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
-	//		UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+			UpdateLegend(series, showLegend, coordinates.Y[i], coordinates.X[i]);
+			UpdateLabel(series, showLegend, coordinates.Y[i], coordinates.X[i]);
 		}
 		UpdateChartEnvironment(coordinates.X, coordinates.T);
 	}
 
 	public override void UpdateEnvironment(object parameters)
 	{
-		var environmentModel = (EnvironmentArgs) parameters;
+		var environmentModel = (SingleTrafficLightsEnvironmentArgs) parameters;
 		var trafficLine = Chart.Series.First(series => series.Name.Contains("StartLine"));
 		trafficLine.Color = environmentModel.IsGreenLight ? Color.Green : Color.Red;
 
@@ -78,7 +76,6 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		
 		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
@@ -129,23 +126,10 @@ public class MovementThroughOneTrafficLightCarsChartRender : CarsChartRender
 		};
 	}
 
-
-	protected override string GetLegendText(params double[] values)
-	{
-		var sb = new StringBuilder();
-
-		sb.Append(LocalizationHelper.Get<ChartRenderingResources>().SpeedText + " ");
-		sb.Append(Math.Round(values[0], 2));
-		sb.Append("\n");
-		sb.Append(LocalizationHelper.Get<ChartRenderingResources>().DistanceText + " ");
-		sb.Append(Math.Round(values[1], 2));
-		return sb.ToString();
-	}
-
 	protected override void RenderTrafficCapacity(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		var settings = (MovementThroughOneTrafficLightModeSettingsModel) modeSettings;
 		var roundTime = settings.SingleLightGreenTime + settings.SingleLightRedTime;
-		TrafficCapacityHelper.RenderTrafficCapacity(Chart.Series, ChartAreaName, (int)roundTime);
+		TrafficCapacityHelper.RenderTrafficCapacity(Chart.Series, ChartAreaName, new List<int> {(int)roundTime});
 	}
 }

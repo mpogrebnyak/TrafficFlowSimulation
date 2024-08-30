@@ -15,7 +15,7 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 	public MovementThroughOneTrafficLightDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
-	
+
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
 		base.RenderChart(modelParameters, modeSettings);
@@ -24,9 +24,9 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				GetSeries(i).Points.AddXY(0, modelParameters.lambda[i]);
+				series.Points.AddXY(0, modelParameters.lambda[i]);
 
-			UpdateLegend(i, true, modelParameters.lambda[i]);
+			UpdateLegend(series, true, modelParameters.lambda[i]);
 		}
 	}
 
@@ -37,13 +37,13 @@ public class MovementThroughOneTrafficLightDistanceChartRender : DistanceChartRe
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-		//	if (coordinates.X[i] > GetChartArea().AxisY.Minimum && coordinates.X[i] < GetChartArea().AxisY.Maximum)
+			if (coordinates.X[i] > GetChartArea().AxisY.Minimum && coordinates.X[i] < GetChartArea().AxisY.Maximum)
 			{
-				GetSeries(i).Points.AddXY(coordinates.T, coordinates.X[i]);
+				series.Points.AddXY(coordinates.T, coordinates.X[i]);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, coordinates.X[i]);
+			UpdateLegend(series, showLegend, coordinates.X[i]);
 		}
 	}
 

@@ -31,9 +31,9 @@ public class SpeedFromDistanceChartRender : ChartsRender
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 			if (i == 0)
-				GetSeries(i).Points.AddXY(modelParameters.lambda[i], modelParameters.Vn[i]);
+				series.Points.AddXY(modelParameters.lambda[i], modelParameters.Vn[i]);
 
-			UpdateLegend(i, true, 0);
+			UpdateLegend(series, true, 0);
 		}
 	}
 
@@ -46,11 +46,11 @@ public class SpeedFromDistanceChartRender : ChartsRender
 			var showLegend = false;
 			if (coordinates.X[i] > GetChartArea().AxisX.Minimum - 10)
 			{
-				GetSeries(i).Points.AddXY(coordinates.X[i], coordinates.Y[i]);
+				series.Points.AddXY(coordinates.X[i], coordinates.Y[i]);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, coordinates.Y[i]);
+			UpdateLegend(series, showLegend, coordinates.Y[i]);
 		}
 	}
 

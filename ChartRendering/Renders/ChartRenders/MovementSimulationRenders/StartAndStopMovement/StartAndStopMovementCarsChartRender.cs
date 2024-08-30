@@ -29,12 +29,12 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
 			{
-				GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
-			
-		//	UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-		//	UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+
+			UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 
 		SetMarkerImage(modelParameters.lCar);
@@ -47,17 +47,18 @@ public class StartAndStopMovementCarsChartRender : CarsChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (GetSeries(i).Points.Any())
-				GetSeries(i).Points.RemoveAt(0);
+			if (series.Points.Any())
+				series.Points.RemoveAt(0);
 			if (coordinates.X[i] > GetChartArea().AxisX.Minimum)
 			{
-				GetSeries(i).Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+				series.Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 				showLegend = true;
 			}
 
-			UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
-			UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+			UpdateLegend(series, showLegend, coordinates.Y[i], coordinates.X[i]);
+			UpdateLabel(series, showLegend, coordinates.Y[i], coordinates.X[i]);
 		}
+
 		UpdateChartEnvironment(coordinates.X, coordinates.T);
 	}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
@@ -24,6 +25,8 @@ public abstract class CarsChartRender : ChartsRender
 	protected override string ChartAreaName => "CarsMovementChartArea";
 
 	private readonly MemoryCache _cache = MemoryCache.Default;
+
+	private readonly ChartRenderingResources _resources = LocalizationHelper.Get<ChartRenderingResources>();
 
 	protected CarsChartRender(Chart chart) : base(chart)
 	{
@@ -150,5 +153,17 @@ public abstract class CarsChartRender : ChartsRender
 		}
 
 		return CarsRenderingHelper.BitmapResources.First().Key.Name;
+	}
+	
+	protected override string GetLegendText(params double[] values)
+	{
+		var sb = new StringBuilder();
+
+		sb.Append(_resources.SpeedText + " ");
+		sb.Append(Math.Round(values[0], 2));
+		sb.Append("\n");
+		sb.Append(_resources.DistanceText + " ");
+		sb.Append(Math.Round(values[1], 2));
+		return sb.ToString();
 	}
 }

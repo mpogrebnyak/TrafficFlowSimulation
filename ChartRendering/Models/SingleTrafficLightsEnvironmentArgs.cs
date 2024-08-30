@@ -1,6 +1,6 @@
 ﻿namespace ChartRendering.Models;
 
-public class EnvironmentArgs : EnvironmentArgsBase
+public class SingleTrafficLightsEnvironmentArgs : EnvironmentArgsBase
 {
 	public bool IsGreenLight { get; set; }
 

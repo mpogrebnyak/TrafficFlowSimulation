@@ -13,6 +13,10 @@ public class DrivingModeResources
 	[Translation(Locales.en, "Traffic through one traffic light")]
 	public string TrafficThroughOneTrafficLight { get; set; }
 
+	[Translation(Locales.ru, "Движение через произвольное количество светофоров")]
+	[Translation(Locales.en, "Traffic through multiple traffic lights")]
+	public string TrafficThroughMultipleTrafficLights { get; set; }
+
 	[Translation(Locales.ru, "Встраивание в поток")]
 	[Translation(Locales.en, "Inlining in the flow")]
 	public string InliningInFlow { get; set; }
@@ -42,18 +46,21 @@ public enum DrivingMode
 	[LocalizedDescription("TrafficThroughOneTrafficLight", typeof(DrivingModeResources))]
 	TrafficThroughOneTrafficLight = 2,
 
+	[LocalizedDescription("TrafficThroughMultipleTrafficLights", typeof(DrivingModeResources))]
+	TrafficThroughMultipleTrafficLights = 3,
+
 	[LocalizedDescription("InliningInFlow", typeof(DrivingModeResources))]
-	InliningInFlow = 3,
+	InliningInFlow = 4,
 
 	[LocalizedDescription("SpeedLimitChanging", typeof(DrivingModeResources))]
-	SpeedLimitChanging = 4,
+	SpeedLimitChanging = 5,
 
 	[LocalizedDescription("RoadHole", typeof(DrivingModeResources))]
-	RoadHole = 5,
+	RoadHole = 6,
 
 	[LocalizedDescription("ThroughTheDriver", typeof(DrivingModeResources))]
-	ThroughTheDriver = 6,
+	ThroughTheDriver = 7,
 
 	[LocalizedDescription("TrafficThroughOneTrafficLightThroughTheDriver", typeof(DrivingModeResources))]
-	TrafficThroughOneTrafficLightThroughTheDriver = 7
+	TrafficThroughOneTrafficLightThroughTheDriver = 8
 }

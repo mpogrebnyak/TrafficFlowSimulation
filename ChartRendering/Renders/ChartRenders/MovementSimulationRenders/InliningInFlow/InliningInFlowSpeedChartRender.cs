@@ -37,12 +37,12 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 				var showLegend = false;
 				if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
 				{
-					GetSeries(i).Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
+					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 					showLegend = true;
 				}
 
-				UpdateLegend(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-				UpdateLabel(i, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 			}
 		}
 
@@ -66,8 +66,8 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 
 			if (i < coordinates.X.Count)
 			{
-				GetSeries(i).Points.AddXY(coordinates.T, coordinates.Y[i]);
-				UpdateLegend(i, true, coordinates.Y[i]);
+				series.Points.AddXY(coordinates.T, coordinates.Y[i]);
+				UpdateLegend(series, true, coordinates.Y[i]);
 			}
 		}
 	}
