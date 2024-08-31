@@ -11,7 +11,7 @@ public class MovementThroughOneTrafficLightSpeedFromDistanceChartRender : SpeedF
 	}
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
-	{
+	{ 
 		var chartArea = base.CreateChartArea(modelParameters, modeSettings);
 
 		chartArea.AxisX.Minimum = -30;

@@ -91,8 +91,8 @@ public class SpeedFromDistanceChartRender : ChartsRender
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 			}
 		};
-		model.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(modelParameters.L + 100, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
-		model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax), LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
+	//	model.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(modelParameters.L + 100, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
+	//	model.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax), LocalizationHelper.Get<ChartRenderingResources>().DotXWithMeasurements));
 
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 

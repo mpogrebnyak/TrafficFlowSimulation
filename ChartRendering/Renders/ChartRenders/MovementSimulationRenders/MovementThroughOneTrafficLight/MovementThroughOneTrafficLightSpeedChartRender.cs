@@ -37,7 +37,7 @@ public class MovementThroughOneTrafficLightSpeedChartRender : SpeedChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (coordinates.X[i] > -30 && coordinates.X[i] < 20)
+			//if (coordinates.X[i] > GetChartArea().AxisY.Minimum && coordinates.X[i] < GetChartArea().AxisY.Maximum)
 			{
 				series.Points.AddXY(coordinates.T, coordinates.Y[i]);
 				showLegend = true;

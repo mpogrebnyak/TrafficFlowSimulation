@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ChartRendering.ChartRenderModels;
-using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Events;
 using ChartRendering.Models;
@@ -15,50 +14,23 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 {
 	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels)
 	{
+		base.CreateKernelEvaluationHandler(modelParameters, baseSettingsModels);
 		ModelParameters = ExtendModelParameters(modelParameters);
 		Equation = new EquationWithStopThroughTheDriver(ModelParameters);
 		ExtendEquation();
-		ModeSettings = (MovementThroughOneTrafficLightModeSettingsModel)baseSettingsModels;
-		CurrentSignal = (TrafficLightColor)ModeSettings.FirstTrafficLightColor.Value;
-		Signal = (TrafficLightColor)ModeSettings.FirstTrafficLightColor.Value;
-
-		if (Signal == TrafficLightColor.Green)
-		{
-			((EquationWithStopThroughTheDriver) Equation).StopCar.Clear();
-		}
 
 		return new KernelEvaluationHandler(ModelParameters, Equation);
 	}
 
-	protected override void AdditionalEvaluation(double t, List<double> x, List<double> y)
-	{
-		RemainingTime = GetRemainingTime(t);
-
-		if (CurrentSignal == TrafficLightColor.Green)
-		{
-			if (!IsCarToStopNotFound)
-			{
-				((EquationWithStopThroughTheDriver) Equation).StopCar.Clear();
-				IsCarToStopNotFound = true;
-			}
-
-			return;
-		}
-
-		var equation = (EquationWithStopThroughTheDriver) Equation;
-		for (var i = 0; i < x.Count; i++)
-		{
-			if (equation.IsVirtual(i) == false && x[i] <= 0  && IsCarToStopNotFound)
-			{
-				equation.StopCar.Add(i);
-				equation.AddFirstCarNumbers(i);
-				IsCarToStopNotFound = false;
-			}
-		}
-	}
-
 	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
 	{
+		var args = new MultipleTrafficLightsEnvironmentArgs { TrafficLight = new List<SingleTrafficLight>() };
+		args.TrafficLight.Add(new SingleTrafficLight
+		{
+			IsGreenLight = TrafficLights.First().CurrentSignal == TrafficLightColor.Green,
+			Time = TrafficLights.First().RemainingTime
+		});
+
 		var equation = (EquationWithStopThroughTheDriver) Equation;
 		eventHandler.Invoke(
 			new List<ChartEventActions>
@@ -72,11 +44,13 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 					X = x.Where((_, index) => equation.IsVirtual(index) == false).ToList(),
 					Y = y.Where((_, index) => equation.IsVirtual(index) == false).ToList()
 				},
-				new SingleTrafficLightsEnvironmentArgs
-				{
-					IsGreenLight = CurrentSignal == TrafficLightColor.Green,
-					Time = RemainingTime
-				}));
+				args));
+	}
+
+	protected override bool AdditionalCondition(int n)
+	{
+		var equation = (EquationWithStopThroughTheDriver) Equation;
+		return equation.IsVirtual(n);
 	}
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters)
@@ -128,7 +102,6 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 		var index = 0;
 		for (var i = 0; i < ModelParameters.n; i++)
 		{
-
 			if (i > 1)
 			{
 				equation.VirtualCars.Add(index, true);

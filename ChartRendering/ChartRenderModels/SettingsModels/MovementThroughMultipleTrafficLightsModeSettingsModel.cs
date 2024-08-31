@@ -55,4 +55,16 @@ public class MovementThroughMultipleTrafficLightsModeSettingsModel : BaseSetting
 			TrafficLightsPosition = CommonParserHelper.ParseMultipleValues(TrafficLightsPosition).Values.ToList()
 		};
 	}
+
+	public MovementThroughMultipleTrafficLightsModeSettingsModel MapFrom(MovementThroughOneTrafficLightModeSettingsModel model)
+	{
+		return new MovementThroughMultipleTrafficLightsModeSettingsModel
+		{
+			L = model.L,
+			TrafficLightsNumber = 1,
+			TrafficLightsGreenTime = "1:" + model.SingleLightGreenTime, 
+			TrafficLightsRedTime = "1:" + model.SingleLightRedTime,
+			TrafficLightsPosition = "1:0"
+		};
+	}
 }

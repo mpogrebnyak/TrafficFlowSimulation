@@ -7,7 +7,7 @@ namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationWithStop : Equation
 {
-	private const double _eps = 0.000001;
+	protected const double _eps = 0.000001;
 
 	public readonly Dictionary<int, double> NumberAndPositionToStop = new();
 

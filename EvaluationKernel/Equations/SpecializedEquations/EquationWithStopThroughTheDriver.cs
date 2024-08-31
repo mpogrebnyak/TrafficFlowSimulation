@@ -5,12 +5,8 @@ using EvaluationKernel.Models;
 
 namespace EvaluationKernel.Equations.SpecializedEquations;
 
-public class EquationWithStopThroughTheDriver : Equation
+public class EquationWithStopThroughTheDriver : EquationWithStop
 {
-	private const double _eps = 0.01;
-
-	public readonly HashSet<int> StopCar = new() {0};
-
 	public readonly Dictionary<int, bool> VirtualCars = new();
 
 	public EquationWithStopThroughTheDriver(ModelParameters modelParameters) : base(modelParameters)
@@ -86,8 +82,8 @@ public class EquationWithStopThroughTheDriver : Equation
 
 	private double L(int n)
 	{
-		return StopCar.Contains(n)
-			? 0
+		return NumberAndPositionToStop.ContainsKey(n)
+			? NumberAndPositionToStop[n]
 			: _m.L;
 	}
 }
