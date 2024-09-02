@@ -40,8 +40,8 @@ public class MovementThroughMultipleTrafficLightsModeSettingsModel : BaseSetting
 		{
 			L = MaxL,
 			TrafficLightsNumber = 2,
-			TrafficLightsGreenTime = "1:10, 2:2", 
-			TrafficLightsRedTime = "1:5, 2:20",
+			TrafficLightsGreenTime = "1:20, 2:10", 
+			TrafficLightsRedTime = "1:10, 2:20",
 			TrafficLightsPosition = "1:0, 2:100"
 		};
 	}

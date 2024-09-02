@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
+using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
@@ -49,6 +50,9 @@ public class MovementThroughMultipleTrafficLightsDistanceChartRender : DistanceC
 
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
+		var settings = (MovementThroughMultipleTrafficLightsModeSettingsModel)modeSettings;
+		var trafficLightsParameters = settings.MapTo();
+
 		var model = new ChartAreaCreationModel
 		{
 			Name = ChartAreaName,
@@ -62,8 +66,8 @@ public class MovementThroughMultipleTrafficLightsDistanceChartRender : DistanceC
 			AxisY = new Axis
 			{
 				Minimum = -30,
-				Maximum = 60,
-				Interval = 90 / 5.0,
+				Maximum = trafficLightsParameters.TrafficLightsPosition.Last() + 100,
+				Interval = (30 + trafficLightsParameters.TrafficLightsPosition.Last() + 100) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};

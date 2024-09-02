@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -177,7 +178,32 @@ public static class ChartAreaRendersHelper
 		};
 	}
 
-	public static double GetLabelInitialPosition(CustomLabel customLabel)
+	public static void ExtendTimeLine(Chart chart, string chartAreaName, int currentMinute)
+	{
+		var chartAreas = chart.ChartAreas.Single(x => x.Name == chartAreaName);
+
+		var customLabel = new List<CustomLabel>();
+		foreach (var label in chartAreas.AxisX.CustomLabels)
+		{
+			var position = currentMinute * GetLabelInitialPosition(label);
+
+			customLabel.Add(double.TryParse(label.Text, out _)
+				? CreateCustomLabel(position)
+				: CreateCustomLabel(position, label.Text));
+		}
+		chartAreas.AxisX.CustomLabels.Clear();
+
+		chartAreas.AxisX.Maximum = 60 * currentMinute;
+		chartAreas.AxisX.Interval = 60 * currentMinute / 5.0;
+
+		chart.Update();
+		foreach (var label in customLabel)
+		{
+			chartAreas.AxisX.CustomLabels.Add(label);
+		}
+	}
+
+	private static double GetLabelInitialPosition(CustomLabel customLabel)
 	{
 		return CalculateInitialPosition(customLabel.FromPosition);
 	}
