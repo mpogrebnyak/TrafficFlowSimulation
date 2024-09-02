@@ -11,41 +11,15 @@ public class InliningInFlowModeSettingsModel : BaseSettingsModels
 	[Hidden] 
 	public override double L { get; set; }
 
-	[Translation(Locales.ru, "Максимальная скорость")]
-	[Translation(Locales.en, "Maximum speed")]
+	[Translation(Locales.ru, "Номер автомобиля для перестроения")]
 	[CustomDisplay(1)]
 	[Required]
-	public virtual double Vmax { get; set; }
+	public virtual int Number { get; set; }
 
-	[Translation(Locales.ru, "Интенсивность разгона")]
-	[Translation(Locales.en, "Acceleration intensity")]
+	[Translation(Locales.ru, "Максимальное расстяоние до перестроения")]
 	[CustomDisplay(2)]
 	[Required]
-	public virtual double a { get; set; }
-
-	[Translation(Locales.ru, "Интенсивность торможения")]
-	[Translation(Locales.en, "Deceleration intensity")]
-	[CustomDisplay(3)]
-	[Required]
-	public virtual double q { get; set; }
-
-	[Translation(Locales.ru, "Безопасное расстояние")]
-	[Translation(Locales.en, "Safely Distance")]
-	[CustomDisplay(4)]
-	[Required]
-	public virtual double l_safe { get; set; }
-
-	[Translation(Locales.ru, "Длина автомобиля")]
-	[Translation(Locales.en, "Vehicle length")]
-	[CustomDisplay(5)]
-	[Required]
-	public virtual double l_car { get; set; }
-
-	[Translation(Locales.ru, "Коэффициент плавности")]
-	[Translation(Locales.en, "Smoothness coefficient")]
-	[CustomDisplay(6)]
-	[Required]
-	public virtual double k { get; set; }
+	public virtual double Lenght { get; set; }
 
 	public override object GetDefault()
 	{
@@ -53,13 +27,9 @@ public class InliningInFlowModeSettingsModel : BaseSettingsModels
 
 		return new InliningInFlowModeSettingsModel
 		{
-			L = 10000,
-			Vmax = bpm.Vmax,
-			a = bpm.a,
-			k = bpm.k,
-			l_car = bpm.l_car,
-			l_safe = bpm.l_safe,
-			q = bpm.q
+			L = 300,
+			Number = 1,
+			Lenght = 100
 		};
 	}
 }

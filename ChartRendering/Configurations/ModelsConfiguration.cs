@@ -44,9 +44,9 @@ public class ModelsConfiguration : IInitializable
 				case DrivingMode.InliningInFlow:
 				{
 					var m = DrivingMode.InliningInFlow.ToString();
-					CommonHelper.ServiceRegistration.RegisterInstance<IBaseParametersModel>(() => new BaseParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IBaseParametersModel>(() => new BaseParametersModelForTwoFlows(), m, false);
 					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m, false);
-					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModelForTwoFlows(), m, false);
 
 					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new InliningInFlowModeSettingsModel(), m, false);
 

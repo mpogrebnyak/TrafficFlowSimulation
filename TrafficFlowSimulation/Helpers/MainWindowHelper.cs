@@ -185,14 +185,6 @@ public class MainWindowHelper
 		baseParametersBindingSources.MapTo(modelParameters);
 		additionalParametersBindingSources.MapTo(modelParameters);
 		initialConditionsParametersBindingSources.MapTo(modelParameters);
-	//	((IBaseParametersModel) _bindingSources[basicParametersModel.GetType()].DataSource).MapTo(modelParameters);
-	//	((IAdditionalParametersModel) _bindingSources[additionalParametersModel.GetType()].DataSource).MapTo(modelParameters);
-		
-	//	_bindingSources.ForEach(x => x.Value.EndEdit());
-	//	((IInitialConditionsParametersModel) _bindingSources[initialConditionsParametersModel.GetType()].DataSource)
-	//		.MapFrom((IBaseParametersModel)_bindingSources[basicParametersModel.GetType()].DataSource, (IAdditionalParametersModel) _bindingSources[additionalParametersModel.GetType()].DataSource);
-	
-//		((IInitialConditionsParametersModel) _bindingSources[initialConditionsParametersModel.GetType()].DataSource).MapTo(modelParameters);
 
 		return modelParameters;
 	}

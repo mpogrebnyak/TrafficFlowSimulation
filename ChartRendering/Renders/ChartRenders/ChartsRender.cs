@@ -81,7 +81,7 @@ public abstract class ChartsRender : IChartRender
 
 	public virtual void UpdateEnvironment(object parameters) { } 
 
-	public virtual void AddSeries(ModelParameters modelParameters, int index) { }
+	public virtual void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo) { }
 
 	public virtual void UpdateScale(CoordinatesArgs? coordinates = null, AutoScroll? scroll = null, int? scrollFor = null) { }
 

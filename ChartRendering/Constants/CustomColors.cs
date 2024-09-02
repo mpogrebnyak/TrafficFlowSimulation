@@ -21,6 +21,8 @@ public static class CustomColors
 
 	public static Color Green = Color.FromArgb(0, 255, 0);
 
+	public static Color DarkGreen = Color.FromArgb(0, 200, 31);
+
 	public static Color Black = Color.FromArgb(0, 0, 0);
 
 	public static Color SystemOrange = Color.FromArgb(255, 151,29);

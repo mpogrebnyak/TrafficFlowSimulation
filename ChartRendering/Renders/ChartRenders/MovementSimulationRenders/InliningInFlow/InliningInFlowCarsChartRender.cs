@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -11,89 +10,105 @@ using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
 public class InliningInFlowCarsChartRender : CarsChartRender
 {
+	protected override string ColorPalette => "RedAndBlue";
+
+	private int _n1;
+
+	private int _n2;
+
 	public InliningInFlowCarsChartRender(Chart chart) : base(chart)
 	{
 	}
 
 	public override void RenderChart(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
-		base.RenderChart(modelParameters, modeSettings);
-
 		var settings = (InliningInFlowModeSettingsModel)modeSettings;
 
-		Chart.Palette = ChartColorPalette.None;
+		_n1 = modelParameters.n1;
+		_n2 = modelParameters.n2;
+
+		base.RenderChart(modelParameters, modeSettings);
+		Chart.Series.Clear();
 		Chart.Legends.Clear();
+
+		for (var i = 0; i < _n1; i++)
+		{
+			Chart.Series.Add(new Series
+			{
+				Name = SeriesName + i,
+				ChartType = SeriesChartType,
+				ChartArea = GetChartArea().Name,
+				BorderWidth = 2,
+				Color = CustomColors.Blue
+			});
+		}
+
+		for (var i = _n1; i < _n1 + _n2; i++)
+		{
+			Chart.Series.Add(new Series
+			{
+				Name = SeriesName + i,
+				ChartType = SeriesChartType,
+				ChartArea = GetChartArea().Name,
+				BorderWidth = 2,
+				Color = CustomColors.Red
+			});
+
+			if (i == modelParameters.n1 + settings.Number)
+				Chart.Series.Last().Color = CustomColors.DarkGreen;
+		}
 
 		foreach (var series in Chart.Series.Where(x => x.Name.Contains(SeriesName)))
 		{
-			series.Color = CustomColors.Blue;
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
-			var chartArea = GetChartArea();
 
-			if (i < modelParameters.n)
+			var showLegend = false;
+			if (modelParameters.lambda[i] > GetChartArea().AxisX.Minimum && modelParameters.lambda[i] < GetChartArea().AxisX.Maximum)
 			{
-				var showLegend = false;
-				if (modelParameters.lambda[i] > chartArea.AxisX.Minimum && modelParameters.lambda[i] < chartArea.AxisX.Maximum)
-				{
-					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
-					showLegend = true;
-				}
+				if (i < _n1) 
+					series.Points.AddXY(modelParameters.lambda[i], 3 * Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
+				else
+					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
 
-				UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-				UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+				showLegend = true;
 			}
+
+			UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
+			UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 
-		var inliningCar = new Series
-		{
-			Name = SeriesName + modelParameters.n,
-			ChartType = SeriesChartType,
-			ChartArea = ChartAreaName,
-			BorderWidth = 2,
-			Color = CustomColors.Red,
-		};
-		inliningCar.Points.AddXY(0, Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 10);
-		Chart.Series.Add(inliningCar);
-
-		var lCars = new List<double>();
-		lCars.AddRange(modelParameters.lCar);
-		lCars.Add(settings.l_car);
-
-		SetMarkerImage(lCars);
+		SetMarkerImage(modelParameters.lCar);
 	}
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
-		var chartArea = GetChartArea();
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
-			if (i < coordinates.X.Count)
+			var showLegend = false;
+			if (series.Points.Any())
+				series.Points.RemoveAt(0);
+			if (coordinates.X[i] > GetChartArea().AxisX.Minimum)
 			{
-				var showLegend = false;
-				if(series.Points.Any())
-					series.Points.RemoveAt(0);
+				if (i < _n1)
+					series.Points.AddXY(coordinates.X[i], 3 * Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
+				else
+					series.Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
 
-				if (coordinates.X[i] > chartArea.AxisX.Minimum && coordinates.X[i] < chartArea.AxisX.Maximum)
-				{
-					var yValue = series.Color == CustomColors.Red
-						? CalculateWay(coordinates.X[i])
-						: Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2;
-					series.Points.AddXY(coordinates.X[i], yValue);
-					showLegend = true;
-				}
-
-				// TODO		UpdateLegend(i, showLegend, coordinates.Y[i], coordinates.X[i]);
-				// TODO		UpdateLabel(i, showLegend, coordinates.Y[i], coordinates.X[i]);
+				showLegend = true;
 			}
+
+			UpdateLegend(series, showLegend, coordinates.Y[i], coordinates.X[i]);
+			UpdateLabel(series, showLegend, coordinates.Y[i], coordinates.X[i]);
 		}
+
+		UpdateChartEnvironment(coordinates.X, coordinates.T);
 	}
 
 	public override void SetChartAreaAxisTitle(bool isHidden = false)
@@ -120,8 +135,9 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 			AxisX = new Axis
 			{
 				Minimum = -30,
-				Maximum = 20
-			}
+				Maximum = 500
+			},
+			IsZoomAvailable = true
 		};
 		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
 
@@ -160,38 +176,24 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 		};
 	}
 
-	private double CalculateWay(double x)
+	public override void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo)
 	{
-		var mainRoad = Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2;
-		var road = Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 10 + x / 25;
-		return mainRoad > road
-			? road
-			: mainRoad;
-	}
+		_n1++;
+		_n2--;
 
-	public override void AddSeries(ModelParameters modelParameters, int index)
-	{
-		var seriesToRemove = Chart.Series.Single(x => x.Color == CustomColors.Red);
-		Chart.Series.Remove(seriesToRemove);
+		var s = Chart.Series[indexFrom];
+		Chart.Series.RemoveAt(indexFrom);
 
-		var i = Chart.Series.Count(x => x.Name.Contains(SeriesName));
-		Chart.Series
-			.Where(x => x.Name.Contains(SeriesName))
-			.Where(x => Convert.ToInt32(x.Name.Replace(SeriesName, "")) >= index)
-			.Reverse()
-			.ForEach(x => x.Name = SeriesName + i--);
+		Chart.Series.Insert(indexTo, s);
 
-		Chart.Series.Insert(index,
-			new Series
-			{
-				Name = SeriesName + index,
-				ChartType = SeriesChartType,
-				ChartArea = ChartAreaName,
-				BorderWidth = 2,
-				Color = CustomColors.Red
-			}
-		);
+		foreach (var series in Chart.Series.Select((value, i) => new { i, value }))
+		{
+			series.value.Name = series.i.ToString();
+		}
 
-		SetMarkerImage(modelParameters.lCar);
+		foreach (var series in Chart.Series.Select((value, i) => new { i, value }))
+		{
+			series.value.Name = SeriesName + series.i;
+		}
 	}
 }

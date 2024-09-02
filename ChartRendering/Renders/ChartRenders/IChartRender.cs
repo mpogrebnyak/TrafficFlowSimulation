@@ -20,7 +20,7 @@ public interface IChartRender
 
 	public void SetMarkerImage(object? parameters = null);
 
-	public void AddSeries(ModelParameters modelParameters, int index);
+	public void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo);
 
 	public void UpdateScale(CoordinatesArgs? coordinates = null, AutoScroll? scroll = null, int? scrollFor = null);
 

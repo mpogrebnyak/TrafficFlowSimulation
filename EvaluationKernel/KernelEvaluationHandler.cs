@@ -54,9 +54,20 @@ public class KernelEvaluationHandler
 		}
 	}
 
-	public void SetInitialConditions(List<double> Vn, List<double> lambda)
+	public void SetInitialConditions(List<double> Vn, List<double> lambda, List<double> t)
 	{
 		_rungeKuttaMethod.SetInitialConditions(Vn, lambda);
+
+		_rungeKuttaMethod.T = t;
+		_t = _rungeKuttaMethod.T.Last();
+
+		for (var i = 0; i < _n; i++)
+		{
+			_previousX[i] = _rungeKuttaMethod.X(i).Last();
+			_previousY[i] = _rungeKuttaMethod.Y(i).Last();
+			_x[i] = _rungeKuttaMethod.X(i).Last();
+			_y[i] = _rungeKuttaMethod.Y(i).Last();
+		}
 	}
 
 	public List<double> GetTime()

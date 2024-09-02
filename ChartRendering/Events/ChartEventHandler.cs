@@ -38,12 +38,16 @@ public class ChartEventHandlerArgs : EventHandlerArgs
 public class AddChartEventHandlerArgs : EventHandlerArgs
 {
 	public ModelParameters ModelParameters { get; set; }
-	public int Index { get; set; }
 
-	public AddChartEventHandlerArgs(ModelParameters modelParameters, int index)
+	public int IndexFrom { get; set; }
+
+	public int IndexTo { get; set; }
+
+	public AddChartEventHandlerArgs(ModelParameters modelParameters, int indexFrom, int indexTo)
 	{
 		ModelParameters = modelParameters;
-		Index = index;
+		IndexFrom = indexFrom;
+		IndexTo = indexTo;
 	}
 }
 

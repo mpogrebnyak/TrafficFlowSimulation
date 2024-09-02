@@ -104,7 +104,8 @@ namespace ChartRendering.Renders
 					Colors = new List<Color>
 					{
 						CustomColors.Red,
-						CustomColors.Blue
+						CustomColors.Blue,
+						CustomColors.DarkGreen
 					}
 				}
 			};

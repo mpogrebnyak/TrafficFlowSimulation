@@ -6,7 +6,19 @@ namespace EvaluationKernel.Models
 {
 	public class ModelParameters : ICloneable
 	{
+		/*
+		Если потока 2, 
+		то n - количество всего авто 
+		n1 - в первом потоке,
+		n2 - во втором,
+		все остальные параметры лежат вместе в списках,
+		сначала то, что отнисится к n, а затем к m 
+		*/
 		public int n { get; set; }
+
+		public int n1 { get; set; }
+
+		public int n2 { get; set; }
 
 		public List<double> tau { get; set; }
 
@@ -52,7 +64,9 @@ namespace EvaluationKernel.Models
 		{
 			return new ModelParameters
 			{  
-				n = n, 
+				n = n,
+				n1 = n1,
+				n2 = n2,
 				tau = tau,
 				tau_b = tau_b,
 				a = a,

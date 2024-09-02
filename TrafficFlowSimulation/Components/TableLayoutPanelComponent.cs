@@ -27,6 +27,8 @@ public class TableLayoutPanelComponent : IComponent
 
 	private static readonly Font Font = new ("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
 
+	private static readonly Font HeaderFont = new ("Microsoft Sans Serif", 11.2F, FontStyle.Bold, GraphicsUnit.Point, 204);
+
 	protected static readonly string _multipleTag = "multiple";
 
 	public TableLayoutPanelComponent(
@@ -102,6 +104,14 @@ public class TableLayoutPanelComponent : IComponent
 				continue;
 			}
 
+			if (attribute.IsHeader)
+			{
+				var header = CreateHeader(property.Name, text, counter++);
+				controls.Add(header, 0, row);
+
+				continue;
+			}
+
 			var textBox = CreateTextBox(property.Name, property.Name, _tableLayoutPanel.Size.Width, attribute.IsHidden, attribute.IsReadOnly, attribute.PlaceHolder, counter++);
 			if (attribute.IsMultiple)
 			{
@@ -166,6 +176,21 @@ public class TableLayoutPanelComponent : IComponent
 		};
 
 		return label;
+	}
+
+	private Label CreateHeader(string name, string? text, int tabIndex)
+	{
+		var header = new Label
+		{
+			Font = HeaderFont,
+			Name = Prefixes.LabelPrefix + name,
+			Text = text,
+			Anchor = AnchorStyles.Left,
+			AutoSize = true,
+			TabIndex = tabIndex
+		};
+
+		return header;
 	}
 
 	private ComboBox CreateComboBox(string name, string dataMember, Type enumType, bool isHidden, bool isReadOnly, int tabIndex)

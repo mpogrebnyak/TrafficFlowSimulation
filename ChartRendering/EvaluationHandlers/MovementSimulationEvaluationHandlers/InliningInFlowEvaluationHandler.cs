@@ -7,63 +7,65 @@ using ChartRendering.Events;
 using ChartRendering.Models;
 using EvaluationKernel;
 using EvaluationKernel.Equations;
+using EvaluationKernel.Equations.SpecializedEquations;
 using EvaluationKernel.Models;
 
 namespace ChartRendering.EvaluationHandlers.MovementSimulationEvaluationHandlers;
 
 public class InliningInFlowEvaluationHandler : EvaluationHandler
 {
+	//protected EquationForInlining Equation;
+
 	private ModelParameters _modelParameters;
 
 	private InliningInFlowModeSettingsModel _modeSettings;
 
 	private int _index = -1;
 
-	private bool _isInlining = true;
+	private bool _isInlining;
 
 	private bool _isInliningEvent = true;
 
-	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels)
+	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters,
+		BaseSettingsModels baseSettingsModels)
 	{
+		_isInlining = false;
 		_modelParameters = modelParameters;
 		_modeSettings = (InliningInFlowModeSettingsModel) baseSettingsModels;
 
-		var equation = new Equation(_modelParameters);
+		var equation = new EquationForInlining(_modelParameters, modelParameters.n1 + _modeSettings.Number, _modeSettings.Lenght);
+		equation.AddFirstCarNumbers(_modelParameters.n1);
+
 		return new KernelEvaluationHandler(_modelParameters, equation);
 	}
 
 	protected override void AdditionalEvaluation(double t, List<double> x, List<double> y)
 	{
-		var isInliningAvailable = IsInliningAvailable(_modelParameters, x, y);
-
-		if (_isInlining && isInliningAvailable)
+		if (IsInliningAvailable(_modelParameters, x, y))
 		{
-			_modelParameters = ExtendModelParameters(_modelParameters, _modeSettings, _index, x, y);
-
 			var time = KernelEvaluationHandler.GetTime();
+			_modelParameters = ExtendModelParameters(_modelParameters, _index, x, y);
 
-			var equation = new Equation(_modelParameters);
+			var equation = new EquationForInlining(_modelParameters);
+			equation.AddFirstCarNumbers(_modelParameters.n1);
+
 			KernelEvaluationHandler = new KernelEvaluationHandler(_modelParameters, equation);
-			KernelEvaluationHandler.SetInitialConditions(
-				x.Take(_index).Concat(new[] {0.0}).Concat(x.Skip(_index)).ToList(),
-				y.Take(_index).Concat(new[] {0.0}).Concat(y.Skip(_index)).ToList());
-
-			KernelEvaluationHandler.SetTime(time);
-			_isInlining = false;
+			KernelEvaluationHandler.SetInitialConditions(y, x, time);
 		}
 	}
 
 	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
 	{
-
-		if(!_isInlining && _isInliningEvent)
+		if(_isInlining && _isInliningEvent)
 		{
+			var num = _modelParameters.n1 + _modeSettings.Number - 1;
+
 			eventHandler.Invoke(
 				new List<ChartEventActions>
 				{
-					ChartEventActions.AddChartSeries
+				ChartEventActions.AddChartSeries
 				},
-				new AddChartEventHandlerArgs(_modelParameters, _index));
+				new AddChartEventHandlerArgs(_modelParameters, num, _index));
 
 			_isInliningEvent = false;
 		}
@@ -81,40 +83,82 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 			}));
 	}
 
-	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, InliningInFlowModeSettingsModel modeSettings, int index, IEnumerable<double> lambda, IEnumerable<double> Vn)
+	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, int index, List<double> lambda, List<double> Vn)
 	{
-		modelParameters.n++;
-		modelParameters.a.Insert(index, modeSettings.a);
-		modelParameters.q.Insert(index, modeSettings.q);
-		modelParameters.lSafe.Insert(index, modeSettings.l_safe);
-		modelParameters.lCar.Insert(index, modeSettings.l_car);
-		modelParameters.Vmax.Insert(index, modeSettings.Vmax);
-		modelParameters.k.Insert(index, modeSettings.k);
+		var num = modelParameters.n1 + _modeSettings.Number;
+		var newModelParameters = (ModelParameters) modelParameters.Clone();
 
-		modelParameters.lambda = lambda.ToList();
-		modelParameters.Vn = Vn.ToList();
-		modelParameters.lambda.Insert(index, 0);
-		modelParameters.Vn.Insert(index, 0);
+		newModelParameters.n1++;
+		newModelParameters.n2--;
 
-		return modelParameters;
+		newModelParameters.a.RemoveAt(num);
+		newModelParameters.k.RemoveAt(num);
+		newModelParameters.lambda.RemoveAt(num);
+		newModelParameters.q.RemoveAt(num);
+		newModelParameters.tau.RemoveAt(num);
+		newModelParameters.tau_b.RemoveAt(num);
+		newModelParameters.lCar.RemoveAt(num);
+		newModelParameters.lSafe.RemoveAt(num);
+		newModelParameters.Vmax.RemoveAt(num);
+		newModelParameters.Vn.RemoveAt(num);
+
+		newModelParameters.a.Insert(index, modelParameters.a[num]);
+		newModelParameters.k.Insert(index, modelParameters.k[num]);
+		newModelParameters.lambda.Insert(index, modelParameters.lambda[num]);
+		newModelParameters.q.Insert(index, modelParameters.q[num]);
+		newModelParameters.tau.Insert(index, modelParameters.tau[num]);
+		newModelParameters.tau_b.Insert(index, modelParameters.tau_b[num]);
+		newModelParameters.lCar.Insert(index, modelParameters.lCar[num]);
+		newModelParameters.lSafe.Insert(index, modelParameters.lSafe[num]);
+		newModelParameters.Vmax.Insert(index, modelParameters.Vmax[num]);
+		newModelParameters.Vn.Insert(index, modelParameters.Vn[num]);
+
+		var lambdaValue = lambda[num];
+		var vnValue = Vn[num];
+
+		lambda.RemoveAt(num);
+		Vn.RemoveAt(num);
+		lambda.Insert(index, lambdaValue);
+		Vn.Insert(index, vnValue);
+
+		return newModelParameters;
 	}
 
 	private bool IsInliningAvailable(ModelParameters modelParameters, IReadOnlyList<double> x, IReadOnlyList<double> v)
 	{
-		for (var i = 0; i < x.Count; i++)
+		if (_isInlining)
 		{
-			if (x[i] > 0)
-				continue;
-			_index = i;
-
-			var s = modelParameters.k[i] * (x[i] + Equation.S(modelParameters, i, v[i]) + modelParameters.tau[i] * v[i]);
-
-			if (s + x[i] < 0)
-				return true;
 			return false;
 		}
 
-		_index = x.Count;
-		return true;
+		var num = modelParameters.n1 + _modeSettings.Number;
+		for (var i = 0; i < modelParameters.n1; i++)
+		{
+			if (i == 0 && 
+				x[num] - x[i] > Equation.S(_modelParameters, i, v[i]))
+			{
+				_index = 0;
+				_isInlining = true;
+				return true;
+			}
+
+			if (i == modelParameters.n1 - 1 && 
+				x[i] - x[num] > Equation.S(_modelParameters, num, v[num]))
+			{
+				_index = i + 1;
+				_isInlining = true;
+				return true;
+			}
+
+			if (x[num] - x[i] > Equation.S(_modelParameters, i, v[i]) &&
+				x[i] - x[num] > Equation.S(_modelParameters, num, v[num]))
+			{
+				_index = i + 1;
+				_isInlining = true;
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
