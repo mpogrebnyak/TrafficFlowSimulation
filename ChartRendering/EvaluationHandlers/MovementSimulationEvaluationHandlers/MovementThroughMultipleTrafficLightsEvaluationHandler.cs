@@ -65,27 +65,14 @@ public class MovementThroughMultipleTrafficLightsEvaluationHandler : EvaluationH
 
 		foreach (var trafficLight in TrafficLights.Select((value, i) => new { i, value }))
 		{
-			var eq = (EquationWithStop) Equation;
-			switch (trafficLight.value.CurrentSignal)
-			{
-				case TrafficLightColor.Red:
-					if (eq.NumberAndPositionToStop.ContainsKey(Stop[trafficLight.i].N) == false && Stop[trafficLight.i].N >= 0)
-						eq.NumberAndPositionToStop.Add(Stop[trafficLight.i].N, Stop[trafficLight.i].Pos);
-					break;
-				case TrafficLightColor.Green:
-					var item = eq.NumberAndPositionToStop.Where(x => Math.Abs(x.Value - Stop[trafficLight.i].Pos) < 0.001);
-					var keyValuePairs = item.ToList();
-					if (keyValuePairs.Any())
-						eq.NumberAndPositionToStop.Remove(keyValuePairs.First().Key);
-					break;
-			}
+			ChangeSignal(trafficLight.value, trafficLight.i);
 		}
 
 		for (var j = 0; j < TrafficLightsNumber; j++)
 		{
 			for (var i = 0; i < ModelParameters.n; i++)
 			{
-				if (AdditionalCondition(i) == false)
+				if (AdditionalCondition(i))
 					continue;
 
 				if (x[i] < TrafficLightsParameters.TrafficLightsPosition[j] && x[i] <= TrafficLightsParameters.TrafficLightsPosition[j] - Equation.S(ModelParameters, i, y[i]))
@@ -164,9 +151,27 @@ public class MovementThroughMultipleTrafficLightsEvaluationHandler : EvaluationH
 		return remainingTime;
 	}
 
+	protected virtual void ChangeSignal(TrafficLight trafficLight, int i)
+	{
+		var eq = (EquationWithStop) Equation;
+		switch (trafficLight.CurrentSignal)
+		{
+			case TrafficLightColor.Red:
+				if (eq.NumberAndPositionToStop.ContainsKey(Stop[i].N) == false && Stop[i].N >= 0)
+					eq.NumberAndPositionToStop.Add(Stop[i].N, Stop[i].Pos);
+				break;
+			case TrafficLightColor.Green:
+				var item = eq.NumberAndPositionToStop.Where(x => Math.Abs(x.Value - Stop[i].Pos) < 0.001);
+				var keyValuePairs = item.ToList();
+				if (keyValuePairs.Any())
+					eq.NumberAndPositionToStop.Remove(keyValuePairs.First().Key);
+				break;
+		}
+	}
+
 	protected virtual bool AdditionalCondition(int n)
 	{
-		return true;
+		return false;
 	}
 
 	protected class TrafficLight

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ChartRendering.ChartRenderModels;
 using ChartRendering.Constants;
@@ -53,6 +54,27 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 		return equation.IsVirtual(n);
 	}
 
+	protected override void ChangeSignal(TrafficLight trafficLight, int i)
+	{
+		var eq = (EquationWithStopThroughTheDriver) Equation;
+		switch (trafficLight.CurrentSignal)
+		{
+			case TrafficLightColor.Red:
+				if (eq.NumberAndPositionToStop.ContainsKey(Stop[i].N) == false && Stop[i].N >= 0)
+				{
+					eq.NumberAndPositionToStop.Add(Stop[i].N, Stop[i].Pos);
+					eq.FirstAfterStop.Add(Stop[i].N);
+				}
+				break;
+			case TrafficLightColor.Green:
+				var item = eq.NumberAndPositionToStop.Where(x => Math.Abs(x.Value - Stop[i].Pos) < 0.001);
+				var keyValuePairs = item.ToList();
+				if (keyValuePairs.Any())
+					eq.NumberAndPositionToStop.Remove(keyValuePairs.First().Key);
+				break;
+		}
+	}
+
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters)
 	{
 		var extendModelParameters = new ModelParameters
@@ -99,16 +121,15 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 	{
 		var equation = (EquationWithStopThroughTheDriver) Equation;
 
-		var index = 0;
 		for (var i = 0; i < ModelParameters.n; i++)
 		{
-			if (i > 1)
+			if (i < 2)
 			{
-				equation.VirtualCars.Add(index, true);
-				index++;
+				equation.VirtualCars.Add(i, false);
+				continue;
 			}
-			equation.VirtualCars.Add(index, false);
-			index++;
+
+			equation.VirtualCars.Add(i, i % 2 == 0);
 		}
 	}
 }

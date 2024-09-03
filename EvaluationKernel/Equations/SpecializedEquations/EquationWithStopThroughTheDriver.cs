@@ -9,6 +9,8 @@ public class EquationWithStopThroughTheDriver : EquationWithStop
 {
 	public readonly Dictionary<int, bool> VirtualCars = new();
 
+	public readonly HashSet<int> FirstAfterStop = new();
+
 	public EquationWithStopThroughTheDriver(ModelParameters modelParameters) : base(modelParameters)
 	{
 	}
@@ -17,16 +19,16 @@ public class EquationWithStopThroughTheDriver : EquationWithStop
 	{
 		var x_n = new Coordinates { N = i, X = x[i][x[i].Count - 1], DotX = y[i][y[i].Count - 1] };
 
-		if (i == 0 || FirstCarNumbers.Contains(i))
+		if (FirstCarNumbers.Contains(i) || NumberAndPositionToStop.ContainsKey(i))
 		{
 			var x_0 = new Coordinates { N = i == 0 ? -1 : i, X = L(i), DotX = 0 };
 
 			return GetFirstCarEquation(i, x_n, x_0);
 		}
 
-		if (i == 1 || FirstCarNumbers.Contains(i - 2))
+		if (FirstCarNumbers.Contains(i - 1) || NumberAndPositionToStop.ContainsKey(i - 2))
 		{
-			if (i == 1)
+			if (FirstCarNumbers.Contains(i - 1))
 			{
 				var x_1 = new Coordinates {N = i, X = x[i - 1][x[i - 1].Count - 1], DotX = y[i - 1][y[i - 1].Count - 1]};
 				return GetAllCarEquation(i, x_n, x_1);
@@ -50,6 +52,12 @@ public class EquationWithStopThroughTheDriver : EquationWithStop
 			return GetAllCarEquation(i, x_n, y_n_3);
 		}
 
+		if (FirstAfterStop.Contains(i - 2))
+		{
+			var x_n_2 = new Coordinates {N = i, X = x[i - 2][x[i - 2].Count - 2], DotX = y[i - 2][y[i - 2].Count - 2]};
+			return GetAllCarEquation(i, x_n, x_n_2);
+		}
+		
 		var x_n_1 = new Coordinates {N = i, X = x[i - 1][x[i - 1].Count - 1], DotX = y[i - 1][y[i - 1].Count - 1]};
 
 		return GetAllCarEquation(i, x_n, x_n_1);
@@ -62,7 +70,7 @@ public class EquationWithStopThroughTheDriver : EquationWithStop
 
 	protected override double L_safe(int n)
 	{
-		if (n == 0 || FirstCarNumbers.Contains(n))
+		if (FirstCarNumbers.Contains(n) || NumberAndPositionToStop.ContainsKey(n))
 		{
 			return _eps;
 		}
