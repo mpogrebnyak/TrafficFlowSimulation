@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels.SettingsModels;
+using ChartRendering.Constants;
 using ChartRendering.Renders.ChartRenders;
-using EvaluationKernel.Helpers;
 using EvaluationKernel.Models;
 using Microsoft.Practices.ServiceLocation;
 
@@ -174,6 +174,54 @@ public static class RenderingHelper
 
 		settings.GetSegmentBeginningList(segmentSpeeds, out _, out var segmentSpeedList);
 		return segmentSpeedList;
+	}
+
+	public static void EnableSeries(Series series, ChartViewMode chartViewMode, int laneNumber)
+	{
+		switch (chartViewMode)
+		{
+			case ChartViewMode.OnlyFirstLane:
+				series.Enabled = laneNumber == 1;
+				break;
+			case ChartViewMode.OnlySecondLane:
+				series.Enabled = laneNumber == 2;
+				break;
+			case ChartViewMode.BothLane:
+				series.Enabled = true;
+				break;
+		}
+	}
+
+	public static void AddSeries(Chart chart, string seriesName, int indexFrom, int indexTo, int laneNumber)
+	{
+		var oldSeries = chart.Series[indexFrom];
+		chart.Series.RemoveAt(indexFrom);
+
+		var newSeries = new Series
+		{
+			Name = oldSeries.Name,
+			ChartType = oldSeries.ChartType,
+			ChartArea = oldSeries.ChartArea,
+			BorderWidth = oldSeries.BorderWidth,
+			Color = oldSeries.Color,
+			Tag = laneNumber
+		};
+		newSeries.Points.Add(oldSeries.Points.Last());
+
+		chart.Series.Insert(indexTo, newSeries);
+
+		foreach (var series in chart.Series.Select((value, i) => new { i, value }))
+		{
+			series.value.Name = series.i.ToString();
+		}
+
+		foreach (var series in chart.Series.Select((value, i) => new { i, value }))
+		{
+			series.value.Name = seriesName + series.i;
+		}
+
+		oldSeries.Name = seriesName;
+		chart.Series.Add(oldSeries);
 	}
 
 	private static void CreateCustomLabels(ChartArea chartArea)

@@ -23,11 +23,9 @@ public class InliningInFlowModeSettingsModel : BaseSettingsModels
 
 	public override object GetDefault()
 	{
-		var bpm = BaseParametersModel.Default();
-
 		return new InliningInFlowModeSettingsModel
 		{
-			L = 300,
+			L = 10000,
 			Number = 1,
 			Lenght = 100
 		};

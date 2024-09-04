@@ -68,7 +68,7 @@ public static class TrafficCapacityHelper
 	public static void UpdateTrafficCapacity(SeriesCollection chartSeries, List<double> values, double t)
 	{
 		var environmentLineSeries = chartSeries
-			.Where(x => (string) x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
+			.Where(x => x.Tag is string tag && tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
 			.ToList();
 
 		chartSeries

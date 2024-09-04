@@ -10,16 +10,13 @@ using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
+using Settings;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
 public class InliningInFlowSpeedChartRender : SpeedChartRender
 {
 	protected override string ColorPalette => "RedAndBlue";
-
-	private int _n1;
-
-	private int _n2;
 
 	public InliningInFlowSpeedChartRender(Chart chart) : base(chart)
 	{
@@ -29,14 +26,11 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 	{
 		var settings = (InliningInFlowModeSettingsModel)modeSettings;
 
-		_n1 = modelParameters.n1;
-		_n2 = modelParameters.n2;
-
 		base.RenderChart(modelParameters, modeSettings);
 		Chart.Series.Clear();
 		Chart.Legends.Clear();
 
-		for (var i = 0; i < _n1; i++)
+		for (var i = 0; i < modelParameters.n1; i++)
 		{
 			Chart.Series.Add(new Series
 			{
@@ -44,11 +38,12 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 				ChartType = SeriesChartType,
 				ChartArea = GetChartArea().Name,
 				BorderWidth = 2,
-				Color = CustomColors.Blue
+				Color = CustomColors.Blue,
+				Tag = 1
 			});
 		}
 
-		for (var i = _n1; i < _n1 + _n2; i++)
+		for (var i = modelParameters.n1; i < modelParameters.n1 + modelParameters.n2; i++)
 		{
 			Chart.Series.Add(new Series
 			{
@@ -56,7 +51,8 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 				ChartType = SeriesChartType,
 				ChartArea = GetChartArea().Name,
 				BorderWidth = 2,
-				Color = CustomColors.Red
+				Color = CustomColors.Red,
+				Tag = 2
 			});
 
 			if (i == modelParameters.n1 + settings.Number)
@@ -78,15 +74,25 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
+		var chartViewMode = SettingsHelper.Get<ChartRenderingSettings>().ChartViewMode;
+
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
+			RenderingHelper.EnableSeries(series, chartViewMode, (int)series.Tag);
+
+			if (series.Name.Replace(SeriesName, "") == "")
+				continue;
+
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
+			var showLegend = false;
 			if (i < coordinates.X.Count)
 			{
 				series.Points.AddXY(coordinates.T, coordinates.Y[i]);
-				UpdateLegend(series, true, coordinates.Y[i]);
+				showLegend = true;
 			}
+
+			UpdateLegend(series, showLegend, coordinates.X[i]);
 		}
 	}
 
@@ -98,13 +104,15 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 			AxisX = new Axis
 			{
 				Minimum = 0,
-				Maximum = 100,
+				Maximum = 60,
+				Interval = 60 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
 			},
 			AxisY = new Axis
 			{
 				Minimum = 0,
 				Maximum = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax),
+				Interval = RenderingHelper.CalculateMaxSpeed(modelParameters.Vmax) / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().SpeedAxisTitleText,
 			}
 		};
@@ -149,22 +157,6 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 
 	public override void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo)
 	{
-		_n1++;
-		_n2--;
-
-		var s = Chart.Series[indexFrom];
-		Chart.Series.RemoveAt(indexFrom);
-		
-		Chart.Series.Insert(indexTo, s);
-
-		foreach (var series in Chart.Series.Select((value, i) => new { i, value }))
-		{
-			series.value.Name = series.i.ToString();
-		}
-
-		foreach (var series in Chart.Series.Select((value, i) => new { i, value }))
-		{
-			series.value.Name = SeriesName + series.i;
-		}
+		RenderingHelper.AddSeries(Chart, SeriesName, indexFrom, indexTo, 1);
 	}
 }

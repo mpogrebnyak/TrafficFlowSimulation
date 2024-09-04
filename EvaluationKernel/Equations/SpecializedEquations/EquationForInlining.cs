@@ -39,7 +39,9 @@ public class EquationForInlining : Equation
 
 		if (FirstCarNumbers.Contains(n))
 		{
-			var x_0 = new Coordinates { N = -1, X = _m.L, DotX = 0 };
+			var x_0 = n == _number
+				? new Coordinates { N = -1, X = _l, DotX = 0 }
+				: new Coordinates { N = -1, X = _m.L, DotX = 0 };
 
 			return GetFirstCarEquation(n, x_n, x_0);
 		}
@@ -55,7 +57,7 @@ public class EquationForInlining : Equation
 
 		return GetAllCarEquation(n, x_n, x_n_1);
 	}
-	
+
 
 	protected override double L_safe(int n)
 	{

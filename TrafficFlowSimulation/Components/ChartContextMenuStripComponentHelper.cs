@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ChartRendering.Constants;
 using ChartRendering.Helpers;
 using ChartRendering.Properties;
 using Common;
@@ -71,6 +72,16 @@ public class ChartContextMenuStripComponentHelper
 		return axesToolStripMenuItem;
 	}
 
+	public ToolStripMenuItem CreateChartViewModeMenuItem(string name, string text, ChartViewMode chartViewMode)
+	{
+		var axesToolStripMenuItem = CreateToolStripMenuItem(name, text);
+		axesToolStripMenuItem.Tag = chartViewMode;
+
+		axesToolStripMenuItem.Click += ChartViewModeMenuItem_Click;
+
+		return axesToolStripMenuItem;
+	}
+
 	private void DisplayLegendMenuItem_Click(object sender, EventArgs e)
 	{
 		var menuItem = sender as ToolStripMenuItem;
@@ -107,6 +118,18 @@ public class ChartContextMenuStripComponentHelper
 				break;
 			}
 		}
+	}
+	
+	private void ChartViewModeMenuItem_Click(object sender, EventArgs e)
+	{
+		var menuItem = sender as ToolStripMenuItem;
+
+		if (menuItem?.Owner is not ToolStripDropDownMenu menu || menu.OwnerItem == null)
+			return;
+
+		var settings = SettingsHelper.Get<ChartRenderingSettings>();
+		settings.ChartViewMode = (ChartViewMode)menuItem.Tag;
+		SettingsHelper.Set(settings);
 	}
 
 	private void DisplayAxesMenuItem_Click(object sender, EventArgs e)

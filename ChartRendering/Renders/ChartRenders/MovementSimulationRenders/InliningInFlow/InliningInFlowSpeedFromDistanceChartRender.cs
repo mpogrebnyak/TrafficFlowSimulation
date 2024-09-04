@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using ChartRendering.ChartRenderModels;
@@ -9,16 +8,15 @@ using ChartRendering.Helpers;
 using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
-using Localization;
 using Settings;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
-public class InliningInFlowDistanceChartRender : DistanceChartRender
+public class InliningInFlowSpeedFromDistanceChartRender : SpeedFromDistanceChartRender
 {
 	protected override string ColorPalette => "RedAndBlue";
 
-	public InliningInFlowDistanceChartRender(Chart chart) : base(chart)
+	public InliningInFlowSpeedFromDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
 
@@ -65,10 +63,9 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 
 			var showLegend = false;
 			if (i == 0)
-				series.Points.AddXY(0, modelParameters.lambda[i]);
+				series.Points.AddXY(modelParameters.lambda[i], modelParameters.Vn[i]);
 
 			UpdateLegend(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
-			UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 	}
 
@@ -86,9 +83,9 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
 			var showLegend = false;
-			if (coordinates.X[i] > GetChartArea().AxisY.Minimum)
+			if (coordinates.X[i] > GetChartArea().AxisX.Minimum - 10)
 			{
-				series.Points.AddXY(coordinates.T, coordinates.X[i]);
+				series.Points.AddXY(coordinates.X[i], coordinates.Y[i]);
 				showLegend = true;
 			}
 
@@ -96,63 +93,15 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 		}
 	}
 
-	public override void SetChartAreaAxisTitle(bool isHidden = false)
-	{
-		if (Chart.ChartAreas.Any())
-		{
-			if (isHidden)
-			{
-				Chart.ChartAreas[0].AxisX.Title = string.Empty;
-				Chart.ChartAreas[0].AxisY.Title = string.Empty;
-			}
-			else
-			{
-				Chart.ChartAreas[0].AxisX.Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText;
-				Chart.ChartAreas[0].AxisY.Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText;
-			}
-		}
-	}
-
 	protected override ChartArea CreateChartArea(ModelParameters modelParameters, BaseSettingsModels modeSettings)
-	{
-		var model = new ChartAreaCreationModel
-		{
-			Name = ChartAreaName,
-			AxisX = new Axis
-			{
-				Minimum = 0,
-				Maximum = 60,
-				Interval = 60 / 5.0,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().TimeAxisTitleText,
-			},
-			AxisY = new Axis
-			{
-				Minimum = 0,
-				Maximum = 300,
-				Interval = 300 / 5.0,
-				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
-			}
-		};
-		var chartArea = ChartAreaRendersHelper.CreateChartArea(model);
+	{ 
+		var chartArea = base.CreateChartArea(modelParameters, modeSettings);
+
+		chartArea.AxisX.Minimum = 0;
+		chartArea.AxisX.Maximum = 300;
+		chartArea.AxisX.Interval = 300 / 5.0;
 
 		return chartArea;
-	}
-
-	protected override Legend CreateLegend(LegendStyle legendStyle, ModelParameters? modelParameters = null, BaseSettingsModels modeSettings = null)
-	{
-		return new Legend
-		{
-			Name = "Legend",
-			Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceChartLegendTitleText,
-			TitleFont = new Font("Microsoft Sans Serif", 10F),
-			LegendStyle = legendStyle,
-			Font = new Font("Microsoft Sans Serif", 10F),
-		};
-	}
-
-	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
-	{
-		return new Series[] { };
 	}
 
 	public override void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo)

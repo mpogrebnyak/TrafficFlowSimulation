@@ -58,19 +58,6 @@ namespace TrafficFlowSimulation
 		private static void SetSettings()
 		{
 			SettingsHelper.InitializeSettings();
-
-		/*	var settings = SettingsHelper.Get<ChartRenderingSettings>();
-			settings.CurrentDrivingMode = DrivingMode.StartAndStopMovement;
-			settings.CurrentParametersSelectionMode = ParametersSelectionMode.InliningDistanceEstimation;
-			settings.AvailableDrivingModes = 
-				new[]
-				{
-					DrivingMode.StartAndStopMovement,
-					DrivingMode.TrafficThroughOneTrafficLight,
-					DrivingMode.InliningInFlow,
-					DrivingMode.SpeedLimitChanging
-				};
-			SettingsHelper.Set<ChartRendering.Properties.ChartRenderingSettings>(settings);*/
 		}
 	}
 }

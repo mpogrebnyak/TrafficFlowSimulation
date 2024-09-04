@@ -47,4 +47,17 @@ public class ContextMenuResources
 	[Translation(Locales.ru, "Сохранить изображение как ...")]
 	[Translation(Locales.en, "Save image as ...")]
 	public string SaveImageText { get; set; }
+
+	[Translation(Locales.ru, "Отображение потоков на графиках")]
+	public string ChartViewModeToolStripMenuItem{ get; set; }
+
+	[Translation(Locales.ru, "Отображать графики только первого потока")]
+	public string ChartViewModeOnlyFirstLaneMenuItem { get; set; }
+
+	[Translation(Locales.ru, "Отображать графики только второго потока")]
+
+	public string ChartViewModeOnlySecondLaneMenuItem { get; set; }
+
+	[Translation(Locales.ru, "Отображать графики всех потоков")]
+	public string ChartViewModeBothLaneMenuItem { get; set; }
 }

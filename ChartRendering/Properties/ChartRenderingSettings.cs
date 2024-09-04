@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using ChartRendering.Constants;
 
 namespace ChartRendering.Properties;
 
@@ -15,4 +16,7 @@ public class ChartRenderingSettings
 
 	[DefaultValue(1)]
 	public int MaximumTimeForAutomaticIncrease { get; set; }
+
+	[DefaultValue("BothLane")]
+	public ChartViewMode ChartViewMode { get; set; } 
 }

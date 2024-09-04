@@ -17,10 +17,6 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 {
 	protected override string ColorPalette => "RedAndBlue";
 
-	private int _n1;
-
-	private int _n2;
-
 	public InliningInFlowCarsChartRender(Chart chart) : base(chart)
 	{
 	}
@@ -29,14 +25,11 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 	{
 		var settings = (InliningInFlowModeSettingsModel)modeSettings;
 
-		_n1 = modelParameters.n1;
-		_n2 = modelParameters.n2;
-
 		base.RenderChart(modelParameters, modeSettings);
 		Chart.Series.Clear();
 		Chart.Legends.Clear();
 
-		for (var i = 0; i < _n1; i++)
+		for (var i = 0; i < modelParameters.n1; i++)
 		{
 			Chart.Series.Add(new Series
 			{
@@ -44,11 +37,12 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 				ChartType = SeriesChartType,
 				ChartArea = GetChartArea().Name,
 				BorderWidth = 2,
-				Color = CustomColors.Blue
+				Color = CustomColors.Blue,
+				Tag = 1
 			});
 		}
 
-		for (var i = _n1; i < _n1 + _n2; i++)
+		for (var i = modelParameters.n1; i < modelParameters.n1 + modelParameters.n2; i++)
 		{
 			Chart.Series.Add(new Series
 			{
@@ -56,7 +50,8 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 				ChartType = SeriesChartType,
 				ChartArea = GetChartArea().Name,
 				BorderWidth = 2,
-				Color = CustomColors.Red
+				Color = CustomColors.Red,
+				Tag = 2
 			});
 
 			if (i == modelParameters.n1 + settings.Number)
@@ -70,7 +65,7 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 			var showLegend = false;
 			if (modelParameters.lambda[i] > GetChartArea().AxisX.Minimum && modelParameters.lambda[i] < GetChartArea().AxisX.Maximum)
 			{
-				if (i < _n1) 
+				if ((int) series.Tag == 1)
 					series.Points.AddXY(modelParameters.lambda[i], 3 * Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
 				else
 					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
@@ -96,7 +91,7 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 				series.Points.RemoveAt(0);
 			if (coordinates.X[i] > GetChartArea().AxisX.Minimum)
 			{
-				if (i < _n1)
+				if ((int) series.Tag == 1)
 					series.Points.AddXY(coordinates.X[i], 3 * Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
 				else
 					series.Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
@@ -178,12 +173,10 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 
 	public override void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo)
 	{
-		_n1++;
-		_n2--;
-
 		var s = Chart.Series[indexFrom];
-		Chart.Series.RemoveAt(indexFrom);
+		s.Tag = 1;
 
+		Chart.Series.RemoveAt(indexFrom);
 		Chart.Series.Insert(indexTo, s);
 
 		foreach (var series in Chart.Series.Select((value, i) => new { i, value }))

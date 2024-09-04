@@ -24,12 +24,13 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	private bool _isInlining;
 
-	private bool _isInliningEvent = true;
+	private bool _isInliningEvent;
 
 	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters,
 		BaseSettingsModels baseSettingsModels)
 	{
 		_isInlining = false;
+		_isInliningEvent = true;
 		_modelParameters = modelParameters;
 		_modeSettings = (InliningInFlowModeSettingsModel) baseSettingsModels;
 
@@ -151,9 +152,9 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 			}
 
 			if (x[num] - x[i] > Equation.S(_modelParameters, i, v[i]) &&
-				x[i] - x[num] > Equation.S(_modelParameters, num, v[num]))
+				x[i - 1] - x[num] > Equation.S(_modelParameters, num, v[num]))
 			{
-				_index = i + 1;
+				_index = i;
 				_isInlining = true;
 				return true;
 			}

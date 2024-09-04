@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ChartRendering.Constants;
 using Localization;
 using TrafficFlowSimulation.Properties.LocalizationResources;
 using TrafficFlowSimulation.Windows;
@@ -30,6 +31,10 @@ public class ChartContextMenuStripComponent : IComponent
 		public const string SaveChartToolStripMenuItem = "SaveChartToolStripMenuItem";
 		public const string SaveAllChartsToolStripMenuItem = "SaveAllChartsToolStripMenuItem";
 		public const string DisplaySpeedFromDistanceChartMenuItem = "DisplaySpeedFromDistanceChartMenuItem";
+		public const string ChartViewModeToolStripMenuItem = "ChartViewModeToolStripMenuItem";
+		public const string ChartViewModeOnlyFirstLaneMenuItem = "ChartViewModeOnlyFirstLaneMenuItem";
+		public const string ChartViewModeOnlySecondLaneMenuItem = "ChartViewModeOnlySecondLaneMenuItem";
+		public const string ChartViewModeBothLaneMenuItem = "ChartViewModeBothLaneMenuItem";
 	}
 
 	public void Initialize()
@@ -62,6 +67,13 @@ public class ChartContextMenuStripComponent : IComponent
 		var hideAxes = helper.CreateChartAxesMenuItem(MenuItemName.HideAxesMenuItem, resources.HideAxesMenuItem, false);
 		axesMenuItem.DropDownItems.AddRange(new ToolStripItem[] {displayAxes, hideAxes});
 		contextMenuStrip.Items.Add(axesMenuItem);
+
+		var chartViewModeMenuItem = helper.CreateToolStripMenuItem(MenuItemName.ChartViewModeToolStripMenuItem, resources.ChartViewModeToolStripMenuItem);
+		var chartViewModeOnlyFirstLane = helper.CreateChartViewModeMenuItem(MenuItemName.ChartViewModeOnlyFirstLaneMenuItem, resources.ChartViewModeOnlyFirstLaneMenuItem, ChartViewMode.OnlyFirstLane);
+		var chartViewModeOnlySecondLane = helper.CreateChartViewModeMenuItem(MenuItemName.ChartViewModeOnlySecondLaneMenuItem, resources.ChartViewModeOnlySecondLaneMenuItem, ChartViewMode.OnlySecondLane);
+		var cChartViewModeBothLane = helper.CreateChartViewModeMenuItem(MenuItemName.ChartViewModeBothLaneMenuItem, resources.ChartViewModeBothLaneMenuItem, ChartViewMode.BothLane);
+		chartViewModeMenuItem.DropDownItems.AddRange(new ToolStripItem[] {chartViewModeOnlyFirstLane, chartViewModeOnlySecondLane, cChartViewModeBothLane});
+		contextMenuStrip.Items.Add(chartViewModeMenuItem);
 
 		contextMenuStrip.Items.Add(helper.CreateToolStripSeparator(MenuItemName.ToolStripSeparator));
 
