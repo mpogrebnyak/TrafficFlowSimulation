@@ -45,7 +45,7 @@ public static class TrafficCapacityHelper
 		SeriesTrafficCapacity.Clear();
 
 		var environmentLineSeries = chartSeries
-			.Where(x => (string) x.Tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
+			.Where(x => x.Tag is string tag && tag == ChartsRender.EnvironmentSeriesTag && x.ChartType == SeriesChartType.Line)
 			.ToList();
 
 		foreach (var series in environmentLineSeries.Select((value, i) => new { i, value }))

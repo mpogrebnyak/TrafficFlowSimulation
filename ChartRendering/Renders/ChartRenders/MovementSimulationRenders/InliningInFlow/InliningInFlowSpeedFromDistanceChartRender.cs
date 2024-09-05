@@ -77,7 +77,7 @@ public class InliningInFlowSpeedFromDistanceChartRender : SpeedFromDistanceChart
 		{
 			RenderingHelper.EnableSeries(series, chartViewMode, (int)series.Tag);
 
-			if (series.Name.Replace(SeriesName, "") == "")
+			if (int.TryParse(series.Name.Replace(SeriesName, ""), out _) == false)
 				continue;
 
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
@@ -98,8 +98,8 @@ public class InliningInFlowSpeedFromDistanceChartRender : SpeedFromDistanceChart
 		var chartArea = base.CreateChartArea(modelParameters, modeSettings);
 
 		chartArea.AxisX.Minimum = 0;
-		chartArea.AxisX.Maximum = 300;
-		chartArea.AxisX.Interval = 300 / 5.0;
+		chartArea.AxisX.Maximum = 515;
+		chartArea.AxisX.Interval = 515 / 5.0;
 
 		return chartArea;
 	}

@@ -67,19 +67,19 @@ namespace EvaluationKernel.Models
 				n = n,
 				n1 = n1,
 				n2 = n2,
-				tau = tau,
-				tau_b = tau_b,
-				a = a,
-				q = q,
-				Vmax = Vmax,
-				k = k,
+				tau = new List<double>(tau),
+				tau_b = new List<double>(tau_b),
+				a = new List<double>(a),
+				q = new List<double>(q),
+				Vmax = new List<double>(Vmax),
+				k = new List<double>(k),
 				mu = mu,
 				g = g,
-				lSafe = lSafe,
-				lCar = lCar,
+				lSafe = new List<double>(lSafe),
+				lCar = new List<double>(lCar),
 				L = L,
-				lambda = lambda,
-				Vn = Vn
+				lambda = new List<double>(lambda),
+				Vn = new List<double>(tau)
 			};
 		}
 	}

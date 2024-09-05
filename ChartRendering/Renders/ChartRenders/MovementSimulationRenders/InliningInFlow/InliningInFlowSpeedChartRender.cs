@@ -80,7 +80,7 @@ public class InliningInFlowSpeedChartRender : SpeedChartRender
 		{
 			RenderingHelper.EnableSeries(series, chartViewMode, (int)series.Tag);
 
-			if (series.Name.Replace(SeriesName, "") == "")
+			if (int.TryParse(series.Name.Replace(SeriesName, ""), out _) == false)
 				continue;
 
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));

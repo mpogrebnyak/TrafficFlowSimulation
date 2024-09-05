@@ -30,7 +30,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		BaseSettingsModels baseSettingsModels)
 	{
 		_isInlining = false;
-		_isInliningEvent = true;
+		_isInliningEvent = false;
 		_modelParameters = modelParameters;
 		_modeSettings = (InliningInFlowModeSettingsModel) baseSettingsModels;
 
@@ -47,17 +47,27 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 			var time = KernelEvaluationHandler.GetTime();
 			_modelParameters = ExtendModelParameters(_modelParameters, _index, x, y);
 
-			var equation = new EquationForInlining(_modelParameters);
+			var equation = (AllCarsChangeLine)_modeSettings.IsAllCarsChangeLine.Value == AllCarsChangeLine.Yes
+				? new EquationForInlining(_modelParameters, _modelParameters.n1 + _modeSettings.Number, _modeSettings.Lenght)
+				: new EquationForInlining(_modelParameters);
+
 			equation.AddFirstCarNumbers(_modelParameters.n1);
 
 			KernelEvaluationHandler = new KernelEvaluationHandler(_modelParameters, equation);
 			KernelEvaluationHandler.SetInitialConditions(y, x, time);
+
+			if ((AllCarsChangeLine)_modeSettings.IsAllCarsChangeLine.Value == AllCarsChangeLine.Yes)
+			{
+				_isInlining = false;
+			}
+
+			_isInliningEvent = true;
 		}
 	}
 
 	protected override void SendEvent(ChartEventHandler eventHandler, double t, List<double> x, List<double> y)
 	{
-		if(_isInlining && _isInliningEvent)
+		if(_isInliningEvent)
 		{
 			var num = _modelParameters.n1 + _modeSettings.Number - 1;
 
@@ -127,7 +137,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	private bool IsInliningAvailable(ModelParameters modelParameters, IReadOnlyList<double> x, IReadOnlyList<double> v)
 	{
-		if (_isInlining)
+		if (_isInlining || modelParameters.n2 - _modeSettings.Number == 0)
 		{
 			return false;
 		}
@@ -161,5 +171,10 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		}
 
 		return false;
+	}
+
+	protected override bool IsEvent()
+	{
+		return _isInliningEvent;
 	}
 }

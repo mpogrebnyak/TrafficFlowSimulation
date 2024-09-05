@@ -303,8 +303,8 @@ public class BaseParametersModelForTwoFlows : ValidationModel, IBaseParametersMo
 	{
 		var defaultBPM = Default();
 		defaultBPM.IsCarsIdentical = new EnumItem(IdenticalCars.No);
-		defaultBPM.n1 = 10;
-		defaultBPM.n2 = 5;
+		defaultBPM.n1 = 100;
+		defaultBPM.n2 = 100;
 		defaultBPM = ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n1);
 		defaultBPM = ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n2);
 

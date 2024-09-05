@@ -10,6 +10,7 @@ using ChartRendering.Models;
 using ChartRendering.Properties;
 using EvaluationKernel.Models;
 using Localization;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace ChartRendering.Renders.ChartRenders.MovementSimulationRenders.InliningInFlow;
 
@@ -26,6 +27,7 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 		var settings = (InliningInFlowModeSettingsModel)modeSettings;
 
 		base.RenderChart(modelParameters, modeSettings);
+
 		Chart.Series.Clear();
 		Chart.Legends.Clear();
 
@@ -68,7 +70,7 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 				if ((int) series.Tag == 1)
 					series.Points.AddXY(modelParameters.lambda[i], 3 * Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
 				else
-					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
+					series.Points.AddXY(modelParameters.lambda[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 
 				showLegend = true;
 			}
@@ -77,6 +79,7 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 			UpdateLabel(series, showLegend, modelParameters.Vn[i], modelParameters.lambda[i]);
 		}
 
+		RenderChartEnvironment(modelParameters, modeSettings);
 		SetMarkerImage(modelParameters.lCar);
 	}
 
@@ -94,7 +97,7 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 				if ((int) series.Tag == 1)
 					series.Points.AddXY(coordinates.X[i], 3 * Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
 				else
-					series.Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 4);
+					series.Points.AddXY(coordinates.X[i], Chart.ChartAreas[ChartAreaName].AxisY.Maximum / 2);
 
 				showLegend = true;
 			}
@@ -153,6 +156,8 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 
 	protected override Series[] CreateEnvironment(ModelParameters modelParameters, BaseSettingsModels modeSettings)
 	{
+		var settings = (InliningInFlowModeSettingsModel) modeSettings;
+
 		var startLineSeries = new Series
 		{
 			Name = "StartLine",
@@ -165,28 +170,36 @@ public class InliningInFlowCarsChartRender : CarsChartRender
 		startLineSeries.Points.Add(new DataPoint(0.001, 1));
 		startLineSeries.Points.Add(new DataPoint(0.001, 0));
 
+		var endLineSeries = new Series
+		{
+			Name = "EndLine",
+			ChartType = SeriesChartType.Line,
+			ChartArea = ChartAreaName,
+			BorderWidth = 2,
+			Color = Color.Red,
+			IsVisibleInLegend = false
+		};
+		endLineSeries.Points.Add(new DataPoint(settings.Lenght, 1));
+		endLineSeries.Points.Add(new DataPoint(settings.Lenght, 0));
+
 		return new[]
 		{
-			startLineSeries
+			startLineSeries,
+			endLineSeries
 		};
 	}
 
 	public override void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo)
 	{
 		var s = Chart.Series[indexFrom];
+		s.Name = SeriesName + "-1";
 		s.Tag = 1;
 
 		Chart.Series.RemoveAt(indexFrom);
 		Chart.Series.Insert(indexTo, s);
 
-		foreach (var series in Chart.Series.Select((value, i) => new { i, value }))
-		{
-			series.value.Name = series.i.ToString();
-		}
-
-		foreach (var series in Chart.Series.Select((value, i) => new { i, value }))
-		{
-			series.value.Name = SeriesName + series.i;
-		}
+		var i = 0;
+		Chart.Series.Where(x => int.TryParse(x.Name.Replace(SeriesName, ""), out _)).ForEach(x => x.Name = "tmp" + x.Name);
+		Chart.Series.Where(x => int.TryParse(x.Name.Replace("tmp" + SeriesName, ""), out _)).ForEach(x => x.Name = SeriesName + i++);
 	}
 }

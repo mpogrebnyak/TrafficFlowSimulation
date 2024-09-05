@@ -7,6 +7,7 @@ using ChartRendering.ChartRenderModels.SettingsModels;
 using ChartRendering.Constants;
 using ChartRendering.Renders.ChartRenders;
 using EvaluationKernel.Models;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
 
 namespace ChartRendering.Helpers;
@@ -30,6 +31,7 @@ public static class RenderingHelper
 			newSeries.BorderWidth = 10;
 			newSeries.MarkerSize = 10;
 			newSeries.IsVisibleInLegend = false;
+			newSeries.Enabled = originalSeries.Enabled;
 
 			foreach (var originalPoint in originalSeries.Points)
 			{
@@ -199,7 +201,7 @@ public static class RenderingHelper
 
 		var newSeries = new Series
 		{
-			Name = oldSeries.Name,
+			Name = seriesName + "-1",
 			ChartType = oldSeries.ChartType,
 			ChartArea = oldSeries.ChartArea,
 			BorderWidth = oldSeries.BorderWidth,
@@ -210,17 +212,11 @@ public static class RenderingHelper
 
 		chart.Series.Insert(indexTo, newSeries);
 
-		foreach (var series in chart.Series.Select((value, i) => new { i, value }))
-		{
-			series.value.Name = series.i.ToString();
-		}
+		var i = 0;
+		chart.Series.Where(x => int.TryParse(x.Name.Replace(seriesName, ""), out _)).ForEach(x => x.Name = "tmp" + x.Name);
+		chart.Series.Where(x => int.TryParse(x.Name.Replace("tmp" + seriesName, ""), out _)).ForEach(x => x.Name = seriesName + i++);
 
-		foreach (var series in chart.Series.Select((value, i) => new { i, value }))
-		{
-			series.value.Name = seriesName + series.i;
-		}
-
-		oldSeries.Name = seriesName;
+		oldSeries.Name += "_old";
 		chart.Series.Add(oldSeries);
 	}
 

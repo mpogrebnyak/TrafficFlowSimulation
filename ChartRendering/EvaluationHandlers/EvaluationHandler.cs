@@ -90,7 +90,7 @@ public abstract class EvaluationHandler : IEvaluationHandler
 			KernelEvaluationHandler.Next();
 			AdditionalEvaluation(KernelEvaluationHandler.GetT(), KernelEvaluationHandler.GetX(), KernelEvaluationHandler.GetY());
 
-			if (stopwatch.ElapsedMilliseconds >= p.ModelParameters.n)
+			if (stopwatch.ElapsedMilliseconds >= p.ModelParameters.n || IsEvent())
 			{
 				SendEvent(
 					p.ChartEventHandler,
@@ -135,6 +135,11 @@ public abstract class EvaluationHandler : IEvaluationHandler
 	public bool IsExecuted()
 	{
 		return _thread != null;
+	}
+
+	protected virtual bool IsEvent()
+	{
+		return false;
 	}
 
 	protected class Parameters

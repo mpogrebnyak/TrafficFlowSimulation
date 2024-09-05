@@ -80,7 +80,7 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 		{
 			RenderingHelper.EnableSeries(series, chartViewMode, (int)series.Tag);
 
-			if (series.Name.Replace(SeriesName, "") == "")
+			if (int.TryParse(series.Name.Replace(SeriesName, ""), out _) == false)
 				continue;
 
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
@@ -128,8 +128,8 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 			AxisY = new Axis
 			{
 				Minimum = 0,
-				Maximum = 300,
-				Interval = 300 / 5.0,
+				Maximum = 515,
+				Interval = 515 / 5.0,
 				Title = LocalizationHelper.Get<ChartRenderingResources>().DistanceAxisTitleText,
 			}
 		};
