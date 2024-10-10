@@ -5,6 +5,7 @@ namespace EvaluationKernel.Equations.SpecializedEquations;
 
 public class EquationForInlining : Equation
 {
+	// Номер первой машины второго потока
 	private readonly int _number;
 
 	private readonly double _l;

@@ -108,6 +108,17 @@ public class ModelsConfiguration : IInitializable
 
 					break;
 				}
+				case DrivingMode.TrafficThroughBottleneck:
+				{
+					var m = DrivingMode.TrafficThroughBottleneck.ToString();
+					CommonHelper.ServiceRegistration.RegisterInstance<IBaseParametersModel>(() => new BaseParametersModelForTwoFlows(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModelForTwoFlows(), m, false);
+
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new TrafficThroughBottleneckModeSettingsModel(), m, false);
+
+					break;
+				}
 			}
 		}
 

@@ -208,7 +208,9 @@ public static class RenderingHelper
 			Color = oldSeries.Color,
 			Tag = laneNumber
 		};
-		newSeries.Points.Add(oldSeries.Points.Last());
+
+		if(oldSeries.Points.Any())
+			newSeries.Points.Add(oldSeries.Points.Last());
 
 		chart.Series.Insert(indexTo, newSeries);
 
@@ -216,7 +218,13 @@ public static class RenderingHelper
 		chart.Series.Where(x => int.TryParse(x.Name.Replace(seriesName, ""), out _)).ForEach(x => x.Name = "tmp" + x.Name);
 		chart.Series.Where(x => int.TryParse(x.Name.Replace("tmp" + seriesName, ""), out _)).ForEach(x => x.Name = seriesName + i++);
 
-		oldSeries.Name += "_old";
+		var j = 0;
+		while (chart.Series.Select(x => x.Name).Contains(oldSeries.Name + "_old" + j))
+		{
+			j++;
+		}
+
+		oldSeries.Name += "_old" + j;
 		chart.Series.Add(oldSeries);
 	}
 

@@ -91,6 +91,8 @@ namespace TrafficFlowSimulation.Windows
 
 		private void SubmitButton_Click(object sender, EventArgs e)
 		{
+			var currentDrivingMode = ModesHelper.GetCurrentDrivingMode();
+			ServiceLocator.Current.GetInstance<IEvaluationHandler>(currentDrivingMode).StopExecution();
 			RenderCharts();
 		}
 

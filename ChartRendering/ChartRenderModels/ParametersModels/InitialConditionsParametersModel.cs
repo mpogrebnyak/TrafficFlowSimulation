@@ -53,6 +53,7 @@ public class InitialConditionsParametersModel : ValidationModel, IInitialConditi
 		var bpm = (BaseParametersModel) baseParametersModel;
 		var apm = (AdditionalParametersModel) additionalParametersModel;
 
+		lambda_multiple = string.Empty;
 		var vn_multiple = CommonParserHelper.ParseMultipleValues(Vn_multiple);
 		if (bpm.IsCarsIdentical.Value.Equals(IdenticalCars.No) || vn_multiple.Any())
 		{
@@ -61,7 +62,6 @@ public class InitialConditionsParametersModel : ValidationModel, IInitialConditi
 			var tau_multiple = CommonParserHelper.ParseMultipleValues(bpm.tau_multiple);
 			var tau_b_multiple = CommonParserHelper.ParseMultipleValues(bpm.tau_b_multiple);
 
-			lambda_multiple = string.Empty;
 			var distance = 0.0;
 			for (var i = 0; i < bpm.n; i++)
 			{
@@ -93,7 +93,23 @@ public class InitialConditionsParametersModel : ValidationModel, IInitialConditi
 		}
 		else
 		{
-			lambda = bpm.l_car + bpm.l_safe;
+			if (Vn == 0)
+			{
+				lambda = bpm.l_car + bpm.l_safe > lambda
+					? bpm.l_car + bpm.l_safe
+					: lambda;
+			}
+			else
+			{
+				var distance = 0.0;
+				for (var i = 0; i < bpm.n; i++)
+				{
+					distance -= i != 0
+						? Math.Pow(Vn, 2) / (2 * apm.g * apm.mu) + Vn * (bpm.tau + bpm.tau_b) + bpm.l_car + bpm.l_safe
+						: 0;
+					lambda_multiple += i + ":" + distance + " ";
+				}
+			}
 		}
 
 		return this;

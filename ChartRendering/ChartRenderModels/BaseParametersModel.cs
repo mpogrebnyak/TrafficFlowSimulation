@@ -33,7 +33,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Максимальная скорость")]
 	[Translation(Locales.en, "Maximum speed")]
 	[CustomDisplay(3)]
-	[Required, Range(1, 55)]
+	[Required, Range(0, 80)]
 	[Random(16, 16.7)]
 	public virtual double Vmax { get; set; }
 

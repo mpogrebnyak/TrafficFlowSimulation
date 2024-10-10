@@ -55,7 +55,7 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 				Tag = 2
 			});
 
-			if (i == modelParameters.n1 + settings.Number)
+			if (settings.ChangeFirstInliningInFlowCarColor && i == modelParameters.n1 + settings.Number)
 				Chart.Series.Last().Color = CustomColors.DarkGreen;
 		}
 

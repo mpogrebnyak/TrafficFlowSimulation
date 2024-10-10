@@ -156,6 +156,21 @@ namespace TrafficFlowSimulation.Configurations
 					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughMultipleTrafficLights, false);
 			}
 
+			if (availableModes.Contains(DrivingMode.TrafficThroughBottleneck))
+			{
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningInFlowSpeedChartRender(_speedChart),
+					_speedChart.Name + DrivingMode.TrafficThroughBottleneck, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningInFlowDistanceChartRender(_distanceChart),
+					_distanceChart.Name + DrivingMode.TrafficThroughBottleneck, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningInFlowCarsChartRender(_carsMovementChart),
+					_carsMovementChart.Name + DrivingMode.TrafficThroughBottleneck, false);
+
+				CommonHelper.ServiceRegistration.RegisterInstance<IChartRender>(() => new InliningInFlowSpeedFromDistanceChartRender(_speedFromDistanceChart),
+					_speedFromDistanceChart.Name + DrivingMode.TrafficThroughBottleneck, false);
+			}
+
 			CommonHelper.ServiceRegistration.RegisterInstance(() => new ChartRenderingHandler(
 				new List<string>
 				{

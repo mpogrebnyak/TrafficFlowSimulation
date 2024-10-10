@@ -12,6 +12,9 @@ public class InliningInFlowModeSettingsModel : BaseSettingsModels
 	[Hidden] 
 	public override double L { get; set; }
 
+	[Hidden] 
+	public virtual bool ChangeFirstInliningInFlowCarColor{ get; set; }
+
 	[Translation(Locales.ru, "Номер автомобиля\nдля перестроения")]
 	[CustomDisplay(1)]
 	[Required]
@@ -22,6 +25,7 @@ public class InliningInFlowModeSettingsModel : BaseSettingsModels
 	[Required]
 	public virtual double Lenght { get; set; }
 
+	[Hidden]
 	[Translation(Locales.ru, "Перестроение всего потока")]
 	[CustomDisplay(3, enumType: typeof(AllCarsChangeLine))]
 	[Required]
@@ -32,6 +36,7 @@ public class InliningInFlowModeSettingsModel : BaseSettingsModels
 		return new InliningInFlowModeSettingsModel
 		{
 			L = 500,
+			ChangeFirstInliningInFlowCarColor = true,
 			Number = 1,
 			Lenght = 100,
 			IsAllCarsChangeLine = new EnumItem(AllCarsChangeLine.No)

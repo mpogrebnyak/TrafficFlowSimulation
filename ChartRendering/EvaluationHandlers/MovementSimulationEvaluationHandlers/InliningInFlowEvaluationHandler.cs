@@ -20,14 +20,15 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	private InliningInFlowModeSettingsModel _modeSettings;
 
-	private int _index = -1;
+	private int _indexFrom = -1;
+
+	private int _indexTo = -1;
 
 	private bool _isInlining;
 
 	private bool _isInliningEvent;
 
-	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters,
-		BaseSettingsModels baseSettingsModels)
+	protected override KernelEvaluationHandler CreateKernelEvaluationHandler(ModelParameters modelParameters, BaseSettingsModels baseSettingsModels)
 	{
 		_isInlining = false;
 		_isInliningEvent = false;
@@ -42,13 +43,13 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	protected override void AdditionalEvaluation(double t, List<double> x, List<double> y)
 	{
-		if (IsInliningAvailable(_modelParameters, x, y))
+		if (IsInliningAvailable(t, x, y))
 		{
 			var time = KernelEvaluationHandler.GetTime();
-			_modelParameters = ExtendModelParameters(_modelParameters, _index, x, y);
+			_modelParameters = ExtendModelParameters(_modelParameters, _indexTo, x, y);
 
 			var equation = (AllCarsChangeLine)_modeSettings.IsAllCarsChangeLine.Value == AllCarsChangeLine.Yes
-				? new EquationForInlining(_modelParameters, _modelParameters.n1 + _modeSettings.Number, _modeSettings.Lenght)
+				? new EquationForInlining(_modelParameters, _modelParameters.n1, _modeSettings.Lenght)
 				: new EquationForInlining(_modelParameters);
 
 			equation.AddFirstCarNumbers(_modelParameters.n1);
@@ -69,14 +70,12 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 	{
 		if(_isInliningEvent)
 		{
-			var num = _modelParameters.n1 + _modeSettings.Number - 1;
-
 			eventHandler.Invoke(
 				new List<ChartEventActions>
 				{
 				ChartEventActions.AddChartSeries
 				},
-				new AddChartEventHandlerArgs(_modelParameters, num, _index));
+				new AddChartEventHandlerArgs(_modelParameters, _indexFrom, _indexTo));
 
 			_isInliningEvent = false;
 		}
@@ -96,7 +95,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters, int index, List<double> lambda, List<double> Vn)
 	{
-		var num = modelParameters.n1 + _modeSettings.Number;
+		var num = _indexFrom;
 		var newModelParameters = (ModelParameters) modelParameters.Clone();
 
 		newModelParameters.n1++;
@@ -135,38 +134,46 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		return newModelParameters;
 	}
 
-	private bool IsInliningAvailable(ModelParameters modelParameters, IReadOnlyList<double> x, IReadOnlyList<double> v)
+	private bool IsInliningAvailable(double t, IReadOnlyList<double> x, IReadOnlyList<double> v)
 	{
-		if (_isInlining || modelParameters.n2 - _modeSettings.Number == 0)
+		if (t < 1 || _isInlining || _modelParameters.n2 - _modeSettings.Number == 0)
 		{
 			return false;
 		}
 
-		var num = modelParameters.n1 + _modeSettings.Number;
-		for (var i = 0; i < modelParameters.n1; i++)
+		var maxNum = (AllCarsChangeLine) _modeSettings.IsAllCarsChangeLine.Value == AllCarsChangeLine.Yes
+			? _modelParameters.n
+			: _modelParameters.n1 + _modeSettings.Number + 1;
+		for (var num = _modelParameters.n1 + _modeSettings.Number; num < maxNum; num++)
 		{
-			if (i == 0 && 
-				x[num] - x[i] > Equation.S(_modelParameters, i, v[i]))
+			for (var i = 0; i < _modelParameters.n1; i++)
 			{
-				_index = 0;
-				_isInlining = true;
-				return true;
-			}
+				if (i == 0 &&
+				    x[num] - x[i] > Equation.S(_modelParameters, i, v[i]))
+				{
+					_indexTo = 0;
+					_isInlining = true;
+					_indexFrom = num;
+					return true;
+				}
 
-			if (i == modelParameters.n1 - 1 && 
-				x[i] - x[num] > Equation.S(_modelParameters, num, v[num]))
-			{
-				_index = i + 1;
-				_isInlining = true;
-				return true;
-			}
+				if (i == _modelParameters.n1 - 1 &&
+				    x[i] - x[num] > Equation.S(_modelParameters, num, v[num]))
+				{
+					_indexTo = i + 1;
+					_isInlining = true;
+					_indexFrom = num;
+					return true;
+				}
 
-			if (x[num] - x[i] > Equation.S(_modelParameters, i, v[i]) &&
-				x[i - 1] - x[num] > Equation.S(_modelParameters, num, v[num]))
-			{
-				_index = i;
-				_isInlining = true;
-				return true;
+				if (x[num] - x[i] > Equation.S(_modelParameters, i, v[i]) &&
+				    x[i - 1] - x[num] > Equation.S(_modelParameters, num, v[num]))
+				{
+					_indexTo = i;
+					_isInlining = true;
+					_indexFrom = num;
+					return true;
+				}
 			}
 		}
 
