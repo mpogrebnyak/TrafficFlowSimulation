@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ChartRendering.Attribute;
 using ChartRendering.Constants;
+using ChartRendering.Helpers;
 using Common;
 using EvaluationKernel.Models;
 using Localization.Localization;
@@ -119,6 +120,7 @@ public class InitialConditionsParametersModelForTwoFlows : ValidationModel, IIni
 					: speed * bpm.n_tau_b;
 
 				distance -= stopDistance + safeDistance;
+				distance -= speed > 0 ? ChartRenderModelHelper.GenerateDoubleRandomValue(3.0, 10.0) : 0;
 				n_lambda_multiple += i + ":" + distance + " ";
 			}
 		}
@@ -162,6 +164,7 @@ public class InitialConditionsParametersModelForTwoFlows : ValidationModel, IIni
 					: speed * bpm.m_tau_b;
 
 				distance -= stopDistance + safeDistance;
+				distance -= speed > 0 ? ChartRenderModelHelper.GenerateDoubleRandomValue(3.0, 10.0) : 0;
 				m_lambda_multiple += i + ":" + distance + " ";
 			}
 		}
@@ -186,12 +189,12 @@ public class InitialConditionsParametersModelForTwoFlows : ValidationModel, IIni
 		{
 			n_lambda = defaultBPM.n_l_car + defaultBPM.n_l_safe,
 			n_lambda_multiple = string.Empty,
-			n_Vn = 0,
+			n_Vn = 16.7,
 			n_Vn_multiple = string.Empty,
 
 			m_lambda = defaultBPM.m_l_car + defaultBPM.m_l_safe,
 			m_lambda_multiple = string.Empty,
-			m_Vn = 0,
+			m_Vn = 16.7,
 			m_Vn_multiple = string.Empty
 		};
 	}

@@ -74,7 +74,7 @@ public class SpeedLimitChangingCarsChartRender : CarsChartRender
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = segment.First() - 100,
+				Minimum = segment.First() - 10,
 				Maximum = segment.Last() + 100
 			},
 			IsZoomAvailable = true

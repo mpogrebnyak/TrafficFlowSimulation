@@ -33,17 +33,15 @@ public class MovementThroughMultipleTrafficLightsDistanceChartRender : DistanceC
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
+		base.UpdateChart(coordinates);
+
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
 		{
 			var i = Convert.ToInt32(series.Name.Replace(SeriesName, ""));
 
-			var showLegend = false;
-			if (coordinates.X[i] > GetChartArea().AxisY.Minimum && coordinates.X[i] < GetChartArea().AxisY.Maximum)
-			{
-				series.Points.AddXY(coordinates.T, coordinates.X[i]);
-				showLegend = true;
-			}
+			series.Points.AddXY(coordinates.T, coordinates.X[i]);
 
+			var showLegend = coordinates.X[i] > -30 && coordinates.X[i] < 30;
 			UpdateLegend(series, showLegend, coordinates.X[i]);
 		}
 	}

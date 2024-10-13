@@ -54,25 +54,11 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 		return equation.IsVirtual(n);
 	}
 
-	protected override void ChangeSignal(TrafficLight trafficLight, int i)
+	protected override int GetPrevCarNumber(int n)
 	{
-		var eq = (EquationWithStopThroughTheDriver) Equation;
-		switch (trafficLight.CurrentSignal)
-		{
-			case TrafficLightColor.Red:
-				if (eq.NumberAndPositionToStop.ContainsKey(Stop[i].N) == false && Stop[i].N >= 0)
-				{
-					eq.NumberAndPositionToStop.Add(Stop[i].N, Stop[i].Pos);
-					eq.FirstAfterStop.Add(Stop[i].N);
-				}
-				break;
-			case TrafficLightColor.Green:
-				var item = eq.NumberAndPositionToStop.Where(x => Math.Abs(x.Value - Stop[i].Pos) < 0.001);
-				var keyValuePairs = item.ToList();
-				if (keyValuePairs.Any())
-					eq.NumberAndPositionToStop.Remove(keyValuePairs.First().Key);
-				break;
-		}
+		return n < 2
+			? n - 1
+			: n - 2;
 	}
 
 	private ModelParameters ExtendModelParameters(ModelParameters modelParameters)
@@ -115,6 +101,19 @@ public class MovementThroughOneTrafficLightThroughTheDriverEvaluationHandler : M
 		}
 
 		return extendModelParameters;
+	}
+
+	protected override void ChangeSignal(TrafficLight trafficLight, int i)
+	{
+		var eq = (EquationWithStopThroughTheDriver) Equation;
+		if (trafficLight.CurrentSignal == TrafficLightColor.Red)
+		{
+			if (eq.NumberAndPositionToStop.ContainsKey(Stop[i].N) == false && Stop[i].N >= 0)
+			{
+				eq.NumberAndPositionToStop.Add(Stop[i].N, Stop[i].Pos);
+				eq.FirstAfterStop.Add(Stop[i].N);
+			}
+		}
 	}
 
 	private void ExtendEquation()

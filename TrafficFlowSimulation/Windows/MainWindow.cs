@@ -26,6 +26,8 @@ namespace TrafficFlowSimulation.Windows
 			SaveButton.Hide();
 			LoadButton.Enabled = false;
 			LoadButton.Hide();
+
+			KeyPreview = true;
 		}
 
 		private void CustomInitializeComponent()
@@ -154,6 +156,18 @@ namespace TrafficFlowSimulation.Windows
 		{
 			ServiceLocator.Current.GetInstance<MainWindowHelper>().CreateRandomFlow();
 			RenderCharts();
+		}
+
+		private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.D1)
+			{
+				StartToolStripButton_Click(sender, e);
+			}
+			if (e.KeyCode == Keys.D2)
+			{
+				StopToolStripButton_Click(sender, e);
+			}
 		}
 	}
 }

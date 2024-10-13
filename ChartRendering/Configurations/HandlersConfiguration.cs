@@ -73,6 +73,12 @@ public class HandlersConfiguration : IInitializable
 			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new InliningInFlowEvaluationHandler(),
 				DrivingMode.TrafficThroughBottleneck.ToString(), false);
 		}
+
+		if (availableModes.Contains(DrivingMode.TrafficTwoLines))
+		{
+			CommonHelper.ServiceRegistration.RegisterInstance<IEvaluationHandler>(() => new InliningInFlowEvaluationHandler(),
+				DrivingMode.TrafficTwoLines.ToString(), false);
+		}
 	}
 
 	private void InitializeParametersSelectionEvaluationHandlers()

@@ -93,7 +93,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.en, "Vehicle length")]
 	[CustomDisplay(15)]
 	[Required, Range(3, 8)]
-	[Random(3, 5)]
+	[Random(4, 6)]
 	public virtual double l_car { get; set; }
 
 	[CustomDisplay(16, true, true)] 

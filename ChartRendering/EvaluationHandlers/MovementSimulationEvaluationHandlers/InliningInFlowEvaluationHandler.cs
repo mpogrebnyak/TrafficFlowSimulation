@@ -136,7 +136,8 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	private bool IsInliningAvailable(double t, IReadOnlyList<double> x, IReadOnlyList<double> v)
 	{
-		if (t < 1 || _isInlining || _modelParameters.n2 - _modeSettings.Number == 0)
+		var startNum = _modelParameters.n1 + _modeSettings.Number;
+		if (startNum > _modelParameters.n || startNum < 0 || _isInlining || _modelParameters.n2 - _modeSettings.Number == 0)
 		{
 			return false;
 		}
@@ -144,7 +145,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		var maxNum = (AllCarsChangeLine) _modeSettings.IsAllCarsChangeLine.Value == AllCarsChangeLine.Yes
 			? _modelParameters.n
 			: _modelParameters.n1 + _modeSettings.Number + 1;
-		for (var num = _modelParameters.n1 + _modeSettings.Number; num < maxNum; num++)
+		for (var num = startNum; num < maxNum; num++)
 		{
 			for (var i = 0; i < _modelParameters.n1; i++)
 			{

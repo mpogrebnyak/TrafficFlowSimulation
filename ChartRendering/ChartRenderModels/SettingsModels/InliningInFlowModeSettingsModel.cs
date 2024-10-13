@@ -35,7 +35,7 @@ public class InliningInFlowModeSettingsModel : BaseSettingsModels
 	{
 		return new InliningInFlowModeSettingsModel
 		{
-			L = 500,
+			L = 5000,
 			ChangeFirstInliningInFlowCarColor = true,
 			Number = 1,
 			Lenght = 100,

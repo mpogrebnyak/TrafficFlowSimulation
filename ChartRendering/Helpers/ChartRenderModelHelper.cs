@@ -85,4 +85,10 @@ public static class ChartRenderModelHelper
 			throw new ArgumentException("Unsupported data type for RangeAttribute.");
 		}
 	}
+
+	public static double GenerateDoubleRandomValue(double minValue, double maxValue)
+	{
+		var randomDouble = Random.NextDouble() * (maxValue - minValue) + minValue;
+		return Math.Round(randomDouble, 2);
+	}
 }

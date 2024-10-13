@@ -63,6 +63,7 @@ public class MovementThroughMultipleTrafficLightsEvaluationHandler : EvaluationH
 			trafficLight.value.RemainingTime = remainingTimes[trafficLight.i];
 		}
 
+		((EquationWithStop) Equation).NumberAndPositionToStop.Clear();
 		foreach (var trafficLight in TrafficLights.Select((value, i) => new { i, value }))
 		{
 			ChangeSignal(trafficLight.value, trafficLight.i);
@@ -75,14 +76,19 @@ public class MovementThroughMultipleTrafficLightsEvaluationHandler : EvaluationH
 				if (AdditionalCondition(i))
 					continue;
 
-				if (x[i] < TrafficLightsParameters.TrafficLightsPosition[j] && x[i] <= TrafficLightsParameters.TrafficLightsPosition[j] - Equation.S(ModelParameters, i, y[i]))
+				if (x[i] <= TrafficLightsParameters.TrafficLightsPosition[j])
 				{
-					if (TrafficLights[j].CurrentSignal == TrafficLightColor.Red)
-						break;
+					if(x[i] >= TrafficLightsParameters.TrafficLightsPosition[j] - Equation.S(ModelParameters, i, y[i]))
+							Stop[j].N = i;
 
-					Stop[j].N = i;
+					if (i > 0 && TrafficLightsParameters.TrafficLightsPosition[j] > x[GetPrevCarNumber(i)] - ModelParameters.lCar[GetPrevCarNumber(i)])
+					{
+							Stop[j].N = GetPrevCarNumber(i);
+					}
+
 					break;
 				}
+
 				Stop[j].N = -1;
 			}
 		}
@@ -154,24 +160,23 @@ public class MovementThroughMultipleTrafficLightsEvaluationHandler : EvaluationH
 	protected virtual void ChangeSignal(TrafficLight trafficLight, int i)
 	{
 		var eq = (EquationWithStop) Equation;
-		switch (trafficLight.CurrentSignal)
+		if (trafficLight.CurrentSignal == TrafficLightColor.Red)
 		{
-			case TrafficLightColor.Red:
-				if (eq.NumberAndPositionToStop.ContainsKey(Stop[i].N) == false && Stop[i].N >= 0)
-					eq.NumberAndPositionToStop.Add(Stop[i].N, Stop[i].Pos);
-				break;
-			case TrafficLightColor.Green:
-				var item = eq.NumberAndPositionToStop.Where(x => Math.Abs(x.Value - Stop[i].Pos) < 0.001);
-				var keyValuePairs = item.ToList();
-				if (keyValuePairs.Any())
-					eq.NumberAndPositionToStop.Remove(keyValuePairs.First().Key);
-				break;
+			if (eq.NumberAndPositionToStop.ContainsKey(Stop[i].N) == false && Stop[i].N >= 0)
+			{
+				eq.NumberAndPositionToStop.Add(Stop[i].N, Stop[i].Pos);
+			}
 		}
 	}
 
 	protected virtual bool AdditionalCondition(int n)
 	{
 		return false;
+	}
+	
+	protected virtual int GetPrevCarNumber(int n)
+	{
+		return n - 1;
 	}
 
 	protected class TrafficLight

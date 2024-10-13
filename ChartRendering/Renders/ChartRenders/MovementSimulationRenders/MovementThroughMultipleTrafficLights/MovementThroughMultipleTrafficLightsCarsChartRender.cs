@@ -88,7 +88,7 @@ public class MovementThroughMultipleTrafficLightsCarsChartRender : CarsChartRend
 			Name = ChartAreaName,
 			AxisX = new Axis
 			{
-				Minimum = -30,
+				Minimum = -20,
 				Maximum = trafficLightsParameters.TrafficLightsPosition.Last() + 99
 			},
 			IsZoomAvailable = true

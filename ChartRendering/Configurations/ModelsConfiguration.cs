@@ -119,6 +119,17 @@ public class ModelsConfiguration : IInitializable
 
 					break;
 				}
+				case DrivingMode.TrafficTwoLines:
+				{
+					var m = DrivingMode.TrafficTwoLines.ToString();
+					CommonHelper.ServiceRegistration.RegisterInstance<IBaseParametersModel>(() => new BaseParametersModelForTwoFlows(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IAdditionalParametersModel>(() => new AdditionalParametersModel(), m, false);
+					CommonHelper.ServiceRegistration.RegisterInstance<IInitialConditionsParametersModel>(() => new InitialConditionsParametersModelForTwoFlows(), m, false);
+
+					CommonHelper.ServiceRegistration.RegisterInstance<ISettingsModel>(() => new TrafficTwoLinesSettingsModel(), m, false);
+
+					break;
+				}
 			}
 		}
 

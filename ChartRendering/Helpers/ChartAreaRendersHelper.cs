@@ -13,6 +13,7 @@ public static class ChartAreaRendersHelper
 {
 	private const int MinimumSingleSegmentInPixels = 18;
 
+	
 	private const double ZoomShift = 48;
 
 	private static readonly ChartAreaCreationModel ChartAreaBaseModel = new()
@@ -90,7 +91,7 @@ public static class ChartAreaRendersHelper
 		{
 			chartArea.AxisX.ScaleView = GetScaleView;
 			chartArea.AxisX.ScrollBar = GetScrollBar;
-			chartArea.AxisX.ScaleView.Zoom(-30, -30 + ZoomShift);
+			chartArea.AxisX.ScaleView.Zoom(chartArea.AxisX.Minimum, chartArea.AxisX.Minimum + ZoomShift);
 		}
 
 		if (model.AxisX != null && model.AxisX.CustomLabels.Any())
@@ -233,6 +234,4 @@ public class ChartAreaCreationModel
 	public Axis AxisY { get; set; }
 
 	public bool IsZoomAvailable { get; set; }
-
-	public bool IsOnlyCustomGridAvailable { get; set; }
 }

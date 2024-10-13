@@ -50,18 +50,23 @@ public static class TrafficCapacityHelper
 
 		foreach (var series in environmentLineSeries.Select((value, i) => new { i, value }))
 		{
-			_roundTime.Add(roundTime != null && series.i >= 0 && roundTime.Count - 1 >= series.i
-				? roundTime[series.i]
-				: RoundTime);
-			_currentRoundNumber.Add(1);
-
-			SeriesTrafficCapacity.Add(KeyPrefix + Math.Round(series.value.Points.First().XValue, 2), CreateTrafficCapacity());
-			var trafficCapacitySeries = CreateTrafficCapacitySeriesLabel(series.value.Name, series.value.Points.First().XValue, series.i);
-			trafficCapacitySeries.ForEach(x =>
+			var key = KeyPrefix + Math.Round(series.value.Points.First().XValue, 2);
+			if (SeriesTrafficCapacity.ContainsKey(key) == false)
 			{
-				x.ChartArea = chartAreaName;
-				chartSeries.Add(x);
-			});
+				_roundTime.Add(roundTime != null && series.i >= 0 && roundTime.Count - 1 >= series.i
+					? roundTime[series.i]
+					: RoundTime);
+				_currentRoundNumber.Add(1);
+
+				SeriesTrafficCapacity.Add(key, CreateTrafficCapacity());
+				var trafficCapacitySeries =
+					CreateTrafficCapacitySeriesLabel(series.value.Name, series.value.Points.First().XValue, series.i);
+				trafficCapacitySeries.ForEach(x =>
+				{
+					x.ChartArea = chartAreaName;
+					chartSeries.Add(x);
+				});
+			}
 		}
 	}
 

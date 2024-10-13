@@ -44,7 +44,7 @@ public class BaseParametersModelForTwoFlows : ValidationModel, IBaseParametersMo
 	[Translation(Locales.ru, "Время реакции водителя")]
 	[Translation(Locales.en, "Driver's response time")]
 	[CustomDisplay(5)]
-	[Required, Range(0.2, 2)]
+	[Required, Range(0.0001, 2)]
 	[Random(0.2, 0.6)]
 	public virtual double n_tau { get; set; }
 
@@ -94,7 +94,7 @@ public class BaseParametersModelForTwoFlows : ValidationModel, IBaseParametersMo
 	[Translation(Locales.en, "Vehicle length")]
 	[CustomDisplay(15)]
 	[Required, Range(3, 8)]
-	[Random(3, 5)]
+	[Random(4, 6)]
 	public virtual double n_l_car { get; set; }
 
 	[CustomDisplay(16, true, true)] 
@@ -135,7 +135,7 @@ public class BaseParametersModelForTwoFlows : ValidationModel, IBaseParametersMo
 	[Translation(Locales.ru, "Время реакции водителя")]
 	[Translation(Locales.en, "Driver's response time")]
 	[CustomDisplay(23)]
-	[Required, Range(0.2, 2)]
+	[Required, Range(0.0001, 2)]
 	[Random(0.2, 0.6)]
 	public virtual double m_tau { get; set; }
 
@@ -185,7 +185,7 @@ public class BaseParametersModelForTwoFlows : ValidationModel, IBaseParametersMo
 	[Translation(Locales.en, "Vehicle length")]
 	[CustomDisplay(33)]
 	[Required, Range(3, 8)]
-	[Random(3, 5)]
+	[Random(4, 6)]
 	public virtual double m_l_car { get; set; }
 
 	[CustomDisplay(34, true, true)] 
@@ -303,8 +303,8 @@ public class BaseParametersModelForTwoFlows : ValidationModel, IBaseParametersMo
 	{
 		var defaultBPM = Default();
 		defaultBPM.IsCarsIdentical = new EnumItem(IdenticalCars.No);
-		defaultBPM.n1 = 100;
-		defaultBPM.n2 = 100;
+		defaultBPM.n1 = 15;
+		defaultBPM.n2 = 15;
 		defaultBPM = ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n1);
 		defaultBPM = ChartRenderModelHelper.CreateModelWithRandomValues(defaultBPM, defaultBPM.n2);
 

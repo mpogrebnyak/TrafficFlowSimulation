@@ -5,38 +5,41 @@ namespace ChartRendering.Constants;
 public class DrivingModeResources
 {
 	// ReSharper disable UnusedMember.Global
-	[Translation(Locales.ru, "Движение и остановка")]
+	[Translation(Locales.ru, "Начало движения и остановка")]
 	[Translation(Locales.en, "Movement and stopping")]
 	public string StartAndStopMovement { get; set; }
 
-	[Translation(Locales.ru, "Движение через один светофор")]
+	[Translation(Locales.ru, "Режим работы одного светофора")]
 	[Translation(Locales.en, "Traffic through one traffic light")]
 	public string TrafficThroughOneTrafficLight { get; set; }
 
-	[Translation(Locales.ru, "Движение через произвольное количество светофоров")]
+	[Translation(Locales.ru, "Режим работы нескольких светофоров")]
 	[Translation(Locales.en, "Traffic through multiple traffic lights")]
 	public string TrafficThroughMultipleTrafficLights { get; set; }
 
-	[Translation(Locales.ru, "Встраивание в поток")]
+	[Translation(Locales.ru, "Движение с учетом перестроения")]
 	[Translation(Locales.en, "Inlining in the flow")]
 	public string InliningInFlow { get; set; }
 
-	[Translation(Locales.ru, "Изменение скоростного режима")]
+	[Translation(Locales.ru, "Движение с различными скоростными ограничениями")]
 	[Translation(Locales.en, "Speed limit changing")]
 	public string SpeedLimitChanging { get; set; }
 
-	[Translation(Locales.ru, "Препятствие на дороге")]
+	[Translation(Locales.ru, "Движение с небольшим замедляющим препятствием")]
 	[Translation(Locales.en, "A hole in the road")]
 	public string RoadHole { get; set; }
 
-	[Translation(Locales.ru, "Обращать внимание через водителя")]
+	[Translation(Locales.ru, "Движение с учетом прогнозирования по прямой")]
 	public string ThroughTheDriver { get; set; }
 
-	[Translation(Locales.ru, "Обращать внимание через водителя на светофоре")]
+	[Translation(Locales.ru, "Движение с учетом прогнозирования через светофор")]
 	public string TrafficThroughOneTrafficLightThroughTheDriver { get; set; }
-	
-	[Translation(Locales.ru, "Движение через бутылочное горлышко")]
+
+	[Translation(Locales.ru, "Движение с учетом перестроения через узкое место")]
 	public string TrafficThroughBottleneck{ get; set; }
+
+	[Translation(Locales.ru, "Движение по двум полосам без взаимодействия")]
+	public string TrafficTwoLines { get; set; }
 
 	// ReSharper restore UnusedMember.Global
 }
@@ -68,5 +71,8 @@ public enum DrivingMode
 	TrafficThroughOneTrafficLightThroughTheDriver = 8,
 
 	[LocalizedDescription("TrafficThroughBottleneck", typeof(DrivingModeResources))]
-	TrafficThroughBottleneck = 9
+	TrafficThroughBottleneck = 9,
+
+	[LocalizedDescription("TrafficTwoLines", typeof(DrivingModeResources))]
+	TrafficTwoLines = 10
 }
