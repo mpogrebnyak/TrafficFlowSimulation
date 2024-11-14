@@ -43,7 +43,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 	[Translation(Locales.ru, "Время реакции водителя")]
 	[Translation(Locales.en, "Driver's response time")]
 	[CustomDisplay(5)]
-	[Required, Range(0.2, 2)]
+	[Required, Range(0, 3)]
 	[Random(0.2, 0.6)]
 	public virtual double tau { get; set; }
 
@@ -119,7 +119,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 			{
 				for (var i = 0; i < n; i++)
 				{
-					mp.tau.Add(tau);
+					mp.tau.Add(Tau(tau));
 					mp.tau_b.Add(tau_b);
 					mp.Vmax.Add(Vmax);
 					mp.a.Add(a);
@@ -158,7 +158,7 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 			mp.lSafe.Add(lDictionary.ContainsKey(i) ? lDictionary[i] : l_safe);
 			mp.lCar.Add(lCarDictionary.ContainsKey(i) ? lCarDictionary[i] : l_car);
 			mp.k.Add(kDictionary.ContainsKey(i) ? kDictionary[i] : k);
-			mp.tau.Add(tauDictionary.ContainsKey(i) ? tauDictionary[i] : tau);
+			mp.tau.Add(tauDictionary.ContainsKey(i) ? tauDictionary[i] : Tau(tau));
 			mp.tau_b.Add(tau_bDictionary.ContainsKey(i) ? tau_bDictionary[i] : tau_b);
 		}
 	}
@@ -201,5 +201,10 @@ public class BaseParametersModel : ValidationModel, IBaseParametersModel
 			k = 0.5,
 			k_multiple = string.Empty
 		};
+	}
+
+	private static double Tau(double tau)
+	{
+		return tau < 0.001 ? 0.001 : tau;
 	}
 }

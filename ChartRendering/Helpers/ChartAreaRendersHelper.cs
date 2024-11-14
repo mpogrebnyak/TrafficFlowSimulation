@@ -113,7 +113,7 @@ public static class ChartAreaRendersHelper
 		return chartArea;
 	}
 
-	public static void CreateCustomLabels(Axis axis, double singleSegmentInPixels, int minimumSingleSegmentInPixels = MinimumSingleSegmentInPixels)
+	public static void CreateCustomLabels(Axis axis, double singleSegmentInPixels = 6, int minimumSingleSegmentInPixels = MinimumSingleSegmentInPixels)
 	{
 		if (axis.CustomLabels.Any() == false)
 		{

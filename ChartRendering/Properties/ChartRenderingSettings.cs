@@ -14,9 +14,12 @@ public class ChartRenderingSettings
 	[DefaultValue(10)]
 	public int TrafficCapacityRoundsNumber { get; set; }
 
-	[DefaultValue(1)]
+	[DefaultValue(2)]
 	public int MaximumTimeForAutomaticIncrease { get; set; }
 
 	[DefaultValue("BothLane")]
-	public ChartViewMode ChartViewMode { get; set; } 
+	public ChartViewMode ChartViewMode { get; set; }
+
+	[DefaultValue("false")]
+	public bool CalculateMinimumSpeedValue { get; set; }
 }

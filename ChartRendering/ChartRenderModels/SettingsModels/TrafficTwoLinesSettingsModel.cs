@@ -23,6 +23,9 @@ public class TrafficTwoLinesSettingsModel : InliningInFlowModeSettingsModel
 	[Hidden]
 	public override EnumItem IsAllCarsChangeLine { get; set; }
 
+	[Hidden]
+	public override double LenghtToInline { get; set; }
+
 	public override object GetDefault()
 	{
 		return new InliningInFlowModeSettingsModel
@@ -31,6 +34,7 @@ public class TrafficTwoLinesSettingsModel : InliningInFlowModeSettingsModel
 			ChangeFirstInliningInFlowCarColor = true,
 			Number = int.MaxValue,
 			Lenght = 500,
+			LenghtToInline = 0,
 			IsAllCarsChangeLine = new EnumItem(AllCarsChangeLine.No)
 		};
 	}

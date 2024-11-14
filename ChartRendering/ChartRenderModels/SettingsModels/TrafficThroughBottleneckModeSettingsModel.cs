@@ -9,6 +9,9 @@ public class TrafficThroughBottleneckModeSettingsModel : InliningInFlowModeSetti
 	[Hidden]
 	public override int Number { get; set; }
 
+	[Hidden]
+	public override double LenghtToInline { get; set; }
+
 	public override object GetDefault()
 	{
 		return new InliningInFlowModeSettingsModel
@@ -17,6 +20,7 @@ public class TrafficThroughBottleneckModeSettingsModel : InliningInFlowModeSetti
 			ChangeFirstInliningInFlowCarColor = false,
 			Number = 0,
 			Lenght = 100,
+			LenghtToInline = 0,
 			IsAllCarsChangeLine = new EnumItem(AllCarsChangeLine.Yes)
 		};
 	}

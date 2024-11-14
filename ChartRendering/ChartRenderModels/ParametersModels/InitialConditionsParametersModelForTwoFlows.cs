@@ -85,6 +85,7 @@ public class InitialConditionsParametersModelForTwoFlows : ValidationModel, IIni
 		var bpm = (BaseParametersModelForTwoFlows) baseParametersModel;
 		var apm = (AdditionalParametersModel) additionalParametersModel;
 
+		n_lambda_multiple = string.Empty;
 		var n_vn_multiple = CommonParserHelper.ParseMultipleValues(n_Vn_multiple);
 		if (bpm.IsCarsIdentical.Value.Equals(IdenticalCars.No) || n_vn_multiple.Any())
 		{
@@ -126,9 +127,27 @@ public class InitialConditionsParametersModelForTwoFlows : ValidationModel, IIni
 		}
 		else
 		{
-			n_lambda = bpm.n_l_car + bpm.n_l_safe;
+			if (n_Vn == 0)
+			{
+				n_lambda = bpm.n_l_car + bpm.n_l_safe > n_lambda
+					? bpm.n_l_car + bpm.n_l_safe
+					: n_lambda;
+			}
+			else
+			{
+				var distance = 0.0;
+				for (var i = 0; i < bpm.n1; i++)
+				{
+					distance -= i != 0
+						? Math.Pow(n_Vn, 2) / (2 * apm.g * apm.mu) + n_Vn * (bpm.n_tau + bpm.n_tau_b) + bpm.n_l_car + bpm.n_l_safe
+						: 0;
+					distance -= n_Vn > 0 && i > 0 ? ChartRenderModelHelper.GenerateDoubleRandomValue(3.0, 10.0) : 0;
+					n_lambda_multiple += i + ":" + distance + " ";
+				}
+			}
 		}
 
+		m_lambda_multiple = string.Empty;
 		var m_vn_multiple = CommonParserHelper.ParseMultipleValues(m_Vn_multiple);
 		if (bpm.IsCarsIdentical.Value.Equals(IdenticalCars.No) || m_vn_multiple.Any())
 		{
@@ -170,7 +189,24 @@ public class InitialConditionsParametersModelForTwoFlows : ValidationModel, IIni
 		}
 		else
 		{
-			m_lambda = bpm.m_l_car + bpm.m_l_safe;
+			if (m_Vn == 0)
+			{
+				m_lambda = bpm.m_l_car + bpm.m_l_safe > m_lambda
+					? bpm.m_l_car + bpm.m_l_safe
+					: m_lambda;
+			}
+			else
+			{
+				var distance = 0.0;
+				for (var i = 0; i < bpm.n2; i++)
+				{
+					distance -= i != 0
+						? Math.Pow(m_Vn, 2) / (2 * apm.g * apm.mu) + m_Vn * (bpm.m_tau + bpm.m_tau_b) + bpm.m_l_car + bpm.m_l_safe
+						: 0;
+					distance -= m_Vn > 0 && i > 0 ? ChartRenderModelHelper.GenerateDoubleRandomValue(3.0, 10.0) : 0;
+					m_lambda_multiple += i + ":" + distance + " ";
+				}
+			}
 		}
 
 		return this;
@@ -189,12 +225,12 @@ public class InitialConditionsParametersModelForTwoFlows : ValidationModel, IIni
 		{
 			n_lambda = defaultBPM.n_l_car + defaultBPM.n_l_safe,
 			n_lambda_multiple = string.Empty,
-			n_Vn = 16.7,
+			n_Vn = 0,
 			n_Vn_multiple = string.Empty,
 
 			m_lambda = defaultBPM.m_l_car + defaultBPM.m_l_safe,
 			m_lambda_multiple = string.Empty,
-			m_Vn = 16.7,
+			m_Vn = 0,
 			m_Vn_multiple = string.Empty
 		};
 	}

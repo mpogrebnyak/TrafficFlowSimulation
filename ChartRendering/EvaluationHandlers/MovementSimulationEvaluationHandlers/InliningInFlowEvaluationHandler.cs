@@ -43,7 +43,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 
 	protected override void AdditionalEvaluation(double t, List<double> x, List<double> y)
 	{
-		if (IsInliningAvailable(t, x, y))
+		if (IsInliningAvailable(x, y))
 		{
 			var time = KernelEvaluationHandler.GetTime();
 			_modelParameters = ExtendModelParameters(_modelParameters, _indexTo, x, y);
@@ -83,13 +83,17 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		eventHandler.Invoke(
 			new List<ChartEventActions>
 			{
-				ChartEventActions.UpdateCharts
+				ChartEventActions.UpdateCharts,
+				ChartEventActions.UpdateChartEnvironments
 			},
 			new ChartEventHandlerArgs(new CoordinatesArgs
 			{
 				T = t,
 				X = x.ToList(),
 				Y = y.ToList()
+			}, new InliningInFlowEnvironmentArgs
+			{
+				MinSpeedValue = y.Take(_modelParameters.n1).Where((_, index) => index != _indexTo && index != _indexTo + 1).Min()
 			}));
 	}
 
@@ -134,13 +138,15 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		return newModelParameters;
 	}
 
-	private bool IsInliningAvailable(double t, IReadOnlyList<double> x, IReadOnlyList<double> v)
+	private bool IsInliningAvailable(IReadOnlyList<double> x, IReadOnlyList<double> v)
 	{
 		var startNum = _modelParameters.n1 + _modeSettings.Number;
 		if (startNum > _modelParameters.n || startNum < 0 || _isInlining || _modelParameters.n2 - _modeSettings.Number == 0)
 		{
 			return false;
 		}
+
+		var lenghtToInline = _modeSettings.LenghtToInline;
 
 		var maxNum = (AllCarsChangeLine) _modeSettings.IsAllCarsChangeLine.Value == AllCarsChangeLine.Yes
 			? _modelParameters.n
@@ -149,8 +155,11 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 		{
 			for (var i = 0; i < _modelParameters.n1; i++)
 			{
-				if (i == 0 &&
-				    x[num] - x[i] > Equation.S(_modelParameters, i, v[i]))
+				var lenght = lenghtToInline > 0
+					? lenghtToInline
+					: Equation.S(_modelParameters, i, v[i]);
+
+				if (i == 0 && x[num] - x[i] > lenght)
 				{
 					_indexTo = 0;
 					_isInlining = true;
@@ -158,8 +167,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 					return true;
 				}
 
-				if (i == _modelParameters.n1 - 1 &&
-				    x[i] - x[num] > Equation.S(_modelParameters, num, v[num]))
+				if (i == _modelParameters.n1 - 1 && x[i] - x[num] > Equation.S(_modelParameters, num, v[num]))
 				{
 					_indexTo = i + 1;
 					_isInlining = true;
@@ -167,8 +175,7 @@ public class InliningInFlowEvaluationHandler : EvaluationHandler
 					return true;
 				}
 
-				if (x[num] - x[i] > Equation.S(_modelParameters, i, v[i]) &&
-				    x[i - 1] - x[num] > Equation.S(_modelParameters, num, v[num]))
+				if (x[num] - x[i] > lenght && x[i - 1] - x[num] > Equation.S(_modelParameters, num, v[num]))
 				{
 					_indexTo = i;
 					_isInlining = true;

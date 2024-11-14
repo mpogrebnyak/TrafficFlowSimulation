@@ -18,6 +18,8 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 {
 	protected override string ColorPalette => "RedAndBlue";
 
+	protected override bool IsTimeAutomaticallyIncrease => false;
+
 	public InliningInFlowDistanceChartRender(Chart chart) : base(chart)
 	{
 	}
@@ -74,6 +76,8 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 
 	public override void UpdateChart(CoordinatesArgs coordinates)
 	{
+		base.UpdateChart(coordinates);
+
 		var chartViewMode = SettingsHelper.Get<ChartRenderingSettings>().ChartViewMode;
 
 		foreach (var series in Chart.Series.Where(series => series.Name.Contains(SeriesName)))
@@ -158,5 +162,12 @@ public class InliningInFlowDistanceChartRender : DistanceChartRender
 	public override void AddSeries(ModelParameters modelParameters, int indexFrom, int indexTo)
 	{
 		RenderingHelper.AddSeries(Chart, SeriesName, indexFrom, indexTo, 1);
+	}
+
+	protected override void CreateAxisSignature()
+	{
+		var chartArea = GetChartArea();
+		chartArea.AxisX.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisX.Maximum, LocalizationHelper.Get<ChartRenderingResources>().TWithMeasurements));
+		chartArea.AxisY.CustomLabels.Add(ChartAreaRendersHelper.CreateCustomLabel(chartArea.AxisY.Maximum, LocalizationHelper.Get<ChartRenderingResources>().XWithMeasurements));
 	}
 }
